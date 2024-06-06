@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="repository.psmc-21" name="PSMC-21 Repository" version="1.0.0" provider-name="The Papaw">
+    <requires>
+		<import addon="xbmc.addon" version="20.0.0"/>
+    </requires>
+    <extension point="xbmc.addon.repository" name="PSMC Repository">
+		<dir>
+			<info compressed="false">https://raw.githubusercontent.com/thepapaw/psmc-21/master/_zips/addons.xml</info>
+			<checksum>https://raw.githubusercontent.com/thepapaw/psmc-21/master/_zips/addons.xml.md5</checksum>
+			<datadir zip="true">https://raw.githubusercontent.com/thepapaw/psmc-21/master/_zips/</datadir>
+			<hashes>false</hashes>
+		</dir>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <news>If you would like to show your appreciation for the time and efforts I put into these projects, please buy me [B][COLOR deepskyblue]"a cup of coffee"[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR].[CR][CR][COLOR gold]Latest Update:[/COLOR][CR]v1.2.2[CR] - updated repo for PSMC 21 or above</news>
+		<summary>The Official Repo for PSMC 21</summary>
+        <description>[CR]This is the "Official" repository for PSMC 21 (Papaw's Son Media Center). Providing skins, tools, gaming, and streaming addons for PSMC 21 and Kodi.[CR][CR]If you would like to show your appreciation for the time and efforts I put into these projects, please buy me [B][COLOR deepskyblue]"a cup of coffee"[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR]. [CR][CR][COLOR limegreen](Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for EVERY donation and truly appreciate your kindness!)[/COLOR][COLOR skyblue]  • The Papaw[/COLOR]</description>
+        <platform>all</platform>
+		<license>CC BY-NC-SA 4.0</license>
+		<forum></forum>
+		<website>https://github.com/ThePapaw/psmc-21</website>
+		<source>https://github.com/ThePapaw/psmc-21</source>
+		<video_guide></video_guide>
+        <genre>movies,tv,streaming,gaming,usa</genre>
+		<assets>
+			<icon>icon.png</icon>
+			<fanart>fanart.jpg</fanart>
+            <screenshot>resources/screenshot-01.jpg</screenshot>
+			<screenshot>resources/bmc.jpg</screenshot>
+		</assets>
+    </extension>
+</addon>
