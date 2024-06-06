@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window id="9999">
+	<defaultcontrol always="true">201</defaultcontrol>
+
+	<animation effect="fade" start="0" end="100" time="300">WindowOpen</animation>
+	<animation effect="fade" start="100" end="0" time="300">WindowClose</animation>
+	<controls>
+		<control type="image">
+			<description>Fade</description>
+
+			<width>2200</width>
+			<height>2200</height>
+			<texture>bg-fade.png</texture>
+		</control>
+		
+		<control type="group">
+			<top>0</top>
+			<left>0</left>
+			<control type="group">
+ 				# ADDON-1
+				<control type="image">
+					<posx>62%</posx>
+					<posy>10%</posy>
+					<width>150</width>
+					<height>150</height>
+					<texture>donations/psgc-launcher.png</texture>
+				</control>
+				
+				<control type="image">
+					<posx>62%</posx>
+					<posy>28%</posy>
+					<width>150</width>
+					<height>150</height>
+					<texture>donations/scooby-doo.png</texture>
+				</control> -->
+				
+				
+				# PSMC
+				<control type="image">
+					<posx>12%</posx>
+					<posy>10%</posy>
+					<width>150</width>
+					<height>150</height>
+					<texture aspectration='keep'>donations/psmc.png</texture>
+				</control>
+				
+				<control type="image">
+					<posx>12%</posx>
+					<posy>28%</posy>
+					<width>150</width>
+					<height>150</height>
+					<texture >donations/psmc-repo.png</texture>
+				</control>
+				
+				# ADDON-2
+				<control type="image">
+					<posx>22%</posx>
+					<posy>10%</posy>
+					<width>150</width>
+					<height>150</height>
+					<texture>donations/papaws-AZR.png</texture>
+				</control>
+				
+				<control type="image">
+					<posx>22%</posx>
+					<posy>28%</posy>
+					<width>150</width>
+					<height>150</height>
+					<texture>donations/mario.png</texture>
+				</control>
+				
+				
+				# ADDON-3
+				<control type="image">
+					<posx>32%</posx>
+					<posy>10%</posy>
+					<width>150</width>
+					<height>150</height>
+					<texture>donations/spiderman.png</texture>
+				</control>
+				
+				<control type="image">
+					<posx>32%</posx>
+					<posy>28%</posy>
+					<width>150</width>
+					<height>150</height>
+					<texture>donations/toy-story.png</texture>
+				</control>
+				
+				# ADDON-4
+				<control type="image">
+					<posx>42%</posx>
+					<posy>10%</posy>
+					<width>150</width>
+					<height>150</height>
+					<texture>donations/batman.png</texture>
+				</control>
+				
+				<control type="image">
+					<posx>42%</posx>
+					<posy>28%</posy>
+					<width>150</width>
+					<height>150</height>
+					<texture>donations/man-of-steel.png</texture>
+				</control>
+				
+				
+				# ADDON-5
+				<control type="image">
+					<posx>52%</posx>
+					<posy>10%</posy>
+					<width>150</width>
+					<height>150</height>
+					<texture>donations/fuzzy-britches.png</texture>
+				</control>
+				
+				<control type="image">
+					<posx>52%</posx>
+					<posy>28%</posy>
+					<width>150</width>
+					<height>150</height>
+					<texture>donations/psmc-maint.png</texture>
+				</control>
+				
+				# SUBSCRIBE
+				<control type="image">
+					<posx>72%</posx>
+					<posy>10%</posy>
+					<width>150</width>
+					<height>150</height>
+					<texture>donations/whats_next.png</texture>
+				</control>
+				
+				<control type="image">
+					<posx>72%</posx>
+					<posy>28%</posy>
+					<width>150</width>
+					<height>150</height>
+					<texture>donations/bmac.png</texture>
+				</control>			
+				
+				<control type="label">
+					<description>header label</description>
+					<posx>55%</posx>
+					<posy>2%</posy>
+					<width>490</width>
+					<height>25</height>
+					<label>Please Support Our Efforts</label>
+					<align>right</align>
+					<aligny>center</aligny>
+					<font>font14</font>
+					<textcolor>FFEB1518</textcolor>
+				</control>
+				<control type="button">
+					<description>Close Window button</description>
+					<posx>95%</posx>
+					<posy>0</posy>
+					<width>64</width>
+					<height>32</height>
+					<label></label>
+					<font></font>
+					<onclick>PreviousMenu</onclick>
+					<texturefocus>close-fo.png</texturefocus>
+					<texturenofocus>close-nofo.png</texturenofocus>
+					<visible>system.getbool(input.enablemouse)</visible>
+				</control>
+			</control>
+			<control type="group">
+
+				<control type="label" id="205">
+					<description>Warning Label</description>
+					<posx>10%</posx>
+					<posy>65%</posy>
+					<width>80%</width>
+					<height>30%</height>
+					<font>font16</font>
+					<wrapmultiline>true</wrapmultiline>
+					<label>If you would like to show your appreciation for the time and efforts I put into these projects, please scan the "Coffee Cup" (QC code) above and buy me a cup of coffee or subscribe for access to "What's Next" and all future updates. [COLOR limegreen] (Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for your donation and truly appreciate your kindness!)[/COLOR][COLOR skyblue]  • The Papaw[/COLOR]</label>
+					<textcolor>ffffffff</textcolor>
+					<aligny>center</aligny>
+				</control> 
+			</control>
+
+
+
+		</control>
+
+		</controls>
+</window>

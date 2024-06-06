@@ -31,6 +31,34 @@
   </extension>
 </addon>
 
+<addon id="plugin.video.rdtools" version="1.0.14" name="Real-Debrid Tools" provider-name="The Papaw">
+    <requires>
+        <import addon="xbmc.python" version="3.0.0"/>
+        <import addon="script.module.beautifulsoup4" version="1.0.0" />
+        <import addon="script.module.requests" version="1.0.0" />
+    </requires>
+	<extension point="xbmc.python.pluginsource" library="main.py">
+		<provides>video</provides>
+	</extension>
+	<extension point="xbmc.service" library="service.py" start="startup"/>
+	<extension point="xbmc.addon.metadata">
+	<platform>all</platform>
+	<summary lang="en">Real-Debrid Tools Addon</summary>
+	<description>This addon allows you to stream or download video files that are already transfered into your Real-Debrid account! The author does not host or distribute any of the content displayed by this addon. The author does not have any affiliation with the content provider.[CR][CR]If you would like to show your appreciation for the time and efforts I put into these projects, please scan the "Coffee Cup" (QR code) above and buy me [COLOR deepskyblue]a cup of coffee[/COLOR] or subscribe for access to "What's Next" and all future updates.[CR][COLOR limegreen] Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for EVERY donation and truly appreciate your kindness![/COLOR][COLOR skyblue]  • The Papaw[/COLOR]
+	</description>
+	<news>If you would like to show your appreciation for the time and efforts I put into these projects, please buy me [B][COLOR deepskyblue]"a cup of coffee"[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR].[CR][CR][COLOR gold]Latest Update:[/COLOR][CR]v1.0.14[CR] - Added Support QR Code</news>
+	<license>CC BY-NC-SA 4.0</license>
+	<forum></forum>
+	<website>https://github.com/ThePapaw/psmc-20</website>
+	<source>https://github.com/ThePapaw/psmc-20</source>
+		<assets>
+			<icon>icon.png</icon>
+			<fanart>fanart.jpg</fanart>
+			<screenshot>resources/bmc-qr.jpg</screenshot>
+		</assets>
+	</extension>
+</addon>
+
 <addon id="repository.psmc-21" name="PSMC-21 Repository" version="1.0.0" provider-name="The Papaw">
     <requires>
 		<import addon="xbmc.addon" version="21.0.0"/>
