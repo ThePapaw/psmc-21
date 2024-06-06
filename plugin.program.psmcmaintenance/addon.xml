@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.program.psmcmaintenance" name="PSMC Maintenance" version="1.1.2" provider-name="The Papaw">
+  <requires>
+    <import addon="script.module.requests" version="1.0.0" />
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+     <provides>executable</provides>
+  </extension>
+  <extension point="xbmc.service" library="service.py" start="startup" />
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">A simple all-around Maintenance Tool for PSMC and Kodi</summary>
+    <description lang="en">PSMC's Maintenance helps to aid with a much smoother PSMC or Kodi experience without all the fluff. Features include: Auto delete of cache at start up, notify when packages and thumbs reach a set amount of wasted storage space, cuts down on your devices read/writes on the ROM. Backup/Restore Options, speed test, and other features![CR][CR]If you would like to show your appreciation for the time and efforts I put into these projects, please buy me a [B][COLOR deepskyblue]"cup of coffee"[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR]. [CR][CR][COLOR limegreen](Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for EVERY donation and truly appreciate your kindness!)[/COLOR][COLOR skyblue]  • The Papaw[/COLOR]</description>
+    <disclaimer lang="en"></disclaimer>
+    <language></language>
+    <platform>all</platform>
+		<license>CC BY-NC-SA 4.0</license>
+		<forum></forum>
+		<website>https://github.com/ThePapaw/psmc-20</website>
+		<source>https://github.com/ThePapaw/psmc-20</source>
+		<video_guide></video_guide>
+	<assets>
+		<icon>icon.png</icon>
+		<icon>icon.gif</icon>
+		<fanart>fanart.jpg</fanart>
+        <screenshot>resources/screenshot-01.jpg</screenshot>
+        <screenshot>resources/bmc-qr.jpg</screenshot>
+	</assets>
+	<news>If you would like to show your appreciation for the time and efforts I put into these projects, please buy me [B][COLOR deepskyblue]"a cup of coffee"[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR].[CR][CR][COLOR gold]Latest Update:[/COLOR][CR]v1.1.2[CR] - Added Support QR Code</news>
+  </extension>
+</addon>
