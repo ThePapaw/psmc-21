@@ -1,0 +1,212 @@
+<?xml version="1.0" ?>
+<settings version="1">
+	<section id="script.psgc.launcher">
+		<category help="" id="general" label="50050">
+			<group id="1">
+				<setting help="" id="LaunchBoxMode" label="50051" type="integer">
+					<level>0</level>
+					<default>0</default>
+					<constraints>
+						<options>
+							<option label="50001">0</option>
+							<option label="50000">1</option>
+						</options>
+					</constraints>
+					<control format="string" type="spinner"/>
+				</setting>
+				<setting help="" id="QuitPSMC" label="50073" type="integer">
+					<level>0</level>
+					<default>0</default>
+					<constraints>
+						<options>
+							<option label="Yes">0</option>
+							<option label="No">1</option>
+							<option label="Ask">2</option>
+						</options>
+					</constraints>
+					<control format="string" type="spinner"/>
+				</setting>
+				<setting help="" id="LaunchBox" label="50062" type="path">
+					<level>0</level>
+					<default>C:\Launchbox\</default>
+					<constraints>
+						<writable>false</writable>
+					</constraints>
+					<dependencies>
+						<dependency type="visible">
+							<condition name="InfoBool" on="property">system.platform.windows</condition>
+						</dependency>
+					</dependencies>
+					<control format="path" type="button">
+						<heading>50062</heading>
+					</control>
+				</setting>
+				<setting help="" id="PreScriptEnabled" label="50116" type="boolean">
+					<level>0</level>
+					<default>false</default>
+					<control type="toggle"/>
+				</setting>
+				<setting help="" id="PreScript" label="50117" type="path">
+					<level>0</level>
+					<default/>
+					<constraints>
+						<writable>false</writable>
+						<masking>executable</masking>
+						<allowempty>true</allowempty>
+					</constraints>
+					<dependencies>
+						<dependency type="enable">
+							<condition operator="is" setting="PreScriptEnabled">true</condition>
+						</dependency>
+					</dependencies>
+					<control format="file" type="button">
+						<heading>50117</heading>
+					</control>
+				</setting>
+				<setting help="" id="PostScriptEnabled" label="50119" type="boolean">
+					<level>0</level>
+					<default>false</default>
+					<control type="toggle"/>
+				</setting>
+				<setting help="" id="PostScript" label="50118" type="path">
+					<level>0</level>
+					<default/>
+					<constraints>
+						<writable>false</writable>
+						<masking>executable</masking>
+						<allowempty>true</allowempty>
+					</constraints>
+					<dependencies>
+						<dependency type="enable">
+							<condition operator="is" setting="PostScriptEnabled">true</condition>
+						</dependency>
+					</dependencies>
+					<control format="file" type="button">
+						<heading>50118</heading>
+					</control>
+				</setting>
+			</group>
+		</category>
+		<category help="" id="advanced" label="50100">
+			<group id="1">
+				<setting help="" id="DelUserScript" label="50110" type="boolean">
+					<level>0</level>
+					<default>false</default>
+					<control type="toggle"/>
+				</setting>
+				<setting help="" id="HideTaskbar" label="50111" type="boolean">
+					<level>0</level>
+					<default>false</default>
+					<control type="toggle"/>
+				</setting>
+				<setting help="" id="PSMCPortable" label="50115" type="boolean">
+					<level>0</level>
+					<default>false</default>
+					<control type="toggle"/>
+				</setting>
+				<setting help="" id="SuspendAudio" label="50074" type="boolean">
+					<level>0</level>
+					<default>false</default>
+					<control type="toggle"/>
+				</setting>
+				<setting help="" id="ScriptUpdateCheck" label="50113" type="boolean">
+					<level>0</level>
+					<default>true</default>
+					<control type="toggle"/>
+				</setting>
+				<setting help="" id="FilePathCheck" label="50114" type="boolean">
+					<level>0</level>
+					<default>true</default>
+					<control type="toggle"/>
+				</setting>
+				<setting help="" id="UWAScriptLocEnabled" label="50127" type="boolean">
+					<level>0</level>
+					<default>false</default>
+					<control type="toggle"/>
+				</setting>
+				<setting help="" id="UWAScriptLoc" label="50128" type="path">
+					<level>0</level>
+					<default/>
+					<constraints>
+						<sources>
+							<source>auto</source>
+						</sources>
+						<allowempty>true</allowempty>
+					</constraints>
+					<dependencies>
+						<dependency type="enable">
+							<condition operator="is" setting="UWAScriptLocEnabled">true</condition>
+						</dependency>
+					</dependencies>
+					<control format="path" type="button">
+						<heading>50128</heading>
+					</control>
+				</setting>
+				<setting help="" id="OverridePSMCLocEnabled" label="50130" type="boolean">
+					<level>0</level>
+					<default>false</default>
+					<control type="toggle"/>
+				</setting>
+				<setting help="" id="OverridePSMCLoc" label="50131" type="path">
+					<level>0</level>
+					<default/>
+					<constraints>
+						<writable>false</writable>
+						<masking>executable</masking>
+						<allowempty>true</allowempty>
+					</constraints>
+					<dependencies>
+						<dependency type="enable">
+							<condition operator="is" setting="OverridePSMCLocEnabled">true</condition>
+						</dependency>
+					</dependencies>
+					<control format="file" type="button">
+						<heading>50131</heading>
+					</control>
+				</setting>
+				<setting help="" id="OverrideSmbIPEnabled" label="50075" type="boolean">
+					<level>0</level>
+					<default>false</default>
+					<control type="toggle"/>
+				</setting>
+				<setting help="" id="OverrideSmbIP" label="50076" type="string">
+					<level>0</level>
+					<default/>
+					<constraints>
+						<allowempty>true</allowempty>
+					</constraints>
+					<dependencies>
+						<dependency type="enable">
+							<condition operator="is" setting="OverrideSmbIPEnabled">true</condition>
+						</dependency>
+					</dependencies>
+					<control format="string" type="edit">
+						<heading>50076</heading>
+					</control>
+				</setting>
+				<setting help="" id="AutohotkeyLocEnabled" label="50112" type="boolean">
+					<level>0</level>
+					<default>false</default>
+					<control type="toggle"/>
+				</setting>
+				<setting help="" id="AutohotkeyLoc" label="50120" type="path">
+					<level>0</level>
+					<default/>
+					<constraints>
+						<writable>false</writable>
+						<masking>executable</masking>
+						<allowempty>true</allowempty>
+					</constraints>
+					<dependencies>
+						<dependency type="enable">
+							<condition operator="is" setting="AutohotkeyLocEnabled">true</condition>
+						</dependency>
+					</dependencies>
+					<control format="file" type="button">
+						<heading>50131</heading>
+					</control>
+				</setting>
+			</group>
+		</category>
+	</section>
+</settings>

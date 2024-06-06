@@ -1,0 +1,187 @@
+# PSMC Media Center language file
+# Addon Name: PSGC Launcher
+# Addon id: script.psgc.launcher
+# Addon Provider: The Papaw
+msgid ""
+msgstr ""
+"Project-Id-Version: XBMC-Addons\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-09-02 00:25+0000\n"
+"PO-Revision-Date: 2023-01-25 00:25+0000\n"
+"Last-Translator: The Papaw\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+msgctxt "#50000"
+msgid "LaunchBox"
+msgstr ""
+
+msgctxt "#50001"
+msgid "BigBox"
+msgstr ""
+
+# empty strings from id 50002 to 50049
+
+# Settings
+
+msgctxt "#50050"
+msgid "General"
+msgstr ""
+
+msgctxt "#50051"
+msgid "Launchbox Mode"
+msgstr ""
+
+# empty strings from id 50052 to 50061
+
+msgctxt "#50062"
+msgid "Launchbox folder"
+msgstr ""
+
+# empty strings from id 50063 to 50069
+
+msgctxt "#50070"
+msgid "Windows"
+msgstr ""
+
+# empty strings from id 50071 to 50072
+
+msgctxt "#50073"
+msgid "Quit PSMC?"
+msgstr ""
+
+# Advanced Settings
+
+msgctxt "#50074"
+msgid "Suspend PSMC audio when running LaunchBox"
+msgstr ""
+
+msgctxt "#50075"
+msgid "SMB Fix: Replace IP with server name"
+msgstr ""
+
+msgctxt "#50076"
+msgid "Server name"
+msgstr ""
+
+# empty strings from id 50077 to 50099
+
+msgctxt "#50100"
+msgid "Advanced"
+msgstr ""
+
+# empty strings from id 50101 to 50109
+
+msgctxt "#50110"
+msgid "Delete and update userdata scripts on next run"
+msgstr ""
+
+msgctxt "#50111"
+msgid "Hide Taskbar"
+msgstr ""
+
+msgctxt "#50112"
+msgid "Change AutoHotkey Location"
+msgstr ""
+
+msgctxt "#50113"
+msgid "Script update notification"
+msgstr ""
+
+msgctxt "#50114"
+msgid "Program path check"
+msgstr ""
+
+msgctxt "#50115"
+msgid "PSMC portable mode"
+msgstr ""
+
+msgctxt "#50116"
+msgid "Run a script before LaunchBox?"
+msgstr ""
+
+msgctxt "#50117"
+msgid "Pre LaunchBox script location"
+msgstr ""
+
+msgctxt "#50118"
+msgid "Post LaunchBox script location"
+msgstr ""
+
+msgctxt "#50119"
+msgid "Run a script after LaunchBox?"
+msgstr ""
+
+msgctxt "#50120"
+msgid "Autohotkey Location"
+msgstr ""
+
+msgctxt "#50121"
+msgid "Open addon settings?"
+msgstr ""
+
+msgctxt "#50122"
+msgid "File does not exist"
+msgstr ""
+
+msgctxt "#50123"
+msgid "ERROR!"
+msgstr ""
+
+msgctxt "#50124"
+msgid "New scripts available, update userdata scripts?"
+msgstr ""
+
+msgctxt "#50125"
+msgid "Select 'No' to disable the Script Update Check"
+msgstr ""
+
+msgctxt "#50126"
+msgid "Check PSMC.log file for details"
+msgstr ""
+
+msgctxt "#50127"
+msgid "UWA Fix: Change ahk script save location"
+msgstr ""
+
+msgctxt "#50128"
+msgid "Script save location"
+msgstr ""
+
+msgctxt "#50129"
+msgid "Script save location not set in advanced settings"
+msgstr ""
+
+msgctxt "#50130"
+msgid "Override PSMC location detect"
+msgstr ""
+
+msgctxt "#50131"
+msgid "PSMC location"
+msgstr ""
+
+# Error Messages
+
+msgctxt "#50132"
+msgid "PSMC location not set in advanced settings"
+msgstr ""
+
+msgctxt "#50133"
+msgid "PSMC.exe does not exist."
+msgstr ""
+
+msgctxt "#50134"
+msgid "Failed creating mapped drive"
+msgstr ""
+
+msgctxt "#50135"
+msgid "Mapping SMB over IP not supported, use IP override in Advanced settings."
+msgstr ""
+
+msgctxt "#50136"
+msgid "AutoHotkey.exe not found in LaunchBox directory."
+msgstr ""

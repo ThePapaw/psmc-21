@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="script.psgc.launcher" name="PSGC Launcher" version="1.0.4" provider-name="The Papaw">
+    <requires>
+        <import addon="xbmc.python" version="3.0.0"/>
+    </requires>
+    <extension point="xbmc.python.script" library="default.py">
+        <provides>game executable</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en_GB">Launches LaunchBox in Big Box mode from within PSMC.</summary>
+        <disclaimer lang="en_GB">For bugs, requests or general questions visit the PSMC-20 Repository on GitHub.</disclaimer>
+        <description lang="en_GB">Launches Big Box from within PSMC - It will close or minimize PSMC and when Big Box is exited, PSMC will restart or maximize. Also has options to run programs pre or post BigBox. It works with PSMC or Kodi on Windows platform ONLY.[CR][CR]If you would like to show your appreciation for the time and efforts I put into these projects, please scan the "Coffee Cup" (QC code) above and buy me a cup of coffee or subscribe for access to "What's Next" and all future updates. [COLOR limegreen] (Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for your donation and truly appreciate your kindness!)[/COLOR][COLOR skyblue]  • The Papaw[/COLOR]</description>
+        <news>added Support QR code</news>
+        <platform>windx</platform>
+        <language>en</language>
+        <license>CC BY-NC-SA 4.0</license>
+        <forum></forum>
+        <website>https://github.com/ThePapaw/psmc-20</website>
+        <source>https://github.com/ThePapaw/psmc-20</source>
+        <email></email>
+        <assets>
+            <icon>resources/icon.png</icon>
+            <fanart>resources/fanart.jpg</fanart>
+            <screenshot>resources/screenshot-01.jpg</screenshot>
+            <screenshot>resources/bmc-qr.jpg</screenshot>
+        </assets>
+    </extension>
+</addon>

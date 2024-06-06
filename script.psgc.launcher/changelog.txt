@@ -1,0 +1,11 @@
+1.0.4
+added Support QR code
+
+1.0.3
+Cosmetic changes
+
+1.0.2
+Cosmetic changes
+
+1.0.1
+Initial release
