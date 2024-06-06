@@ -31,6 +31,44 @@
   </extension>
 </addon>
 
+<addon id="plugin.video.fuzzybritches_v4" version="1.0.5" name="Fuzzy Britches v4" provider-name="The Papaw">
+    <requires>
+        <import addon="xbmc.python" version="3.0.0" />
+        <import addon="script.module.fuzzybritches_v4" />
+        <import addon="script.fuzzybritches_v4.artwork" />
+        <import addon="script.module.requests" />
+        <import addon="script.module.resolveurl" />
+        <import addon="script.module.simplejson" />
+        <import addon="script.module.requests" />
+        <import addon="script.module.beautifulsoup4" />
+        <import addon="script.module.six" />
+        <import addon="script.module.kodi-six" />
+        <import addon="plugin.video.youtube" optional="true" />
+        <import addon="script.module.inputstreamhelper" version="0.3.3"/>
+    </requires>
+    <extension library="fuzzybritches_v4.py" point="xbmc.python.pluginsource">
+        <provides>video</provides>
+    </extension>
+    <extension library="service.py" point="xbmc.service" />
+    <extension point="xbmc.addon.metadata">
+        <news>See the Changelog in the Tools Menu for more News.[CR]If you would like to show your appreciation for the time and efforts I put into these projects, please buy me [B][COLOR deepskyblue]a cup of coffee[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR].[CR][CR][COLOR gold]Latest Update:[/COLOR][CR]v1.0.0[CR] - Initial Release</news>
+		<summary lang="en">FB v4 allows you to search the net to stream almost any movie or show. No subscriptions needed. Add shows to your library and it will update itself.</summary>
+        <description lang="en">[CR]If you would like to show your appreciation for the time and efforts I put into these projects, please scan the "Coffee Cup" (QR code) above and buy me [COLOR deepskyblue]a cup of coffee[/COLOR] or subscribe for access to "What's Next" and all future updates.[CR][CR][COLOR limegreen]Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for EVERY donation and truly appreciate your kindness![/COLOR][COLOR deepskyblue]  • The Papaw[/COLOR]</description>
+        <platform>all</platform>
+        <license>CC BY-NC-SA 4.0</license>
+        <forum></forum>
+		<website>https://github.com/ThePapaw/psmc-20</website>
+		<source>https://github.com/ThePapaw/psmc-20</source>
+        <disclaimer lang="en">The author is not responsible for the use of this addon. The author is not responsible for the content found using this addon. The author does not host or own any content found within this addon.[CR]The author is in no way affiliated with Kodi, Team Kodi, or the XBMC Foundation.[CR]This is a Non-profit resource, organized solely for educational purposes which is protected under the Fair-Use doctrine of the Copyright Act, Specifically section 107, which does promote freedom of expression, by permitting the unlicensed use of copyright-protected works. Use at your own risk!</disclaimer>
+        <assets>
+            <icon>icon.gif</icon>
+            <fanart>fanart.jpg</fanart>
+			<screenshot>support/screenshot-01.jpg</screenshot>
+			<screenshot>support/bmc-qr.jpg</screenshot>
+        </assets>
+    </extension>
+</addon>
+
 <addon id="plugin.video.rdtools" version="1.0.14" name="Real-Debrid Tools" provider-name="The Papaw">
     <requires>
         <import addon="xbmc.python" version="3.0.0"/>
@@ -88,6 +126,51 @@
             <screenshot>resources/screenshot-01.jpg</screenshot>
 			<screenshot>resources/bmc.jpg</screenshot>
 		</assets>
+    </extension>
+</addon>
+
+<addon id="script.fuzzybritches_v4.artwork" version="1.0.5" name="Fuzzy Britches v4 Artwork" provider-name="The Papaw">
+    <requires>
+        <import addon="xbmc.python" version="3.0.0" />
+    </requires>
+    <extension point="xbmc.python.module" library="lib" />
+    <extension point="xbmc.addon.metadata">
+        <news>See the Changelog in the Tools Menu for more News.[CR]If you would like to show your appreciation for the time and efforts I put into these projects, please buy me [B][COLOR deepskyblue]a cup of coffee[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR].[CR][CR][COLOR gold]Latest Update:[/COLOR][CR]v1.0.0[CR] - Added QR support code</news>
+		<summary lang="en">Artwork for Fuzzy Britches v4 add-on.</summary>
+        <description lang="en">Fuzzy Britches v4 Artwork is part of Fuzzy Britches v4 Add-on and the PSMC Collection[CR]If you would like to show your appreciation for the time and efforts I put into these projects, please scan the "Coffee Cup" (QR code) above and buy me [COLOR deepskyblue]a cup of coffee[/COLOR] or subscribe for access to "What's Next" and all future updates.[CR][CR][COLOR limegreen]Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for EVERY donation and truly appreciate your kindness![/COLOR][COLOR deepskyblue]  • The Papaw[/COLOR].</description>
+        <platform>all</platform>
+        <license>CC BY-NC-SA 4.0</license>
+        <forum></forum>
+		<website>https://github.com/ThePapaw/psmc-20</website>
+		<source>https://github.com/ThePapaw/psmc-20</source>
+        <disclaimer lang="en">The author is not responsible for the use of this addon. The author is not responsible for the content found using this addon. The author does not host or own any content found within this addon.[CR]The author is in no way affiliated with Kodi, Team Kodi, or the XBMC Foundation.[CR]This is a Non-profit resource, organized solely for educational purposes which is protected under the Fair-Use doctrine of the Copyright Act, Specifically section 107, which does promote freedom of expression, by permitting the unlicensed use of copyright-protected works. Use at your own risk!</disclaimer>
+        <assets>
+            <icon>icon.gif</icon>
+            <fanart>fanart.jpg</fanart>
+			<screenshot>support/screenshot-01.jpg</screenshot>
+			<screenshot>support/bmc-qr.jpg</screenshot>
+        </assets>
+    </extension>
+</addon>
+
+<addon id="script.module.fuzzybritches_v4" name="Fuzzy Britches v4 Module" version="1.0.5" provider-name="The Papaw">
+    <requires>
+        <import addon="xbmc.python" version="3.0.0" />
+        <import addon="script.module.beautifulsoup4"/>
+    </requires>
+    <extension point="xbmc.python.module" library="lib" />
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en">The Crew is a team of individuals that does what it can to provide others, you the best in entertainment.</summary>
+        <description lang="en">Many come, Many go. The true and dedicated are here.</description>
+        <platform>all</platform>
+        <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
+        <disclaimer lang="en">The author of this addon do not host any of the content which is found and have no affiliation with any of the content providers. This addon simply searches websites for content. Use at your own risk!</disclaimer>
+        <assets>
+            <icon>icon.gif</icon>
+            <fanart>fanart.jpg</fanart>
+			<screenshot>support/screenshot-01.jpg</screenshot>
+			<screenshot>support/bmc-qr.jpg</screenshot>
+        </assets>
     </extension>
 </addon>
 </addons>

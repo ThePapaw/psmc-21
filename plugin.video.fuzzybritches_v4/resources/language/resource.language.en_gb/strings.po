@@ -1,0 +1,1970 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Fuzzy Britches v3\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2019-10-11 02:03+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.2.2\n"
+
+msgctxt "#32000"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Box Sets[/COLOR]"
+msgstr ""
+
+msgctxt "#32001"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#32002"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]TV Shows[/COLOR]"
+msgstr ""
+
+msgctxt "#32003"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]My Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#32004"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]My TV Shows[/COLOR]"
+msgstr ""
+
+msgctxt "#32005"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]New Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#32006"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]New Episodes[/COLOR]"
+msgstr ""
+
+msgctxt "#32007"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Channels[/COLOR]"
+msgstr ""
+
+msgctxt "#32008"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Tools[/COLOR]"
+msgstr ""
+
+msgctxt "#32009"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Downloads[/COLOR]"
+msgstr ""
+
+msgctxt "#32010"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Search[/COLOR]"
+msgstr ""
+
+msgctxt "#32011"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Genres[/COLOR]"
+msgstr ""
+
+msgctxt "#32012"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Year[/COLOR]"
+msgstr ""
+
+msgctxt "#32013"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]People[/COLOR]"
+msgstr ""
+
+msgctxt "#32014"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]International[/COLOR]"
+msgstr ""
+
+msgctxt "#32015"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Certificates[/COLOR]"
+msgstr ""
+
+msgctxt "#32016"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Networks[/COLOR]"
+msgstr ""
+
+msgctxt "#32017"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Trending[/COLOR]"
+msgstr ""
+
+msgctxt "#32018"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Most Popular[/COLOR]"
+msgstr ""
+
+msgctxt "#32019"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Most Voted[/COLOR]"
+msgstr ""
+
+msgctxt "#32020"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Box Office[/COLOR]"
+msgstr ""
+
+msgctxt "#32021"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Oscar Winners[/COLOR]"
+msgstr ""
+
+msgctxt "#32022"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]In Theaters[/COLOR]"
+msgstr ""
+
+msgctxt "#32023"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Highly Rated[/COLOR]"
+msgstr ""
+
+msgctxt "#32024"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Airing today[/COLOR]"
+msgstr ""
+
+msgctxt "#32025"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Returning Shows[/COLOR]"
+msgstr ""
+
+msgctxt "#32026"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]New TV Shows[/COLOR]"
+msgstr ""
+
+msgctxt "#32027"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]TV Calendar[/COLOR]"
+msgstr ""
+
+msgctxt "#32028"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]People Search[/COLOR]"
+msgstr ""
+
+msgctxt "#32029"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]People - Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#32030"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]People - TV Shows[/COLOR]"
+msgstr ""
+
+msgctxt "#32031"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Discover[/COLOR]"
+msgstr ""
+
+msgctxt "#32032"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Collection[/COLOR]"
+msgstr ""
+
+msgctxt "#32033"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Watchlist[/COLOR]"
+msgstr ""
+
+msgctxt "#32034"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]IMDb[/COLOR]"
+msgstr ""
+
+msgctxt "#32035"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Featured[/COLOR]"
+msgstr ""
+
+msgctxt "#32036"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]History[/COLOR]"
+msgstr ""
+
+msgctxt "#32037"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]My Progress[/COLOR]"
+msgstr ""
+
+msgctxt "#32038"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]New aired Episodes[/COLOR]"
+msgstr ""
+
+msgctxt "#32039"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Movie Lists[/COLOR]"
+msgstr ""
+
+msgctxt "#32040"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]TV Shows Lists[/COLOR]"
+msgstr ""
+
+msgctxt "#32041"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Episode Lists[/COLOR]"
+msgstr ""
+
+msgctxt "#32042"
+msgid "No Trakt or IMDb account found."
+msgstr ""
+
+msgctxt "#32043"
+msgid "• [COLOR sandybrown]General Settings[/COLOR]"
+msgstr ""
+
+msgctxt "#32044"
+msgid "• [COLOR sandybrown]Accounts Settings[/COLOR]"
+msgstr ""
+
+msgctxt "#32045"
+msgid "• [COLOR sandybrown]Playback Settings[/COLOR]"
+msgstr ""
+
+msgctxt "#32046"
+msgid "• [COLOR sandybrown]Subtitle Settings[/COLOR]"
+msgstr ""
+
+msgctxt "#32047"
+msgid "• [COLOR sandybrown]Provider Settings[/COLOR]"
+msgstr ""
+
+msgctxt "#32048"
+msgid "• [COLOR sandybrown]Fuzzy Britches Downloads[/COLOR]"
+msgstr ""
+
+msgctxt "#32049"
+msgid "• [COLOR sandybrown]Fuzzy Britches Viewtypes[/COLOR]"
+msgstr ""
+
+msgctxt "#32050"
+msgid "• [COLOR wheat]Clear Providers[/COLOR]"
+msgstr ""
+
+msgctxt "#32051"
+msgid "• [COLOR wheat]Clear Metadata[/COLOR]"
+msgstr ""
+
+msgctxt "#32052"
+msgid "• [COLOR wheat]Clear Fuzzy Britches Cache[/COLOR]"
+msgstr ""
+
+msgctxt "#32053"
+msgid "[I]Next Page[/I]"
+msgstr ""
+
+msgctxt "#32054"
+msgid "Seasons"
+msgstr ""
+
+msgctxt "#32055"
+msgid "Season"
+msgstr ""
+
+msgctxt "#32056"
+msgid "Are you sure?"
+msgstr ""
+
+msgctxt "#32057"
+msgid "Preparing Fuzzy Britches v4!"
+msgstr ""
+
+msgctxt "#32058"
+msgid "This will slow down things until they are re-cached!"
+msgstr ""
+
+msgctxt "#32059"
+msgid "CLICK HERE TO SAVE VIEW"
+msgstr ""
+
+msgctxt "#32060"
+msgid "January|February|March|April|May|June|July|August|September|October|November|December"
+msgstr ""
+
+msgctxt "#32061"
+msgid "Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday"
+msgstr ""
+
+msgctxt "#32062"
+msgid "[B]%s[/B] : %s"
+msgstr ""
+
+msgctxt "#32063"
+msgid "Play using..."
+msgstr ""
+
+msgctxt "#32064"
+msgid "Auto Play"
+msgstr ""
+
+msgctxt "#32065"
+msgid "Queue item"
+msgstr ""
+
+msgctxt "#32066"
+msgid "Watched in Fuzzy Britches"
+msgstr ""
+
+msgctxt "#32067"
+msgid "Unwatched in Fuzzy Britches"
+msgstr ""
+
+msgctxt "#32068"
+msgid "Watched in Trakt"
+msgstr ""
+
+msgctxt "#32069"
+msgid "Unwatched in Trakt"
+msgstr ""
+
+msgctxt "#32071"
+msgid "Browse Series"
+msgstr ""
+
+msgctxt "#32072"
+msgid "Refresh"
+msgstr ""
+
+msgctxt "#32073"
+msgid "[COLOR white]• [/COLOR][COLOR crimson]Authorize Trakt[/COLOR]"
+msgstr ""
+
+msgctxt "#32074"
+msgid "[B]HELP[/B]"
+msgstr ""
+
+msgctxt "#32075"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Seasons[/COLOR]"
+msgstr ""
+
+msgctxt "#32076"
+msgid "You are about to clear ALL providers cache[CR][CR]Are you sure?"
+msgstr ""
+
+msgctxt "#32077"
+msgid "All providers successfully cleared from cache"
+msgstr ""
+
+msgctxt "#32078"
+msgid "You are about to clear your Search History[CR][CR]Are you sure?"
+msgstr ""
+
+msgctxt "#32079"
+msgid "Your search history was successfully cleared"
+msgstr ""
+
+msgctxt "#32080"
+msgid "You are about to clear [COLOR yellow]ALL[/COLOR] your cache[CR][CR]Are you sure?"
+msgstr ""
+
+msgctxt "#32081"
+msgid "Your cache was successfully cleared"
+msgstr ""
+
+msgctxt "#32082"
+msgid "You are about to clear your cached metadata[CR][CR]Are you sure?"
+msgstr ""
+
+msgctxt "#32083"
+msgid "Your metadata was successfully cleared"
+msgstr ""
+
+msgctxt "#32084"
+msgid "You are about to clear your cache[CR][CR]Are you sure?"
+msgstr ""
+
+msgctxt "#32089"
+msgid "{0} duplicate links removed"
+msgstr ""
+
+msgctxt "#32090"
+msgid "Filter-out duplicate links"
+msgstr ""
+
+msgctxt "#32091"
+msgid "Remove Uncached"
+msgstr ""
+
+msgctxt "#32092"
+msgid "Fanart Quality"
+msgstr ""
+
+msgctxt "#32093"
+msgid "Minimum"
+msgstr ""
+
+msgctxt "#32094"
+msgid "Medium"
+msgstr ""
+
+msgctxt "#32095"
+msgid "Maximum"
+msgstr ""
+
+msgctxt "#32096"
+msgid "Original"
+msgstr ""
+
+msgctxt "#32097"
+msgid ""
+"Do not use the debug options unless you are told so.\n"
+"Using these options can generate memory leaks and much traffic"
+msgstr ""
+
+msgctxt "#32100"
+msgid "Find similar"
+msgstr ""
+
+msgctxt "#32101"
+msgid "Information"
+msgstr ""
+
+msgctxt "#32102"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Notifications[/COLOR]"
+msgstr ""
+
+msgctxt "#32103"
+msgid "Silent boot"
+msgstr ""
+
+msgctxt "#32104"
+msgid "Errors and messages will be logged when debug is enabled."
+msgstr ""
+
+# viewtypes settings dialog
+msgctxt "#32105"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Seasons[/COLOR]"
+msgstr ""
+
+# viewtypes settings dialog
+msgctxt "#32106"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Episodes[/COLOR]"
+msgstr ""
+
+msgctxt "#32301"
+msgid "Enabled"
+msgstr ""
+
+msgctxt "#32302"
+msgid "Disabled"
+msgstr ""
+
+msgctxt "#32303"
+msgid "User"
+msgstr ""
+
+msgctxt "#32304"
+msgid "Email"
+msgstr ""
+
+msgctxt "#32305"
+msgid "ID"
+msgstr ""
+
+msgctxt "#32306"
+msgid "Authorization..."
+msgstr ""
+
+msgctxt "#32307"
+msgid "Password"
+msgstr ""
+
+msgctxt "#32308"
+msgid "PIN"
+msgstr ""
+
+msgctxt "#32309"
+msgid "API"
+msgstr ""
+
+msgctxt "#32310"
+msgid "General"
+msgstr ""
+
+msgctxt "#32311"
+msgid "Appearance"
+msgstr ""
+
+msgctxt "#32312"
+msgid "Providers Timeout"
+msgstr ""
+
+msgctxt "#32313"
+msgid "Indicators"
+msgstr ""
+
+msgctxt "#32314"
+msgid "Local"
+msgstr ""
+
+msgctxt "#32315"
+msgid "[COLOR crimson]Trakt[/COLOR]"
+msgstr ""
+
+msgctxt "#32316"
+msgid "Info Language"
+msgstr ""
+
+msgctxt "#32317"
+msgid "Flatten TV seasons"
+msgstr ""
+
+msgctxt "#32318"
+msgid "Enable Fanart"
+msgstr ""
+
+msgctxt "#32319"
+msgid "Menu"
+msgstr ""
+
+msgctxt "#32320"
+msgid "New Movies"
+msgstr ""
+
+msgctxt "#32321"
+msgid "Featured"
+msgstr ""
+
+msgctxt "#32322"
+msgid "People Watching"
+msgstr ""
+
+msgctxt "#32323"
+msgid "Most Popular"
+msgstr ""
+
+msgctxt "#32324"
+msgid "In Theaters"
+msgstr ""
+
+msgctxt "#32325"
+msgid "New Episodes"
+msgstr ""
+
+msgctxt "#32326"
+msgid "Episodes"
+msgstr ""
+
+msgctxt "#32327"
+msgid "Trakt Progress"
+msgstr ""
+
+msgctxt "#32328"
+msgid "Trakt Episodes"
+msgstr ""
+
+msgctxt "#32329"
+msgid "My Lists"
+msgstr ""
+
+msgctxt "#32330"
+msgid "Playback"
+msgstr ""
+
+msgctxt "#32331"
+msgid "Default action"
+msgstr ""
+
+msgctxt "#32332"
+msgid "Dialog"
+msgstr ""
+
+msgctxt "#32333"
+msgid "Directory"
+msgstr ""
+
+msgctxt "#32335"
+msgid "Progress Dialog"
+msgstr ""
+
+msgctxt "#32336"
+msgid "Foreground"
+msgstr ""
+
+msgctxt "#32337"
+msgid "Background"
+msgstr ""
+
+msgctxt "#32338"
+msgid "File Hosting Filters"
+msgstr ""
+
+msgctxt "#32339"
+msgid "Max Quality"
+msgstr ""
+
+msgctxt "#32340"
+msgid "SD Hosters in Auto Play"
+msgstr ""
+
+msgctxt "#32341"
+msgid "Hosters with captchas"
+msgstr ""
+
+msgctxt "#32342"
+msgid "Sort by Provider"
+msgstr ""
+
+msgctxt "#32343"
+msgid "When playback starts..."
+msgstr ""
+
+msgctxt "#32344"
+msgid "Resume Playback"
+msgstr ""
+
+msgctxt "#32345"
+msgid "Providers"
+msgstr ""
+
+msgctxt "#32346"
+msgid "Accounts"
+msgstr ""
+
+msgctxt "#32347"
+msgid "Downloads"
+msgstr ""
+
+msgctxt "#32348"
+msgid "Enable downloads"
+msgstr ""
+
+msgctxt "#32349"
+msgid "Movies"
+msgstr ""
+
+msgctxt "#32351"
+msgid "Downloading features are disabled by default."
+msgstr ""
+
+msgctxt "#32352"
+msgid "Set up your download folders in order to enable them."
+msgstr ""
+
+msgctxt "#32353"
+msgid "Subtitles"
+msgstr ""
+
+msgctxt "#32354"
+msgid "Enable subtitles"
+msgstr ""
+
+msgctxt "#32355"
+msgid "Convert subtitles to UTF-8"
+msgstr ""
+
+msgctxt "#32356"
+msgid "Primary Language"
+msgstr ""
+
+msgctxt "#32357"
+msgid "Secondary Language"
+msgstr ""
+
+msgctxt "#32358"
+msgid "Subtitles could be unavailable or out of sync."
+msgstr ""
+
+msgctxt "#32359"
+msgid "In that case use your own subtitles."
+msgstr ""
+
+msgctxt "#32360"
+msgid "Providers Language"
+msgstr ""
+
+msgctxt "#32361"
+msgid "Screeners and Cams"
+msgstr ""
+
+msgctxt "#32362"
+msgid ""
+"No valid Youtube API Key found\n"
+"Please register the Youtube addon to watch trailers."
+msgstr ""
+
+msgctxt "#32363"
+msgid "HEVC"
+msgstr ""
+
+msgctxt "#32364"
+msgid "Opensubtitles login Credentials"
+msgstr ""
+
+msgctxt "#32365"
+msgid "Username"
+msgstr ""
+
+msgctxt "#32372"
+msgid "When playback ends..."
+msgstr ""
+
+msgctxt "#32373"
+msgid "Force container refresh"
+msgstr ""
+
+msgctxt "#32374"
+msgid "Enable Debug"
+msgstr ""
+
+msgctxt "#32375"
+msgid "News and Updates"
+msgstr ""
+
+msgctxt "#32400"
+msgid "Stream is currently unavailable"
+msgstr ""
+
+msgctxt "#32401"
+msgid "No stream available"
+msgstr ""
+
+msgctxt "#32402"
+msgid "Playback outside Fuzzy Britches is not allowed"
+msgstr ""
+
+msgctxt "#32403"
+msgid "Download"
+msgstr ""
+
+msgctxt "#32404"
+msgid "Time elapsed: %s seconds"
+msgstr ""
+
+msgctxt "#32405"
+msgid "%s seconds"
+msgstr ""
+
+msgctxt "#32406"
+msgid "[COLOR cyan]Searching remaining providers[/COLOR]: %s"
+msgstr ""
+
+msgctxt "#32501"
+msgid "Start from beginning"
+msgstr ""
+
+msgctxt "#32502"
+msgid "Resume from %s"
+msgstr ""
+
+msgctxt "#32503"
+msgid "Resume"
+msgstr ""
+
+msgctxt "#32511"
+msgid "An account already exists."
+msgstr ""
+
+msgctxt "#32512"
+msgid "Do you want to reset?"
+msgstr ""
+
+msgctxt "#32513"
+msgid "1) Visit : [COLOR skyblue]%s[/COLOR]"
+msgstr ""
+
+msgctxt "#32514"
+msgid "2) When prompted enter : [COLOR skyblue]%s[/COLOR]"
+msgstr ""
+
+msgctxt "#32515"
+msgid "Trakt Manager"
+msgstr ""
+
+msgctxt "#32516"
+msgid "Add to [B]Collection[/B]"
+msgstr ""
+
+msgctxt "#32517"
+msgid "Remove from [B]Collection[/B]"
+msgstr ""
+
+msgctxt "#32518"
+msgid "Add to [B]Watchlist[/B]"
+msgstr ""
+
+msgctxt "#32519"
+msgid "Remove from [B]Watchlist[/B]"
+msgstr ""
+
+msgctxt "#32520"
+msgid "Add to [B]new List[/B]"
+msgstr ""
+
+msgctxt "#32521"
+msgid "Add to [B]%s[/B]"
+msgstr ""
+
+msgctxt "#32522"
+msgid "Remove from [B]%s[/B]"
+msgstr ""
+
+msgctxt "#32535"
+msgid "Play Random"
+msgstr ""
+
+msgctxt "#32536"
+msgid "Playing"
+msgstr ""
+
+msgctxt "#32537"
+msgid "Nothing found to play"
+msgstr ""
+
+msgctxt "#32538"
+msgid "DEBRID-SERVICE"
+msgstr ""
+
+msgctxt "#32539"
+msgid "Configure Debrid Services in ResolveURL Settings."
+msgstr ""
+
+msgctxt "#32540"
+msgid "[B][COLOR white]ResolveURL[/COLOR][/B] : Settings"
+msgstr ""
+
+msgctxt "#32541"
+msgid "Library"
+msgstr ""
+
+msgctxt "#32542"
+msgid "Fuzzy Britches folders will be imported to library when added to media sources."
+msgstr ""
+
+msgctxt "#32545"
+msgid "Auto update TV Shows"
+msgstr ""
+
+msgctxt "#32546"
+msgid "Show notifications during update"
+msgstr ""
+
+msgctxt "#32547"
+msgid "Update library after adding content"
+msgstr ""
+
+msgctxt "#32548"
+msgid "Avoid creating duplicate content"
+msgstr ""
+
+msgctxt "#32549"
+msgid "Check for movie before adding it"
+msgstr ""
+
+msgctxt "#32550"
+msgid "Check for first episode of season before adding it"
+msgstr ""
+
+msgctxt "#32551"
+msgid "Add to Library"
+msgstr ""
+
+msgctxt "#32552"
+msgid "Adding to library..."
+msgstr ""
+
+msgctxt "#32553"
+msgid "Updating TV shows..."
+msgstr ""
+
+msgctxt "#32554"
+msgid "Process Complete"
+msgstr ""
+
+msgctxt "#32556"
+msgid "• [COLOR sandybrown]Fuzzy Britches Library Settings[/COLOR]"
+msgstr ""
+
+msgctxt "#32557"
+msgid "• [COLOR wheat]Open Fuzzy Britches Library Settings[/COLOR]"
+msgstr ""
+
+msgctxt "#32558"
+msgid "• [COLOR wheat]Run A Library Update[/COLOR]"
+msgstr ""
+
+msgctxt "#32559"
+msgid "• [COLOR wheat]Open the Fuzzy Britches Download Movie folder...[/COLOR]"
+msgstr ""
+
+msgctxt "#32560"
+msgid "• [COLOR wheat]Open the Fuzzy Britches Download TV folder...[/COLOR]"
+msgstr ""
+
+msgctxt "#32561"
+msgid "[B][COLOR crimson]TRAKT[/COLOR][/B] : Import Collection..."
+msgstr ""
+
+msgctxt "#32562"
+msgid "[B][COLOR crimson]TRAKT[/COLOR][/B] : Import Watchlist..."
+msgstr ""
+
+msgctxt "#32563"
+msgid "[B][COLOR crimson]TRAKT[/COLOR][/B] : Import TV Collection..."
+msgstr ""
+
+msgctxt "#32564"
+msgid "[B][COLOR crimson]TRAKT[/COLOR][/B] : Import TV Watchlist..."
+msgstr ""
+
+msgctxt "#32565"
+msgid "Include episodes with unknown air dates"
+msgstr ""
+
+msgctxt "#32570"
+msgid "Show unaired seasons/episodes"
+msgstr ""
+
+msgctxt "#32571"
+msgid "Hide movies in cinema"
+msgstr ""
+
+msgctxt "#32572"
+msgid "Protected Link. Please enter account credentials in the settings."
+msgstr ""
+
+msgctxt "#32580"
+msgid "Films/TV Movies"
+msgstr ""
+
+msgctxt "#32581"
+msgid "Results Limit"
+msgstr ""
+
+msgctxt "#32582"
+msgid "Personal API keys provide quicker API responses."
+msgstr ""
+
+msgctxt "#32583"
+msgid "Fan Art"
+msgstr ""
+
+msgctxt "#32584"
+msgid "Sort order for Trakt Watched Progress"
+msgstr ""
+
+msgctxt "#32585"
+msgid "Recently aired"
+msgstr ""
+
+msgctxt "#32586"
+msgid "Recently watched"
+msgstr ""
+
+msgctxt "#32587"
+msgid "Show Extra Source Info"
+msgstr ""
+
+msgctxt "#32588"
+msgid "Premium Source Identifier Color"
+msgstr ""
+
+msgctxt "#32589"
+msgid "[COLOR blue]Blue[/COLOR]"
+msgstr ""
+
+msgctxt "#32590"
+msgid "[COLOR red]Red[/COLOR]"
+msgstr ""
+
+msgctxt "#32591"
+msgid "[COLOR yellow]Yellow[/COLOR]"
+msgstr ""
+
+msgctxt "#32592"
+msgid "[COLOR pink]Deep Pink[/COLOR]"
+msgstr ""
+
+msgctxt "#32593"
+msgid "[COLOR cyan]Cyan[/COLOR]"
+msgstr ""
+
+msgctxt "#32594"
+msgid "[COLOR lawngreen]Lawn Green[/COLOR]"
+msgstr ""
+
+msgctxt "#32595"
+msgid "[COLOR gold]Gold[/COLOR]"
+msgstr ""
+
+msgctxt "#32596"
+msgid "[COLOR magenta]Magenta[/COLOR]"
+msgstr ""
+
+msgctxt "#32597"
+msgid "[COLOR yellow]Yellow Green[/COLOR]"
+msgstr ""
+
+msgctxt "#32598"
+msgid "No Color"
+msgstr ""
+
+msgctxt "#32599"
+msgid "Getting genre information from Trakt"
+msgstr ""
+
+msgctxt "#32600"
+msgid "Fuzzy Britches will begin searching now..."
+msgstr ""
+
+msgctxt "#32601"
+msgid "Total"
+msgstr ""
+
+msgctxt "#32602"
+msgid "Waiting for"
+msgstr ""
+
+msgctxt "#32603"
+msgid "New search..."
+msgstr ""
+
+msgctxt "#32604"
+msgid "• [COLOR wheat]Clear Search History[/COLOR]"
+msgstr ""
+
+msgctxt "#32605"
+msgid "Select to clear search history"
+msgstr ""
+
+msgctxt "#32606"
+msgid "[COLOR white]• [/COLOR][COLOR yellow]Paid[/COLOR]"
+msgstr ""
+
+msgctxt "#32607"
+msgid "[COLOR white]• [/COLOR][COLOR limegreen]Free[/COLOR]"
+msgstr ""
+
+msgctxt "#32608"
+msgid "Unaired Season/Episode Color"
+msgstr ""
+
+msgctxt "#32609"
+msgid "[COLOR white]• [/COLOR][COLOR limegreen]ResolveURL Settings[/COLOR]"
+msgstr ""
+
+msgctxt "#32613"
+msgid "• [COLOR wheat]Clear ALL Cache[/COLOR]"
+msgstr ""
+
+msgctxt "#32614"
+msgid "• [COLOR wheat]Clear Meta Cache[/COLOR]"
+msgstr ""
+
+msgctxt "#32615"
+msgid "Check Host for Valid URL"
+msgstr ""
+
+msgctxt "#32616"
+msgid "Debugging"
+msgstr ""
+
+msgctxt "#32617"
+msgid "Debug Log"
+msgstr ""
+
+msgctxt "#32618"
+msgid "PSMC Log"
+msgstr ""
+
+msgctxt "#32619"
+msgid "Addon Log"
+msgstr ""
+
+msgctxt "#32621"
+msgid "Navigation"
+msgstr ""
+
+msgctxt "#32622"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Main Menu[/COLOR]"
+msgstr ""
+
+msgctxt "#32627"
+msgid "Categories"
+msgstr ""
+
+msgctxt "#32628"
+msgid "• [COLOR sandybrown]Navigation Settings[/COLOR]"
+msgstr ""
+
+msgctxt "#32630"
+msgid "Show Season 0 in Browse Seasons"
+msgstr ""
+
+msgctxt "#32631"
+msgid "Boxsets"
+msgstr ""
+
+msgctxt "#32632"
+msgid "Verify Torrents Cache"
+msgstr ""
+
+msgctxt "#32634"
+msgid "Torrent Source Identifier Color"
+msgstr ""
+
+msgctxt "#32635"
+msgid "Torrent Support (Requires Debrid Account)"
+msgstr ""
+
+msgctxt "#32636"
+msgid "Enable Torrent Scrapers"
+msgstr ""
+
+msgctxt "#32637"
+msgid "[COLOR lawngreen]Debrid Torrent Settings[/COLOR]"
+msgstr ""
+
+msgctxt "#32638"
+msgid "Minimum Seeders"
+msgstr ""
+
+msgctxt "#32639"
+msgid "Sort By Torrent/Premium"
+msgstr ""
+
+msgctxt "#32640"
+msgid "[COLOR lightskyblue]Debrid[/COLOR] : Authorize"
+msgstr ""
+
+msgctxt "#32669"
+msgid "Swift Streamz"
+msgstr ""
+
+msgctxt "#32672"
+msgid "Sort By Channel Name"
+msgstr ""
+
+msgctxt "#32675"
+msgid "Use Adaptive Stream Player"
+msgstr ""
+
+msgctxt "#32676"
+msgid "Filter out MOV Lists"
+msgstr ""
+
+msgctxt "#32677"
+msgid "Filter out Sports Lists"
+msgstr ""
+
+msgctxt "#32678"
+msgid "Filter out TV Lists"
+msgstr ""
+
+msgctxt "#32700"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Documentaries[/COLOR]"
+msgstr ""
+
+msgctxt "#32702"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]International[/COLOR]"
+msgstr ""
+
+msgctxt "#32703"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Certificates[/COLOR]"
+msgstr ""
+
+msgctxt "#32704"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]People Watching[/COLOR]"
+msgstr ""
+
+msgctxt "#32705"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Most Popular[/COLOR]"
+msgstr ""
+
+msgctxt "#32706"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Most Voted[/COLOR]"
+msgstr ""
+
+msgctxt "#32708"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Networks[/COLOR]"
+msgstr ""
+
+msgctxt "#32711"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Collections[/COLOR]"
+msgstr ""
+
+msgctxt "#32713"
+msgid "• [COLOR sandybrown]Fuzzy Britches Cache Settings[/COLOR]"
+msgstr ""
+
+msgctxt "#32714"
+msgid "• [COLOR sandybrown]Fuzzy Britches Changelog[/COLOR]"
+msgstr ""
+
+msgctxt "#70010"
+msgid "Furk.net"
+msgstr ""
+
+msgctxt "#71000"
+msgid "CARTOONHD"
+msgstr ""
+
+msgctxt "#71001"
+msgid "EASYNEWS"
+msgstr ""
+
+msgctxt "#71002"
+msgid "FILMXY"
+msgstr ""
+
+msgctxt "#71003"
+msgid "FURK"
+msgstr ""
+
+msgctxt "#71004"
+msgid "HDMTO"
+msgstr ""
+
+msgctxt "#71005"
+msgid "ORORO"
+msgstr ""
+
+msgctxt "#71006"
+msgid "PLOCKERS"
+msgstr ""
+
+msgctxt "#71007"
+msgid "WATCHEPISODES"
+msgstr ""
+
+msgctxt "#71008"
+msgid "300MBFILMS"
+msgstr ""
+
+msgctxt "#71009"
+msgid "MAXRLS"
+msgstr ""
+
+msgctxt "#71010"
+msgid "MYVIDEOLINKS"
+msgstr ""
+
+msgctxt "#71011"
+msgid "ONLINESERIES"
+msgstr ""
+
+msgctxt "#71012"
+msgid "RAPIDMOVIEZ"
+msgstr ""
+
+msgctxt "#71013"
+msgid "RLSBB"
+msgstr ""
+
+msgctxt "#71014"
+msgid "SCENERLS"
+msgstr ""
+
+msgctxt "#71015"
+msgid "1337X"
+msgstr ""
+
+msgctxt "#71016"
+msgid "BITLORD"
+msgstr ""
+
+msgctxt "#71017"
+msgid "BT4G"
+msgstr ""
+
+msgctxt "#71018"
+msgid "BTDIG"
+msgstr ""
+
+msgctxt "#71019"
+msgid "BTSCENE"
+msgstr ""
+
+msgctxt "#71020"
+msgid "ETTV"
+msgstr ""
+
+msgctxt "#71021"
+msgid "EZTV"
+msgstr ""
+
+msgctxt "#71022"
+msgid "GLODLS"
+msgstr ""
+
+msgctxt "#71023"
+msgid "IBIT"
+msgstr ""
+
+msgctxt "#71024"
+msgid "IDOPE"
+msgstr ""
+
+msgctxt "#71025"
+msgid "ISOHUNT2"
+msgstr ""
+
+msgctxt "#71026"
+msgid "KICKASS2"
+msgstr ""
+
+msgctxt "#71027"
+msgid "LIMETORRENTS"
+msgstr ""
+
+msgctxt "#71028"
+msgid "MAGNETDL"
+msgstr ""
+
+msgctxt "#71029"
+msgid "PIRATEBAY"
+msgstr ""
+
+msgctxt "#71030"
+msgid "SOLIDTORRENTS"
+msgstr ""
+
+msgctxt "#71031"
+msgid "TORDL"
+msgstr ""
+
+msgctxt "#71032"
+msgid "TORLOCK"
+msgstr ""
+
+msgctxt "#71033"
+msgid "TORRENTDOWNLOADS"
+msgstr ""
+
+msgctxt "#71034"
+msgid "TORRENTFUNK"
+msgstr ""
+
+msgctxt "#71035"
+msgid "TORRENTGALAXY"
+msgstr ""
+
+msgctxt "#71036"
+msgid "TORRENTQUEST"
+msgstr ""
+
+msgctxt "#71037"
+msgid "YIFY"
+msgstr ""
+
+msgctxt "#71038"
+msgid "YOURBITTORRENT"
+msgstr ""
+
+msgctxt "#71039"
+msgid "ZOOGLE"
+msgstr ""
+
+msgctxt "#90001"
+msgid "User Files"
+msgstr ""
+
+msgctxt "#90002"
+msgid "Search"
+msgstr ""
+
+msgctxt "#90003"
+msgid "Unaired Identity Color"
+msgstr ""
+
+msgctxt "#90004"
+msgid "Real-Debrid Providers"
+msgstr ""
+
+msgctxt "#90005"
+msgid "Torrent Providers"
+msgstr ""
+
+msgctxt "#90006"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white][/COLOR][COLOR sandybrown][/COLOR][COLOR white]Sports[/COLOR]"
+msgstr ""
+
+msgctxt "#90007"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white][/COLOR][COLOR sandybrown][/COLOR][COLOR white]IPTV[/COLOR]"
+msgstr ""
+
+msgctxt "#90008"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white][/COLOR][COLOR sandybrown][/COLOR][COLOR white]Porn[/COLOR]"
+msgstr ""
+
+msgctxt "#90009"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white][/COLOR][COLOR sandybrown][/COLOR][COLOR white]Kids[/COLOR]"
+msgstr ""
+
+msgctxt "#90010"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white][/COLOR][COLOR sandybrown][/COLOR][COLOR white]Fitness[/COLOR]"
+msgstr ""
+
+msgctxt "#90011"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white][/COLOR][COLOR sandybrown][/COLOR][COLOR white]Single Click Links[/COLOR]"
+msgstr ""
+
+msgctxt "#90012"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Radio[/COLOR]"
+msgstr ""
+
+msgctxt "#90014"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]24/7 Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90023"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]NCAAF[/COLOR]"
+msgstr ""
+
+msgctxt "#90024"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]MLB[/COLOR]"
+msgstr ""
+
+msgctxt "#90025"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]NFL[/COLOR]"
+msgstr ""
+
+msgctxt "#90026"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]NHL[/COLOR]"
+msgstr ""
+
+msgctxt "#90027"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]NBA[/COLOR]"
+msgstr ""
+
+msgctxt "#90028"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]UFC / MMA[/COLOR]"
+msgstr ""
+
+msgctxt "#90031"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]SPORTS REPLAYS[/COLOR]"
+msgstr ""
+
+msgctxt "#90033"
+msgid "[COLOR red]•[/COLOR] [B][COLOR crimson]Adult Playground[/COLOR][/B] [COLOR red]•[/COLOR]"
+msgstr ""
+
+msgctxt "#90034"
+msgid "[COLOR red]•[/COLOR] [B][COLOR crimson]Adult Section (age 18+)[/COLOR][/B] [COLOR red]•[/COLOR]"
+msgstr ""
+
+msgctxt "#90041"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Latest HD Releases[/COLOR]"
+msgstr ""
+
+msgctxt "#90042"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Latest 4K UHD Releases[/COLOR]"
+msgstr ""
+
+msgctxt "#90043"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]This Weeks Top 10 Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90044"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Academy Award For Best Cinematography[/COLOR]"
+msgstr ""
+
+msgctxt "#90045"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Stand-up Comedy[/COLOR]"
+msgstr ""
+
+msgctxt "#90046"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]FIFA[/COLOR]"
+msgstr ""
+
+msgctxt "#90047"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]MOTO-GP[/COLOR]"
+msgstr ""
+
+msgctxt "#90049"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]WWE[/COLOR]"
+msgstr ""
+
+msgctxt "#90050"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Trakt On Deck[/COLOR]"
+msgstr ""
+
+msgctxt "#90051"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Trakt Lists[/COLOR]"
+msgstr ""
+
+msgctxt "#90052"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Trakt List Boxset[/COLOR]"
+msgstr ""
+
+msgctxt "#90053"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Action[/COLOR]"
+msgstr ""
+
+msgctxt "#90054"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Adventure[/COLOR]"
+msgstr ""
+
+msgctxt "#90055"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Animation[/COLOR]"
+msgstr ""
+
+msgctxt "#90056"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Comedy[/COLOR]"
+msgstr ""
+
+msgctxt "#90057"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Crime[/COLOR]"
+msgstr ""
+
+msgctxt "#90058"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Drama[/COLOR]"
+msgstr ""
+
+msgctxt "#90059"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Family[/COLOR]"
+msgstr ""
+
+msgctxt "#90061"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Horror[/COLOR]"
+msgstr ""
+
+msgctxt "#90062"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Music Based[/COLOR]"
+msgstr ""
+
+msgctxt "#90063"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Mystery[/COLOR]"
+msgstr ""
+
+msgctxt "#90064"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Romance[/COLOR]"
+msgstr ""
+
+msgctxt "#90065"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Sci-Fi[/COLOR]"
+msgstr ""
+
+msgctxt "#90066"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Thriller[/COLOR]"
+msgstr ""
+
+msgctxt "#90067"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]War[/COLOR]"
+msgstr ""
+
+msgctxt "#90068"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Western[/COLOR]"
+msgstr ""
+
+msgctxt "#90069"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Marvel Comics[/COLOR]"
+msgstr ""
+
+msgctxt "#90070"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Walt Disney Animated[/COLOR]"
+msgstr ""
+
+msgctxt "#90071"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Batman[/COLOR]"
+msgstr ""
+
+msgctxt "#90072"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Superman[/COLOR]"
+msgstr ""
+
+msgctxt "#90073"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Starwars[/COLOR]"
+msgstr ""
+
+msgctxt "#90074"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]007 - Bond[/COLOR]"
+msgstr ""
+
+msgctxt "#90075"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Pixar[/COLOR]"
+msgstr ""
+
+msgctxt "#90076"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Quentin Tarantino[/COLOR]"
+msgstr ""
+
+msgctxt "#90077"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Rocky[/COLOR]"
+msgstr ""
+
+msgctxt "#90078"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Dreamworks Animation[/COLOR]"
+msgstr ""
+
+msgctxt "#90079"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]DC Comics[/COLOR]"
+msgstr ""
+
+msgctxt "#90080"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]30 Best Romantic Comedies[/COLOR]"
+msgstr ""
+
+msgctxt "#90081"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]88th Academy Awards Winners[/COLOR]"
+msgstr ""
+
+msgctxt "#90082"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Most Sexy Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90083"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Dance Based[/COLOR]"
+msgstr ""
+
+msgctxt "#90084"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Halloween Based[/COLOR]"
+msgstr ""
+
+msgctxt "#90085"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]IMDB Top 100[/COLOR]"
+msgstr ""
+
+msgctxt "#90086"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]IMDB Top 250[/COLOR]"
+msgstr ""
+
+msgctxt "#90087"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]IMDB Top 1000[/COLOR]"
+msgstr ""
+
+msgctxt "#90088"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]IMDB Best Director Winning[/COLOR]"
+msgstr ""
+
+msgctxt "#90089"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Rated G[/COLOR]"
+msgstr ""
+
+msgctxt "#90090"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Rated PG[/COLOR]"
+msgstr ""
+
+msgctxt "#90091"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Rated PG-13[/COLOR]"
+msgstr ""
+
+msgctxt "#90092"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Rated R[/COLOR]"
+msgstr ""
+
+msgctxt "#90093"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Rated NC-17[/COLOR]"
+msgstr ""
+
+msgctxt "#90094"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]National Film Board Preserved[/COLOR]"
+msgstr ""
+
+msgctxt "#90095"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]FOX Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90096"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Paramount Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90097"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]MGM Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90098"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Disney Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90099"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Universal Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90100"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Sony Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90101"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Warner Brothers Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90102"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Prime Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90103"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Classic Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90104"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Classic Horror Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90105"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Classic Fantasy Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90106"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Classic Western Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90107"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Classic Animation Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90108"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Classic War Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90109"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Classic Sci-fi Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90110"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]1980 - 1989 Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90111"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]1990 - 1999 Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90112"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]2000 - 2010 Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90113"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Stand Up Comedy[/COLOR]"
+msgstr ""
+
+msgctxt "#90114"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]MISC SPORTS[/COLOR]"
+msgstr ""
+
+msgctxt "#90115"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]BOXING[/COLOR]"
+msgstr ""
+
+msgctxt "#90116"
+msgid "Include Special Episodes"
+msgstr ""
+
+msgctxt "#90119"
+msgid "Multiline source list"
+msgstr ""
+
+msgctxt "#90120"
+msgid "Debrid Only"
+msgstr ""
+
+msgctxt "#90121"
+msgid "Pre-emptive Termination"
+msgstr ""
+
+msgctxt "#90122"
+msgid "Pre-emptive Limit"
+msgstr ""
+
+msgctxt "#90123"
+msgid "Trakt Bookmarks"
+msgstr ""
+
+msgctxt "#90124"
+msgid "Auto Resume"
+msgstr ""
+
+msgctxt "#90125"
+msgid "Sync on PSMC/Kodi Start"
+msgstr ""
+
+msgctxt "#90126"
+msgid "Schedule Updates Every - Hour/s"
+msgstr ""
+
+msgctxt "#90127"
+msgid "Account Information"
+msgstr ""
+
+msgctxt "#90130"
+msgid "Furk Username"
+msgstr ""
+
+msgctxt "#90131"
+msgid "Furk Password"
+msgstr ""
+
+msgctxt "#90132"
+msgid "Furk API Key"
+msgstr ""
+
+msgctxt "#90133"
+msgid "Limit results"
+msgstr ""
+
+msgctxt "#90134"
+msgid "24HR delay before import"
+msgstr ""
+
+msgctxt "#90136"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]TENNIS[/COLOR]"
+msgstr ""
+
+msgctxt "#90137"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Navigation Home[/COLOR]"
+msgstr ""
+
+msgctxt "#90138"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Family Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90139"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]2010 - 2019 Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90141"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]IMDB Lists[/COLOR]"
+msgstr ""
+
+msgctxt "#90142"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]LFL[/COLOR]"
+msgstr ""
+
+msgctxt "#90143"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Food & Brews[/COLOR]"
+msgstr ""
+
+msgctxt "#90144"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR orange]Halloween Flicks[/COLOR]"
+msgstr ""
+
+msgctxt "#90145"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR orange]Halloween Related Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90146"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR orange]Halloween Franchise Set[/COLOR]"
+msgstr ""
+
+msgctxt "#90147"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR orange]The Top 100 Halloween Movies of All-time[/COLOR]"
+msgstr ""
+
+msgctxt "#90148"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR orange]Best Halloween Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90149"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR orange]100 Great Halloween Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90151"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]FORMULA 1[/COLOR]"
+msgstr ""
+
+msgctxt "#90152"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]NASCAR[/COLOR]"
+msgstr ""
+
+msgctxt "#90153"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]PGA[/COLOR]"
+msgstr ""
+
+msgctxt "#90154"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]CRICKET[/COLOR]"
+msgstr ""
+
+msgctxt "#90156"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]NCAAB[/COLOR]"
+msgstr ""
+
+msgctxt "#90157"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR red]Holiday Cheer[/COLOR]"
+msgstr ""
+
+msgctxt "#90158"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Holiday Related Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90159"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Hallmark Christmas[/COLOR]"
+msgstr ""
+
+msgctxt "#90160"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Holiday Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90161"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Top 50 Holiday Movies[/COLOR]"
+msgstr ""
+
+msgctxt "#90162"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Best Holiday Movies of All Times (as well as some rare finds)[/COLOR]"
+msgstr ""
+
+msgctxt "#90166"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Disney +[/COLOR]"
+msgstr ""
+
+msgctxt "#90167"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Personal List[/COLOR]"
+msgstr ""
+
+msgctxt "#90168"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Personal List URL[/COLOR]"
+msgstr ""
+
+msgctxt "#90169"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Enable Personal List[/COLOR]"
+msgstr ""
+
+msgctxt "#90170"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Apple TV +[/COLOR]"
+msgstr ""
+
+msgctxt "#90181"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Additional Addons[/COLOR]"
+msgstr ""
+
+msgctxt "#90183"
+msgid "TV Shows"
+msgstr ""
+
+msgctxt "#90189"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]CC Collections[/COLOR]"
+msgstr ""
+
+msgctxt "#90191"
+msgid "Page Item Limit"
+msgstr ""
+
+msgctxt "#90192"
+msgid "Months to Rollback for Hide in Cinema"
+msgstr ""
+
+msgctxt "#90193"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]XFL[/COLOR]"
+msgstr ""
+
+msgctxt "#90194"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Show only Hats[/COLOR]"
+msgstr ""
+
+msgctxt "#90195"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Fuzzy Britches Version[/COLOR]"
+msgstr ""
+
+msgctxt "#90210"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]TMDB Lists[/COLOR]"
+msgstr ""
+
+msgctxt "#90211"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]TMDB Top Rated[/COLOR]"
+msgstr ""
+
+msgctxt "#90212"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]TMDB Popular[/COLOR]"
+msgstr ""
+
+msgctxt "#90213"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]TMDB On the air[/COLOR]"
+msgstr ""
+
+msgctxt "#90214"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]TMDB Airing today[/COLOR]"
+msgstr ""
+
+msgctxt "#90215"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]TMDB Trending today[/COLOR]"
+msgstr ""
+
+msgctxt "#90216"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]TMDB Trending this week[/COLOR]"
+msgstr ""
+
+msgctxt "#90217"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]TMDB Discover this year[/COLOR]"
+msgstr ""
+
+msgctxt "#90218"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]Netflix[/COLOR]"
+msgstr ""
+
+msgctxt "#90219"
+msgid "[COLOR sandybrown]• [/COLOR][COLOR white]HBO[/COLOR]"
+msgstr ""
+
+msgctxt "#90220"
+msgid "Trailers from %s"
+msgstr ""
+
+msgctxt "#90221"
+msgid "Use this option for real-time syncing with trakt when playing\any video. Switch off when other addon(s) already scrobble"
+msgstr ""
+
+msgctxt "#90222"
+msgid "Enable trakt sync (scrobbling)"
+msgstr ""

@@ -1,0 +1,11 @@
+<colors>
+    <color>
+        <dialogheader>0xFFFFFFFF</dialogheader>
+        <menuheader>0xFF4A460</menuheader>
+        <menutext>0xFFFFFFFF</menutext>
+        <dialogtext>0xFFFFFFFF</dialogtext>
+        <link>0xFFF4A460</link>
+        <focustext>0xFFF4A460</focustext>
+        <focusbutton>0xFFbababa</focusbutton>
+    </color>
+</colors>
