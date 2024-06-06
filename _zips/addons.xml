@@ -151,9 +151,9 @@
   </extension>
 </addon>
 
-<addon id="resource.uisounds.pazr" version="1.0.4" name="Papaws AZR Redux GUI Sounds" provider-name="The Papaw">
+<addon id="resource.uisounds.pazr" version="21.0.4" name="Papaws AZR Redux GUI Sounds" provider-name="The Papaw">
   <requires>
-    <import addon="kodi.resource" version="1.0.0"/>
+    <import addon="kodi.resource" version="1.0.0" />
   </requires>
   <extension point="kodi.resource.uisounds"/>
   <extension point="kodi.addon.metadata">
