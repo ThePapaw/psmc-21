@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="skin.papaws.azr.redux" version="21.0.0" name="Papaw's AZR Redux" provider-name="The Papaw">
+    <requires>
+        <import addon="xbmc.gui" version="5.17.0"/>
+        <import addon="resource.uisounds.psmc" />
+        <import addon="script.skinshortcuts" />
+        <import addon="script.globalsearch" />
+        <import addon="script.image.resource.select" />
+        <import addon="resource.images.weathericons.white" />
+        <import addon="script.embuary.info" />
+        <import addon="script.embuary.helper" />
+        <import addon="plugin.video.themoviedb.helper" />
+    </requires>
+    <extension point="xbmc.gui.skin" defaultthemename="Textures.xbt" debugging="false" effectslowdown="1">
+        <res width="1920" height="1080" aspect="16:9" default="true" folder="1080i" />
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <license>CC BY-NC-SA 4.0</license>
+		<forum></forum>
+		<website>https://github.com/ThePapaw/psmc-21</website>
+        <source>https://github.com/ThePapaw/psmc-21</source>
+        <assets>
+            <icon>icon.png</icon>
+            <fanart>fanart.jpg</fanart>			
+            <screenshot>resources/bmc-qr.jpg</screenshot>
+            <screenshot>resources/screenshot-01.jpg</screenshot>
+            <screenshot>resources/screenshot-02.jpg</screenshot>
+            <screenshot>resources/screenshot-03.jpg</screenshot>
+            <screenshot>resources/screenshot-04.jpg</screenshot>
+            <screenshot>resources/screenshot-05.jpg</screenshot>
+            <screenshot>resources/screenshot-06.jpg</screenshot>
+            <screenshot>resources/screenshot-07.jpg</screenshot>
+            <screenshot>resources/screenshot-08.jpg</screenshot>
+            <screenshot>resources/screenshot-09.jpg</screenshot>
+            <screenshot>resources/screenshot-10.jpg</screenshot>
+        </assets>
+        <news>If you would like to show your appreciation for the time and efforts I put into these projects, please buy me [B][COLOR deepskyblue]"a cup of coffee"[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR].[CR][CR][COLOR gold]Latest Update:[/COLOR][CR]v1.4.3[CR] - updated screenshots</news>
+        <summary lang="de">Papaw's AZR Redux is gebaseerd op de originele Arctic Zephyr-skin gemaakt door jurialmunkey. Papaw's AZR Redux gaat over eenvoudig, strak, minimalistisch en uiterst aanpasbaar.</summary>
+        <summary lang="en">Papaw's AZR Redux is based on the original Arctic Zephyr skin created by jurialmunkey. Papaw's AZR Redux is about being simple, clean, minimalistic and extremely customizable.</summary>
+        <summary lang="en_AU">Papaw's AZR Redux is based on the original Arctic Zephyr skin created by jurialmunkey. Papaw's AZR Redux is about being simple, clean, minimalistic and extremely customizable.</summary>
+        <summary lang="en_US">Papaw's AZR Redux is based on the original Arctic Zephyr skin created by jurialmunkey. Papaw's AZR Redux is about being simple, clean, minimalistic and extremely customizable.</summary>
+        <summary lang="es">AZR Redux de Papaw se basa en el aspecto original de Arctic Zephyr creado por jurialmunkey. AZR Redux de Papaw se trata de ser simple, limpio, minimalista y extremadamente personalizable.</summary>
+        <summary lang="fr">L'AZR Redux de Papaw est basé sur le skin original Arctic Zephyr créé par jurialmunkey. AZR Redux de Papaw se veut simple, propre, minimaliste et extrêmement personnalisable.</summary>
+        <summary lang="fr_CA">L'AZR Redux de Papaw est basé sur le skin original Arctic Zephyr créé par jurialmunkey. AZR Redux de Papaw se veut simple, propre, minimaliste et extrêmement personnalisable.</summary>
+        <summary lang="lt">Papaw's AZR Redux sukurtas remiantis originalia Arctic Zephyr oda, kurią sukūrė jurialmunkey. Papaw AZR Redux yra paprastas, švarus, minimalistinis ir labai pritaikomas.</summary>
+        <summary lang="nl">Papaw's AZR Redux is gebaseerd op de originele Arctic Zephyr-skin gemaakt door jurialmunkey. Papaw's AZR Redux gaat over eenvoudig, strak, minimalistisch en uiterst aanpasbaar.</summary>
+        <summary lang="pl">Papaw's AZR Redux opiera się na oryginalnej skórce Arctic Zephyr stworzonej przez Jurialmunkey. Papaw's AZR Redux ma być prosty, czysty, minimalistyczny i niezwykle konfigurowalny.</summary>
+        <summary lang="ro">Papaw's AZR Redux se bazează pe pielea originală Arctic Zephyr creată de jurialmunkey. Papaw's AZR Redux este despre a fi simplu, curat, minimalist și extrem de personalizabil.</summary>
+        <summary lang="ru">AZR Redux от Papaw основан на оригинальном скине Arctic Zephyr, созданном jurialmunkey. AZR Redux от Papaw — простой, понятный, минималистичный и чрезвычайно настраиваемый.</summary>
+        <description lang="de">[CR]Als je je waardering wilt tonen voor de tijd en moeite die ik in deze projecten heb gestoken, scan dan het "Koffiekopje" (QR-code) hierboven en koop [COLOR deepskyblue]een kopje koffie[/COLOR] of bezoek [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR] om je te abonneren voor toegang tot "What's Next" en alle toekomstige updates.[CR][CR][COLOR limegreen]Vrijgevigheid zoals die van jou is tegenwoordig zeldzaam. Ik dank u bij voorbaat voor uw steun. Ik ben erg dankbaar voor ELKE donatie en waardeer je vriendelijkheid enorm![/COLOR][COLOR hemelsblauw] • De Papaja[/COLOR]</description>
+        <description lang="en">[CR]If you would like to show your appreciation for the time and efforts I put into these projects, please scan the "Coffee Cup" (QR code) above and buy me [COLOR deepskyblue]a cup of coffee[/COLOR] or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR] to subscribe for access to "What's Next" and all future updates.[CR][CR][COLOR limegreen]Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for EVERY donation and truly appreciate your kindness![/COLOR][COLOR skyblue]  • The Papaw[/COLOR]</description>
+        <description lang="en_AU">[CR]If you would like to show your appreciation for the time and efforts I put into these projects, please scan the "Coffee Cup" (QR code) above and buy me [COLOR deepskyblue]a cup of coffee[/COLOR] or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR] to subscribe for access to "What's Next" and all future updates.[CR][CR][COLOR limegreen]Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for EVERY donation and truly appreciate your kindness![/COLOR][COLOR skyblue]  • The Papaw[/COLOR]</description>
+        <description lang="en_US">[CR]If you would like to show your appreciation for the time and efforts I put into these projects, please scan the "Coffee Cup" (QR code) above and buy me [COLOR deepskyblue]a cup of coffee[/COLOR] or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR] to subscribe for access to "What's Next" and all future updates.[CR][CR][COLOR limegreen]Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for EVERY donation and truly appreciate your kindness![/COLOR][COLOR skyblue]  • The Papaw[/COLOR]</description>
+        <description lang="fr">[CR]Si vous souhaitez montrer votre appréciation pour le temps et les efforts que j'ai consacrés à ces projets, veuillez scanner la "Tasse à café" (code QR) ci-dessus et achetez-moi [COLOR deepskyblue]une tasse de café[/COLOR] ou visitez [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR] pour vous abonner et accéder à "What's Next" et à toutes les futures mises à jour.[CR][CR][COLOR limegreen]Une générosité comme la vôtre est rare à trouver de nos jours. Je vous remercie d'avance pour votre soutien. Je suis très reconnaissant pour CHAQUE don et j'apprécie vraiment votre gentillesse ![/COLOR][COLOR skyblue] • The Papaw[/COLOR]</description>
+    </extension>
+</addon>
