@@ -11,7 +11,7 @@
   <extension point="xbmc.addon.metadata">
     <platform>all</platform>
     <summary lang="en">A simple all-around Maintenance Tool for PSMC and Kodi</summary>
-    <description lang="en">PSMC's Maintenance helps to aid with a much smoother PSMC or Kodi experience without all the fluff. Features include: Auto delete of cache at start up, notify when packages and thumbs reach a set amount of wasted storage space, cuts down on your devices read/writes on the ROM. Backup/Restore Options, speed test, and other features![CR][CR]If you would like to show your appreciation for the time and efforts I put into these projects, please buy me a [B][COLOR deepskyblue]"cup of coffee"[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR]. [CR][CR][COLOR limegreen](Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for EVERY donation and truly appreciate your kindness!)[/COLOR][COLOR skyblue]  • The Papaw[/COLOR]</description>
+    <description lang="en">PSMC's Maintenance helps to aid with a much smoother PSMC or Kodi experience without all the fluff. Features include: Auto delete of cache at start up, notify when packages and thumbs reach a set amount of wasted storage space, cuts down on your devices read/writes on the ROM. Backup/Restore Options, speed test, and other features![CR][CR]If you would like to show your appreciation for the time and efforts I put into these projects, please buy me a [B][COLOR deepskyblue]"cup of coffee"[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR]. [CR][CR][COLOR limegreen](Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for EVERY donation and truly appreciate your kindness!)[/COLOR][COLOR skyblue]  â€¢ The Papaw[/COLOR]</description>
     <disclaimer lang="en"></disclaimer>
     <language></language>
     <platform>all</platform>
@@ -53,7 +53,7 @@
     <extension point="xbmc.addon.metadata">
         <news>See the Changelog in the Tools Menu for more News.[CR]If you would like to show your appreciation for the time and efforts I put into these projects, please buy me [B][COLOR deepskyblue]a cup of coffee[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR].[CR][CR][COLOR gold]Latest Update:[/COLOR][CR]v1.0.0[CR] - Initial Release</news>
 		<summary lang="en">FB v4 allows you to search the net to stream almost any movie or show. No subscriptions needed. Add shows to your library and it will update itself.</summary>
-        <description lang="en">[CR]If you would like to show your appreciation for the time and efforts I put into these projects, please scan the "Coffee Cup" (QR code) above and buy me [COLOR deepskyblue]a cup of coffee[/COLOR] or subscribe for access to "What's Next" and all future updates.[CR][CR][COLOR limegreen]Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for EVERY donation and truly appreciate your kindness![/COLOR][COLOR deepskyblue]  • The Papaw[/COLOR]</description>
+        <description lang="en">[CR]If you would like to show your appreciation for the time and efforts I put into these projects, please scan the "Coffee Cup" (QR code) above and buy me [COLOR deepskyblue]a cup of coffee[/COLOR] or subscribe for access to "What's Next" and all future updates.[CR][CR][COLOR limegreen]Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for EVERY donation and truly appreciate your kindness![/COLOR][COLOR deepskyblue]  â€¢ The Papaw[/COLOR]</description>
         <platform>all</platform>
         <license>CC BY-NC-SA 4.0</license>
         <forum></forum>
@@ -82,7 +82,7 @@
 	<extension point="xbmc.addon.metadata">
 	<platform>all</platform>
 	<summary lang="en">Real-Debrid Tools Addon</summary>
-	<description>This addon allows you to stream or download video files that are already transfered into your Real-Debrid account! The author does not host or distribute any of the content displayed by this addon. The author does not have any affiliation with the content provider.[CR][CR]If you would like to show your appreciation for the time and efforts I put into these projects, please scan the "Coffee Cup" (QR code) above and buy me [COLOR deepskyblue]a cup of coffee[/COLOR] or subscribe for access to "What's Next" and all future updates.[CR][COLOR limegreen] Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for EVERY donation and truly appreciate your kindness![/COLOR][COLOR skyblue]  • The Papaw[/COLOR]
+	<description>This addon allows you to stream or download video files that are already transfered into your Real-Debrid account! The author does not host or distribute any of the content displayed by this addon. The author does not have any affiliation with the content provider.[CR][CR]If you would like to show your appreciation for the time and efforts I put into these projects, please scan the "Coffee Cup" (QR code) above and buy me [COLOR deepskyblue]a cup of coffee[/COLOR] or subscribe for access to "What's Next" and all future updates.[CR][COLOR limegreen] Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for EVERY donation and truly appreciate your kindness![/COLOR][COLOR skyblue]  â€¢ The Papaw[/COLOR]
 	</description>
 	<news>If you would like to show your appreciation for the time and efforts I put into these projects, please buy me [B][COLOR deepskyblue]"a cup of coffee"[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR].[CR][CR][COLOR gold]Latest Update:[/COLOR][CR]v1.0.14[CR] - Added Support QR Code</news>
 	<license>CC BY-NC-SA 4.0</license>
@@ -112,7 +112,7 @@
     <extension point="xbmc.addon.metadata">
         <news>If you would like to show your appreciation for the time and efforts I put into these projects, please buy me [B][COLOR deepskyblue]"a cup of coffee"[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR].[CR][CR][COLOR gold]Latest Update:[/COLOR][CR]v1.2.2[CR] - updated repo for PSMC 21 or above</news>
 		<summary>The Official Repo for PSMC 21</summary>
-        <description>[CR]This is the "Official" repository for PSMC 21 (Papaw's Son Media Center). Providing skins, tools, gaming, and streaming addons for PSMC 21 and Kodi.[CR][CR]If you would like to show your appreciation for the time and efforts I put into these projects, please buy me [B][COLOR deepskyblue]"a cup of coffee"[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR]. [CR][CR][COLOR limegreen](Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for EVERY donation and truly appreciate your kindness!)[/COLOR][COLOR skyblue]  • The Papaw[/COLOR]</description>
+        <description>[CR]This is the "Official" repository for PSMC 21 (Papaw's Son Media Center). Providing skins, tools, gaming, and streaming addons for PSMC 21 and Kodi.[CR][CR]If you would like to show your appreciation for the time and efforts I put into these projects, please buy me [B][COLOR deepskyblue]"a cup of coffee"[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR]. [CR][CR][COLOR limegreen](Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for EVERY donation and truly appreciate your kindness!)[/COLOR][COLOR skyblue]  â€¢ The Papaw[/COLOR]</description>
         <platform>all</platform>
 		<license>CC BY-NC-SA 4.0</license>
 		<forum></forum>
@@ -137,7 +137,7 @@
     <extension point="xbmc.addon.metadata">
         <news>See the Changelog in the Tools Menu for more News.[CR]If you would like to show your appreciation for the time and efforts I put into these projects, please buy me [B][COLOR deepskyblue]a cup of coffee[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR].[CR][CR][COLOR gold]Latest Update:[/COLOR][CR]v1.0.0[CR] - Added QR support code</news>
 		<summary lang="en">Artwork for Fuzzy Britches v4 add-on.</summary>
-        <description lang="en">Fuzzy Britches v4 Artwork is part of Fuzzy Britches v4 Add-on and the PSMC Collection[CR]If you would like to show your appreciation for the time and efforts I put into these projects, please scan the "Coffee Cup" (QR code) above and buy me [COLOR deepskyblue]a cup of coffee[/COLOR] or subscribe for access to "What's Next" and all future updates.[CR][CR][COLOR limegreen]Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for EVERY donation and truly appreciate your kindness![/COLOR][COLOR deepskyblue]  • The Papaw[/COLOR].</description>
+        <description lang="en">Fuzzy Britches v4 Artwork is part of Fuzzy Britches v4 Add-on and the PSMC Collection[CR]If you would like to show your appreciation for the time and efforts I put into these projects, please scan the "Coffee Cup" (QR code) above and buy me [COLOR deepskyblue]a cup of coffee[/COLOR] or subscribe for access to "What's Next" and all future updates.[CR][CR][COLOR limegreen]Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for EVERY donation and truly appreciate your kindness![/COLOR][COLOR deepskyblue]  â€¢ The Papaw[/COLOR].</description>
         <platform>all</platform>
         <license>CC BY-NC-SA 4.0</license>
         <forum></forum>
@@ -174,6 +174,35 @@
     </extension>
 </addon>
 
+<addon id="script.module.resolveurl" name="ResolveURL" version="5.1.137" provider-name="gujal">
+    <requires>
+        <!-- <import addon="xbmc.python" version="3.0.0" /> -->
+        <import addon="script.module.six" />
+        <import addon="script.module.kodi-six" />
+        <import addon="plugin.video.youtube" optional="true" />
+        <import addon="script.module.python.twitch" optional="true" />
+        <import addon="plugin.googledrive" optional="true" />
+    </requires>
+    <extension point="xbmc.python.module" library="lib" />
+    <extension point="xbmc.python.pluginsource" library="lib/default.py" />
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <summary lang="en_GB">Resolve common video host URL's to be playable in XBMC/Kodi.</summary>
+        <summary lang="es_ES">Resolver enlaces a videos de sitios populares para poder reproducirlos en XBMC/Kodi.</summary>
+        <summary lang="hr_HR">Prilagodi najčešće URL-ove video izvora kako bi radili u XBMC/Kodiju.</summary>
+        <summary lang="el_GR">Επίλυση συνδέσμων κοινών εξυπηρετητών σε μορφή βίντεο ικανό για αναπαραγωγή στο XBMC/Kodi.</summary>
+        <description lang="en_GB">Resolve common video host URL's to be playable in XBMC/Kodi, simplify addon development of video plugins requiring multi video hosts.</description>
+        <description lang="el_GR">Επίλυση συνδέσμων κοινών εξυπηρετητών σε μορφή βίντεο ικανό για αναπαραγωγή στο XBMC/Kodi, απλοποίηση της ανάπτυξης των προσθέτων που χρησιμοποιούν πολλαπλούς εξυπηρετητές για υλικό βίντεο</description>
+        <description lang="hr_HR">Prilagodi najčešće URL-ove video izvora kako bi radili u XBMC/Kodiju, pojednostavnjuje razvoj priključaka za video dodatke koji zahtjevaju višestruke video izvore.</description>
+        <disclaimer lang="en_GB">This script only resolves video content from legitimate file lockers without prejudice. If this script is being used by 3rd parties to resolve content that you feel infringes upon your Intellectual Property then please take your complaints to the actual website or developer linking to such content and not here. This script in no way searches for any content whatsoever.</disclaimer>
+        <disclaimer lang="el_GR">Το ανωτέρο σενάριο το μόνο που κάνει είναι να επιλύει οπτικοακουστικό περιεχόμενο από νόμιμες πηγές χωρίς προκατάληψη. Εάν το ανωτέρο σενάριο χρησιμοποιηθεί από τρίτους ώστε να επιλύσει περιεχόμενο το οποίο σας προκαλεί αντίδραση ότι παραβιάζει την πνευματική σας ιδιοκτησία παρακαλώ μεταφέρετε τα παραπονά σας στον ιστότοπο τον οποίο βρίσκεται το εν λόγω περιεχόμενο η τον δημιουργό ο οποίος πραγματοποιεί την σύνδεση και όχι εδω. Το σενάριο αυτό ουδεμία περίπτωση πραγματοποιεί αναζήτηση περιεχομένου.</disclaimer>
+        <assets>
+            <icon>icon.png</icon>
+            <fanart>fanart.jpg</fanart>
+        </assets>
+    </extension>
+</addon>
+
 <addon id="script.psgc.launcher" name="PSGC Launcher" version="1.0.4" provider-name="The Papaw">
     <requires>
         <import addon="xbmc.python" version="3.0.0"/>
@@ -184,7 +213,7 @@
     <extension point="xbmc.addon.metadata">
         <summary lang="en_GB">Launches LaunchBox in Big Box mode from within PSMC.</summary>
         <disclaimer lang="en_GB">For bugs, requests or general questions visit the PSMC-20 Repository on GitHub.</disclaimer>
-        <description lang="en_GB">Launches Big Box from within PSMC - It will close or minimize PSMC and when Big Box is exited, PSMC will restart or maximize. Also has options to run programs pre or post BigBox. It works with PSMC or Kodi on Windows platform ONLY.[CR][CR]If you would like to show your appreciation for the time and efforts I put into these projects, please scan the "Coffee Cup" (QC code) above and buy me a cup of coffee or subscribe for access to "What's Next" and all future updates. [COLOR limegreen] (Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for your donation and truly appreciate your kindness!)[/COLOR][COLOR skyblue]  • The Papaw[/COLOR]</description>
+        <description lang="en_GB">Launches Big Box from within PSMC - It will close or minimize PSMC and when Big Box is exited, PSMC will restart or maximize. Also has options to run programs pre or post BigBox. It works with PSMC or Kodi on Windows platform ONLY.[CR][CR]If you would like to show your appreciation for the time and efforts I put into these projects, please scan the "Coffee Cup" (QC code) above and buy me a cup of coffee or subscribe for access to "What's Next" and all future updates. [COLOR limegreen] (Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for your donation and truly appreciate your kindness!)[/COLOR][COLOR skyblue]  â€¢ The Papaw[/COLOR]</description>
         <news>added Support QR code</news>
         <platform>windx</platform>
         <language>en</language>
