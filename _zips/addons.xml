@@ -194,10 +194,10 @@
     </extension>
 </addon>
 
-<addon id="script.module.fuzzybritches_v4" name="Fuzzy Britches v4 Module" version="21.0.6" provider-name="The Papaw">
+<addon id="script.module.fuzzybritches_v4" name="Fuzzy Britches v4 Module" version="21.0.7" provider-name="The Papaw">
     <requires>
         <import addon="xbmc.python" version="3.0.0" />
-        <import addon="script.module.beautifulsoup4"/>
+        <import addon="script.module.beautifulsoup4" />
     </requires>
     <extension point="xbmc.python.module" library="lib" />
     <extension point="xbmc.addon.metadata">
