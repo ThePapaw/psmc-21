@@ -1863,12 +1863,12 @@ def sync_trending_lists(forced=False):
 	except: log_utils.error()
 
 def traktClientID():
-	traktId = '87e3f055fc4d8fcfd96e61a47463327ca877c51e8597b448e132611c5a677b13'
+	traktId = 'c18c4d30da84e98f87219ea0178903adeed72f24ec94b480a7c117edcaa9bb61'
 	if (getSetting('trakt.clientid') != '' and getSetting('trakt.clientid') is not None) and getSetting('traktuserkey.customenabled') == 'true':
 		traktId = getSetting('trakt.clientid')
 	return traktId
 def traktClientSecret():
-	traktSecret = '4a1957a52d5feb98fafde53193e51f692fa9bdcd0cc13cf44a5e39975539edf0'
+	traktSecret = '5ba2937b3766a8b06e6dd632834a3788bca86ed48f29269d59543ae941809947'
 	if (getSetting('trakt.clientsecret') != '' and getSetting('trakt.clientsecret') is not None) and getSetting('traktuserkey.customenabled') == 'true':
 		traktSecret = getSetting('trakt.clientsecret')
 	return traktSecret
