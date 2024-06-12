@@ -257,6 +257,194 @@
     </extension>
 </addon>
 
+<addon id="plugin.video.fuzzybritches_v5" name="Fuzzy Britches v5" provider-name="The Papaw" version="5.0.1">
+	<requires>
+		<import addon="xbmc.python" version="3.0.0"/>
+		<import addon="script.module.requests"/>
+		<import addon="script.module.metahandler" version="5.0.1a" optional="true"/>
+		<import addon="plugin.video.youtube" optional="true"/>
+	</requires>
+	<extension point="xbmc.python.pluginsource" library="fuzzybritches.py">
+		<provides>video</provides>
+	</extension>
+	<extension point="kodi.context.item">
+		<menu id="kodi.core.main">
+			<item library="resources\lib\context\addtoLibrary.py">
+				<label>$INFO[Window(home).Property(context.fuzzybritches.showFuzzyBritches)]Add to Library</label>
+				<visible>
+					!String.IsEmpty(Window(home).Property(context.fuzzybritches.addtoLibrary)) +
+					String.StartsWith(ListItem.path,plugin://plugin.video.fuzzybritches_v5/) +
+					String.IsEqual(ListItem.Property(isFuzzyBritches_widget),true) +
+					[String.IsEqual(ListItem.dbtype,episode) | String.IsEqual(ListItem.dbtype,tvshow) | String.IsEqual(ListItem.dbtype,season) | String.IsEqual(ListItem.dbtype,movie)]
+				</visible>
+			</item>
+			<item library="resources\lib\context\addtoFavourite.py">
+				<label>$INFO[Window(home).Property(context.fuzzybritches.showFuzzyBritches)]Add/Remove Favourite</label>
+				<visible>
+					!String.IsEmpty(Window(home).Property(context.fuzzybritches.addtoFavourite)) +
+					String.StartsWith(ListItem.path,plugin://plugin.video.fuzzybritches_v5/) +
+					String.IsEqual(ListItem.Property(isFuzzyBritches_widget),true) +
+					[String.IsEqual(ListItem.dbtype,episode) | String.IsEqual(ListItem.dbtype,tvshow) | String.IsEqual(ListItem.dbtype,movie)]
+				</visible>
+			</item>
+			<item library="resources\lib\context\playTrailer.py">
+				<label>$INFO[Window(home).Property(context.fuzzybritches.showFuzzyBritches)]Play Trailer</label>
+				<visible>
+					!String.IsEmpty(Window(home).Property(context.fuzzybritches.playTrailer)) +
+					String.StartsWith(ListItem.path,plugin://plugin.video.fuzzybritches_v5/) +
+					String.IsEqual(ListItem.Property(isFuzzyBritches_widget),true) +
+					[String.IsEqual(ListItem.dbtype,tvshow) | String.IsEqual(ListItem.dbtype,movie)]
+				</visible>
+			</item>
+			<item library="resources\lib\context\playTrailerSelect.py">
+				<label>$INFO[Window(home).Property(context.fuzzybritches.showFuzzyBritches)]Play Trailer (Select)</label>
+				<visible>
+					!String.IsEmpty(Window(home).Property(context.fuzzybritches.playTrailerSelect)) +
+					String.StartsWith(ListItem.path,plugin://plugin.video.fuzzybritches_v5/) +
+					String.IsEqual(ListItem.Property(isFuzzyBritches_widget),true) +
+					[String.IsEqual(ListItem.dbtype,tvshow) | String.IsEqual(ListItem.dbtype,movie)]
+				</visible>
+			</item>
+			<item library="resources\lib\context\traktManager.py">
+				<label>$INFO[Window(home).Property(context.fuzzybritches.showFuzzyBritches)]Trakt Manager</label>
+				<visible>
+					!String.IsEmpty(Window(home).Property(context.fuzzybritches.traktManager)) +
+					String.StartsWith(ListItem.path,plugin://plugin.video.fuzzybritches_v5/) +
+					String.IsEqual(ListItem.Property(isFuzzyBritches_widget),true) +
+					[String.IsEqual(ListItem.dbtype,episode) | String.IsEqual(ListItem.dbtype,tvshow) | String.IsEqual(ListItem.dbtype,season) | String.IsEqual(ListItem.dbtype,movie)]
+				</visible>
+			</item>
+			<item library="resources\lib\context\clearProviders.py">
+				<label>$INFO[Window(home).Property(context.fuzzybritches.showFuzzyBritches)]Clear Providers</label>
+				<visible>
+					[!String.IsEmpty(Window(home).Property(context.fuzzybritches.clearProviders)) +
+					String.StartsWith(ListItem.FolderPath,plugin://plugin.video.fuzzybritches_v5/?action=play) +
+					String.IsEqual(ListItem.Property(isFuzzyBritches_widget),true) +
+					[String.IsEqual(ListItem.dbtype,episode) | String.IsEqual(ListItem.dbtype,movie)]] |
+					[String.Contains(Container.FolderPath,videodb://) +
+					[String.Contains(Container.ListItem.Path,Window(home).Property(fuzzybritches.movieLib.path)) | String.Contains(Container.ListItem.Path,Window(home).Property(fuzzybritches.tvLib.path))] +
+					[String.IsEqual(ListItem.dbtype,episode) | String.IsEqual(ListItem.dbtype,movie)]]
+				</visible>
+			</item>
+			<item library="resources\lib\context\clearBookmark.py">
+				<label>$INFO[Window(home).Property(context.fuzzybritches.showFuzzyBritches)]Clear Item Bookmark</label>
+				<visible>
+					!String.IsEmpty(Window(home).Property(context.fuzzybritches.clearBookmark)) +
+					String.StartsWith(ListItem.FolderPath,plugin://plugin.video.fuzzybritches_v5/?action=play) +
+					String.IsEqual(ListItem.Property(isFuzzyBritches_widget),true) +
+					ListItem.IsResumable +
+					[String.IsEqual(ListItem.dbtype,episode) | String.IsEqual(ListItem.dbtype,movie)]
+				</visible>
+			</item>
+			<item library="resources\lib\context\rescrape.py">
+				<label>$INFO[Window(home).Property(context.fuzzybritches.showFuzzyBritches)]Rescrape Item</label>
+				<visible>
+					[!String.IsEmpty(Window(home).Property(context.fuzzybritches.rescrape)) +
+					String.StartsWith(ListItem.FolderPath,plugin://plugin.video.fuzzybritches_v5/?action=play) +
+					String.IsEqual(ListItem.Property(isFuzzyBritches_widget),true) +
+					[String.IsEqual(ListItem.dbtype,episode) | String.IsEqual(ListItem.dbtype,movie)]]
+				</visible>
+			</item>
+			<item library="resources\lib\context\addLibtoFavourite.py">
+				<label>$INFO[Window(home).Property(context.fuzzybritches.showFuzzyBritches)]Add/Remove Favourite</label>
+				<visible>
+					[String.Contains(Container.FolderPath,videodb://) | String.Contains(Container.ListItem.FolderPath,videodb://)] +
+					[String.Contains(Container.ListItem.Path,Window(home).Property(fuzzybritches.movieLib.path)) | String.Contains(Container.ListItem.Path,Window(home).Property(fuzzybritches.tvLib.path))] +
+					[String.IsEqual(ListItem.dbtype,episode) | String.IsEqual(ListItem.dbtype,movie)]
+				</visible>
+			</item>
+			<item library="resources\lib\context\libRescrape.py">
+				<label>$INFO[Window(home).Property(context.fuzzybritches.showFuzzyBritches)]Rescrape Lib Item</label>
+				<visible>
+					[String.Contains(Container.FolderPath,videodb://) | String.Contains(Container.ListItem.FolderPath,videodb://)] +
+					[String.Contains(Container.ListItem.Path,Window(home).Property(fuzzybritches.movieLib.path)) | String.Contains(Container.ListItem.Path,Window(home).Property(fuzzybritches.tvLib.path))] +
+					[String.IsEqual(ListItem.dbtype,episode) | String.IsEqual(ListItem.dbtype,movie)]
+				</visible>
+			</item>
+			<item library="resources\lib\context\playFromHere.py">
+				<label>$INFO[Window(home).Property(context.fuzzybritches.showFuzzyBritches)]Play from here</label>
+				<visible>
+					!String.IsEmpty(Window(home).Property(context.fuzzybritches.playFromHere)) +
+					String.StartsWith(ListItem.path,plugin://plugin.video.fuzzybritches_v5/) +
+					String.IsEqual(ListItem.Property(isFuzzyBritches_widget),true) +
+					String.IsEqual(ListItem.dbtype,episode)
+				</visible>
+			</item>
+			<item library="resources\lib\context\autoPlay.py">
+				<label>$INFO[Window(home).Property(context.fuzzybritches.showFuzzyBritches)]Auto Play</label>
+				<visible>
+					String.IsEmpty(Window(home).Property(fuzzybritches.autoPlay.enabled)) +
+					!String.IsEmpty(Window(home).Property(context.fuzzybritches.autoPlay)) +
+					String.StartsWith(ListItem.FolderPath,plugin://plugin.video.fuzzybritches_v5/?action=play) +
+					String.IsEqual(ListItem.Property(isFuzzyBritches_widget),true) +
+					[String.IsEqual(ListItem.dbtype,episode) | String.IsEqual(ListItem.dbtype,movie)]
+				</visible>
+			</item>
+			<item library="resources\lib\context\sourceSelect.py">
+				<label>$INFO[Window(home).Property(context.fuzzybritches.showFuzzyBritches)]Source Select</label>
+				<visible>
+					!String.IsEmpty(Window(home).Property(fuzzybritches.autoPlay.enabled)) +
+					!String.IsEmpty(Window(home).Property(context.fuzzybritches.sourceSelect)) +
+					String.StartsWith(ListItem.FolderPath,plugin://plugin.video.fuzzybritches_v5/?action=play) +
+					String.IsEqual(ListItem.Property(isFuzzyBritches_widget),true) +
+					[String.IsEqual(ListItem.dbtype,episode) | String.IsEqual(ListItem.dbtype,movie)]
+				</visible>
+			</item>
+			<item library="resources\lib\context\findSimilar.py">
+				<label>$INFO[Window(home).Property(context.fuzzybritches.showFuzzyBritches)]Find Similar</label>
+				<visible>
+					!String.IsEmpty(Window(home).Property(context.fuzzybritches.findSimilar)) +
+					String.StartsWith(ListItem.path,plugin://plugin.video.fuzzybritches_v5/) +
+					String.IsEqual(ListItem.Property(isFuzzyBritches_widget),true) +
+					[String.IsEqual(ListItem.dbtype,tvshow) | String.IsEqual(ListItem.dbtype,movie)]
+				</visible>
+			</item>
+			<item library="resources\lib\context\browseSeries.py">
+				<label>$INFO[Window(home).Property(context.fuzzybritches.showFuzzyBritches)]Browse Series</label>
+				<visible>
+					!String.IsEmpty(Window(home).Property(context.fuzzybritches.browseSeries)) +
+					String.StartsWith(ListItem.path,plugin://plugin.video.fuzzybritches_v5/) +
+					String.IsEqual(ListItem.Property(isFuzzyBritches_widget),true) +
+					[String.IsEqual(ListItem.dbtype,episode) | String.IsEqual(ListItem.dbtype,tvshow)]
+				</visible>
+			</item>
+			<item library="resources\lib\context\browseEpisodes.py">
+				<label>$INFO[Window(home).Property(context.fuzzybritches.showFuzzyBritches)]Browse Episodes</label>
+				<visible>
+					!String.IsEmpty(Window(home).Property(context.fuzzybritches.browseEpisodes)) +
+					String.StartsWith(ListItem.path,plugin://plugin.video.fuzzybritches_v5/) +
+					String.IsEqual(ListItem.Property(isFuzzyBritches_widget),true) +
+					String.IsEqual(ListItem.dbtype,episode)
+				</visible>
+			</item>
+		</menu>
+	</extension>
+	<extension point="xbmc.service" library="service.py" start="startup"/>
+	<extension point="xbmc.python.module" library="resources/lib/"/>
+	<extension point="xbmc.addon.metadata">
+		<reuselanguageinvoker>true</reuselanguageinvoker>
+		<summary lang="en">[B]FuzzyBritches[/B] is an [COLOR deepskyblue]All-in-One[/COLOR] video Add-on. No subscriptions needed.[B]</summary>
+		<description lang="en">[CR][B]FuzzyBritches[/B] is not part of PSMC or Kodi. Please do not seek assistance with this addon from any of the Official Kodi Support Channels. The author does not host any of the content found by this addon and takes no responsibility for content found.[COLOR deepskyblue]        â€¢ The Papaw[/COLOR]</description>
+		<platform>all</platform>
+		<license>CC BY-NC-SA 4.0</license>
+        <forum></forum>
+		<website>https://github.com/ThePapaw/psmc-21</website>
+		<source>https://github.com/ThePapaw/psmc-21</source>
+		<disclaimer lang="en">The author is not responsible for the use of this addon. The author is not responsible for the content found using this addon. The author does not host or own any content found within this addon.[CR]The author is in no way affiliated with Kodi, Team Kodi, or the XBMC Foundation.[CR]This is a Non-profit resource, organized solely for educational purposes which is protected under the Fair-Use doctrine of the Copyright Act, Specifically section 107, which does promote freedom of expression, by permitting the unlicensed use of copyright-protected works. Use at your own risk!</disclaimer>
+		<assets>
+			<icon>icon.gif</icon>
+			<fanart>fanart.jpg</fanart>
+			<screenshot>resources/screenshots/screenshot01.jpg</screenshot>
+			<screenshot>resources/screenshots/screenshot02.jpg</screenshot>
+			<screenshot>resources/screenshots/screenshot03.jpg</screenshot>
+			<screenshot>resources/screenshots/screenshot04.jpg</screenshot>
+		</assets>
+		<news>See the Changelog in the Tools Menu for more News.[CR]If you would like to show your appreciation for the time and efforts I put into these projects, please buy me [B][COLOR deepskyblue]a cup of coffee[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR].[CR][CR][COLOR gold]Latest Update:[/COLOR][CR]v1.0.0[CR] - Initial Release
+		</news>
+	</extension>
+
+</addon>
+
 <addon id="plugin.video.rdtools" version="1.0.14" name="Real-Debrid Tools" provider-name="The Papaw">
     <requires>
         <import addon="xbmc.python" version="3.0.0"/>
