@@ -31,7 +31,7 @@ icon="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icon
 fanart="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icons/freemovies_fanart.jpg"
 description="Youtube Free Movies"
 
-name="Just For Laughs Gags - the world-famous Just For Laughs Gags channel"
+name="Just For Laughs Gags - The world famous 'Just For Laughs Gags' channel"
 section="false"
 search="false"
 subid="false"
