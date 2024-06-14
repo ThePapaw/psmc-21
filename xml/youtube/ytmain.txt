@@ -73,7 +73,7 @@ channelid="iFixitYourself"
 videoid="false"
 icon="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icons/ifixit_icon.png"
 fanart="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icons/ifixit_fanart.jpg"
-description="Want to know how to replace that cracked screen on your phone? Or maybe you want to know if the newest gadget is worth the sticker shock? Then you’ve come to the right place!"
+description="Want to know how to replace that cracked screen on your phone? Or maybe you want to know if the newest gadget is worth the sticker shock? Then you’ve come to the right place"
 
 name="This Old House - America's most trusted home improvement channel"
 section="false"
