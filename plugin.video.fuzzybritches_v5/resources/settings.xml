@@ -696,7 +696,7 @@
 				</setting>
 				<setting id="dialogs.titlebar.color.display" type="string" label="40419" help="" parent="dialogs.usecolortitle">
 					<level>0</level>
-					<default>[COLOR=FF00B8E6]FF00B8E6[/COLOR]</default> <!-- Blue -->
+					<default>[COLOR=FFC7C7C7]FFC7C7C7[/COLOR]</default> <!-- Grey -->
 					<dependencies>
 						<dependency type="visible">
 							<and>
@@ -711,7 +711,7 @@
 				</setting>
 				<setting id="dialogs.titlebar.color" type="string" label="40419" help="">
 					<level>0</level>
-					<default>FF00B8E6</default> <!-- Blue -->
+					<default>FFC7C7C7</default> <!-- Grey -->
 					<dependencies>
 						<dependency type="visible">
 							<condition on="property" name="InfoBool">false</condition>
@@ -721,7 +721,7 @@
 				</setting>
 				<setting id="dialogs.button.color.display" type="string" label="40421" help="" parent="dialogs.usecolortitle">
 					<level>0</level>
-					<default>[COLOR=FF00B8E6]FF00B8E6[/COLOR]</default> <!-- Blue -->
+					<default>[COLOR=FF000000]FF000000[/COLOR]</default> <!-- Black -->
 					<dependencies>
 						<dependency type="visible">
 							<and>
@@ -736,7 +736,7 @@
 				</setting>
 				<setting id="dialogs.button.color" type="string" label="40421" help="">
 					<level>0</level>
-					<default>FF00B8E6</default> <!-- Blue -->
+					<default>FF000000</default> <!-- Black -->
 					<dependencies>
 						<dependency type="visible">
 							<condition on="property" name="InfoBool">false</condition>
@@ -2761,7 +2761,7 @@
 				</setting>
 				<setting id="sources.highlight.color.display" type="string" label="40348" help="">
 					<level>0</level>
-					<default>[COLOR=FF4DFFFF]FF4DFFFF[/COLOR]</default> <!-- blue green -->
+					<default>[COLOR=FF00CCFF]FF00CCFF[/COLOR]</default> <!-- Light Blue -->
 					<dependencies>
 						<dependency type="visible">
 							<condition operator="is" setting="sources.highlightmethod">0</condition>
@@ -2773,7 +2773,7 @@
 				</setting>
 				<setting id="sources.highlight.color" type="string" label="40348" help="">
 					<level>0</level>
-					<default>FF4DFFFF</default> <!-- Blue -->
+					<default>FF00CCFF</default> <!-- Light Blue -->
 					<dependencies>
 						<dependency type="visible">
 							<condition on="property" name="InfoBool">false</condition>
