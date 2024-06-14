@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-	FuzzyBritches Add-on (added by FuzzyBritches Dev 12/23/22)
+	FuzzyBritches Add-on
 """
 
 import re
@@ -15,7 +15,7 @@ getLS = control.lang
 getSetting = control.setting
 oauth_base_url = 'https://api.simkl.com/oauth/pin'
 simkl_icon = control.joinPath(control.artPath(), 'simkl.png')
-simklclientid = 'cecec23773dff71d940876860a316a4b74666c4c31ad719fe0af8bb3064a34ab'
+simklclientid = '6015a75c55617cceca8168610081e99a8b3fd3a863fb9d21c8352068581b48bd'
 session = requests.Session()
 retries = Retry(total=5, backoff_factor=0.1, status_forcelist=[500, 502, 503, 504])
 session.mount('https://api.simkl.com', HTTPAdapter(max_retries=retries, pool_maxsize=100))
