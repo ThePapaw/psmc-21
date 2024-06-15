@@ -75,6 +75,17 @@ icon="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icon
 fanart="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icons/howto/howto_fanart.jpg"
 description="Fix everything with these how-to Videos"
 
+name="Networks"
+section="false"
+search="false"
+subid="networks"
+playlistid="false"
+channelid="false"
+videoid="false"
+icon="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icons/howto/howto_icon.png"
+fanart="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icons/howto/howto_fanart.jpg"
+description="Popular network channels"
+
 name="Comedy Central"
 section="false"
 search="false"
