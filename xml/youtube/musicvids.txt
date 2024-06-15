@@ -42,7 +42,7 @@ icon="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icon
 fanart="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icons/music/ccr_fanart.jpg"
 description="Videos and performances from the iconic roots-rock band, plus solo John Fogerty"
 
-name="Golden Oldies"
+name="Golden Oldies (music only)"
 section="false"
 search="false"
 subid="false"
