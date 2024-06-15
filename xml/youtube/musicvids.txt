@@ -32,10 +32,10 @@ fanart="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/ic
 description="Playlist 3."
 
 name="Creedence Clearwater Revival - The Ultimate CCR Playlist"
-section="false"
+section="PLyzlPu6rJriR6U3FEfMhGmS-bsr-1Ur80"
 search="false"
 subid="false"
-playlistid="PLyzlPu6rJriR6U3FEfMhGmS-bsr-1Ur80"
+playlistid=""
 channelid="false"
 videoid="false"
 icon="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icons/music/ccr_icon.png"
