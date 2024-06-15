@@ -31,6 +31,17 @@ icon="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icon
 fanart="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icons/music/concert1_fanart.jpg"
 description="Playlist 3."
 
+name="Creedence Clearwater Revival - The Ultimate CCR Playlist"
+section="false"
+search="false"
+subid="false"
+playlistid=""
+channelid="false"
+videoid="false"
+icon="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icons/music/ccr_icon.png"
+fanart="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icons/music/ccr_fanart.jpg"
+description="Converted from Spotify To YouTube Playlist"
+
 name="Music Charts"
 section="false"
 search="false"
