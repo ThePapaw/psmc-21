@@ -75,6 +75,17 @@ icon="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icon
 fanart="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icons/music_video_fanart.jpg"
 description="Concerts, Music Videos and music"
 
+name="Kids and Educational"
+section="false"
+search="false"
+subid="kids"
+playlistid="false"
+channelid="false"
+videoid="false"
+icon="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icons/kids_icon.png"
+fanart="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icons/kids_fanart.jpg"
+description="Concerts, Music Videos and music"
+
 name="Just For Laughs Gags. The world famous Just For Laughs Gags channel"
 section="false"
 search="false"
