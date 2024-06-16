@@ -75,7 +75,7 @@ icon="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icon
 fanart="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icons/gags_fanart.jpg"
 description="Welcome to the world famous Just For Laughs Gags channel"
 
-name="Concerts and Music Videos"
+name="Concerts, Music Videos and Music"
 section="false"
 search="false"
 subid="musicvids"
