@@ -53,7 +53,7 @@ icon="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icon
 fanart="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icons/networks/networks_fanart.jpg"
 description="Popular network channels"
 
-name="How-To repair Everything. Home, Electronics, Appliances, Cooking"
+name="'How-To' Fix Everything. Home, Electronics, Appliances, Cooking"
 section="false"
 search="false"
 subid="howto"
