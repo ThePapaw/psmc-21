@@ -1,4 +1,4 @@
-name="PSMC - PSMC Media Center Add-ons, Themes, Tools and more"
+name="PSMC Media Center. Add-ons, Themes, Tools and more"
 section="false"
 search="false"
 subid="false"
@@ -9,7 +9,7 @@ icon="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icon
 fanart="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icons/psmc_fanart.jpg"
 description="All things about the PSMC Media Player, themes (skins) and addons in the PSMC Collection. How-To and Example Videos"
 
-name="PSGC - PSGC Gaming Center Themes, Tools and more"
+name="PSGC Gaming Center. Themes, Tools, Plugins and more"
 section="false"
 search="false"
 subid="false"
