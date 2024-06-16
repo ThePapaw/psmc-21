@@ -60,7 +60,7 @@ subid="false"
 playlistid="false"
 channelid="aljazeeraenglish"
 videoid="false"
-icon="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icons/news/aljazeeraenglish_icon.png"
+icon="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icons/news/aljazeeraenglish_icont.png"
 fanart="https://raw.githubusercontent.com/ThePapaw/psmc-21/master/xml/youtube/icons/news/aljazeeraenglish_fanart.jpg"
 description="Al Jazeera English. We focus on people and events that affect people's lives. We bring topics to light that often go under-reported, listening to all sides of the story and giving a 'voice to the voiceless.'"
 
