@@ -13,6 +13,7 @@ from __future__ import absolute_import, division, unicode_literals
 
 SETUP_WIZARD = 'kodion.setup_wizard'  # (bool)
 SETUP_WIZARD_RUNS = 'kodion.setup_wizard.forced_runs'  # (int)
+SETTINGS_END = '|end_settings_marker|'  # (bool)
 
 MPD_VIDEOS = 'kodion.mpd.videos'  # (bool)
 MPD_STREAM_SELECT = 'kodion.mpd.stream.select'  # (int)
@@ -26,7 +27,7 @@ SUBTITLE_SELECTION = 'kodion.subtitle.languages.num'  # (int)
 SUBTITLE_DOWNLOAD = 'kodion.subtitle.download'  # (bool)
 
 ITEMS_PER_PAGE = 'kodion.content.max_per_page'  # (int)
-HIDE_SHORT_VIDEOS = 'youtube.hide_shorts'  # (bool)
+HIDE_VIDEOS = 'youtube.view.hide_videos'  # (list[string])
 
 SAFE_SEARCH = 'kodion.safe.search'  # (int)
 AGE_GATE = 'kodion.age.gate'  # (bool)
@@ -42,7 +43,9 @@ HISTORY_PLAYLIST = 'youtube.folder.history.playlist'  # (str)
 
 CLIENT_SELECTION = 'youtube.client.selection'  # (int)
 SUPPORT_ALTERNATIVE_PLAYER = 'kodion.support.alternative_player'  # (bool)
-ALTERNATIVE_PLAYER_WEB_URLS = 'kodion.alternative_player.web.urls'  # (bool)
+DEFAULT_PLAYER_WEB_URLS = 'kodion.default_player.web_urls'  # (bool)
+ALTERNATIVE_PLAYER_WEB_URLS = 'kodion.alternative_player.web_urls'  # (bool)
+ALTERNATIVE_PLAYER_ADAPTIVE = 'kodion.alternative_player.adaptive'  # (bool)
 
 USE_ISA = 'kodion.video.quality.isa'  # (bool)
 LIVE_STREAMS = 'kodion.live_stream.selection'  # (int)
@@ -53,12 +56,16 @@ USE_REMOTE_HISTORY = 'kodion.history.remote'  # (bool)
 SEARCH_SIZE = 'kodion.search.size'  # (int)
 CACHE_SIZE = 'kodion.cache.size'  # (int)
 
+CHANNEL_NAME_ALIASES = 'youtube.view.channel_name.aliases'  # (list[string])
 DETAILED_DESCRIPTION = 'youtube.view.description.details'  # (bool)
 DETAILED_LABELS = 'youtube.view.label.details'  # (bool)
 LABEL_COLOR = 'youtube.view.label.color'  # (string)
 
 THUMB_SIZE = 'kodion.thumbnail.size'  # (int)
-SHOW_FANART = 'kodion.fanart.show'  # (bool)
+THUMB_SIZE_BEST = 2
+FANART_SELECTION = 'kodion.fanart.selection'  # (int)
+FANART_CHANNEL = 2
+FANART_THUMBNAIL = 3
 
 LANGUAGE = 'youtube.language'  # (str)
 REGION = 'youtube.region'  # (str)

@@ -8,8 +8,10 @@
 """
 
 __all__ = (
-    'BaseHTTPServer',
+    'BaseHTTPRequestHandler',
+    'TCPServer',
     'byte_string_type',
+    'cpu_count',
     'datetime_infolabel',
     'parse_qs',
     'parse_qsl',
@@ -21,6 +23,7 @@ __all__ = (
     'urlencode',
     'urljoin',
     'urlsplit',
+    'urlunsplit',
     'xbmc',
     'xbmcaddon',
     'xbmcgui',
@@ -31,7 +34,9 @@ __all__ = (
 # Kodi v19+ and Python v3.x
 try:
     from html import unescape
-    from http import server as BaseHTTPServer
+    from http.server import BaseHTTPRequestHandler
+    from socketserver import TCPServer
+    from os import cpu_count
     from urllib.parse import (
         parse_qs,
         parse_qsl,
@@ -40,6 +45,7 @@ try:
         urlencode,
         urljoin,
         urlsplit,
+        urlunsplit,
     )
 
     import xbmc
@@ -56,8 +62,10 @@ try:
     to_str = str
 # Compatibility shims for Kodi v18 and Python v2.7
 except ImportError:
-    import BaseHTTPServer
+    from BaseHTTPServer import BaseHTTPRequestHandler
     from contextlib import contextmanager as _contextmanager
+    from multiprocessing import cpu_count
+    from SocketServer import TCPServer
     from urllib import (
         quote as _quote,
         unquote as _unquote,
@@ -68,6 +76,7 @@ except ImportError:
         parse_qsl,
         urljoin,
         urlsplit,
+        urlunsplit,
     )
     from xml.sax.saxutils import unescape
 
@@ -129,12 +138,8 @@ except ImportError:
 # Kodi v20+
 if hasattr(xbmcgui.ListItem, 'setDateTime'):
     def datetime_infolabel(datetime_obj):
-        if datetime_obj:
-            return datetime_obj.replace(microsecond=0, tzinfo=None).isoformat()
-        return ''
+        return datetime_obj.replace(microsecond=0, tzinfo=None).isoformat()
 # Compatibility shims for Kodi v18 and v19
 else:
     def datetime_infolabel(datetime_obj):
-        if datetime_obj:
-            return datetime_obj.strftime('%d.%m.%Y')
-        return ''
+        return datetime_obj.strftime('%d.%m.%Y')

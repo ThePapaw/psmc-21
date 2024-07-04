@@ -13,8 +13,8 @@ from __future__ import absolute_import, division, unicode_literals
 from . import menu_items
 from .audio_item import AudioItem
 from .base_item import BaseItem
+from .command_item import CommandItem
 from .directory_item import DirectoryItem
-from .favorites_item import FavoritesItem
 from .image_item import ImageItem
 from .new_search_item import NewSearchItem
 from .next_page_item import NextPageItem
@@ -28,7 +28,6 @@ from .xbmc.xbmc_items import (
     audio_listitem,
     directory_listitem,
     image_listitem,
-    playback_item,
     uri_listitem,
     video_listitem,
     video_playback_item,
@@ -38,8 +37,8 @@ from .xbmc.xbmc_items import (
 __all__ = (
     'AudioItem',
     'BaseItem',
+    'CommandItem',
     'DirectoryItem',
-    'FavoritesItem',
     'ImageItem',
     'NewSearchItem',
     'NextPageItem',
@@ -53,7 +52,6 @@ __all__ = (
     'audio_listitem',
     'directory_listitem',
     'image_listitem',
-    'playback_item',
     'uri_listitem',
     'video_listitem',
     'video_playback_item',

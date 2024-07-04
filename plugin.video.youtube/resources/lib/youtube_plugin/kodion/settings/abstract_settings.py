@@ -22,15 +22,9 @@ class AbstractSettings(object):
         _vars[name] = value
     del _vars
 
-    VALUE_FROM_STR = {
-        'false': False,
-        'true': True,
-    }
-
     _echo = False
     _cache = {}
     _check_set = True
-    _instance = None
 
     @classmethod
     def flush(cls, xbmc_addon):
@@ -76,20 +70,24 @@ class AbstractSettings(object):
         4: 1080,
     }
 
-    def get_video_quality(self, quality_map_override=None):
-        if quality_map_override is not None:
-            video_quality_map = quality_map_override
+    def fixed_video_quality(self, value=None):
+        default = 3
+        if value is None:
+            _value = self.get_int(settings.VIDEO_QUALITY, default)
         else:
-            video_quality_map = self._VIDEO_QUALITY_MAP
-        value = self.get_int(settings.VIDEO_QUALITY, 3)
-        return video_quality_map[value]
+            _value = value
+        if _value not in self._VIDEO_QUALITY_MAP:
+            _value = default
+        if value is not None:
+            self.set_int(settings.VIDEO_QUALITY, _value)
+        return self._VIDEO_QUALITY_MAP[_value]
 
     def ask_for_video_quality(self):
         return (self.get_bool(settings.VIDEO_QUALITY_ASK, False)
                 or self.get_int(settings.MPD_STREAM_SELECT) == 4)
 
-    def show_fanart(self):
-        return self.get_bool(settings.SHOW_FANART, True)
+    def fanart_selection(self):
+        return self.get_int(settings.FANART_SELECTION, 2)
 
     def cache_size(self, value=None):
         if value is not None:
@@ -99,12 +97,21 @@ class AbstractSettings(object):
     def get_search_history_size(self):
         return self.get_int(settings.SEARCH_SIZE, 10)
 
-    def is_setup_wizard_enabled(self):
+    def setup_wizard_enabled(self, value=None):
         # Increment min_required on new release to enable oneshot on first run
-        min_required = 2
-        forced_runs = self.get_int(settings.SETUP_WIZARD_RUNS, min_required - 1)
+        min_required = 4
+
+        if value is False:
+            self.set_int(settings.SETUP_WIZARD_RUNS, min_required)
+            return self.set_bool(settings.SETUP_WIZARD, False)
+        if value is True:
+            self.set_int(settings.SETUP_WIZARD_RUNS, 0)
+            return self.set_bool(settings.SETUP_WIZARD, True)
+
+        forced_runs = self.get_int(settings.SETUP_WIZARD_RUNS, 0)
         if forced_runs < min_required:
             self.set_int(settings.SETUP_WIZARD_RUNS, min_required)
+            self.set_bool(settings.SETTINGS_END, True)
             return True
         return self.get_bool(settings.SETUP_WIZARD, False)
 
@@ -113,10 +120,27 @@ class AbstractSettings(object):
             return self.set_bool(settings.SUPPORT_ALTERNATIVE_PLAYER, value)
         return self.get_bool(settings.SUPPORT_ALTERNATIVE_PLAYER, False)
 
+    def default_player_web_urls(self, value=None):
+        if value is not None:
+            return self.set_bool(settings.DEFAULT_PLAYER_WEB_URLS, value)
+        if self.support_alternative_player():
+            return False
+        return self.get_bool(settings.DEFAULT_PLAYER_WEB_URLS, False)
+
     def alternative_player_web_urls(self, value=None):
         if value is not None:
             return self.set_bool(settings.ALTERNATIVE_PLAYER_WEB_URLS, value)
-        return self.get_bool(settings.ALTERNATIVE_PLAYER_WEB_URLS, False)
+        if (self.support_alternative_player()
+                and not self.alternative_player_adaptive()):
+            return self.get_bool(settings.ALTERNATIVE_PLAYER_WEB_URLS, False)
+        return False
+
+    def alternative_player_adaptive(self, value=None):
+        if value is not None:
+            return self.set_bool(settings.ALTERNATIVE_PLAYER_ADAPTIVE, value)
+        if self.support_alternative_player():
+            return self.get_bool(settings.ALTERNATIVE_PLAYER_ADAPTIVE, False)
+        return False
 
     def use_isa(self, value=None):
         if value is not None:
@@ -138,10 +162,28 @@ class AbstractSettings(object):
     def set_subtitle_download(self, value):
         return self.set_bool(settings.SUBTITLE_DOWNLOAD, value)
 
-    def use_thumbnail_size(self):
-        size = self.get_int(settings.THUMB_SIZE, 0)
-        sizes = {0: 'medium', 1: 'high'}
-        return sizes[size]
+    _THUMB_SIZES = {
+        0: {  # Medium (16:9)
+            'size': 320 * 180,
+            'ratio': 320 / 180,
+        },
+        1: {  # High (4:3)
+            'size': 480 * 360,
+            'ratio': 480 / 360,
+        },
+        2: {  # Best available
+            'size': 0,
+            'ratio': 0,
+        },
+    }
+
+    def get_thumbnail_size(self, value=None):
+        default = 1
+        if value is None:
+            value = self.get_int(settings.THUMB_SIZE, default)
+        if value in self._THUMB_SIZES:
+            return self._THUMB_SIZES[value]
+        return self._THUMB_SIZES[default]
 
     def safe_search(self):
         index = self.get_int(settings.SAFE_SEARCH, 0)
@@ -301,18 +343,18 @@ class AbstractSettings(object):
         return self.get_bool(settings.USE_REMOTE_HISTORY, False)
 
     # Selections based on max width and min height at common (utra-)wide aspect ratios
-    _QUALITY_SELECTIONS = {                                                 # Setting | Resolution
-        7:   {'width': 7680, 'height': 3148, 'label': '4320p{0} (8K){1}'},  #   7     |   4320p 8K
-        6:   {'width': 3840, 'height': 1080, 'label': '2160p{0} (4K){1}'},  #   6     |   2160p 4K
-        5:   {'width': 2560, 'height': 984, 'label': '1440p{0} (QHD){1}'},  #   5     |   1440p 2.5K / QHD
-        4.1: {'width': 2048, 'height': 858, 'label': '1152p{0} (2K){1}'},   #   N/A   |   1152p 2K / QWXGA
-        4:   {'width': 1920, 'height': 787, 'label': '1080p{0} (FHD){1}'},  #   4     |   1080p FHD
-        3:   {'width': 1280, 'height': 525, 'label': '720p{0} (HD){1}'},    #   3     |   720p  HD
-        2:   {'width': 854, 'height': 350, 'label': '480p{0}{1}'},          #   2     |   480p
-        1:   {'width': 640, 'height': 263, 'label': '360p{0}{1}'},          #   1     |   360p
-        0:   {'width': 426, 'height': 175, 'label': '240p{0}{1}'},          #   0     |   240p
-        -1:  {'width': 256, 'height': 105, 'label': '144p{0}{1}'},          #   N/A   |   144p
-        -2:  {'width': 0, 'height': 0, 'label': '{2}p{0}{1}'},              #   N/A   |   Custom
+    _QUALITY_SELECTIONS = {                                                                         # Setting | Resolution
+        7:   {'width': 7680, 'min_height': 3148, 'nom_height': 4320, 'label': '{0}p{1} (8K){2}'},   #   7     |   4320p 8K
+        6:   {'width': 3840, 'min_height': 1080, 'nom_height': 2160, 'label': '{0}p{1} (4K){2}'},   #   6     |   2160p 4K
+        5:   {'width': 2560, 'min_height': 984,  'nom_height': 1440, 'label': '{0}p{1} (QHD){2}'},  #   5     |   1440p 2.5K / QHD
+        4.1: {'width': 2048, 'min_height': 858,  'nom_height': 1152, 'label': '{0}p{1} (2K){2}'},   #   N/A   |   1152p 2K / QWXGA
+        4:   {'width': 1920, 'min_height': 787,  'nom_height': 1080, 'label': '{0}p{1} (FHD){2}'},  #   4     |   1080p FHD
+        3:   {'width': 1280, 'min_height': 525,  'nom_height': 720,  'label': '{0}p{1} (HD){2}'},   #   3     |   720p  HD
+        2:   {'width': 854,  'min_height': 350,  'nom_height': 480,  'label': '{0}p{1}{2}'},        #   2     |   480p
+        1:   {'width': 640,  'min_height': 263,  'nom_height': 360,  'label': '{0}p{1}{2}'},        #   1     |   360p
+        0:   {'width': 426,  'min_height': 175,  'nom_height': 240,  'label': '{0}p{1}{2}'},        #   0     |   240p
+        -1:  {'width': 256,  'min_height': 105,  'nom_height': 144,  'label': '{0}p{1}{2}'},        #   N/A   |   144p
+        -2:  {'width': 0,    'min_height': 0,    'nom_height': 0,    'label': '{0}p{1}{2}'},        #   N/A   |   Custom
     }
 
     def mpd_video_qualities(self, value=None):
@@ -347,8 +389,35 @@ class AbstractSettings(object):
             return self._STREAM_SELECT[value]
         return self._STREAM_SELECT[default]
 
-    def hide_short_videos(self):
-        return self.get_bool(settings.HIDE_SHORT_VIDEOS, False)
+    _DEFAULT_FILTER = {
+        'shorts': True,
+        'upcoming': True,
+        'upcoming_live': True,
+        'live': True,
+        'premieres': True,
+        'completed': True,
+        'vod': True,
+    }
+
+    def item_filter(self, update=None):
+        types = dict.fromkeys(self.get_string_list(settings.HIDE_VIDEOS), False)
+        types = dict(self._DEFAULT_FILTER, **types)
+        if update:
+            if 'live_folder' in update:
+                if 'live_folder' in types:
+                    types.update(update)
+                else:
+                    types.update({
+                        'upcoming': True,
+                        'upcoming_live': True,
+                        'live': True,
+                        'premieres': True,
+                        'completed': True,
+                    })
+                types['vod'] = False
+            else:
+                types.update(update)
+        return types
 
     def client_selection(self, value=None):
         if value is not None:
@@ -368,8 +437,14 @@ class AbstractSettings(object):
     def get_language(self):
         return self.get_string(settings.LANGUAGE, 'en_US').replace('_', '-')
 
+    def set_language(self, language_id):
+        return self.set_string(settings.LANGUAGE, language_id)
+
     def get_region(self):
         return self.get_string(settings.REGION, 'US')
+
+    def set_region(self, region_id):
+        return self.set_string(settings.REGION, region_id)
 
     def get_watch_later_playlist(self):
         return self.get_string(settings.WATCH_LATER_PLAYLIST, '').strip()
@@ -397,3 +472,6 @@ class AbstractSettings(object):
 
         def get_label_color(self, label_part):
             return self._COLOR_MAP.get(label_part, 'white')
+
+    def get_channel_name_aliases(self):
+        return frozenset(self.get_string_list(settings.CHANNEL_NAME_ALIASES))

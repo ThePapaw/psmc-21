@@ -14,50 +14,85 @@ from traceback import format_stack
 
 from ..abstract_plugin import AbstractPlugin
 from ...compatibility import xbmcplugin
+from ...constants import (
+    BUSY_FLAG,
+    CHECK_SETTINGS,
+    PLAYLIST_PATH,
+    PLAYLIST_POSITION,
+    REFRESH_CONTAINER,
+    RELOAD_ACCESS_MANAGER,
+    REROUTE,
+    SLEEPING,
+    VIDEO_ID,
+)
 from ...exceptions import KodionException
 from ...items import (
-    AudioItem,
-    DirectoryItem,
-    ImageItem,
-    UriItem,
-    VideoItem,
     audio_listitem,
     directory_listitem,
     image_listitem,
-    playback_item,
+    uri_listitem,
     video_listitem,
+    video_playback_item,
 )
 from ...player import XbmcPlaylist
 
 
 class XbmcPlugin(AbstractPlugin):
+    _LIST_ITEM_MAP = {
+        'AudioItem': audio_listitem,
+        'CommandItem': directory_listitem,
+        'DirectoryItem': directory_listitem,
+        'ImageItem': image_listitem,
+        'SearchItem': directory_listitem,
+        'SearchHistoryItem': directory_listitem,
+        'NewSearchItem': directory_listitem,
+        'NextPageItem': directory_listitem,
+        'VideoItem': video_listitem,
+        'WatchLaterItem': directory_listitem,
+    }
+
+    _PLAY_ITEM_MAP = {
+        'AudioItem': audio_listitem,
+        'UriItem': uri_listitem,
+        'VideoItem': video_playback_item,
+    }
+
     def __init__(self):
         super(XbmcPlugin, self).__init__()
         self.handle = None
 
-    def run(self, provider, context):
+    def run(self, provider, context, focused=None):
         self.handle = context.get_handle()
-        settings = context.get_settings()
         ui = context.get_ui()
 
-        if ui.get_property('busy').lower() == 'true':
-            ui.clear_property('busy')
+        if ui.get_property(BUSY_FLAG).lower() == 'true':
             if ui.busy_dialog_active():
-                playlist = XbmcPlaylist('auto', context)
+                xbmcplugin.endOfDirectory(
+                    self.handle,
+                    succeeded=False,
+                    updateListing=True,
+                )
+
+                playlist = XbmcPlaylist('auto', context, retry=3)
+                position, remaining = playlist.get_position()
+                items = playlist.get_items()
                 playlist.clear()
-                xbmcplugin.endOfDirectory(self.handle, succeeded=False)
 
                 context.log_warning('Multiple busy dialogs active - '
                                     'playlist cleared to avoid Kodi crash')
 
-                num_items = 0
-                items = ui.get_property('playlist')
-                position = ui.get_property('position')
-
                 if position and items:
-                    position = int(position)
-                    ui.clear_property('playlist')
+                    path = items[position - 1]['file']
+                    old_path = ui.get_property(PLAYLIST_PATH)
+                    old_position = ui.get_property(PLAYLIST_POSITION)
+                    if (old_position and position == int(old_position)
+                            and old_path and path == old_path):
+                        if remaining:
+                            position += 1
+                        else:
+                            items = None
 
+                if items:
                     max_wait_time = 30
                     while ui.busy_dialog_active():
                         max_wait_time -= 1
@@ -69,11 +104,13 @@ class XbmcPlugin(AbstractPlugin):
 
                     context.log_warning('Multiple busy dialogs active - '
                                         'reloading playlist')
-                    num_items = playlist.add_items(items, loads=True)
 
-                if position and num_items:
-                    position += 1
-                    max_wait_time = min(position, num_items)
+                    num_items = playlist.add_items(items)
+                    if position:
+                        max_wait_time = min(position, num_items)
+                    else:
+                        position = 1
+                        max_wait_time = num_items
                     while ui.busy_dialog_active() or playlist.size() < position:
                         max_wait_time -= 1
                         if max_wait_time < 0:
@@ -84,101 +121,149 @@ class XbmcPlugin(AbstractPlugin):
                     else:
                         playlist.play_playlist_item(position)
 
+                ui.clear_property(BUSY_FLAG)
+                ui.clear_property(PLAYLIST_PATH)
+                ui.clear_property(PLAYLIST_POSITION)
                 return False
 
-        if settings.is_setup_wizard_enabled():
+            ui.clear_property(BUSY_FLAG)
+            ui.clear_property(PLAYLIST_PATH)
+            ui.clear_property(PLAYLIST_POSITION)
+
+        if ui.get_property(SLEEPING):
+            context.wakeup('plugin')
+
+        if ui.get_property(REFRESH_CONTAINER):
+            focused = False
+            ui.clear_property(REFRESH_CONTAINER)
+        elif focused:
+            focused = ui.get_property(VIDEO_ID)
+
+        if ui.get_property(RELOAD_ACCESS_MANAGER):
+            context.reload_access_manager()
+            ui.clear_property(RELOAD_ACCESS_MANAGER)
+
+        if ui.get_property(CHECK_SETTINGS):
+            provider.reset_client()
+            settings = context.get_settings(refresh=True)
+            ui.clear_property(CHECK_SETTINGS)
+        else:
+            settings = context.get_settings()
+
+        if settings.setup_wizard_enabled():
             provider.run_wizard(context)
 
         try:
-            results = provider.navigate(context)
+            route = ui.get_property(REROUTE)
+            if route:
+                function_cache = context.get_function_cache()
+                result, options = function_cache.run(
+                    provider.navigate,
+                    _oneshot=True,
+                    _scope=function_cache.SCOPE_NONE,
+                    context=context.clone(route),
+                )
+                ui.clear_property(REROUTE)
+            else:
+                result, options = provider.navigate(context)
         except KodionException as exc:
+            result = options = None
             if provider.handle_exception(context, exc):
                 context.log_error('XbmcRunner.run - {exc}:\n{details}'.format(
                     exc=exc, details=''.join(format_stack())
                 ))
-                ui.on_ok("Error in ContentProvider", exc.__str__())
-            xbmcplugin.endOfDirectory(self.handle, succeeded=False)
-            return False
+                ui.on_ok('Error in ContentProvider', exc.__str__())
 
-        result, options = results
-        if isinstance(result, bool):
-            xbmcplugin.endOfDirectory(self.handle, succeeded=result)
-            return result
+        items = None
+        item_count = 0
 
-        show_fanart = settings.show_fanart()
-
-        if isinstance(result, (VideoItem, AudioItem, UriItem)):
-            return self._set_resolved_url(context, result, show_fanart)
-
-        if isinstance(result, DirectoryItem):
-            item_count = 1
-            items = [directory_listitem(context, result, show_fanart)]
-        elif isinstance(result, (list, tuple)):
-            item_count = len(result)
+        if result and isinstance(result, (list, tuple)):
+            show_fanart = settings.fanart_selection()
             items = [
-                directory_listitem(context, item, show_fanart)
-                if isinstance(item, DirectoryItem)
-                else video_listitem(context, item, show_fanart)
-                if isinstance(item, VideoItem)
-                else audio_listitem(context, item, show_fanart)
-                if isinstance(item, AudioItem)
-                else image_listitem(context, item, show_fanart)
-                if isinstance(item, ImageItem)
-                else None
+                self._LIST_ITEM_MAP[item.__class__.__name__](
+                    context,
+                    item,
+                    show_fanart=show_fanart,
+                    focused=focused,
+                )
                 for item in result
+                if item.__class__.__name__ in self._LIST_ITEM_MAP
             ]
-        else:
-            # handle exception
-            return False
+            item_count = len(items)
 
-        succeeded = xbmcplugin.addDirectoryItems(
-            self.handle, items, item_count
-        )
+            if options.get(provider.RESULT_FORCE_RESOLVE):
+                result = result[0]
+
+        if result and result.__class__.__name__ in self._PLAY_ITEM_MAP:
+            uri = result.get_uri()
+
+            if result.playable:
+                ui = context.get_ui()
+                if not context.is_plugin_path(uri) and ui.busy_dialog_active():
+                    ui.set_property(BUSY_FLAG)
+                    playlist = XbmcPlaylist('auto', context)
+                    position, _ = playlist.get_position()
+                    items = playlist.get_items()
+                    if position and items:
+                        ui.set_property(PLAYLIST_PATH,
+                                        items[position - 1]['file'])
+                        ui.set_property(PLAYLIST_POSITION, str(position))
+
+                item = self._PLAY_ITEM_MAP[result.__class__.__name__](
+                    context,
+                    result,
+                    show_fanart=context.get_settings().fanart_selection(),
+                    for_playback=True,
+                )
+                result = True
+                xbmcplugin.setResolvedUrl(self.handle,
+                                          succeeded=result,
+                                          listitem=item)
+
+            elif uri.startswith('script://'):
+                uri = uri[len('script://'):]
+                context.log_debug('Running script: |{0}|'.format(uri))
+                context.execute('RunScript({0})'.format(uri))
+                result = False
+
+            elif uri.startswith('command://'):
+                uri = uri[len('command://'):]
+                context.log_debug('Running command: |{0}|'.format(uri))
+                context.execute(uri)
+                result = True
+
+            elif context.is_plugin_path(uri):
+                context.log_debug('Redirecting to: |{0}|'.format(uri))
+                context.execute('RunPlugin({0})'.format(uri))
+                result = False
+
+            else:
+                result = False
+
+        if item_count:
+            context.apply_content()
+            succeeded = xbmcplugin.addDirectoryItems(
+                self.handle, items, item_count
+            )
+            cache_to_disc = options.get(provider.RESULT_CACHE_TO_DISC, True)
+            update_listing = options.get(provider.RESULT_UPDATE_LISTING, False)
+
+            # set alternative view mode
+            view_manager = ui.get_view_manager()
+            if view_manager.is_override_view_enabled():
+                view_mode = view_manager.get_view_mode()
+                if view_mode is not None:
+                    context.log_debug('Override view mode to "%d"' % view_mode)
+                    context.execute('Container.SetViewMode(%d)' % view_mode)
+        else:
+            succeeded = bool(result)
+            cache_to_disc = False
+            update_listing = True
+
         xbmcplugin.endOfDirectory(
             self.handle,
             succeeded=succeeded,
-            updateListing=options.get(provider.RESULT_UPDATE_LISTING, False),
-            cacheToDisc=options.get(provider.RESULT_CACHE_TO_DISC, True)
+            updateListing=update_listing,
+            cacheToDisc=cache_to_disc,
         )
-
-        # set alternative view mode
-        view_manager = ui.get_view_manager()
-        if view_manager.is_override_view_enabled():
-            view_mode = view_manager.get_view_mode()
-            if view_mode is not None:
-                context.log_debug('Override view mode to "%d"' % view_mode)
-                context.execute('Container.SetViewMode(%d)' % view_mode)
-
         return succeeded
-
-    def _set_resolved_url(self, context, base_item, show_fanart):
-        uri = base_item.get_uri()
-
-        if base_item.playable:
-            ui = context.get_ui()
-            if not context.is_plugin_path(uri) and ui.busy_dialog_active():
-                ui.set_property('busy', 'true')
-                playlist = XbmcPlaylist('auto', context)
-                position, remaining = playlist.get_position()
-                if remaining:
-                    ui.set_property('playlist', playlist.get_items(dumps=True))
-                    ui.set_property('position', str(position))
-
-            item = playback_item(context, base_item, show_fanart)
-            xbmcplugin.setResolvedUrl(self.handle,
-                                      succeeded=True,
-                                      listitem=item)
-            return True
-
-        if context.is_plugin_path(uri):
-            context.log_debug('Redirecting to: |{0}|'.format(uri))
-            context.execute('RunPlugin({0})'.format(uri))
-        else:
-            context.log_debug('Running script: |{0}|'.format(uri))
-            context.execute('RunScript({0})'.format(uri))
-
-        xbmcplugin.endOfDirectory(self.handle,
-                                  succeeded=False,
-                                  updateListing=False,
-                                  cacheToDisc=False)
-        return False

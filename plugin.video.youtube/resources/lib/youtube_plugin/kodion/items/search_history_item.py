@@ -29,14 +29,12 @@ class SearchHistoryItem(DirectoryItem):
                                                     (paths.SEARCH, 'query',),
                                                     params=params,
                                                 ),
-                                                image=image)
-
-        if fanart:
-            self.set_fanart(fanart)
+                                                image=image,
+                                                fanart=fanart)
 
         context_menu = [
             menu_items.search_remove(context, query),
             menu_items.search_rename(context, query),
             menu_items.search_clear(context),
         ]
-        self.set_context_menu(context_menu)
+        self.add_context_menu(context_menu)

@@ -23,7 +23,7 @@ class BaseItem(object):
 
     _playable = False
 
-    def __init__(self, name, uri, image='', fanart=''):
+    def __init__(self, name, uri, image=None, fanart=None):
         self._version = BaseItem.VERSION
 
         self._name = None
@@ -31,20 +31,20 @@ class BaseItem(object):
 
         self._uri = uri
 
-        self._image = None
-        self.set_image(image)
-        self._fanart = None
-        self.set_fanart(fanart)
+        self._image = ''
+        if image:
+            self.set_image(image)
+        self._fanart = ''
+        if fanart:
+            self.set_fanart(fanart)
 
+        self._bookmark_timestamp = None
         self._context_menu = None
-        self._replace_context_menu = False
         self._added_utc = None
         self._count = None
         self._date = None
         self._dateadded = None
         self._short_details = None
-
-        self._next_page = False
 
     def __str__(self):
         return ('------------------------------\n'
@@ -55,11 +55,12 @@ class BaseItem(object):
                                                         self._uri,
                                                         self._image))
 
-    def to_dict(self):
-        return {'type': self.__class__.__name__, 'data': self.__dict__}
-
-    def dumps(self):
-        return json.dumps(self.to_dict(), ensure_ascii=False, cls=_Encoder)
+    def __repr__(self):
+        return json.dumps(
+            {'type': self.__class__.__name__, 'data': self.__dict__},
+            ensure_ascii=False,
+            cls=_Encoder
+        )
 
     def get_id(self):
         """
@@ -67,16 +68,16 @@ class BaseItem(object):
         :return: unique id of the item.
         """
         md5_hash = md5()
-        md5_hash.update(self._name.encode('utf-8'))
-        md5_hash.update(self._uri.encode('utf-8'))
+        md5_hash.update(''.join((self._name, self._uri)).encode('utf-8'))
         return md5_hash.hexdigest()
 
     def set_name(self, name):
         try:
-            self._name = unescape(name)
+            name = unescape(name)
         except:
-            self._name = name
-        return self._name
+            pass
+        self._name = name
+        return name
 
     def get_name(self):
         """
@@ -97,7 +98,6 @@ class BaseItem(object):
 
     def set_image(self, image):
         if not image:
-            self._image = ''
             return
 
         if '{media}/' in image:
@@ -110,7 +110,6 @@ class BaseItem(object):
 
     def set_fanart(self, fanart):
         if not fanart:
-            self._fanart = '{0}/fanart.jpg'.format(MEDIA_PATH)
             return
 
         if '{media}/' in fanart:
@@ -118,28 +117,22 @@ class BaseItem(object):
         else:
             self._fanart = fanart
 
-    def get_fanart(self):
-        return self._fanart
+    def get_fanart(self, default=True):
+        if self._fanart or not default:
+            return self._fanart
+        return '{0}/fanart.jpg'.format(MEDIA_PATH)
 
-    def set_context_menu(self, context_menu, replace=False):
-        self._context_menu = context_menu
-        self._replace_context_menu = replace
-
-    def add_context_menu(self, context_menu, position=0, replace=None):
-        if self._context_menu is None:
-            self._context_menu = context_menu
+    def add_context_menu(self, context_menu, position='end', replace=False):
+        context_menu = (item for item in context_menu if item)
+        if replace or not self._context_menu:
+            self._context_menu = list(context_menu)
         elif position == 'end':
             self._context_menu.extend(context_menu)
         else:
             self._context_menu[position:position] = context_menu
-        if replace is not None:
-            self._replace_context_menu = replace
 
     def get_context_menu(self):
         return self._context_menu
-
-    def replace_context_menu(self):
-        return self._replace_context_menu
 
     def set_date(self, year, month, day, hour=0, minute=0, second=0):
         self._date = datetime(year, month, day, hour, minute, second)
@@ -148,14 +141,13 @@ class BaseItem(object):
         self._date = date_time
 
     def get_date(self, as_text=False, short=False, as_info_label=False):
-        if not self._date:
-            return ''
-        if short:
-            return self._date.date().strftime('%x')
-        if as_text:
-            return self._date.strftime('%x %X')
-        if as_info_label:
-            return datetime_infolabel(self._date)
+        if self._date:
+            if as_info_label:
+                return datetime_infolabel(self._date)
+            if short:
+                return self._date.date().strftime('%x')
+            if as_text:
+                return self._date.strftime('%x %X')
         return self._date
 
     def set_dateadded(self, year, month, day, hour=0, minute=0, second=0):
@@ -170,12 +162,11 @@ class BaseItem(object):
         self._dateadded = date_time
 
     def get_dateadded(self, as_text=False, as_info_label=False):
-        if not self._dateadded:
-            return ''
-        if as_text:
-            return self._dateadded.strftime('%x %X')
-        if as_info_label:
-            return datetime_infolabel(self._date)
+        if self._dateadded:
+            if as_info_label:
+                return datetime_infolabel(self._dateadded)
+            if as_text:
+                return self._dateadded.strftime('%x %X')
         return self._dateadded
 
     def set_added_utc(self, date_time):
@@ -196,13 +187,11 @@ class BaseItem(object):
     def set_count(self, count):
         self._count = int(count or 0)
 
-    @property
-    def next_page(self):
-        return self._next_page
+    def set_bookmark_timestamp(self, timestamp):
+        self._bookmark_timestamp = timestamp
 
-    @next_page.setter
-    def next_page(self, value):
-        self._next_page = bool(value)
+    def get_bookmark_timestamp(self):
+        return self._bookmark_timestamp
 
     @property
     def playable(self):
@@ -210,38 +199,38 @@ class BaseItem(object):
 
 
 class _Encoder(json.JSONEncoder):
-    def encode(self, obj):
-        if isinstance(obj, string_type):
-            return to_str(obj)
-
-        if isinstance(obj, dict):
-            return {to_str(key): self.encode(value)
-                    for key, value in obj.items()}
-
-        if isinstance(obj, (list, tuple)):
-            return [self.encode(item) for item in obj]
-
+    def encode(self, obj, nested=False):
         if isinstance(obj, (date, datetime)):
             class_name = obj.__class__.__name__
-
             if 'fromisoformat' in dir(obj):
-                return {
+                obj = {
                     '__class__': class_name,
                     '__isoformat__': obj.isoformat(),
                 }
-
-            if class_name == 'datetime':
-                if obj.tzinfo:
-                    format_string = '%Y-%m-%dT%H:%M:%S%z'
-                else:
-                    format_string = '%Y-%m-%dT%H:%M:%S'
             else:
-                format_string = '%Y-%m-%d'
+                if class_name == 'datetime':
+                    if obj.tzinfo:
+                        format_string = '%Y-%m-%dT%H:%M:%S%z'
+                    else:
+                        format_string = '%Y-%m-%dT%H:%M:%S'
+                else:
+                    format_string = '%Y-%m-%d'
+                obj = {
+                    '__class__': class_name,
+                    '__format_string__': format_string,
+                    '__value__': obj.strftime(format_string)
+                }
 
-            return {
-                '__class__': class_name,
-                '__format_string__': format_string,
-                '__value__': obj.strftime(format_string)
-            }
+        if isinstance(obj, string_type):
+            output = to_str(obj)
+        elif isinstance(obj, dict):
+            output = {to_str(key): self.encode(value, nested=True)
+                      for key, value in obj.items()}
+        elif isinstance(obj, (list, tuple)):
+            output = [self.encode(item, nested=True) for item in obj]
+        else:
+            output = obj
 
-        return self.iterencode(obj)
+        if nested:
+            return output
+        return super(_Encoder, self).encode(output)

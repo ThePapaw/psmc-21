@@ -32,7 +32,7 @@ class AccessManager(JSONStore):
 
     def __init__(self, context):
         super(AccessManager, self).__init__('access_manager.json')
-        self._settings = context.get_settings()
+        self._context = context
         access_manager_data = self._data['access_manager']
         self._user = access_manager_data.get('current_user', 0)
         self._last_origin = access_manager_data.get('last_origin', ADDON_ID)
@@ -127,10 +127,12 @@ class AccessManager(JSONStore):
     def save(self, data, update=False, process=_process_data.__func__):
         return super(AccessManager, self).save(data, update, process)
 
-    def get_current_user_details(self):
+    def get_current_user_details(self, addon_id=None):
         """
         :return: current user
         """
+        if addon_id:
+            return self.get_developers().get(addon_id, {})
         return self.get_users()[self._user]
 
     def get_current_user_id(self):
@@ -283,7 +285,7 @@ class AccessManager(JSONStore):
         """
         current_user = self.get_current_user_details()
         current_id = current_user.get('watch_later', 'WL')
-        settings_id = self._settings.get_watch_later_playlist()
+        settings_id = self._context.get_settings().get_watch_later_playlist()
 
         if settings_id and current_id != settings_id:
             current_id = self.set_watch_later_id(settings_id)
@@ -301,7 +303,7 @@ class AccessManager(JSONStore):
         if playlist_id.lower().strip() == 'wl':
             playlist_id = ''
 
-        self._settings.set_watch_later_playlist('')
+        self._context.get_settings().set_watch_later_playlist('')
         data = {
             'access_manager': {
                 'users': {
@@ -321,7 +323,7 @@ class AccessManager(JSONStore):
         """
         current_user = self.get_current_user_details()
         current_id = current_user.get('watch_history', 'HL')
-        settings_id = self._settings.get_history_playlist()
+        settings_id = self._context.get_settings().get_history_playlist()
 
         if settings_id and current_id != settings_id:
             current_id = self.set_watch_history_id(settings_id)
@@ -339,7 +341,7 @@ class AccessManager(JSONStore):
         if playlist_id.lower().strip() == 'hl':
             playlist_id = ''
 
-        self._settings.set_history_playlist('')
+        self._context.get_settings().set_history_playlist('')
         data = {
             'access_manager': {
                 'users': {
@@ -373,47 +375,40 @@ class AccessManager(JSONStore):
         """
         return self._last_origin
 
-    def get_access_token(self):
+    def get_access_token(self, addon_id=None):
         """
         Returns the access token for some API
         :return: access_token
         """
-        return self.get_current_user_details().get('access_token', '')
+        details = self.get_current_user_details(addon_id)
+        return details.get('access_token', '').split('|')
 
-    def get_refresh_token(self):
+    def get_refresh_token(self, addon_id=None):
         """
         Returns the refresh token
         :return: refresh token
         """
-        return self.get_current_user_details().get('refresh_token', '')
+        details = self.get_current_user_details(addon_id)
+        return details.get('refresh_token', '').split('|')
 
-    def has_refresh_token(self):
-        return self.get_refresh_token() != ''
-
-    def is_access_token_expired(self):
+    def is_access_token_expired(self, addon_id=None):
         """
         Returns True if the access_token is expired otherwise False.
         If no expiration date was provided and an access_token exists
         this method will always return True
         :return:
         """
-        current_user = self.get_current_user_details()
-        access_token = current_user.get('access_token', '')
-        expires = int(current_user.get('token_expires', -1))
+        details = self.get_current_user_details(addon_id)
+        access_token = details.get('access_token', '')
+        expires = int(details.get('token_expires', -1))
 
-        # with no access_token it must be expired
-        if not access_token:
+        if access_token and expires <= int(time.time()):
             return True
-
-        # in this case no expiration date was set
-        if expires == -1:
-            return False
-
-        now = int(time.time())
-        return expires <= now
+        return False
 
     def update_access_token(self,
-                            access_token,
+                            addon_id,
+                            access_token=None,
                             unix_timestamp=None,
                             refresh_token=None):
         """
@@ -423,28 +418,56 @@ class AccessManager(JSONStore):
         :param refresh_token:
         :return:
         """
-        current_user = {
-            'access_token': access_token,
+        details = {
+            'access_token': (
+                '|'.join(access_token)
+                if isinstance(access_token, (list, tuple)) else
+                access_token
+                if access_token else
+                ''
+            )
         }
 
         if unix_timestamp is not None:
-            current_user['token_expires'] = int(unix_timestamp)
+            details['token_expires'] = (
+                min(map(int, unix_timestamp))
+                if isinstance(unix_timestamp, (list, tuple)) else
+                int(unix_timestamp)
+            )
 
         if refresh_token is not None:
-            current_user['refresh_token'] = refresh_token
+            details['refresh_token'] = (
+                '|'.join(refresh_token)
+                if isinstance(refresh_token, (list, tuple)) else
+                refresh_token
+            )
 
         data = {
             'access_manager': {
+                'developers': {
+                    addon_id: details,
+                },
+            } if addon_id else {
                 'users': {
-                    self._user: current_user,
+                    self._user: details,
                 },
             },
         }
         self.save(data, update=True)
 
-    def set_last_key_hash(self, key_hash):
+    def get_last_key_hash(self, addon_id=None):
+        details = self.get_current_user_details(addon_id)
+        return details.get('last_key_hash', '')
+
+    def set_last_key_hash(self, key_hash, addon_id=None):
         data = {
             'access_manager': {
+                'developers': {
+                    addon_id: {
+                        'last_key_hash': key_hash,
+                    },
+                },
+            } if addon_id else {
                 'users': {
                     self._user: {
                         'last_key_hash': key_hash,
@@ -473,9 +496,6 @@ class AccessManager(JSONStore):
         """
         return self._data['access_manager'].get('developers', {})
 
-    def get_developer(self, addon_id):
-        return self.get_developers().get(addon_id, {})
-
     def set_developers(self, developers):
         """
         Updates the users
@@ -486,117 +506,22 @@ class AccessManager(JSONStore):
         data['access_manager']['developers'] = developers
         self.save(data)
 
-    def get_dev_access_token(self, addon_id):
-        """
-        Returns the access token for some API
-        :param addon_id: addon id
-        :return: access_token
-        """
-        return self.get_developer(addon_id).get('access_token', '')
-
-    def get_dev_refresh_token(self, addon_id):
-        """
-        Returns the refresh token
-        :return: refresh token
-        """
-        return self.get_developer(addon_id).get('refresh_token', '')
-
-    def developer_has_refresh_token(self, addon_id):
-        return self.get_dev_refresh_token(addon_id) != ''
-
-    def is_dev_access_token_expired(self, addon_id):
-        """
-        Returns True if the access_token is expired otherwise False.
-        If no expiration date was provided and an access_token exists
-        this method will always return True
-        :return:
-        """
-        developer = self.get_developer(addon_id)
-        access_token = developer.get('access_token', '')
-        expires = int(developer.get('token_expires', -1))
-
-        # with no access_token it must be expired
-        if not access_token:
-            return True
-
-        # in this case no expiration date was set
-        if expires == -1:
-            return False
-
-        now = int(time.time())
-        return expires <= now
-
-    def update_dev_access_token(self,
-                                addon_id,
-                                access_token,
-                                unix_timestamp=None,
-                                refresh_token=None):
-        """
-        Updates the old access token with the new one.
-        :param addon_id:
-        :param access_token:
-        :param unix_timestamp:
-        :param refresh_token:
-        :return:
-        """
-        developer = {
-            'access_token': access_token
-        }
-
-        if unix_timestamp is not None:
-            developer['token_expires'] = int(unix_timestamp)
-
-        if refresh_token is not None:
-            developer['refresh_token'] = refresh_token
-
-        data = {
-            'access_manager': {
-                'developers': {
-                    addon_id: developer,
-                },
-            },
-        }
-        self.save(data, update=True)
-
-    def get_dev_last_key_hash(self, addon_id):
-        return self.get_developer(addon_id).get('last_key_hash', '')
-
-    def set_dev_last_key_hash(self, addon_id, key_hash):
-        data = {
-            'access_manager': {
-                'developers': {
-                    addon_id: {
-                        'last_key_hash': key_hash,
-                    },
-                },
-            },
-        }
-        self.save(data, update=True)
-
     def dev_keys_changed(self, addon_id, api_key, client_id, client_secret):
-        last_hash = self.get_dev_last_key_hash(addon_id)
+        last_hash = self.get_last_key_hash(addon_id)
         current_hash = self.calc_key_hash(api_key, client_id, client_secret)
 
         if not last_hash and current_hash:
-            self.set_dev_last_key_hash(addon_id, current_hash)
+            self.set_last_key_hash(current_hash, addon_id)
             return False
 
         if last_hash != current_hash:
-            self.set_dev_last_key_hash(addon_id, current_hash)
+            self.set_last_key_hash(current_hash, addon_id)
             return True
 
         return False
 
     @staticmethod
-    def calc_key_hash(key, id, secret):
+    def calc_key_hash(key, id, secret, **_kwargs):
         md5_hash = md5()
-        try:
-            md5_hash.update(key.encode('utf-8'))
-            md5_hash.update(id.encode('utf-8'))
-            md5_hash.update(secret.encode('utf-8'))
-        except:
-            md5_hash.update(key)
-            md5_hash.update(id)
-            md5_hash.update(secret)
-
+        md5_hash.update(''.join((key, id, secret)).encode('utf-8'))
         return md5_hash.hexdigest()

@@ -12,81 +12,109 @@ from __future__ import absolute_import, division, unicode_literals
 
 import re
 
-from .constants import content, paths
+from .constants import CHECK_SETTINGS, REROUTE, content, paths
 from .exceptions import KodionException
 from .items import (
     DirectoryItem,
     NewSearchItem,
+    NextPageItem,
     SearchHistoryItem,
-    menu_items,
+    UriItem,
 )
 from .utils import to_unicode
 
 
 class AbstractProvider(object):
     RESULT_CACHE_TO_DISC = 'cache_to_disc'  # (bool)
-    RESULT_UPDATE_LISTING = 'update_listing'
+    RESULT_FORCE_RESOLVE = 'force_resolve'  # (bool)
+    RESULT_UPDATE_LISTING = 'update_listing'  # (bool)
 
     def __init__(self):
         # map for regular expression (path) to method (names)
         self._dict_path = {}
 
         # register some default paths
-        self.register_path(r'^/$', '_internal_root')
+        self.register_path(r''.join((
+            '^',
+            '(?:', paths.HOME, ')?/?$'
+        )), self._internal_root)
+
+        self.register_path(r''.join((
+            '^',
+            paths.ROUTE,
+            '(?P<path>/[^?]+?)(?:/*[?].+|/*)$'
+        )), self.reroute)
+
+        self.register_path(r''.join((
+            '^',
+            paths.GOTO_PAGE,
+            '(?P<page>/[0-9]+)?'
+            '(?P<path>/[^?]+?)(?:/*[?].+|/*)$'
+        )), self._internal_goto_page)
+
+        self.register_path(r''.join((
+            '^',
+            paths.COMMAND,
+            '/(?P<command>[^?]+?)(?:/*[?].+|/*)$'
+        )), self._on_command)
 
         self.register_path(r''.join((
             '^',
             paths.WATCH_LATER,
             '/(?P<command>add|clear|list|remove)/?$'
-        )), 'on_watch_later')
+        )), self.on_watch_later)
 
         self.register_path(r''.join((
             '^',
-            paths.FAVORITES,
+            paths.BOOKMARKS,
             '/(?P<command>add|clear|list|remove)/?$'
-        )), '_internal_favorite')
+        )), self.on_bookmarks)
 
         self.register_path(r''.join((
             '^',
             '(', paths.SEARCH, '|', paths.EXTERNAL_SEARCH, ')',
             '/(?P<command>input|query|list|remove|clear|rename)?/?$'
-        )), '_internal_search')
+        )), self._internal_search)
 
         self.register_path(r''.join((
             '^',
             paths.HISTORY,
             '/?$'
-        )), 'on_playback_history')
+        )), self.on_playback_history)
 
         self.register_path(r'(?P<path>.*\/)extrafanart\/([\?#].+)?$',
-                           '_internal_on_extra_fanart')
+                           self._internal_on_extra_fanart)
 
         """
-        Test each method of this class for the appended attribute '_re_match' by the
-        decorator (RegisterProviderPath).
-        The '_re_match' attributes describes the path which must match for the decorated method.
+        Test each method of this class for the attribute 'kodion_re_path' added
+        by the decorator @RegisterProviderPath.
+        The 'kodion_re_path' attribute is a regular expression that must match
+        the current path in order for the decorated method to run.
         """
+        for attribute_name in dir(self):
+            if attribute_name.startswith('__'):
+                continue
+            attribute = getattr(self, attribute_name, None)
+            if not attribute or not callable(attribute):
+                continue
+            re_path = getattr(attribute, 'kodion_re_path', None)
+            if re_path:
+                self.register_path(re_path, attribute)
 
-        for method_name in dir(self):
-            method = getattr(self, method_name, None)
-            path = method and getattr(method, 'kodion_re_path', None)
-            if path:
-                self.register_path(path, method_name)
-
-    def register_path(self, re_path, method_name):
+    def register_path(self, re_path, method):
         """
-        Registers a new method by name (string) for the given regular expression
+        Registers a new method for the given regular expression
         :param re_path: regular expression of the path
-        :param method_name: name of the method
+        :param method: method to be registered
         :return:
         """
-        self._dict_path[re_path] = method_name
+        self._dict_path[re.compile(re_path, re.UNICODE)] = method
 
     def run_wizard(self, context):
         settings = context.get_settings()
         ui = context.get_ui()
 
-        context.send_notification('check_settings', 'defer')
+        context.send_notification(CHECK_SETTINGS, 'defer')
 
         wizard_steps = self.get_wizard_steps(context)
         wizard_steps.extend(ui.get_view_manager().get_wizard_steps())
@@ -95,20 +123,19 @@ class AbstractProvider(object):
         steps = len(wizard_steps)
 
         try:
-            if (wizard_steps and ui.on_yes_no_input(
-                context.localize('setup_wizard'),
-                (context.localize('setup_wizard.prompt')
-                 % context.localize('setup_wizard.prompt.settings'))
-            )):
+            if wizard_steps and ui.on_yes_no_input(
+                    context.localize('setup_wizard'),
+                    (context.localize('setup_wizard.prompt')
+                     % context.localize('setup_wizard.prompt.settings'))
+            ):
                 for wizard_step in wizard_steps:
                     if callable(wizard_step):
                         step = wizard_step(self, context, step, steps)
                     else:
                         step += 1
         finally:
-            settings.set_bool(settings.SETUP_WIZARD, False)
-            context.send_notification('check_settings', 'process')
-
+            settings.setup_wizard_enabled(False)
+            context.send_notification(CHECK_SETTINGS, 'process')
 
     def get_wizard_steps(self, context):
         # can be overridden by the derived class
@@ -116,17 +143,25 @@ class AbstractProvider(object):
 
     def navigate(self, context):
         path = context.get_path()
+        for re_path, method in self._dict_path.items():
+            re_match = re_path.search(path)
+            if not re_match:
+                continue
 
-        for key in self._dict_path:
-            re_match = re.search(key, path, re.UNICODE)
-            if re_match is not None:
-                method_name = self._dict_path.get(key, '')
-                method = getattr(self, method_name, None)
-                if method is not None:
-                    result = method(context, re_match)
-                    if not isinstance(result, tuple):
-                        result = result, {}
-                    return result
+            options = {
+                self.RESULT_CACHE_TO_DISC: True,
+                self.RESULT_UPDATE_LISTING: False,
+            }
+            result = method(context, re_match)
+            if isinstance(result, tuple):
+                result, new_options = result
+                options.update(new_options)
+
+            refresh = context.get_param('refresh')
+            if refresh is not None:
+                options[self.RESULT_UPDATE_LISTING] = bool(refresh)
+
+            return result, options
 
         raise KodionException("Mapping for path '%s' not found" % path)
 
@@ -158,43 +193,60 @@ class AbstractProvider(object):
     def _internal_root(self, context, re_match):
         return self.on_root(context, re_match)
 
-    @staticmethod
-    def _internal_favorite(context, re_match):
+    def _internal_goto_page(self, context, re_match):
+        page = re_match.group('page')
+        if page:
+            page = int(page.lstrip('/'))
+        else:
+            result, page = context.get_ui().on_numeric_input(
+                context.localize('page.choose'), 1
+            )
+            if not result:
+                return False
+
+        path = re_match.group('path')
         params = context.get_params()
-        command = re_match.group('command')
-        if not command:
-            return False
+        if 'page_token' in params:
+            page_token = NextPageItem.create_page_token(
+                page, params.get('items_per_page', 50)
+            )
+        else:
+            page_token = ''
+        params = dict(params, page=page, page_token=page_token)
+        return self.reroute(context, path=path, params=params)
 
-        if command == 'list':
-            items = context.get_favorite_list().get_items()
-
-            for item in items:
-                context_menu = [
-                    menu_items.favorites_remove(
-                        context, item.video_id
-                    ),
-                    ('--------', 'noop'),
-                ]
-                item.add_context_menu(context_menu)
-
-            return items
-
-        video_id = params.get('video_id')
-        if not video_id:
-            return False
-
-        if command == 'add':
-            item = params.get('item')
-            if item:
-                context.get_favorite_list().add(video_id, item)
-            return True
-
-        if command == 'remove':
-            context.get_favorite_list().remove(video_id)
-            context.get_ui().refresh_container()
-            return True
-
+    def reroute(self, context, re_match=None, path=None, params=None):
+        current_path = context.get_path()
+        current_params = context.get_params()
+        if re_match:
+            path = re_match.group('path')
+        if params is None:
+            params = current_params
+        if (path and path != current_path
+                or 'refresh' in params
+                or params != current_params):
+            result = None
+            function_cache = context.get_function_cache()
+            window_return = params.pop('window_return', True)
+            try:
+                result, options = function_cache.run(
+                    self.navigate,
+                    _refresh=True,
+                    _scope=function_cache.SCOPE_NONE,
+                    context=context.clone(path, params),
+                )
+            finally:
+                if not result:
+                    return False
+                context.get_ui().set_property(REROUTE, path)
+                context.execute('ActivateWindow(Videos, {0}{1})'.format(
+                    context.create_uri(path, params),
+                    ', return' if window_return else '',
+                ))
         return False
+
+    def on_bookmarks(self, context, re_match):
+        raise NotImplementedError()
 
     def on_watch_later(self, context, re_match):
         raise NotImplementedError()
@@ -213,13 +265,13 @@ class AbstractProvider(object):
             return self.on_search(query, context, re_match)
 
         if command == 'remove':
-            query = params.get('q', '')
+            query = to_unicode(params.get('q', ''))
             search_history.remove(query)
             ui.refresh_container()
             return True
 
         if command == 'rename':
-            query = params.get('q', '')
+            query = to_unicode(params.get('q', ''))
             result, new_query = ui.on_keyboard_input(
                 context.localize('search.rename'), query
             )
@@ -236,12 +288,14 @@ class AbstractProvider(object):
         if command == 'input':
             data_cache = context.get_data_cache()
 
-            folder_path = context.get_infolabel('Container.FolderPath')
             query = None
             #  came from page 1 of search query by '..'/back
             #  user doesn't want to input on this path
-            if (folder_path.startswith('plugin://%s' % context.get_id()) and
-                    re.match('.+/(?:query|input)/.*', folder_path)):
+            if (not params.get('refresh')
+                    and context.is_plugin_path(
+                        context.get_infolabel('Container.FolderPath'),
+                        ('query', 'input')
+                    )):
                 cached = data_cache.get_item('search_query', data_cache.ONE_DAY)
                 if cached:
                     query = to_unicode(cached)
@@ -286,10 +340,14 @@ class AbstractProvider(object):
 
         return result, {self.RESULT_CACHE_TO_DISC: False}
 
+    def _on_command(self, _context, re_match):
+        command = re_match.group('command')
+        return UriItem('command://{0}'.format(command))
+
     def handle_exception(self, context, exception_to_handle):
         return True
 
-    def tear_down(self, context):
+    def tear_down(self):
         pass
 
 
