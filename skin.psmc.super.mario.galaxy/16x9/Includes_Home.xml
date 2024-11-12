@@ -235,13 +235,13 @@
 			<!-- Menu Bar -->
 			<control type="image">
 				<width>100%</width>
-				<height>205</height>
+				<height>215</height>
 				<texture>homemenu_back.png</texture>
 				<visible>String.StartsWith(Skin.String(ThemeHomeMenuBarColor),ff) | String.IsEmpty(Skin.String(ThemeHomeMenuBarColor)) | String.IsEqual(Skin.String(ThemeHomeMenuBarColor),None)</visible>
 			</control>
 			<control type="image">
 				<left>-7%</left>
-				<width>110%</width>
+				<width>100%</width>
 				<height>230</height>
 				<texture colordiffuse="$VAR[ThemeHomeMenuBarColor]">homemenu_back_white.png</texture>
 				<visible>!String.IsEmpty(Skin.String(ThemeHomeMenuBarColor)) + !String.IsEqual(Skin.String(ThemeHomeMenuBarColor),None)</visible>
@@ -282,7 +282,7 @@
 				<texture colordiffuse="$VAR[ThemeHomeMenuGlowBarColor]">separator_horizontal.png</texture>
 			</control>
 			<control type="group" id="9001">
-				<top>162</top>
+				<top>152</top>
 				<include condition="[String.IsEmpty(Skin.String(HorizontalRSSPosition)) | !String.IsEmpty(Skin.String(HorizontalRSSPosition)) + !Skin.HasSetting(Enable.VisibleSubmenu)] + system.getbool(lookandfeel.enablerssfeeds) | [!system.getbool(lookandfeel.enablerssfeeds) + !Skin.HasSetting(Enable.VisibleSubmenu)]">SubMenuAnimation</include>
 				<control type="image">
 					<width>100%</width>

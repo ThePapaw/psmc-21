@@ -171,7 +171,7 @@
 			<!-- Coin On Pipe Animation -->
 			<control type="image">
 				<left>-77</left>
-				<top>411</top>
+				<top>421</top>
 				<width>75</width>
 				<height>75</height>
 				<aspectratio scalediffuse="false">keep</aspectratio>
@@ -181,7 +181,7 @@
 			<!-- Mario Running Right 1 Animation -->
 			<control type="image">
 				<left>-300</left>
-				<top>510</top>
+				<top>520</top>
 				<width>150</width>
 				<height>150</height>
 				<aspectratio scalediffuse="false">keep</aspectratio>
@@ -192,7 +192,7 @@
 			<!-- Coin Right 1 Animation -->
 			<control type="image">
 				<left>-150</left>
-				<top>590</top>
+				<top>595</top>
 				<width>75</width>
 				<height>75</height>
 				<aspectratio scalediffuse="false">keep</aspectratio>
@@ -205,11 +205,11 @@
 				<left>-250</left>
 				<top>-140</top>
 				<width>150</width>
-				<height>150</height>
+				<height>160</height>
 				<aspectratio scalediffuse="false">keep</aspectratio>
 				<texture flipx="true" border="0">mario_running.gif</texture>
 				<animation effect="slide" start="2800" end="1840,0" time="4000" delay="5000" reversible="false" loop="false" condition="true">Conditional</animation>
-				<animation effect="slide" start="0,0" end="0,655" time="1000" delay="8900" reversible="false" loop="false" condition="true">Conditional</animation>
+				<animation effect="slide" start="0,0" end="0,650" time="1000" delay="8900" reversible="false" loop="false" condition="true">Conditional</animation>
 				<animation effect="slide" start="0,0" end="-2000,0" time="4000" delay="10000" reversible="false" loop="false" condition="true">Conditional</animation>
 			</control>
 			
@@ -217,7 +217,7 @@
 			<!-- Mario Running Right 2 Animation -->
 			<control type="image">
 				<left>-300</left>
-				<top>510</top>
+				<top>520</top>
 				<width>150</width>
 				<height>150</height>
 				<aspectratio scalediffuse="false">keep</aspectratio>
@@ -228,7 +228,7 @@
 			<!-- Mario Coin 2 Animation -->
 			<control type="image">
 				<left>-150</left>
-				<top>590</top>
+				<top>595</top>
 				<width>75</width>
 				<height>75</height>
 				<aspectratio scalediffuse="false">keep</aspectratio>
@@ -239,7 +239,7 @@
 			<!-- Mario Running Left 3 Animation -->
 			<control type="image">
 				<left>-300</left>
-				<top>515</top>
+				<top>520</top>
 				<width>150</width>
 				<height>150</height>
 				<aspectratio scalediffuse="false">keep</aspectratio>
@@ -258,10 +258,10 @@
 				<animation effect="slide" start="2800" end="-300" time="6000" delay="17500" reversible="false" loop="false" condition="true">Conditional</animation>
 			</control>
 			
-			<!-- Red Turtle Sliding Left 2 Animation -->
+			<!-- Red Turtle Sliding Right 2 Animation -->
 			<control type="image">
 				<left>-200</left>
-				<top>600</top>
+				<top>605</top>
 				<width>75</width>
 				<height>75</height>
 				<aspectratio scalediffuse="false">keep</aspectratio>
@@ -283,7 +283,7 @@
 			<!-- Mario and Turtle Running Left 3 Animation -->
 			<control type="image">
 				<left>-310</left>
-				<top>510</top>
+				<top>520</top>
 				<width>150</width>
 				<height>150</height>
 				<aspectratio scalediffuse="false">keep</aspectratio>
@@ -300,14 +300,14 @@
 				<aspectratio scalediffuse="false">keep</aspectratio>
 				<texture flipx="true" border="0">luigi running.gif</texture>
 				<animation effect="slide" start="0,0" end="250,0" time="1500" delay="25000" reversible="false" loop="false" condition="true">Conditional</animation>
-				<animation effect="slide" start="0,0" end="0,555" time="1000" delay="26500" reversible="false" loop="false" condition="true">Conditional</animation>
-				<animation effect="slide" start="0,0" end="1850,0" time="1950" delay="27500" reversible="false" loop="false" condition="true">Conditional</animation>
+				<animation effect="slide" start="0,0" end="0,560" time="1000" delay="26500" reversible="false" loop="false" condition="true">Conditional</animation>
+				<animation effect="slide" start="0,0" end="1850,0" time="2150" delay="27500" reversible="false" loop="false" condition="true">Conditional</animation>
 			</control>
 			
 			<!-- Bottom Right Pipe -->
 			<control type="image">
 				<right>-10</right>
-				<top>480</top>
+				<top>490</top>
 				<width>100</width>
 				<height>200</height>				
 				<aspectratio scalediffuse="false">keep</aspectratio>
@@ -317,7 +317,7 @@
 			<!-- Bottom Left Pipe -->
 			<control type="image">
 				<right>1830</right>
-				<top>480</top>
+				<top>490</top>
 				<width>100</width>
 				<height>200</height>				
 				<aspectratio scalediffuse="false">keep</aspectratio>
@@ -327,7 +327,7 @@
 			<!-- Top Right Wall Pipe -->
 			<control type="image">
 				<right>0</right>
-				<top>-175</top>
+				<top>-165</top>
 				<width>100</width>
 				<height>200</height>
 				<texture flipx="false" border="0">pipe_small_right.png</texture>
