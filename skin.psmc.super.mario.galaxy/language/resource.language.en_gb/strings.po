@@ -1,4 +1,4 @@
-# PSMC Media Center Language File
+# PSMC Media Center language file
 # Addon Name: PSMC's Super Mario Galaxy Skin
 # Addon id: skin.psmc.super.mario.galaxy
 # Addon Provider: The Papaw
@@ -77,7 +77,7 @@ msgid "Extras"
 msgstr ""
 
 msgctxt "#31015"
-msgid "Set path to movie genre fanart folder"
+msgid "Set path to video genre fanart folder"
 msgstr ""
 
 msgctxt "#31016"
@@ -297,7 +297,7 @@ msgid "Change location"
 msgstr ""
 
 msgctxt "#31070"
-msgid "Enable PreshowExperience integration"
+msgid "Enable CinemaVision integration"
 msgstr ""
 
 msgctxt "#31071"
@@ -461,7 +461,7 @@ msgid "Solid color backgrounds"
 msgstr ""
 
 msgctxt "#31111"
-msgid "Similar"
+msgid "Similar movies"
 msgstr ""
 
 msgctxt "#31112"
@@ -477,7 +477,7 @@ msgid "More from"
 msgstr ""
 
 msgctxt "#31115"
-msgid "Alternate sublabel"
+msgid "Similar TV shows"
 msgstr ""
 
 msgctxt "#31116"
@@ -521,7 +521,7 @@ msgid "Show Background \"Now Playing\" Visualisation"
 msgstr ""
 
 msgctxt "#31126"
-msgid "TheMovieDb Helper provides details about movies, tvshows and actors from TMDb."
+msgid "Skin Helper Service adds extra information for the skin to display that is not normally available in PSMC."
 msgstr ""
 
 msgctxt "#31127"
@@ -1265,11 +1265,11 @@ msgid "New InfoPanel"
 msgstr ""
 
 msgctxt "#31312"
-msgid "PSMC mod"
+msgid "PSMC's mod"
 msgstr ""
 
 msgctxt "#31313"
-msgid "Let It Snow! Let It Snow! Let It Snow!"
+msgid "Snow Flakes"
 msgstr ""
 
 msgctxt "#31314"
@@ -1281,7 +1281,7 @@ msgid "A required script is [B]NOT INSTALLED[/B]. Press INSTALL to download auto
 msgstr ""
 
 msgctxt "#31316"
-msgid "A skin reload is [B]REQUIRED[/B] to disable the media menu and certain buttons that were loaded during startup.[CR]Press CANCEL to abort the requested changes."
+msgid "A skin reload is [B]REQUIRED[/B]. Press CANCEL to abort the requested changes."
 msgstr ""
 
 msgctxt "#31317"
@@ -1337,7 +1337,7 @@ msgid "Taking a Screenshot"
 msgstr ""
 
 msgctxt "#31330"
-msgid "This script is not available in the default PSMC repositiory. The PSMC 21 Repo is needed to use the click to install feature, without it this script must be installed manually."
+msgid "This script is not available in the default PSMC repositiory. The PSMC Repo is needed to use the click to install feature, without it this script must be installed manually."
 msgstr ""
 
 msgctxt "#31331"
@@ -1345,7 +1345,7 @@ msgid "Installed"
 msgstr ""
 
 msgctxt "#31332"
-msgid "Not Installed or Disabled"
+msgid "Not Installed"
 msgstr ""
 
 msgctxt "#31333"
@@ -1385,7 +1385,7 @@ msgid "NOT SUPPORTED"
 msgstr ""
 
 msgctxt "#31342"
-msgid "Display the status of some add-ons supported in Super Mario Galaxy. Select an add-on to install or open its settings if already installed."
+msgid "Display the status of some add-ons supported in PSMC's Super Mario Galaxy Skin skin. Select an add-on to install or open its settings if already installed."
 msgstr ""
 
 msgctxt "#31343"
@@ -1553,7 +1553,11 @@ msgid "Resets the path to your music genre fanart folder."
 msgstr ""
 
 msgctxt "#31384"
-msgid "This activates animated snow falling over all backgrounds.[CR]This may cause perfomance issues on low powered devices."
+msgid "This activates animated falling objects over all backgrounds.[CR]This may cause perfomance issues on low powered devices."
+msgstr ""
+
+msgctxt "#71000"
+msgid "This deactivates animations on the Home screen.[CR]Select if you experience perfomance issues on low powered devices."
 msgstr ""
 
 msgctxt "#31385"
@@ -1677,7 +1681,7 @@ msgid "Set the Main Theme color used throughout the skin."
 msgstr ""
 
 msgctxt "#31415"
-msgid "Set the Highlight color used throughout the skin."
+msgid "Set the Highlight Bar color used throughout the skin."
 msgstr ""
 
 msgctxt "#31416"
@@ -1773,7 +1777,7 @@ msgid "Click to install Artist Slideshow"
 msgstr ""
 
 msgctxt "#31439"
-msgid "There are no default backgrounds in this skin, would you like to choose one now?[CR]You can still select one in Skin settings > General if you choose No."
+msgid "    [COLOR yellow]- Restart to apply remaining skin settings -[/COLOR][CR]You will need to enable the Super Mario GUI SOUNDS in the System Settings if you wish to use them. The default backgrounds are set, would you like to change them now?"
 msgstr ""
 
 msgctxt "#31440"
@@ -1821,7 +1825,7 @@ msgid "  •  Open Settings "
 msgstr ""
 
 msgctxt "#31451"
-msgid "  •  Click to Install or Enable"
+msgid "  •  Click to Install"
 msgstr ""
 
 msgctxt "#31452"
@@ -1908,36 +1912,36 @@ msgctxt "#31472"
 msgid "Library using PSMC"
 msgstr ""
 
-msgctxt "#31473"
+msgctxt "#31474"
 msgid "Helper script to edit basic metadata information of library items with support to automatically update the .nfo file of movies, TV shows, episodes and music videos."
 msgstr ""
 
-msgctxt "#31474"
+msgctxt "#31473"
 msgid "CU LRC Lyrics is used to download, sync, and display lyrics during fullscreen music playback."
 msgstr ""
 
 msgctxt "#31475"
-msgid "critics"
-msgstr ""
-
-msgctxt "#31476"
-msgid "TV - Show Next Aired provides information of previous and next to air episodes in your library. It also provides a TV Guide for the next week or two."
-msgstr ""
-
-msgctxt "#31477"
-msgid "Trakt is used to synchronize your collection and personal ratings to your Trakt.tv account."
+msgid "Skin Helper Service Widgets adds more options available as Widgets for your menu items. "
 msgstr ""
 
 msgctxt "#31478"
+msgid "TV - Show Next Aired provides information of previous and next to air episodes in your library. It also provides a TV Guide for the next week or two."
+msgstr ""
+
+msgctxt "#31476"
+msgid "Trakt is used to synchronize your collection and personal ratings to your Trakt.tv account."
+msgstr ""
+
+msgctxt "#31477"
 msgid "Artist Slideshow is used to display artist fanart for both the home screen and during fullscreen music playback."
 msgstr ""
 
 msgctxt "#31479"
-msgid "PreshowExperience can create sequences of trivia slides, show video bumpers, play trailers and more to bring the experience of a movie theater to your living room."
+msgid "PreShow Experience can create sequences of trivia slides, show video bumpers, play trailers and more to bring the experience of a movie theater to your living room."
 msgstr ""
 
 msgctxt "#31480"
-msgid "Backup and restore your PSMC database and configuration files in the event of a crash or file corruption."
+msgid "Backup and restore your Kodi database and configuration files in the event of a crash or file corruption."
 msgstr ""
 
 msgctxt "#31481"
@@ -2101,7 +2105,7 @@ msgid "Movies in set"
 msgstr ""
 
 msgctxt "#31521"
-msgid "More featuring"
+msgid "More movies featuring"
 msgstr ""
 
 msgctxt "#31522"
@@ -2197,7 +2201,7 @@ msgid "Years old"
 msgstr ""
 
 msgctxt "#31545"
-msgid "Crew"
+msgid "More tv shows featuring"
 msgstr ""
 
 msgctxt "#31546"
@@ -2209,15 +2213,19 @@ msgid "Image gallery"
 msgstr ""
 
 msgctxt "#31548"
-msgid "PSMC random movie fanart"
+msgid "PSMC's (PSMC) - Random Movie fanart"
 msgstr ""
 
 msgctxt "#31549"
-msgid "PSMC random TV show fanart"
+msgid "PSMC's (PSMC) - Random TV Show fanart"
 msgstr ""
 
 msgctxt "#31550"
-msgid "PSMC random music fanart"
+msgid "PSMC's (PSMC) - Random Music fanart"
+msgstr ""
+
+msgctxt "#31575"
+msgid "PSMC's (PSMC) - Random Music Video fanart"
 msgstr ""
 
 msgctxt "#31551"
@@ -2233,7 +2241,7 @@ msgid "Toggle to enable or disable. You can use disable instead of delete to hid
 msgstr ""
 
 msgctxt "#31554"
-msgid "Choose the menu item icon when the Aeon Nox main menu layout is set to Icons."
+msgid "Choose the menu item icon when the PSMC's Super Mario Galaxy Skin main menu layout is set to Icons."
 msgstr ""
 
 msgctxt "#31555"
@@ -2253,7 +2261,7 @@ msgid "Choose what Widget 1 will display. Widget 1 is always directly above the 
 msgstr ""
 
 msgctxt "#31559"
-msgid "Choose what Widget 2 will display. Widget 2 swaps location depending on the Aeon Nox main menu horizontal position. If it is low then it will be at the top of the screen and centered will be below the Horizontal menu. Vertical menu location is always near the bottom of the Home window."
+msgid "Choose what Widget 2 will display. Widget 2 swaps location depending on the PSMC's Super Mario Galaxy Skin main menu horizontal position. If it is low then it will be at the top of the screen and centered will be below the Horizontal menu. Vertical menu location is always near the bottom of the Home window."
 msgstr ""
 
 msgctxt "#31560"
@@ -2309,117 +2317,18 @@ msgid "Choose the preferred way to display movie set plot. All plots of movies i
 msgstr ""
 
 msgctxt "#31573"
-msgid "Seasons falling"
+msgid "Falling Seasons"
+msgstr ""
+
+msgctxt "#70000"
+msgid "Deactivate animations on Home Screen"
 msgstr ""
 
 msgctxt "#31574"
 msgid "Preferred plot for movie sets"
 msgstr ""
 
-msgctxt "#31575"
-msgid "PSMC random music video fanart"
-msgstr ""
-
-msgctxt "#31576"
-msgid "Reboot to Android"
-msgstr ""
-
-msgctxt "#31577"
-msgid "Auto hide OSD"
-msgstr ""
-
-msgctxt "#31578"
-msgid "Random music videos"
-msgstr ""
-
-msgctxt "#31579"
-msgid "Random music videos (artists)"
-msgstr ""
-
-msgctxt "#31580"
-msgid "Recent music videos"
-msgstr ""
-
-msgctxt "#31581"
-msgid "Unwatched music videos"
-msgstr ""
-
-msgctxt "#31582"
-msgid "Most played music videos"
-msgstr ""
-
-msgctxt "#31583"
-msgid "Recently added artists"
-msgstr ""
-
-msgctxt "#31584"
-msgid "Random artists"
-msgstr ""
-
-msgctxt "#31585"
-msgid "Most played songs"
-msgstr ""
-
-msgctxt "#31586"
-msgid "Prefer clean pause screen"
-msgstr ""
-
-msgctxt "#31587"
-msgid "Disable multi-search in library"
-msgstr ""
-
-msgctxt "#31588"
-msgid "Hide System Bars"
-msgstr ""
-
-msgctxt "#31589"
-msgid "Enable to hide the multi-search option in the library views and directly search using the built-in PSMC search"
-msgstr ""
-
-msgctxt "#31590"
-msgid "Hide the system bar containing the time, date, library statistcs, etc. Will also hide the RSS feed if enabled in PSMC settings"
-msgstr ""
-
-msgctxt "#31591"
-msgid "Choose a music genre path for custom icons or choose a resource pack"
-msgstr ""
-
-msgctxt "#31592"
-msgid "Favourites dialog"
-msgstr ""
-
-msgctxt "#31593"
-msgid "[B]CONFIGURE SKIN SETTINGS[/B][CR]Customize the main menu · Choose skin colors[CR]Set up widgets · Enable optional features"
-msgstr ""
-
-msgctxt "#31594"
-msgid "[B]OPEN FILE MANAGER[/B][CR]Access files from within PSMC[CR]Add source · Perform file operations"
-msgstr ""
-
-msgctxt "#31595"
-msgid "[B]OPEN THE EVENT LOG[/B][CR]Library update reports · Failed scrapes · Missing files[CR]PVR events · Add-on events"
-msgstr ""
-
-msgctxt "#31596"
-msgid "Hide budget & revenue details"
-msgstr ""
-
-msgctxt "#31597"
-msgid "audience"
-msgstr ""
-
-msgctxt "#31598"
-msgid "Panel border"
-msgstr ""
-
-msgctxt "#31599"
-msgid "Age"
-msgstr ""
-
-msgctxt "#31600"
-msgid "Place of birth"
-msgstr ""
-
+# empty strings from id 31575 to 31600
 msgctxt "#31601"
 msgid "Show discart in movie information"
 msgstr ""
@@ -2429,7 +2338,7 @@ msgid "Show plot and cast when pressing info during video playback"
 msgstr ""
 
 msgctxt "#31603"
-msgid "Aeon Nox main menu navigation style"
+msgid "PSMC's Super Mario Galaxy Skin main menu navigation style"
 msgstr ""
 
 msgctxt "#31604"
@@ -2472,30 +2381,7 @@ msgctxt "#31613"
 msgid "Choose where the Trailer button should be placed"
 msgstr ""
 
-msgctxt "#31614"
-msgid "Also known as"
-msgstr ""
-
-msgctxt "#31615"
-msgid "Set default viewtypes"
-msgstr ""
-
-msgctxt "#31616"
-msgid "Movie Version"
-msgstr ""
-
-msgctxt "#31617"
-msgid "Manual input"
-msgstr ""
-
-msgctxt "#31618"
-msgid "Local path to movie genre icon folder"
-msgstr ""
-
-msgctxt "#31619"
-msgid "Resource pack for movie genre icon"
-msgstr ""
-
+# empty strings from id 31614 to 31619
 msgctxt "#31620"
 msgid "Floor"
 msgstr ""
@@ -2504,31 +2390,7 @@ msgctxt "#31621"
 msgid "Live TV & Weather"
 msgstr ""
 
-msgctxt "#31622"
-msgid "Set movie genre icons"
-msgstr ""
-
-msgctxt "#31623"
-msgid "Hide audio & subtitle details"
-msgstr ""
-
-msgctxt "#31624"
-msgid "Setup the shutdown menu"
-msgstr ""
-
-msgctxt "#31625"
-msgid "Focused OSD Buttons"
-msgstr ""
-
-msgctxt "#31626"
-msgid "Unfocused OSD Buttons"
-msgstr ""
-
-msgctxt "#31627"
-msgid "Use this to customize the color for the item selected."
-msgstr ""
-
-# empty strings from id 31628 to 31679
+# empty strings from id 31622 to 31679
 msgctxt "#31680"
 msgid "Select a shortcut for this item."
 msgstr ""
@@ -2747,7 +2609,7 @@ msgid "Blu-Ray Case"
 msgstr ""
 
 msgctxt "#31748"
-msgid "This setting enables more widget customization. Disable to use Aeon Nox default widgets."
+msgid "This setting enables more widget customization. Disable to use PSMC's Super Mario Galaxy Skin default widgets."
 msgstr ""
 
 msgctxt "#31749"
@@ -2837,15 +2699,15 @@ msgid "Displays a larger ratings classification image with standard descriptions
 msgstr ""
 
 msgctxt "#31853"
-msgid "Choose where to display the PreshowExperience button. The Default is to hide the Trailer button. Other options are replace the Play button or place it in the + (Extras) section."
+msgid "Choose where to display the PreShow Experience button. The Default is to hide the Trailer button. Other options are replace the Play button or place it in the + (Extras) section."
 msgstr ""
 
 msgctxt "#31854"
-msgid "Use this setting to override the location of the Trailers button when using the Default setting for the PreshowExperience button."
+msgid "Use this setting to override the location of the Trailers button when using the Default setting for the PreShow Experience button."
 msgstr ""
 
 msgctxt "#31855"
-msgid "Enable this setting to replace the Default info with online info provided by the ExtendedInfo script. You can use the Super Mario Galaxy version or the Defaults provided by the script if you enable the option in the settings for ExtendedInfo."
+msgid "Enable this setting to replace the Default info with online info provided by the ExtendedInfo script. You can use the PSMC's Super Mario Galaxy Skin version or the Defaults provided by the script if you enable the option in the settings for ExtendedInfo."
 msgstr ""
 
 msgctxt "#31856"
@@ -2887,7 +2749,7 @@ msgid "Map & Alerts"
 msgstr ""
 
 msgctxt "#31911"
-msgid "Setup the Aeon Nox main menu"
+msgid "Setup the PSMC's Super Mario Galaxy Skin main menu"
 msgstr ""
 
 msgctxt "#31912"
@@ -2895,7 +2757,7 @@ msgid "Customize the main menu with widgets, backgrounds, and statistics. Add yo
 msgstr ""
 
 msgctxt "#31913"
-msgid "Aeon Nox main menu horizontal position"
+msgid "PSMC's Super Mario Galaxy Skin main menu horizontal position"
 msgstr ""
 
 msgctxt "#31914"
@@ -2907,7 +2769,7 @@ msgid "Navigation style for horizontal lists"
 msgstr ""
 
 msgctxt "#31916"
-msgid "Change the way horizontal lists scroll in Aeon Nox. Default will scroll lists in a cycle. \"Fixed\" are lists with a beginning and end."
+msgid "Change the way horizontal lists scroll in PSMC's Super Mario Galaxy Skin. Default will scroll lists in a cycle. \"Fixed\" are lists with a beginning and end."
 msgstr ""
 
 msgctxt "#31917"
@@ -2952,7 +2814,7 @@ msgid "Resets all above values to their defaults."
 msgstr ""
 
 msgctxt "#31928"
-msgid "Aeon Nox main menu layout"
+msgid "PSMC's Super Mario Galaxy Skin main menu layout"
 msgstr ""
 
 msgctxt "#31929"
@@ -2986,7 +2848,7 @@ msgid "Show the RSS feed on the bottom or top of the screen, depending on main m
 msgstr ""
 
 msgctxt "#31938"
-msgid "Enables extra information in the TV show library, like TV show status, next / latest episode, etc. Depends on TheMovieDb Helper add-on."
+msgid "Enables extra information in the TV show library, like TV show status, next / latest episode, etc. Depends on TV Show Next Aired add-on."
 msgstr ""
 
 msgctxt "#31939"
@@ -3075,7 +2937,7 @@ msgid "Open Sans"
 msgstr ""
 
 msgctxt "#31964"
-msgid "NoTo"
+msgid "Tai Lue"
 msgstr ""
 
 msgctxt "#31965"
@@ -3121,7 +2983,7 @@ msgid "Sliding set discart"
 msgstr ""
 
 msgctxt "#31980"
-msgid "Change the way the home menu scrolls in Aeon Nox. Default will scroll in a cycle. \"Fixed\" has a beginning and end."
+msgid "Change the way the home menu scrolls in PSMC's Super Mario Galaxy Skin. Default will scroll in a cycle. \"Fixed\" has a beginning and end."
 msgstr ""
 
 msgctxt "#31981"
@@ -3158,7 +3020,7 @@ msgid "Animate backgrounds"
 msgstr ""
 
 msgctxt "#31990"
-msgid "Choose where the PreshowExperience button should be placed"
+msgid "Choose where the PreShow Experience button should be placed"
 msgstr ""
 
 msgctxt "#31991"
