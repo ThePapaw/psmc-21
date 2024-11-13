@@ -679,7 +679,7 @@
     </extension>
 </addon>
 
-<addon id="skin.psmc.super.mario.galaxy" version="1.21.2" name="PSMC's Super Mario Galaxy Skin" provider-name="The Papaw">
+<addon id="skin.psmc.super.mario.galaxy" version="1.21.3" name="PSMC's Super Mario Galaxy Skin" provider-name="The Papaw">
 	<requires>
 		<import addon="xbmc.gui" version="5.17.0" />
 		<import addon="script.skinshortcuts" />

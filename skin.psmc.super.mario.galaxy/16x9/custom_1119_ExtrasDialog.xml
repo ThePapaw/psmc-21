@@ -66,6 +66,8 @@
 				<onclick>RunScript(script.cinemavision,dbtype=$INFO[ListItem.DBTYPE],dbid=$INFO[ListItem.DBID])</onclick>
 				<visible>System.HasAddon(script.cinemavision) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow) | String.IsEqual(ListItem.DBTYPE,season) | String.IsEqual(ListItem.DBTYPE,episode)] + String.IsEqual(Skin.String(CinemaVision.Button),$LOCALIZE[31014]) + String.IsEmpty(Window(Home).Property(script.cinemavision.running))</visible>
 			</control>
+			
+			
 			<control type="button" id="90205">
 				<description>Artwork beef button</description>
 				<width>510</width>
