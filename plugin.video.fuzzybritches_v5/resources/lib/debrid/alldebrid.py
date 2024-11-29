@@ -19,7 +19,7 @@ from resources.lib.modules.source_utils import supported_video_extensions
 getLS = control.lang
 getSetting = control.setting
 base_url = 'https://api.alldebrid.com/v4/'
-user_agent = 'FuzzyBritches'
+user_agent = 'FuzzyBritches_v5'
 ad_icon = control.joinPath(control.artPath(), 'alldebrid.png')
 ad_qr = control.joinPath(control.artPath(), 'alldebridqr.png')
 addonFanart = control.addonFanart()

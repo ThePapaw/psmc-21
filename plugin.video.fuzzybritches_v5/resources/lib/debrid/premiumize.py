@@ -17,7 +17,7 @@ from resources.lib.modules.source_utils import supported_video_extensions
 
 getLS = control.lang
 getSetting = control.setting
-CLIENT_ID = '149408327' # used to auth
+CLIENT_ID = '265051577' # used to auth
 BaseUrl = 'https://www.premiumize.me/api'
 folder_list_url = '%s/folder/list' % BaseUrl
 folder_rename_url = '%s/folder/rename' % BaseUrl
@@ -51,7 +51,7 @@ class Premiumize:
 		self.hosts = []
 		self.patterns = []
 		self.token = getSetting('premiumizetoken')
-		self.headers = {'User-Agent': 'FuzzyBritches for Kodi', 'Authorization': 'Bearer %s' % self.token}
+		self.headers = {'User-Agent': 'FuzzyBritches for PSMC', 'Authorization': 'Bearer %s' % self.token}
 		self.server_notifications = getSetting('premiumize.server.notifications')
 		self.store_to_cloud = getSetting('premiumize.saveToCloud') == 'true'
 		self.highlightColor = control.setting('highlight.color')
@@ -133,7 +133,7 @@ class Premiumize:
 				return False, False
 			return True, False
 		self.token = token['access_token']
-		self.headers = {'User-Agent': 'FuzzyBritches for Kodi', 'Authorization': 'Bearer %s' % self.token}
+		self.headers = {'User-Agent': 'FuzzyBritches for PSMC', 'Authorization': 'Bearer %s' % self.token}
 		control.sleep(500)
 		account_info = self.account_info()
 		control.setSetting('premiumizetoken', token['access_token'])
