@@ -1,4 +1,7 @@
 [CR]
+[B]Update - v5.21.3 - June 14th, 2024[/B]
+--[Change] changes to Premiumize authorization
+
 [B]Update - v5.0.4 - June 14th, 2024[/B]
 --[Fixed] fixed SIMKL authorization
 
