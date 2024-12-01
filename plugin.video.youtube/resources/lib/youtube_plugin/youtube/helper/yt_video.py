@@ -11,6 +11,7 @@
 from __future__ import absolute_import, division, unicode_literals
 
 from ...kodion import KodionException
+from ...kodion.constants import PATHS
 from ...kodion.items import menu_items
 from ...kodion.utils import find_video_id
 
@@ -28,7 +29,7 @@ def _process_rate_video(provider, context, re_match):
         try:
             video_id = re_match.group('video_id')
         except IndexError:
-            if context.is_plugin_path(listitem_path, 'play'):
+            if context.is_plugin_path(listitem_path, PATHS.PLAY):
                 video_id = find_video_id(listitem_path)
 
             if not video_id:
@@ -43,7 +44,7 @@ def _process_rate_video(provider, context, re_match):
         client = provider.get_client(context)
         json_data = client.get_video_rating(video_id)
         if not json_data:
-            return False
+            return False, {provider.RESULT_FALLBACK: False}
 
         items = json_data.get('items', [])
         if items:
@@ -83,7 +84,7 @@ def _process_rate_video(provider, context, re_match):
             context.get_ui().show_notification(
                 message=notify_message,
                 time_ms=2500,
-                audible=False
+                audible=False,
             )
 
     return True
@@ -115,9 +116,14 @@ def _process_more_for_video(context):
         context.execute(result)
 
 
-def process(method, provider, context, re_match):
-    if method == 'rate':
+def process(provider, context, re_match=None, command=None):
+    if re_match and command is None:
+        command = re_match.group('command')
+
+    if command == 'rate':
         return _process_rate_video(provider, context, re_match)
-    if method == 'more':
+
+    if command == 'more':
         return _process_more_for_video(context)
-    raise KodionException("Unknown method '%s'" % method)
+
+    raise KodionException('Unknown video command: %s' % command)

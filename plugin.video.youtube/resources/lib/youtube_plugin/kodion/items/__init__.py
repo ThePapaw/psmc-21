@@ -11,26 +11,22 @@
 from __future__ import absolute_import, division, unicode_literals
 
 from . import menu_items
-from .audio_item import AudioItem
 from .base_item import BaseItem
 from .command_item import CommandItem
 from .directory_item import DirectoryItem
 from .image_item import ImageItem
-from .new_search_item import NewSearchItem
+from .media_item import AudioItem, MediaItem, VideoItem
 from .next_page_item import NextPageItem
-from .search_history_item import SearchHistoryItem
-from .search_item import SearchItem
+from .search_items import NewSearchItem, SearchHistoryItem, SearchItem
 from .uri_item import UriItem
 from .utils import from_json
-from .video_item import VideoItem
 from .watch_later_item import WatchLaterItem
 from .xbmc.xbmc_items import (
-    audio_listitem,
     directory_listitem,
     image_listitem,
+    media_listitem,
+    playback_item,
     uri_listitem,
-    video_listitem,
-    video_playback_item,
 )
 
 
@@ -40,6 +36,7 @@ __all__ = (
     'CommandItem',
     'DirectoryItem',
     'ImageItem',
+    'MediaItem',
     'NewSearchItem',
     'NextPageItem',
     'SearchHistoryItem',
@@ -49,10 +46,9 @@ __all__ = (
     'WatchLaterItem',
     'from_json',
     'menu_items',
-    'audio_listitem',
     'directory_listitem',
     'image_listitem',
+    'media_listitem',
+    'playback_item',
     'uri_listitem',
-    'video_listitem',
-    'video_playback_item',
 )

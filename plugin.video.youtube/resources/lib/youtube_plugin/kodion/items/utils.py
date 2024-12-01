@@ -13,10 +13,9 @@ from __future__ import absolute_import, division, unicode_literals
 import json
 from datetime import date, datetime
 
-from .audio_item import AudioItem
 from .directory_item import DirectoryItem
 from .image_item import ImageItem
-from .video_item import VideoItem
+from .media_item import AudioItem, VideoItem
 from ..compatibility import string_type, to_str
 from ..utils.datetime_parser import strptime
 
@@ -53,12 +52,17 @@ def from_json(json_data, *args):
     :param json_data:
     :return:
     """
+    if args and args[0] and len(args[0]) == 4:
+        bookmark_id = args[0][0]
+        bookmark_timestamp = args[0][1]
+    else:
+        bookmark_id = None
+        bookmark_timestamp = None
+
     if isinstance(json_data, string_type):
         if json_data == to_str(None):
             # Channel bookmark that will be updated. Store timestamp for update
-            if args and args[0] and len(args[0]) == 4:
-                return args[0][1]
-            return None
+            return bookmark_timestamp
         json_data = json.loads(json_data, object_hook=_decoder)
 
     item_type = json_data.get('type')
@@ -70,5 +74,10 @@ def from_json(json_data, *args):
     for key, value in json_data.get('data', {}).items():
         if hasattr(item, key):
             setattr(item, key, value)
+
+    if bookmark_id:
+        item.bookmark_id = bookmark_id
+    if bookmark_timestamp:
+        item.set_bookmark_timestamp(bookmark_timestamp)
 
     return item

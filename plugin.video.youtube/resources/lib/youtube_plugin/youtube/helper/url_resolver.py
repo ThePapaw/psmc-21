@@ -43,7 +43,7 @@ class AbstractResolver(BaseRequestsClass):
 
     def __init__(self, context):
         self._context = context
-        super(AbstractResolver, self).__init__()
+        super(AbstractResolver, self).__init__(context=context)
 
     def supports_url(self, url, url_components):
         raise NotImplementedError()
@@ -168,6 +168,17 @@ class YouTubeResolver(AbstractResolver):
                     'end': end_time,
                 })
                 return url_components._replace(query=urlencode(params)).geturl()
+
+        elif path == '/watch_videos':
+            params = dict(parse_qsl(url_components.query))
+            new_components = urlsplit(response.url)
+            new_params = dict(parse_qsl(new_components.query))
+            # add/overwrite all other params from original query string
+            new_params.update(params)
+            # build new URL from these components
+            return new_components._replace(
+                query=urlencode(new_params)
+            ).geturl()
 
         # we try to extract the channel id from the html content
         # With the channel id we can construct a URL we already work with

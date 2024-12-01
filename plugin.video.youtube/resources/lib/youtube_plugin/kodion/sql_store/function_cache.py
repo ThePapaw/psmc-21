@@ -19,7 +19,6 @@ from .storage import Storage
 
 class FunctionCache(Storage):
     _table_name = 'storage_v2'
-    _table_created = False
     _table_updated = False
     _sql = {}
 
@@ -55,7 +54,6 @@ class FunctionCache(Storage):
         :param partial_func:
         :return: id for the given function
         """
-        md5_hash = md5()
         signature = (
             partial_func.func.__module__,
             partial_func.func.__name__,
@@ -80,8 +78,7 @@ class FunctionCache(Storage):
                 partial_func.args,
                 partial_func.keywords.items(),
             )
-        md5_hash.update(','.join(map(str, signature)).encode('utf-8'))
-        return md5_hash.hexdigest()
+        return md5(','.join(map(str, signature)).encode('utf-8')).hexdigest()
 
     def get_result(self, func, *args, **kwargs):
         partial_func = partial(func, *args, **kwargs)

@@ -12,11 +12,12 @@ from __future__ import absolute_import, division, unicode_literals
 
 from ..helper import v3
 from ...kodion import KodionException
-from ...kodion.constants import CHANNEL_ID, SUBSCRIPTION_ID
+from ...kodion.constants import CHANNEL_ID, CONTENT, SUBSCRIPTION_ID
 from ...kodion.items import UriItem
 
 
 def _process_list(provider, context, client):
+    context.set_content(CONTENT.LIST_CONTENT)
     json_data = client.get_subscription(
         'mine', page_token=context.get_param('page_token', '')
     )
@@ -44,7 +45,7 @@ def _process_add(_provider, context, client):
     context.get_ui().show_notification(
         context.localize('subscribed.to.channel'),
         time_ms=2500,
-        audible=False
+        audible=False,
     )
     return True
 
@@ -75,21 +76,26 @@ def _process_remove(_provider, context, client):
     context.get_ui().show_notification(
         context.localize('unsubscribed.from.channel'),
         time_ms=2500,
-        audible=False
+        audible=False,
     )
     return True
 
 
-def process(method, provider, context):
+def process(provider, context, re_match):
+    command = re_match.group('command')
+
     # we need a login
     client = provider.get_client(context)
     if not provider.is_logged_in():
         return UriItem(context.create_uri(('sign', 'in')))
 
-    if method == 'list':
+    if command == 'list':
         return _process_list(provider, context, client)
-    if method == 'add':
+
+    if command == 'add':
         return _process_add(provider, context, client)
-    if method == 'remove':
+
+    if command == 'remove':
         return _process_remove(provider, context, client)
-    raise KodionException("Unknown subscriptions method '%s'" % method)
+
+    raise KodionException('Unknown subscriptions command: %s' % command)

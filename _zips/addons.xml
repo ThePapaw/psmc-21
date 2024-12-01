@@ -285,12 +285,13 @@
 	</extension>
 </addon>
 
-<addon id="plugin.video.youtube" name="YouTube" version="7.0.8+unofficial.1" provider-name="anxdpanic, bromix, MoojMidge">
+<addon id="plugin.video.youtube" name="YouTube" version="7.1.1.1+unofficial.1" provider-name="anxdpanic, bromix, MoojMidge">
     <requires>
         <import addon="xbmc.python" version="3.0.0"/>
         <import addon="script.module.requests" version="2.27.1"/>
         <import addon="inputstream.adaptive" version="19.0.0"/>
         <import addon="script.module.inputstreamhelper" version="0.2.2" optional="true"/>
+        <import addon="script.module.pysocks" optional="true"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="resources/lib/plugin.py">
         <provides>video</provides>
@@ -317,6 +318,7 @@
         <summary lang="de_DE">Plugin für YouTube</summary>
         <summary lang="el_GR">Πρόσθετο YouTube</summary>
         <summary lang="en_GB">Plugin for YouTube</summary>
+        <summary lang="eo">Aldonaĵo por YouTube</summary>
         <summary lang="es_ES">Complemento para YouTube</summary>
         <summary lang="es_MX">Complemento para YouTube</summary>
         <summary lang="fi_FI">YouTube-lisäosa</summary>
@@ -331,6 +333,7 @@
         <summary lang="nl_NL">Plugin voor YouTube</summary>
         <summary lang="pl_PL">Wtyczka YouTube</summary>
         <summary lang="pt_BR">Plugin para YouTube</summary>
+        <summary lang="ro_RO">Modul pentru YouTube</summary>
         <summary lang="ru_RU">Видеодополнение YouTube</summary>
         <summary lang="sk_SK">Doplnok pre YouTube</summary>
         <summary lang="sv_SE">Plugin för YouTube</summary>
@@ -359,6 +362,7 @@
         <description lang="nl_NL">YouTube is een van de grootste videodelenwebsite in de hele wereld.</description>
         <description lang="pl_PL">YouTube jest jednym z największych na świecie serwisów udostępniania wideo.</description>
         <description lang="pt_BR">O YouTube é um dos maiores sites de compartilhamento de vídeos do mundo.</description>
+        <description lang="ro_RO">YouTube este unul dintre cele mai mari saituri de distribuire de videoclipuri din lume.</description>
         <description lang="ru_RU">YouTube - популярнейший видеохостинговый сайт, предоставляющий пользователям услуги хранения, доставки и показа видео.</description>
         <description lang="sk_SK">YouTube je jednou z najväčších stránok na zdieľanie videa na svete.</description>
         <description lang="sv_SE">YouTube är en av de största videodelningssajterna i världen.</description>
@@ -383,6 +387,7 @@
         <disclaimer lang="nl_NL">Deze plug-in wordt niet door Google ondersteund</disclaimer>
         <disclaimer lang="pl_PL">Ta wtyczka nie jest zatwierdzona przez Google</disclaimer>
         <disclaimer lang="pt_BR">Este plugin não é recomendado pelo Google</disclaimer>
+        <disclaimer lang="ro_RO">Acest modul nu este susținut de Google</disclaimer>
         <disclaimer lang="ru_RU">Плагин не поддерживается Google</disclaimer>
         <disclaimer lang="sk_SK">Tento doplnok nie je schválený spoločnosťou Google</disclaimer>
         <disclaimer lang="sv_SE">Detta plugin är inte godkänt av Google</disclaimer>
@@ -391,37 +396,35 @@
         <disclaimer lang="vi_VN">Plugin này không được xác nhận bởi Google</disclaimer>
         <disclaimer lang="zh_CN">此插件未被谷歌认可</disclaimer>
         <disclaimer lang="zh_TW">此附加元件未由Google支持</disclaimer>
-    <news>## v7.0.8
+    <news>## v7.1.1.1
 ### Fixed
-- Update selection and sorting of streams to fix missing live streams
-- Fix using cached settings for XbmcContext.use_inputstream_adaptive
-- Wakeup http server on playback start if required
-- Improve handling of context menu play items
-- Use consistent return values for function cache to avoid caching errors
-- Attempt to fix PlaylistPlayer race condition error
-- Fix not reloading access manager when performing user actions
-- Fix page jump when page_token is not used
-- Ensure container is always refreshed when required and available
-- Fix incorrect comparison after cd45122
-- Fix various caching issues
-- Fix including un-redacted IP address in debug logs
-- Additional fixes for redacting IP addresses in debug logs
-- Various minor fixes for external player use
-- Fix trying to access playlists for account that has no Youtube channel
-- Poll for http server restart when required for playback
-- Fix unsubscribe from My Subscriptions
-- Fix Python2 UnicodeDecodeError when removing/renaming searches
-- Fix not catching socket.error in Python2 when force shutting down socket
-- Fix deleting window property with multiple threads causing hang on exit
-
-### Changed
-- Update icons
-- Only enable recommendations when logged in
-- Improve sync with internal Kodi watched state
-- Align default value for watched percentage with Kodi default
-- Limit need to check window property for sleep and wakeup
-- Only show Next Page listitem linking to first page when in the GUI
-- Use youtu.be u</news></extension>
+- Fix http server not listening on any interface if listen IP is 0.0.0.0
+- Standardise return type of LoginClient.refresh_token
+- Fix curl headers not being used when set on path of setResolvedUrl listitem
+- Fix HEAD requests to MPD manifests
+- Fix various Python2 incompatible changes
+- Properly distinguish between VP9 and VP9.2 with HDR info
+- Fix http server not running when script shows client IP
+- Fix not listing full stream details in selection dialog
+- Fix translated subtitles not being available for some videos
+- Fix labelling for auto dubbed audio tracks
+- Fix regressions in handling VP9.2 video streams
+- Fix error handling items without headers
+- Fix incorrectly determining Kodi release name
+- Fix search window history navigation when using direct links
+- Fix Python2/Android incompatibilty when checking CPU count
+- Fix method used to determine address of local network interface
+- Fix potential infinite loop with corrupted access_manager.json
+- Various improvements to multiple busy dialog crash workarounds
+- Fallback to search listing when search query is empty
+- Fix debug log string formatting error
+- Fix duplicated separators in context menu
+- Fix Kodi builtin using wrong playlist type
+- Ensure http server is started prior to creating MPD for playback
+- Fix shuffle play of playlists not working
+- Fix plugin category label not being applied if content type not set
+- Fix Kodi navigating to root path of Video window if plugin listing fails
+- Fix l</news></extension>
 </addon>
 
 <addon id="repository.psmc-21" name="PSMC-21 Repository" version="21.0.2" provider-name="The Papaw">

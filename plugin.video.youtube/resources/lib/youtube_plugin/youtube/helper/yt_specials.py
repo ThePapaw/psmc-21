@@ -12,18 +12,17 @@ from __future__ import absolute_import, division, unicode_literals
 
 from . import UrlResolver, UrlToItemConverter, tv, utils, v3
 from ...kodion import KodionException
-from ...kodion.constants import content
+from ...kodion.constants import CONTENT
 from ...kodion.items import DirectoryItem, UriItem
 from ...kodion.utils import strip_html_from_text
-from ...kodion.utils.datetime_parser import yt_datetime_offset
 
 
 def _process_related_videos(provider, context, client):
-    context.set_content(content.VIDEO_CONTENT)
+    context.set_content(CONTENT.VIDEO_CONTENT)
     function_cache = context.get_function_cache()
 
     params = context.get_params()
-    video_id = params.get('video_id', '')
+    video_id = params.get('video_id')
     refresh = params.get('refresh')
     if video_id:
         json_data = function_cache.run(
@@ -49,7 +48,7 @@ def _process_related_videos(provider, context, client):
 
 
 def _process_parent_comments(provider, context, client):
-    context.set_content(content.LIST_CONTENT)
+    context.set_content(CONTENT.LIST_CONTENT)
 
     video_id = context.get_param('video_id', '')
     if not video_id:
@@ -65,7 +64,7 @@ def _process_parent_comments(provider, context, client):
 
 
 def _process_child_comments(provider, context, client):
-    context.set_content(content.LIST_CONTENT)
+    context.set_content(CONTENT.LIST_CONTENT)
 
     parent_id = context.get_param('parent_id', '')
     if not parent_id:
@@ -81,7 +80,7 @@ def _process_child_comments(provider, context, client):
 
 
 def _process_recommendations(provider, context, client):
-    context.set_content(content.VIDEO_CONTENT)
+    context.set_content(CONTENT.VIDEO_CONTENT)
     params = context.get_params()
     function_cache = context.get_function_cache()
 
@@ -100,7 +99,7 @@ def _process_recommendations(provider, context, client):
 
 
 def _process_trending(provider, context, client):
-    context.set_content(content.VIDEO_CONTENT)
+    context.set_content(CONTENT.VIDEO_CONTENT)
 
     json_data = client.get_trending_videos(
         page_token=context.get_param('page_token', '')
@@ -112,7 +111,7 @@ def _process_trending(provider, context, client):
 
 
 def _process_browse_channels(provider, context, client):
-    context.set_content(content.LIST_CONTENT)
+    context.set_content(CONTENT.LIST_CONTENT)
 
     guide_id = context.get_param('guide_id', '')
     if guide_id:
@@ -129,7 +128,7 @@ def _process_browse_channels(provider, context, client):
 
 
 def _process_disliked_videos(provider, context, client):
-    context.set_content(content.VIDEO_CONTENT)
+    context.set_content(CONTENT.VIDEO_CONTENT)
 
     json_data = client.get_disliked_videos(
         page_token=context.get_param('page_token', '')
@@ -141,7 +140,7 @@ def _process_disliked_videos(provider, context, client):
 
 
 def _process_live_events(provider, context, client, event_type='live'):
-    context.set_content(content.VIDEO_CONTENT)
+    context.set_content(CONTENT.VIDEO_CONTENT)
 
     # TODO: cache result
     json_data = client.get_live_events(
@@ -149,9 +148,7 @@ def _process_live_events(provider, context, client, event_type='live'):
         order='date' if event_type == 'upcoming' else 'viewCount',
         page_token=context.get_param('page_token', ''),
         location=context.get_param('location', False),
-        after=(yt_datetime_offset(days=3)
-               if event_type == 'completed' else
-               None),
+        after={'days': 3} if event_type == 'completed' else None,
     )
 
     if not json_data:
@@ -165,7 +162,7 @@ def _process_description_links(provider, context):
     addon_id = params.get('addon_id', '')
 
     def _extract_urls(video_id):
-        context.set_content(content.VIDEO_CONTENT)
+        context.set_content(CONTENT.VIDEO_CONTENT)
         url_resolver = UrlResolver(context)
 
         with context.get_ui().create_progress_dialog(
@@ -224,7 +221,9 @@ def _process_description_links(provider, context):
         channel_id_dict = {}
         for channel_id in channel_ids:
             channel_item = DirectoryItem(
-                '', context.create_uri(('channel', channel_id,), item_params)
+                name='',
+                uri=context.create_uri(('channel', channel_id,), item_params),
+                channel_id=channel_id,
             )
             channel_id_dict[channel_id] = channel_item
 
@@ -249,7 +248,9 @@ def _process_description_links(provider, context):
         playlist_id_dict = {}
         for playlist_id in playlist_ids:
             playlist_item = DirectoryItem(
-                '', context.create_uri(('playlist', playlist_id,), item_params)
+                name='',
+                uri=context.create_uri(('playlist', playlist_id,), item_params),
+                playlist_id=playlist_id,
             )
             playlist_id_dict[playlist_id] = playlist_item
 
@@ -282,7 +283,7 @@ def _process_description_links(provider, context):
 
 
 def _process_saved_playlists_tv(provider, context, client):
-    context.set_content(content.LIST_CONTENT)
+    context.set_content(CONTENT.LIST_CONTENT)
 
     json_data = client.get_saved_playlists(
         page_token=context.get_param('next_page_token', 0),
@@ -294,66 +295,91 @@ def _process_saved_playlists_tv(provider, context, client):
     return tv.saved_playlists_to_items(provider, context, json_data)
 
 
-def _process_new_uploaded_videos_tv(provider, context, client, filtered=False):
-    context.set_content(content.VIDEO_CONTENT)
+def _process_my_subscriptions(provider, context, client, filtered=False):
+    context.set_content(CONTENT.VIDEO_CONTENT)
 
-    function_cache = context.get_function_cache()
+    with context.get_ui().create_progress_dialog(
+            heading=context.localize('my_subscriptions.loading'),
+            message=context.localize('please_wait'),
+            background=True,
+            message_template=(
+                    '{wait} {{current}}/{{total}}'.format(
+                        wait=context.localize('please_wait'),
+                    )
+            ),
+    ) as progress_dialog:
+        params = context.get_params()
+        json_data = client.get_my_subscriptions(
+            page_token=params.get('page', 1),
+            logged_in=provider.is_logged_in(),
+            do_filter=filtered,
+            refresh=params.get('refresh'),
+            progress_dialog=progress_dialog,
+        )
 
-    params = context.get_params()
-    refresh = params.get('refresh')
-
-    json_data = client.get_my_subscriptions(
-        page_token=params.get('page', 1),
-        logged_in=provider.is_logged_in(),
-        do_filter=filtered,
-        refresh=refresh,
-    )
-
-    if not json_data:
-        return False
-    return v3.response_to_items(provider, context, json_data)
+        if not json_data:
+            return False
+        return v3.response_to_items(
+            provider,
+            context,
+            json_data,
+            progress_dialog=progress_dialog,
+        )
 
 
-def process(category, provider, context):
+def process(provider, context, re_match):
+    category = re_match.group('category')
+
     # required for provider.is_logged_in()
     client = provider.get_client(context)
 
     if category == 'related_videos':
         return _process_related_videos(provider, context, client)
+
     if category == 'popular_right_now':
         return _process_trending(provider, context, client)
+
     if category == 'recommendations':
         return _process_recommendations(provider, context, client)
+
     if category == 'browse_channels':
         return _process_browse_channels(provider, context, client)
-    if category == 'new_uploaded_videos_tv':
-        return _process_new_uploaded_videos_tv(provider, context, client)
-    if category == 'new_uploaded_videos_tv_filtered':
-        return _process_new_uploaded_videos_tv(
-            provider, context, client, filtered=True
+
+    if category.startswith(('my_subscriptions', 'new_uploaded_videos_tv')):
+        return _process_my_subscriptions(
+            provider, context, client, filtered=category.endswith('_filtered'),
         )
+
     if category == 'disliked_videos':
         if provider.is_logged_in():
             return _process_disliked_videos(provider, context, client)
         return UriItem(context.create_uri(('sign', 'in')))
+
     if category == 'live':
         return _process_live_events(
             provider, context, client, event_type='live'
         )
+
     if category == 'upcoming_live':
         return _process_live_events(
             provider, context, client, event_type='upcoming'
         )
+
     if category == 'completed_live':
         return _process_live_events(
             provider, context, client, event_type='completed'
         )
+
     if category == 'description_links':
         return _process_description_links(provider, context)
+
     if category == 'parent_comments':
         return _process_parent_comments(provider, context, client)
+
     if category == 'child_comments':
         return _process_child_comments(provider, context, client)
+
     if category == 'saved_playlists':
         return _process_saved_playlists_tv(provider, context, client)
-    raise KodionException("YouTube special category '%s' not found" % category)
+
+    raise KodionException('YouTube special category "%s" not found' % category)

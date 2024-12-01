@@ -15,7 +15,6 @@ from .storage import Storage
 
 class DataCache(Storage):
     _table_name = 'storage_v2'
-    _table_created = False
     _table_updated = False
     _sql = {}
 
@@ -63,11 +62,11 @@ class DataCache(Storage):
     def set_items(self, items):
         self._set_many(items)
 
-    def remove(self, content_id):
+    def del_item(self, content_id):
         self._remove(content_id)
 
-    def update(self, content_id, item, timestamp=None):
-        self._set(content_id, item, timestamp)
+    def update_item(self, content_id, item, timestamp=None):
+        self._update(content_id, item, timestamp)
 
     def _optimize_item_count(self, limit=-1, defer=False):
         return False

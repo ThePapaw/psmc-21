@@ -17,7 +17,7 @@ import time
 from threading import Lock
 from traceback import format_stack
 
-from ..logger import log_error
+from ..logger import Logger
 from ..utils.datetime_parser import fromtimestamp, since_epoch
 from ..utils.methods import make_dirs
 
@@ -31,7 +31,6 @@ class Storage(object):
 
     _base = None
     _table_name = 'storage_v2'
-    _table_created = False
     _table_updated = False
 
     _sql = {
@@ -150,6 +149,12 @@ class Storage(object):
             ' (key, timestamp, value, size)'
             ' VALUES {{0}};'
         ),
+        'update': (
+            'UPDATE'
+            ' {table}'
+            ' SET timestamp = ?, value = ?, size = ?'
+            ' WHERE key = ?;'
+        ),
     }
 
     def __init__(self,
@@ -169,7 +174,6 @@ class Storage(object):
             self._base = self
             self._sql = {}
             self._table_name = migrate
-            self._table_created = True
             self._table_updated = True
         else:
             self._base = self.__class__
@@ -181,6 +185,20 @@ class Storage(object):
                 for name, sql in Storage._sql.items()
             }
             self._base._sql.update(statements)
+        elif self._sql and '_partial' in self._sql:
+            statements = {
+                name: sql.format(table=self._table_name,
+                                 order_col='timestamp')
+                for name, sql in Storage._sql.items()
+            }
+            partial_statements = {
+                name: sql.format(table=self._table_name,
+                                 order_col='timestamp')
+                for name, sql in self._base._sql.items()
+                if not name.startswith('_')
+            }
+            statements.update(partial_statements)
+            self._base._sql = statements
 
     def set_max_item_count(self, max_item_count):
         self._max_item_count = max_item_count
@@ -199,25 +217,33 @@ class Storage(object):
         self._lock.release()
 
     def _open(self):
+        statements = []
         if not os.path.exists(self._filepath):
             make_dirs(os.path.dirname(self._filepath))
-            self._base._table_created = False
+            statements.append(
+                self._sql['create_table']
+            )
             self._base._table_updated = True
 
         for _ in range(3):
             try:
                 db = sqlite3.connect(self._filepath,
                                      check_same_thread=False,
-                                     timeout=1,
                                      isolation_level=None)
                 break
             except (sqlite3.Error, sqlite3.OperationalError) as exc:
-                log_error('SQLStorage._open - {exc}:\n{details}'.format(
-                    exc=exc, details=''.join(format_stack())
-                ))
-                if isinstance(exc, sqlite3.Error):
+                msg = ('SQLStorage._open - Error'
+                       '\n\tException: {exc!r}'
+                       '\n\tStack trace (most recent call last):\n{stack}'
+                       .format(exc=exc,
+                               stack=''.join(format_stack())))
+                if isinstance(exc, sqlite3.OperationalError):
+                    Logger.log_warning(msg)
+                    time.sleep(0.1)
+                else:
+                    Logger.log_error(msg)
                     return False
-                time.sleep(0.1)
+
         else:
             return False
 
@@ -228,20 +254,14 @@ class Storage(object):
             'PRAGMA busy_timeout = 1000;',
             'PRAGMA read_uncommitted = TRUE;',
             'PRAGMA secure_delete = FALSE;',
-            'PRAGMA synchronous = NORMAL;',
-            'PRAGMA locking_mode = NORMAL;'
+            'PRAGMA synchronous = OFF;',
+            'PRAGMA locking_mode = EXCLUSIVE;'
             'PRAGMA temp_store = MEMORY;',
             'PRAGMA mmap_size = 4096000;',
             'PRAGMA page_size = 4096;',
             'PRAGMA cache_size = 1000;',
             'PRAGMA journal_mode = WAL;',
         ]
-        statements = []
-
-        if not self._table_created:
-            statements.append(
-                self._sql['create_table']
-            )
 
         if not self._table_updated:
             for result in self._execute(cursor, self._sql['has_old_table']):
@@ -259,7 +279,6 @@ class Storage(object):
             sql_script[transaction_begin:transaction_begin] = statements
         self._execute(cursor, '\n'.join(sql_script), script=True)
 
-        self._base._table_created = True
         self._base._table_updated = True
         self._db = db
         self._cursor = cursor
@@ -292,12 +311,17 @@ class Storage(object):
                     return cursor.executescript(query)
                 return cursor.execute(query, values)
             except (sqlite3.Error, sqlite3.OperationalError) as exc:
-                log_error('SQLStorage._execute - {exc}:\n{details}'.format(
-                    exc=exc, details=''.join(format_stack())
-                ))
-                if isinstance(exc, sqlite3.Error):
+                msg = ('SQLStorage._execute - Error'
+                       '\n\tException: {exc!r}'
+                       '\n\tStack trace (most recent call last):\n{stack}'
+                       .format(exc=exc,
+                               stack=''.join(format_stack())))
+                if isinstance(exc, sqlite3.OperationalError):
+                    Logger.log_warning(msg)
+                    time.sleep(0.1)
+                else:
+                    Logger.log_error(msg)
                     return []
-                time.sleep(0.1)
         return []
 
     def _optimize_file_size(self, defer=False):
@@ -375,6 +399,11 @@ class Storage(object):
             self._execute(cursor, query, many=(not flatten), values=values)
         self._optimize_file_size()
 
+    def _update(self, item_id, item, timestamp=None):
+        values = self._encode(item_id, item, timestamp, for_update=True)
+        with self as (db, cursor), db:
+            self._execute(cursor, self._sql['update'], values=values)
+
     def clear(self, defer=False):
         query = self._sql['clear']
         if defer:
@@ -402,7 +431,7 @@ class Storage(object):
         return decoded_obj
 
     @staticmethod
-    def _encode(key, obj, timestamp=None):
+    def _encode(key, obj, timestamp=None, for_update=False):
         timestamp = timestamp or since_epoch()
         blob = sqlite3.Binary(pickle.dumps(
             obj, protocol=pickle.HIGHEST_PROTOCOL
@@ -410,7 +439,11 @@ class Storage(object):
         size = getattr(blob, 'nbytes', None)
         if not size:
             size = int(memoryview(blob).itemsize) * len(blob)
-        return str(key), timestamp, blob, size
+        if key:
+            if for_update:
+                return timestamp, blob, size, str(key)
+            return str(key), timestamp, blob, size
+        return timestamp, blob, size
 
     def _get(self, item_id, process=None, seconds=None, as_dict=False):
         with self as (db, cursor), db:
