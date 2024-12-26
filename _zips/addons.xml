@@ -285,7 +285,7 @@
 	</extension>
 </addon>
 
-<addon id="plugin.video.youtube" name="YouTube" version="7.1.1.6+unofficial.1" provider-name="anxdpanic, bromix, MoojMidge">
+<addon id="plugin.video.youtube" name="YouTube" version="7.1.1.6+unofficial.1" provider-name="anxdpanic, bromix, MoojMidge, The Papaw">
     <requires>
         <import addon="xbmc.python" version="3.0.0"/>
         <import addon="script.module.requests" version="2.27.1"/>
