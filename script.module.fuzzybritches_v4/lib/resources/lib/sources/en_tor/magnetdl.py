@@ -12,7 +12,7 @@
 # Addon Provider: The Papaw
 
 '''
-Included with the Fuzzy Britches Add-on
+Included with the Fuzzy Britches v4 Add-on
 '''
 
 import re

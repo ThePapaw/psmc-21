@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.module.fuzzybritches_v4" name="Fuzzy Britches v4 Module" version="21.0.7" provider-name="The Papaw">
+<addon id="script.module.fuzzybritches_v4" name="Fuzzy Britches v4 Module" version="21.0.8" provider-name="The Papaw">
     <requires>
         <import addon="xbmc.python" version="3.0.0" />
         <import addon="script.module.beautifulsoup4" />

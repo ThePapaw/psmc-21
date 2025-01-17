@@ -12,7 +12,7 @@
 # Addon Provider: The Papaw
 
 '''
-Included with the Fuzzy Britches Add-on
+Included with the Fuzzy Britches v4 Add-on
 '''
 
 import re
@@ -35,7 +35,7 @@ class source:
         self.priority = 0
         self.language = ['en']
         self.domain = ['yourbittorrent2.com']
-        self.base_link = 'https://yourbittorrent2.com'
+        self.base_link = 'https://yourbittorrent.com'
         self.search_link = '/?v=&c=&q=%s'
 
 

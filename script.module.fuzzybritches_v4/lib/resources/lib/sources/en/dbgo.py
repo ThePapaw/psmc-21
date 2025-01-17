@@ -7,12 +7,12 @@
 # present and future dev's of this & files like this. -Share the Knowledge!   #
 ###############################################################################
 
-# Addon Name: Fuzzy Britches v4 Module
-# Addon id: script.module.fuzzybritches_v4
+# Addon Name: Fuzzy Britches v4
+# Addon id: plugin.video.fuzzybritches_v4
 # Addon Provider: The Papaw
 
 '''
-Included with the Fuzzy Britches Add-on
+Included with the Fuzzy Britches v4 Add-on
 '''
 
 import re, base64

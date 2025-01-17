@@ -7,12 +7,12 @@
 # present and future dev's of this & files like this. -Share the Knowledge!   #
 ###############################################################################
 
-# Addon Name: Fuzzy Britches v4 Module
-# Addon id: script.module.fuzzybritches_v4
+# Addon Name: Fuzzy Britches v4
+# Addon id: plugin.video.fuzzybritches_v4
 # Addon Provider: The Papaw
 
 '''
-Included with the Fuzzy Britches Add-on
+Included with the Fuzzy Britches v4 Add-on
 '''
 
 import re
@@ -33,9 +33,9 @@ class source:
         self.priority = 1
         self.language = ['en']
         self.domains = ['rlsbb.com', 'rlsbb.ru', 'rlsbb.to', 'proxybb.com' , 'ReleaseBB.net']
-        self.base_link = 'https://rlsbb.ru/'
-        self.old_base_link = 'http://old3.https://rlsbb.ru/'
-        self.search_base_link = 'http://search.rlsbb.ru/'
+        self.base_link = 'https://rlsbb.in/'
+        self.old_base_link = 'http://old3.https://rlsbb.in/'
+        self.search_base_link = 'http://search.rlsbb.in/'
         self.search_cookie = 'serach_mode=rlsbb'
         self.search_link = 'lib/search526049.php?phrase=%s&pindex=1&content=true'
 
