@@ -168,13 +168,11 @@ def scrape_sources(html, result_blacklist=None, scheme='http', patterns=None, ge
             match = r.groupdict()
             stream_url = match['url']
             if not (stream_url.startswith('http') or stream_url.startswith('/')):
-                try:
+                if re.search("^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$", stream_url):
                     stream_url = b64decode(stream_url)
-                except:
-                    continue
             if stream_url.startswith('//'):
                 stream_url = scheme + ':' + stream_url
-            elif stream_url.startswith('/'):
+            elif not stream_url.startswith('http'):
                 stream_url = urllib_parse.urljoin(url, stream_url)
             stream_url = stream_url.replace('&amp;', '&')
 
@@ -257,6 +255,7 @@ def scrape_subtitles(html, rurl='', scheme='http', patterns=None, generic_patter
         subtitles.update(__parse_to_dict(html, r'''<track\s*kind=['"]?(?:captions|subtitles)['"]?\s*src=['"](?P<url>[^'"]+)['"]\s*srclang=['"](?P<label>[^'"]+)'''))
         subtitles.update(__parse_to_dict(html, r'''<track\s*kind="(?:captions|subtitles)"\s*label="(?P<label>[^"]+)"\s*srclang="[^"]+"\s*src="(?P<url>[^"]+)'''))
         subtitles.update(__parse_to_dict(html, r'''"tracks":.+?"kind":\s*"captions",\s*"file":\s*"(?P<url>[^"]+).+?"label":\s*"(?P<label>[^"]+)'''))
+        subtitles.update(__parse_to_dict(html, r'''"file":\s*"(?P<url>[^"]+).+?"label":\s*"(?P<label>[^"]+)","kind":"(?:captions|subtitles)"'''))
 
     for regex in patterns:
         subtitles.update(__parse_to_dict(html, regex))
@@ -299,7 +298,7 @@ def get_media_url(
         headers.update({'verifypeer': 'false'})
     source_list = scrape_sources(html, result_blacklist, scheme, patterns, generic_patterns, rurl)
     source = pick_source(source_list)
-    source = urllib_parse.quote(source, '/:?=&') + append_headers(headers)
+    source = urllib_parse.quote(source, '/:?=&!') + append_headers(headers)
     if subs:
         subtitles = scrape_subtitles(html, rurl, scheme, subs_patterns, generic_subs_patterns)
         return source, subtitles
