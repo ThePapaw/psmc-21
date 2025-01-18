@@ -1,8 +1,19 @@
 # -*- coding: utf-8 -*-
-# created by FuzzyBritches (updated 4-03-2022)
-"""
-	FuzzyBritches Add-on
-"""
+###############################################################################
+#                           "A BEER-WARE LICENSE"                             #
+# ----------------------------------------------------------------------------#
+# Feel free to do whatever you wish with this file. Since we most likey will  #
+# never meet, buy a stranger a beer. Give credit to ALL named, unnamed, past, #
+# present and future dev's of this & files like this. -Share the Knowledge!   #
+###############################################################################
+
+# Addon Name: Fuzzy Britches v5
+# Addon id: plugin.video.fuzzybritches_v5
+# Addon Provider: The Papaw
+
+'''
+Included with the Fuzzy Britches v5 Add-on
+'''
 
 import re
 from resources.lib.cloud_scrapers import cloud_utils

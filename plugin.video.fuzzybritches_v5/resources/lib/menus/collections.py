@@ -1,7 +1,19 @@
 # -*- coding: utf-8 -*-
-"""
-	FuzzyBritches Add-on
-"""
+###############################################################################
+#                           "A BEER-WARE LICENSE"                             #
+# ----------------------------------------------------------------------------#
+# Feel free to do whatever you wish with this file. Since we most likey will  #
+# never meet, buy a stranger a beer. Give credit to ALL named, unnamed, past, #
+# present and future dev's of this & files like this. -Share the Knowledge!   #
+###############################################################################
+
+# Addon Name: Fuzzy Britches v5
+# Addon id: plugin.video.fuzzybritches_v5
+# Addon Provider: The Papaw
+
+'''
+Included with the Fuzzy Britches v5 Add-on
+'''
 
 from datetime import datetime, timedelta
 from json import dumps as jsdumps
@@ -39,13 +51,18 @@ class Collections:
 		if self.tmdb_key == '' or self.tmdb_key is None: self.tmdb_key = 'edde6b5e41246ab79a2697cd125e1781'
 		# self.user = str(self.imdb_user) + str(self.tmdb_key)
 		self.user = str(self.tmdb_key)
-		self.tmdb_link = 'https://api.themoviedb.org/4/list/%s?api_key=%s&sort_by=%s&page=1' % ('%s', self.tmdb_key, self.tmdb_sort())
-		self.tmdbCollection_link = 'https://api.themoviedb.org/3/collection/%s?api_key=%s&page=1' % ('%s', self.tmdb_key) # does not support request sorting
+		use_tmdb = getSetting('tmdb.baseaddress') == 'true'
+		if use_tmdb:
+			tmdb_base = "https://api.tmdb.org"
+		else:
+			tmdb_base = "https://api.themoviedb.org"
+		self.tmdb_link = tmdb_base+'/4/list/%s?api_key=%s&sort_by=%s&page=1' % ('%s', self.tmdb_key, self.tmdb_sort())
+		self.tmdbCollection_link = tmdb_base +'/3/collection/%s?api_key=%s&page=1' % ('%s', self.tmdb_key) # does not support request sorting
 		self.imdb_link = 'https://www.imdb.com/search/title?title=%s&title_type=%s&num_votes=1000,&countries=us&languages=en&sort=%s' % ('%s', '%s', self.imdb_sort())
-		self.tmdbCollectionsSearch_link = 'https://api.themoviedb.org/3/search/collection?api_key=%s&language=en-US&query=%s&page=1' % (self.tmdb_key, '%s')
+		self.tmdbCollectionsSearch_link = tmdb_base+'/3/search/collection?api_key=%s&language=en-US&query=%s&page=1' % (self.tmdb_key, '%s')
 		self.imdblist_hours = int(getSetting('cache.imdblist'))
-		self.hide_watched_in_widget = getSetting('enable.fuzzybritcheshidewatched') == 'true'
-		self.useFullContext = getSetting('enable.fuzzybritcheswidgetcontext') == 'true'
+		self.hide_watched_in_widget = getSetting('enable.umbrellahidewatched') == 'true'
+		self.useFullContext = getSetting('enable.umbrellawidgetcontext') == 'true'
 		self.useContainerTitles = getSetting('enable.containerTitles') == 'true'
 
 	def collections_Navigator(self, lite=False, folderName=''):
@@ -705,7 +722,7 @@ class Collections:
 					if rescrape_method == '3':
 						cm.append((rescrapeMenu, 'PlayMedia(%s?action=play_Item&title=%s&year=%s&imdb=%s&tmdb=%s&meta=%s&rescrape=true&all_providers=true&select=0)' % (sysaddon, systitle, year, imdb, tmdb, sysmeta)))
 				cm.append((clearSourcesMenu, 'RunPlugin(%s?action=cache_clearSources)' % sysaddon))
-				cm.append(('[COLOR red]FuzzyBritches Settings[/COLOR]', 'RunPlugin(%s?action=tools_openSettings)' % sysaddon))
+				cm.append(('[COLOR %s]FuzzyBritches Settings[/COLOR]' % self.highlight_color, 'RunPlugin(%s?action=tools_openSettings)' % sysaddon))
 ####################################
 				if trailer: meta.update({'trailer': trailer}) # removed temp so it's not passed to CM items, only infoLabels for skin
 				else: meta.update({'trailer': '%s?action=play_Trailer&type=%s&name=%s&year=%s&imdb=%s' % (sysaddon, 'movie', sysname, year, imdb)})
@@ -717,7 +734,7 @@ class Collections:
 				setUniqueIDs={'imdb': imdb, 'tmdb': tmdb}
 				item.setProperty('IsPlayable', 'true')
 				if is_widget: 
-					item.setProperty('isFuzzyBritches_widget', 'true')
+					item.setProperty('isUmbrella_widget', 'true')
 					if self.hide_watched_in_widget:
 						if str(meta.get('playcount', 0)) == '1':
 							continue
@@ -752,7 +769,8 @@ class Collections:
 					page = '  [I](%s)[/I]' % str(((int(url_params.get('start')) - 1) / int(self.page_limit)) + 1)
 				else:
 					page = '  [I](%s)[/I]' % url_params.get('page')
-				nextMenu = '[COLOR skyblue]' + nextMenu + page + '[/COLOR]'
+				nextColor = '[COLOR %s]' % getSetting('highlight.color')
+				nextMenu = nextColor + nextMenu + page + '[/COLOR]'
 				url = '%s?action=collections&url=%s&folderName=%s' % (sysaddon, quote_plus(url), folderName)
 				item = control.item(label=nextMenu, offscreen=True)
 				icon = control.addonNext()
@@ -782,7 +800,7 @@ class Collections:
 			cm = []
 			if context: cm.append((getLS(context[0]), 'RunPlugin(plugin://plugin.video.fuzzybritches_v5/?action=%s)' % context[1]))
 			if queue: cm.append((queueMenu, 'RunPlugin(plugin://plugin.video.fuzzybritches_v5/?action=playlist_QueueItem)'))
-			cm.append(('[COLOR red]FuzzyBritches Settings[/COLOR]', 'RunPlugin(plugin://plugin.video.fuzzybritches_v5/?action=tools_openSettings)'))
+			cm.append(('[COLOR %s]FuzzyBritches Settings[/COLOR]' % self.highlight_color, 'RunPlugin(plugin://plugin.video.fuzzybritches_v5/?action=tools_openSettings)'))
 			item = control.item(label=name, offscreen=True)
 			item.setArt({'icon': icon, 'poster': poster, 'thumb': poster, 'fanart': fanart, 'banner': poster})
 			#item.setInfo(type='video', infoLabels={'plot': name})

@@ -1,6 +1,6 @@
-# Addon Name: FuzzyBritches
-# Addon id: plugin.video.fuzzybritches
-# Addon Provider: FuzzyBritches
+# Addon Name: Fuzzy Britches v5
+# Addon id: plugin.video.fuzzybritches_v5
+# Addon Provider: The Papaw
 # Translators:
 # Translators:
 # Translators:
@@ -10,7 +10,7 @@
 # Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: FuzzyBritches\n"
+"Project-Id-Version: Fuzzy Britches\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2021-06-11 02:03+0000\n"
 "Last-Translator: lambda81\n"
@@ -219,7 +219,7 @@ msgid "[B]SETTINGS[/B] : Downloads"
 msgstr ""
 
 msgctxt "#32049"
-msgid "[B]FuzzyBritches[/B] : Viewtypes"
+msgid "[B]Fuzzy Britches[/B] : Viewtypes"
 msgstr ""
 
 msgctxt "#32050"
@@ -287,11 +287,11 @@ msgid "Add To Playlist"
 msgstr ""
 
 msgctxt "#32066"
-msgid "Watched in FuzzyBritches"
+msgid "Watched in Fuzzy Britches"
 msgstr ""
 
 msgctxt "#32067"
-msgid "Unwatched in FuzzyBritches"
+msgid "Unwatched in Fuzzy Britches"
 msgstr ""
 
 msgctxt "#32068"
@@ -355,7 +355,7 @@ msgid "Trakt: Scrobble Reset"
 msgstr ""
 
 msgctxt "#32083"
-msgid "Clean Settings file: [B]FuzzyBritches[/B]"
+msgid "Clean Settings file: [B]Fuzzy Britches[/B]"
 msgstr ""
 
 msgctxt "#32084"
@@ -451,7 +451,7 @@ msgid "Update Service is disabled. Please enable and try again"
 msgstr ""
 
 msgctxt "#32107"
-msgid "Your Library Folders do not exist in PSMC Sources. Please run setup"
+msgid "Your Library Folders do not exist in Kodi Sources. Please run setup"
 msgstr ""
 
 msgctxt "#32108"
@@ -463,11 +463,11 @@ msgid "No Episode Updates Found"
 msgstr ""
 
 msgctxt "#32110"
-msgid "Restart PSMC for changes is required"
+msgid "Restart Kodi for changes is required"
 msgstr ""
 
 msgctxt "#32111"
-msgid "Folders Failed to add to PSMC Sources"
+msgid "Folders Failed to add to Kodi Sources"
 msgstr ""
 
 msgctxt "#32112"
@@ -779,7 +779,7 @@ msgid "Paginate Lists when possible"
 msgstr ""
 
 msgctxt "#32189"
-msgid "Clear FuzzyBritches Log File"
+msgid "Clear Fuzzy Britches Log File"
 msgstr ""
 
 msgctxt "#32190"
@@ -807,19 +807,19 @@ msgid "Prioritize HDR and Dolby-Vision to top"
 msgstr ""
 
 msgctxt "#32196"
-msgid "FuzzyBritches log file uploaded to:"
+msgid "Fuzzy Britches log file uploaded to:"
 msgstr ""
 
 msgctxt "#32197"
-msgid "Write FuzzyBritches log in reverse order"
+msgid "Write Fuzzy Britches log in reverse order"
 msgstr ""
 
 msgctxt "#32198"
-msgid "[B]PSMC - Upload log file to pastebin[/B]"
+msgid "[B]Kodi - Upload log file to pastebin[/B]"
 msgstr ""
 
 msgctxt "#32199"
-msgid "PSMC log file uploaded to:"
+msgid "Kodi log file uploaded to:"
 msgstr ""
 
 msgctxt "#32200"
@@ -1207,7 +1207,7 @@ msgid "Providers Language"
 msgstr ""
 
 msgctxt "#32361"
-msgid "[B]FuzzyBritches[/B] : Reset View Types"
+msgid "[B]Fuzzy Britches[/B] : Reset View Types"
 msgstr ""
 
 msgctxt "#32362"
@@ -1711,7 +1711,7 @@ msgid "Resume"
 msgstr ""
 
 msgctxt "#32506"
-msgid "[B]FuzzyBritches Global Context[/B] Settings"
+msgid "[B]Fuzzy Britches Global Context[/B] Settings"
 msgstr ""
 
 msgctxt "#32510"
@@ -1771,19 +1771,19 @@ msgid "[B]Logging Tools[/B]"
 msgstr ""
 
 msgctxt "#32524"
-msgid "[B]FuzzyBritches - View Log File[/B]"
+msgid "[B]Fuzzy Britches - View Log File[/B]"
 msgstr ""
 
 msgctxt "#32525"
-msgid "[B]FuzzyBritches - Clear Log File[/B]"
+msgid "[B]Fuzzy Britches - Clear Log File[/B]"
 msgstr ""
 
 msgctxt "#32526
-msgid "[B]FuzzyBritches - Show Changelog[/B]"
+msgid "[B]Fuzzy Britches - Show Changelog[/B]"
 msgstr ""
 
 msgctxt "#32527"
-msgid "[B]FuzzyBritches - Upload log file to pastebin[/B]"
+msgid "[B]Fuzzy Britches - Upload log file to pastebin[/B]"
 msgstr ""
 
 msgctxt "#32528"
@@ -1803,7 +1803,7 @@ msgid ""
 msgstr ""
 
 msgctxt "#32532"
-msgid "[B]View PSMC Log File[/B]"
+msgid "[B]View Kodi Log File[/B]"
 msgstr ""
 
 msgctxt "#32535"
@@ -1879,7 +1879,7 @@ msgid "Are you sure?"
 msgstr ""
 
 msgctxt "#32556"
-msgid "[B]FuzzyBritches[/B] : Library"
+msgid "[B]Fuzzy Britches[/B] : Library"
 msgstr ""
 
 msgctxt "#32557"
@@ -1887,15 +1887,15 @@ msgid "[B]LIBRARY[/B] : Settings"
 msgstr ""
 
 msgctxt "#32558"
-msgid "[B]FuzzyBritches[/B] : Update library..."
+msgid "[B]Fuzzy Britches[/B] : Update library..."
 msgstr ""
 
 msgctxt "#32559"
-msgid "[B]FuzzyBritches[/B] : Movie folder..."
+msgid "[B]Fuzzy Britches[/B] : Movie folder..."
 msgstr ""
 
 msgctxt "#32560"
-msgid "[B]FuzzyBritches[/B] : TV folder..."
+msgid "[B]Fuzzy Britches[/B] : TV folder..."
 msgstr ""
 
 msgctxt "#32561"
@@ -2004,7 +2004,7 @@ msgid "[COLOR %s][I]New search...[/I][/COLOR]"
 msgstr ""
 
 msgctxt "#32604"
-msgid "[B]FuzzyBritches[/B] : Clear search history..."
+msgid "[B]Fuzzy Britches[/B] : Clear search history..."
 msgstr ""
 
 msgctxt "#32605"
@@ -2108,7 +2108,7 @@ msgid "Provider filters"
 msgstr ""
 
 msgctxt "#32643"
-msgid "[B]FuzzyBritches[/B]: Settings"
+msgid "[B]Fuzzy Britches[/B]: Settings"
 msgstr ""
 
 msgctxt "#32644"
@@ -2120,7 +2120,7 @@ msgid "Auto Trakt Collections Syncing"
 msgstr ""
 
 msgctxt "#32646"
-msgid "Sync on PSMC Start"
+msgid "Sync on Kodi Start"
 msgstr ""
 
 msgctxt "#32647"
@@ -2232,11 +2232,11 @@ msgid "[B]TRAKT[/B] : Import TV Liked List..."
 msgstr ""
 
 msgctxt "#32676"
-msgid "[B]FuzzyBritches[/B] : Clean library..."
+msgid "[B]Fuzzy Britches[/B] : Clean library..."
 msgstr ""
 
 msgctxt "#32677"
-msgid "Add folders to PSMC Sources Now..."
+msgid "Add folders to Kodi Sources Now..."
 msgstr ""
 
 msgctxt "#32678"
@@ -2284,7 +2284,7 @@ msgid "Enabling this setting may cause instability issues.\nTest at your own fre
 msgstr ""
 
 msgctxt "#33020"
-msgid "FuzzyBritches will reload your profile to refresh the addon.xml"
+msgid "Fuzzy Britches will reload your profile to refresh the addon.xml"
 msgstr ""
 
 msgctxt "#33021"
@@ -2428,11 +2428,11 @@ msgid "Error"
 msgstr ""
 
 msgctxt "#33587"
-msgid "Install FuzzyBritches Global Context menu Addon..."
+msgid "Install Fuzzy Britches Global Context menu Addon..."
 msgstr ""
 
 msgctxt "#33588"
-msgid "Enable FuzzyBritches Global Context menu"
+msgid "Enable Fuzzy Britches Global Context menu"
 msgstr ""
 
 msgctxt "#33649"
@@ -2532,7 +2532,7 @@ msgid "Unwatched Count"
 msgstr ""
 
 msgctxt "#33942"
-msgid "The FuzzyBritches library path does not appear in the PSMC file sources and automatic library updates are therefore not possible. Please manually add the library path from FuzzyBritches's settings to the PSMC file sources. If the path in the settings were not changed, FuzzyBritches will use a directory in the addon profile to store library data."
+msgid "The Fuzzy Britches library path does not appear in the Kodi file sources and automatic library updates are therefore not possible. Please manually add the library path from Fuzzy Britches's settings to the Kodi file sources. If the path in the settings were not changed, Fuzzy Britches will use a directory in the addon profile to store library data."
 msgstr ""
 
 msgctxt "#35017"
@@ -2844,7 +2844,7 @@ msgid "Playlist Manager"
 msgstr ""
 
 msgctxt "#35523"
-msgid "A new version of FuzzyBritches is available from the repository. Please consider updating to v%s"
+msgid "A new version of Fuzzy Britches is available from the repository. Please consider updating to v%s"
 msgstr ""
 
 msgctxt "#35524"
@@ -2916,7 +2916,7 @@ msgid "Revoke Authorization Success"
 msgstr ""
 
 msgctxt "#40010"
-msgid "All Debrid succesfuly authorized"
+msgid "All Debrid successfully authorized"
 msgstr ""
 
 msgctxt "#40011"
@@ -2948,7 +2948,7 @@ msgid "Saving Torrent to the %s Cloud"
 msgstr ""
 
 msgctxt "#40018"
-msgid "FuzzyBritches: Cloud Transfer"
+msgid "Fuzzy Britches: Cloud Transfer"
 msgstr ""
 
 msgctxt "#40019"
@@ -3084,7 +3084,7 @@ msgid "[B]Clear Finished Transfers[/B]"
 msgstr ""
 
 msgctxt "#40052"
-msgid "Preminumize.me succesfuly authorized"
+msgid "Preminumize.me successfully authorized"
 msgstr ""
 
 msgctxt "#40053"
@@ -3364,7 +3364,7 @@ msgid "Authorization"
 msgstr ""
 
 msgctxt "#40122"
-msgid "Launch FuzzyBritches on PSMC Start"
+msgid "Launch Fuzzy Britches on Kodi Start"
 msgstr ""
 
 msgctxt "#40123"
@@ -4196,7 +4196,7 @@ msgid "TV Show Search Provider"
 msgstr ""
 
 msgctxt "#40334"
-msgid "Fix Blank Settings: [B]FuzzyBritches[/B]"
+msgid "Fix Blank Settings: [B]Fuzzy Britches[/B]"
 msgstr ""
 
 msgctxt "#40335"
@@ -4448,7 +4448,7 @@ msgid "Hidden"
 msgstr ""
 
 msgctxt "#40397"
-msgid "Use Full Context Menu in Widgets (PSMC 20 Only)"
+msgid "Use Full Context Menu in Widgets (Kodi 20 Only)"
 msgstr ""
 
 msgctxt "#40398"
@@ -4568,7 +4568,7 @@ msgid "Auto-Retry using all providers if no sources are found."
 msgstr ""
 
 msgctxt "#40406"
-msgid "Make FuzzyBritches work properly"
+msgid "Make fuzzybritches work properly"
 msgstr ""
 
 msgctxt "#40407"
@@ -4600,7 +4600,7 @@ msgid "Released this Month (Digital and DVD)"
 msgstr ""
 
 msgctxt "#40414"
-msgid "FuzzyBritches"
+msgid "Fuzzy Britches"
 msgstr ""
 
 msgctxt "#40415"
@@ -4644,7 +4644,7 @@ msgid "Custom Color"
 msgstr ""
 
 msgctxt "#40425"
-msgid "Use Custom FuzzyBritches Dialogs"
+msgid "Use Custom Fuzzy Britches Dialogs"
 msgstr ""
 
 msgctxt "#40426"
@@ -4664,7 +4664,7 @@ msgid "Import list(s) now"
 msgstr ""
 
 msgctxt "#40430"
-msgid "Show FuzzyBritches next to FuzzyBritches context items."
+msgid "Show Fuzzy Britches next to Fuzzy Britches context items."
 msgstr ""
 
 msgctxt "#40431"
@@ -4796,11 +4796,11 @@ msgid "Cache Functions"
 msgstr ""
 
 msgctxt "#40463"
-msgid "Add to FuzzyBritches Favourites"
+msgid "Add to Fuzzy Britches Favourites"
 msgstr ""
 
 msgctxt "#40464"
-msgid "FuzzyBritches Favourites"
+msgid "Fuzzy Britches Favourites"
 msgstr ""
 
 msgctxt "#40465"
@@ -4816,7 +4816,7 @@ msgid "Favourite Episodes"
 msgstr ""
 
 msgctxt "#40468"
-msgid "Remove from FuzzyBritches Favourites"
+msgid "Remove from Fuzzy Britches Favourites"
 msgstr ""
 
 msgctxt "#40469"
@@ -4828,7 +4828,7 @@ msgid "Refresh widgets on add / remove from favourites"
 msgstr ""
 
 msgctxt "#40471"
-msgid "Add Library Item to FuzzyBritches Favourites"
+msgid "Add Library Item to Fuzzy Britches Favourites"
 msgstr ""
 
 msgctxt "#40472"
@@ -5021,4 +5021,112 @@ msgstr ""
 
 msgctxt "#40519"
 msgid "Clear [COLOR yellow]Fanart Cache [/COLOR]..."
+msgstr ""
+
+msgctxt "#40520"
+msgid "Library Movie Cache Successfully Cleared!"
+msgstr ""
+
+msgctxt "#40521"
+msgid "Use custom background for Fanart"
+msgstr ""
+
+msgctxt "#40522"
+msgid "Background"
+msgstr ""
+
+msgctxt "#40523"
+msgid "Reset background"
+msgstr ""
+
+msgctxt "#40524"
+msgid "Use tmdb.org instead of themoviedb.org for API"
+msgstr ""
+
+msgctxt "#40525"
+msgid "Fuzzy Britches Addon Settings"
+msgstr ""
+
+msgctxt "#40526"
+msgid "Use language setting for trakt lists"
+msgstr ""
+
+msgctxt "#40527"
+msgid "Enable TorBox Menu"
+msgstr ""
+
+msgctxt "#40528"
+msgid "TorBox Revoked"
+msgstr ""
+
+msgctxt "#40529"
+msgid "TorBox"
+msgstr ""
+
+msgctxt "#40530"
+msgid "Account ID"
+msgstr ""
+
+msgctxt "#40531"
+msgid "Error Connecting to TorBox"
+msgstr ""
+
+msgctxt "#40532"
+msgid "TorBox Highlight Color"
+msgstr ""
+
+msgctxt "#40533"
+msgid "Play button behavior"
+msgstr ""
+
+msgctxt "#40534"
+msgid "Play immediately"
+msgstr ""
+
+msgctxt "#40535"
+msgid "Background scrape"
+msgstr ""
+
+msgctxt "#40536"
+msgid "EasyDebrid Highlight Color"
+msgstr ""
+
+msgctxt "#40537"
+msgid "EasyDebrid"
+msgstr ""
+
+msgctxt "#40538"
+msgid "easydebrid token"
+msgstr ""
+
+msgctxt "#40539"
+msgid "EasyDebrid successfully authorized"
+msgstr ""
+
+msgctxt "#40540"
+msgid "Offcloud"
+msgstr ""
+
+msgctxt "#40541"
+msgid "Enable Offcloud Menu"
+msgstr ""
+
+msgctxt "#40542"
+msgid "Offcloud Highlight Color"
+msgstr ""
+
+msgctxt "#40543"
+msgid "[B]Delete all active torrents from TorBox?[/B]"
+msgstr ""
+
+msgctxt "#40544"
+msgid "[B]Delete all queued torrents from TorBox?[/B]"
+msgstr ""
+
+msgctxt "#40545"
+msgid "No"
+msgstr ""
+
+msgctxt "#40546"
+msgid "[B]Delete all cloud files from TorBox?[/B]"
 msgstr ""

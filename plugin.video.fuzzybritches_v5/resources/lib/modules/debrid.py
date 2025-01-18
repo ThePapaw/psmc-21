@@ -1,25 +1,49 @@
 # -*- coding: utf-8 -*-
-"""
-	FuzzyBritches Add-on
-"""
+###############################################################################
+#                           "A BEER-WARE LICENSE"                             #
+# ----------------------------------------------------------------------------#
+# Feel free to do whatever you wish with this file. Since we most likey will  #
+# never meet, buy a stranger a beer. Give credit to ALL named, unnamed, past, #
+# present and future dev's of this & files like this. -Share the Knowledge!   #
+###############################################################################
+
+# Addon Name: Fuzzy Britches v5
+# Addon id: plugin.video.fuzzybritches_v5
+# Addon Provider: The Papaw
+
+'''
+Included with the Fuzzy Britches v5 Add-on
+'''
 
 from resources.lib.modules.control import setting as getSetting
 
 def debrid_resolvers(order_matters=True):
 	try:
 		ad_enabled = getSetting('alldebridtoken') != '' and getSetting('alldebrid.enable') == 'true'
+		oc_enabled = getSetting('offcloudtoken') != '' and getSetting('offcloud.enable') == 'true'
 		pm_enabled = getSetting('premiumizetoken') != '' and getSetting('premiumize.enable') == 'true'
 		rd_enabled = getSetting('realdebridtoken') != '' and getSetting('realdebrid.enable') == 'true'
+		tb_enabled = getSetting('torboxtoken') != '' and getSetting('torbox.enable') == 'true'
+		ed_enabled = getSetting('easydebridtoken') != '' and getSetting('easydebrid.enable') == 'true'
 		premium_resolvers = []
 		if ad_enabled:
 			from resources.lib.debrid import alldebrid
 			premium_resolvers.append(alldebrid.AllDebrid())
+		if oc_enabled:
+			from resources.lib.debrid import offcloud
+			premium_resolvers.append(offcloud.Offcloud())
 		if pm_enabled:
 			from resources.lib.debrid import premiumize
 			premium_resolvers.append(premiumize.Premiumize())
 		if rd_enabled:
 			from resources.lib.debrid import realdebrid
 			premium_resolvers.append(realdebrid.RealDebrid())
+		if tb_enabled:
+			from resources.lib.debrid import torbox
+			premium_resolvers.append(torbox.TorBox())
+		if ed_enabled:
+			from resources.lib.debrid import easydebrid
+			premium_resolvers.append(easydebrid.EasyDebrid())
 		if order_matters:
 			premium_resolvers.sort(key=lambda x: get_priority(x))
 		return premium_resolvers

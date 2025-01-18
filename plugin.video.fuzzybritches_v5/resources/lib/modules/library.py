@@ -1,7 +1,19 @@
 # -*- coding: utf-8 -*-
-"""
-	FuzzyBritches Add-on
-"""
+###############################################################################
+#                           "A BEER-WARE LICENSE"                             #
+# ----------------------------------------------------------------------------#
+# Feel free to do whatever you wish with this file. Since we most likey will  #
+# never meet, buy a stranger a beer. Give credit to ALL named, unnamed, past, #
+# present and future dev's of this & files like this. -Share the Knowledge!   #
+###############################################################################
+
+# Addon Name: Fuzzy Britches v5
+# Addon id: plugin.video.fuzzybritches_v5
+# Addon Provider: The Papaw
+
+'''
+Included with the Fuzzy Britches v5 Add-on
+'''
 
 from datetime import datetime, timedelta
 from json import loads as jsloads
@@ -30,6 +42,11 @@ tmdb_session_id = control.setting('tmdb.sessionid')
 getLS = control.lang
 trakt_user = control.setting('trakt.user.name').strip()
 LOGINFO = log_utils.LOGINFO
+use_tmdb = control.setting('tmdb.baseaddress') == 'true'
+if use_tmdb:
+	tmdb_base = "https://api.tmdb.org"
+else:
+	tmdb_base = "https://api.themoviedb.org"
 
 class lib_tools:
 	@staticmethod
@@ -954,9 +971,9 @@ class libmovies:
 				items = movies.Movies().trakt_list(url, control.setting('trakt.user.name').strip(),'Trakt Movie List')
 			if 'tmdb' in url:
 				if 'tmdb_watchlist' in url:
-					url = 'https://api.themoviedb.org/3/account/{account_id}/watchlist/movies?api_key=%s&session_id=%s' % ('%s', tmdb_session_id)
+					url = tmdb_base+'/3/account/{account_id}/watchlist/movies?api_key=%s&session_id=%s' % ('%s', tmdb_session_id)
 				if 'tmdb_favorites' in url: 
-					url = 'https://api.themoviedb.org/3/account/{account_id}/favorite/movies?api_key=%s&session_id=%s' % ('%s', tmdb_session_id) 
+					url = tmdb_base+'/3/account/{account_id}/favorite/movies?api_key=%s&session_id=%s' % ('%s', tmdb_session_id) 
 				from resources.lib.indexers import tmdb
 				items = tmdb.Movies().tmdb_list(url)
 			if (all(i in url for i in ('themoviedb', '/list/'))):
@@ -1244,9 +1261,9 @@ class libtvshows:
 				items = tvshows.TVshows().trakt_list(url, control.setting('trakt.user.name').strip(),'Trakt TV Collection')
 			if 'tmdb' in url:
 				if 'tmdb_watchlist' in url:
-					url = 'https://api.themoviedb.org/3/account/{account_id}/watchlist/tv?api_key=%s&session_id=%s' % ('%s', tmdb_session_id)
+					url = tmdb_base+'/3/account/{account_id}/watchlist/tv?api_key=%s&session_id=%s' % ('%s', tmdb_session_id)
 				if 'tmdb_favorites' in url: 
-					url = 'https://api.themoviedb.org/3/account/{account_id}/favorite/tv?api_key=%s&session_id=%s' % ('%s', tmdb_session_id) 
+					url = tmdb_base+'/3/account/{account_id}/favorite/tv?api_key=%s&session_id=%s' % ('%s', tmdb_session_id) 
 				from resources.lib.indexers import tmdb
 				items = tmdb.TVshows().tmdb_list(url)
 			if (all(i in url for i in ('themoviedb', '/list/'))):

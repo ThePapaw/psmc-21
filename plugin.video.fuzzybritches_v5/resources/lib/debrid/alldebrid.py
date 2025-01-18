@@ -1,7 +1,19 @@
 # -*- coding: utf-8 -*-
-"""
-	FuzzyBritches Add-on
-"""
+###############################################################################
+#                           "A BEER-WARE LICENSE"                             #
+# ----------------------------------------------------------------------------#
+# Feel free to do whatever you wish with this file. Since we most likey will  #
+# never meet, buy a stranger a beer. Give credit to ALL named, unnamed, past, #
+# present and future dev's of this & files like this. -Share the Knowledge!   #
+###############################################################################
+
+# Addon Name: Fuzzy Britches v5
+# Addon id: plugin.video.fuzzybritches_v5
+# Addon Provider: The Papaw
+
+'''
+Included with the Fuzzy Britches v5 Add-on
+'''
 
 from json import dumps as jsdumps, loads as jsloads
 import re
@@ -19,7 +31,7 @@ from resources.lib.modules.source_utils import supported_video_extensions
 getLS = control.lang
 getSetting = control.setting
 base_url = 'https://api.alldebrid.com/v4/'
-user_agent = 'FuzzyBritches_v5'
+user_agent = 'FuzzyBritches'
 ad_icon = control.joinPath(control.artPath(), 'alldebrid.png')
 ad_qr = control.joinPath(control.artPath(), 'alldebridqr.png')
 addonFanart = control.addonFanart()
@@ -80,7 +92,7 @@ class AllDebrid:
 			if 'Response [500]' in str(response):
 				log_utils.log('AllDebrid: Status code 500 – Internal Server Error', __name__, log_utils.LOGWARNING)
 				return None
-			if not response:
+			if response is None:
 				log_utils.log('AllDebrid: No Response from server', __name__, log_utils.LOGWARNING)
 				return None
 			response = response.json()
@@ -522,7 +534,7 @@ class AllDebrid:
 			if control.monitor.abortRequested(): return sysexit()
 			try:
 				if self.progressDialog.iscanceled():
-					if control.yesnoDialog('Delete AD download also?', 'No will continue the download', 'but close dialog'):
+					if control.yesnoDialog('Delete AD download also?', 'No will continue the download', 'but close dialog','AllDebrid', 'No', 'Yes'):
 						return _return_failed(getLS(40014))
 					else:
 						self.progressDialog.close()

@@ -7,13 +7,13 @@
 # present and future dev's of this & files like this. -Share the Knowledge!   #
 ###############################################################################
 
-# Addon Name: Fuzzy Britches v4 Module
-# Addon id: script.module.fuzzybritches_v4
+# Addon Name: Fuzzy Britches v5
+# Addon id: plugin.video.fuzzybritches_v5
 # Addon Provider: The Papaw
 
-"""
-	FuzzyBritches Add-on
-"""
+'''
+Included with the Fuzzy Britches v5 Add-on
+'''
 
 from resources.lib.modules import control, log_utils
 from sys import version_info, platform as sys_platform
@@ -111,7 +111,7 @@ class SettingsMonitor(control.monitor_class):
 			control.log('[ plugin.video.fuzzybritches_v5 ]  Exception checking modules...', LOGDEBUG)
 		try:
 			control.sleep(50)
-			refreshed = control.make_settings_dict()
+			control.make_settings_dict()
 			window.setProperty('fuzzybritches.updateSettings','true')
 		except:
 			control.log('[ plugin.video.fuzzybritches_v5 ]  Exception making settings dict...', LOGDEBUG)
@@ -297,9 +297,7 @@ try:
 		except:
 			repoVersion = 'unknown'
 			repoName = 'Unknown Repo'
-		
-	#fsVersion = control.addon('script.module.cocoscrapers').getAddonInfo('version')
-	#maVersion = control.addon('script.module.myaccounts').getAddonInfo('version')
+
 	log_utils.log('########   CURRENT FuzzyBritches VERSIONS REPORT   ########', level=LOGINFO)
 	if testFuzzyBritches == True:
 		log_utils.log('########   TEST FuzzyBritches Version   ########', level=LOGINFO)
@@ -308,8 +306,7 @@ try:
 	log_utils.log('##   python Version: %s' % pythonVersion, level=LOGINFO)
 	log_utils.log('##   plugin.video.fuzzybritches_v5 Version: %s' % str(addonVersion), level=LOGINFO)
 	log_utils.log('##   %s Version: %s' % (str(repoName), str(repoVersion)), level=LOGINFO)
-	#log_utils.log('##   script.module.cocoscrapers Version: %s' % str(fsVersion), level=LOGINFO)
-	log_utils.log('######   UMBRELLA SERVICE ENTERING KEEP ALIVE   #####', level=LOGINFO)
+	log_utils.log('######   FuzzyBritches SERVICE ENTERING KEEP ALIVE   #####', level=LOGINFO)
 except:
 	log_utils.log('## ERROR GETTING FuzzyBritches VERSION - Missing Repo or failed Install ', level=LOGINFO)
 

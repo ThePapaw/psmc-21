@@ -1,4 +1,19 @@
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
+###############################################################################
+#                           "A BEER-WARE LICENSE"                             #
+# ----------------------------------------------------------------------------#
+# Feel free to do whatever you wish with this file. Since we most likey will  #
+# never meet, buy a stranger a beer. Give credit to ALL named, unnamed, past, #
+# present and future dev's of this & files like this. -Share the Knowledge!   #
+###############################################################################
+
+# Addon Name: Fuzzy Britches v5
+# Addon id: plugin.video.fuzzybritches_v5
+# Addon Provider: The Papaw
+
+'''
+Included with the Fuzzy Britches v5 Add-on
+'''
 
 import os
 from pkgutil import walk_packages
@@ -14,7 +29,7 @@ def internalSources():
 			if is_pkg: continue
 			if enabledCheck(module_name):
 				try:
-					module = loader.find_module(module_name).load_module(module_name)
+					module = loader.find_spec(module_name).loader.load_module(module_name)
 					sourceDict.append((module_name, module.source))
 				except Exception as e:
 					if debug_enabled:

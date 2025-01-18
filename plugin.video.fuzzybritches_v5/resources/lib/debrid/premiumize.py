@@ -1,7 +1,19 @@
 # -*- coding: utf-8 -*-
-"""
-	FuzzyBritches Add-on
-"""
+###############################################################################
+#                           "A BEER-WARE LICENSE"                             #
+# ----------------------------------------------------------------------------#
+# Feel free to do whatever you wish with this file. Since we most likey will  #
+# never meet, buy a stranger a beer. Give credit to ALL named, unnamed, past, #
+# present and future dev's of this & files like this. -Share the Knowledge!   #
+###############################################################################
+
+# Addon Name: Fuzzy Britches v5
+# Addon id: plugin.video.fuzzybritches_v5
+# Addon Provider: The Papaw
+
+'''
+Included with the Fuzzy Britches v5 Add-on
+'''
 
 import re
 import requests
@@ -51,7 +63,7 @@ class Premiumize:
 		self.hosts = []
 		self.patterns = []
 		self.token = getSetting('premiumizetoken')
-		self.headers = {'User-Agent': 'FuzzyBritches for PSMC', 'Authorization': 'Bearer %s' % self.token}
+		self.headers = {'User-Agent': 'FuzzyBritches for Kodi', 'Authorization': 'Bearer %s' % self.token}
 		self.server_notifications = getSetting('premiumize.server.notifications')
 		self.store_to_cloud = getSetting('premiumize.saveToCloud') == 'true'
 		self.highlightColor = control.setting('highlight.color')
@@ -133,7 +145,7 @@ class Premiumize:
 				return False, False
 			return True, False
 		self.token = token['access_token']
-		self.headers = {'User-Agent': 'FuzzyBritches for PSMC', 'Authorization': 'Bearer %s' % self.token}
+		self.headers = {'User-Agent': 'FuzzyBritches for Kodi', 'Authorization': 'Bearer %s' % self.token}
 		control.sleep(500)
 		account_info = self.account_info()
 		control.setSetting('premiumizetoken', token['access_token'])
@@ -181,6 +193,7 @@ class Premiumize:
 		except: log_utils.error()
 
 	def get_hosts(self):
+		
 		hosts_dict = {'Premiumize.me': []}
 		hosts = []
 		append = hosts.append
@@ -305,7 +318,7 @@ class Premiumize:
 			if control.monitor.abortRequested(): return sysexit()
 			try:
 				if self.progressDialog.iscanceled():
-					if control.yesnoDialog('Delete PM download also?', 'No will continue the download', 'but close dialog'):
+					if control.yesnoDialog('Delete PM download also?', 'No will continue the download', 'but close dialog','Premiumize','No','Yes'):
 						return _return_failed(getLS(40014))
 					else:
 						self.progressDialog.close()

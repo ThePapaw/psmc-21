@@ -1,7 +1,19 @@
 # -*- coding: utf-8 -*-
-"""
-	FuzzyBritches Add-on
-"""
+###############################################################################
+#                           "A BEER-WARE LICENSE"                             #
+# ----------------------------------------------------------------------------#
+# Feel free to do whatever you wish with this file. Since we most likey will  #
+# never meet, buy a stranger a beer. Give credit to ALL named, unnamed, past, #
+# present and future dev's of this & files like this. -Share the Knowledge!   #
+###############################################################################
+
+# Addon Name: Fuzzy Britches v5
+# Addon id: plugin.video.fuzzybritches_v5
+# Addon Provider: The Papaw
+
+'''
+Included with the Fuzzy Britches v5 Add-on
+'''
 
 from urllib.parse import quote_plus, parse_qsl
 from resources.lib.modules import control
@@ -134,7 +146,8 @@ def router(argv2):
 		movies.Movies().years(url, folderName=folderName)
 	elif action == 'moviePersons':
 		from resources.lib.menus import movies
-		movies.Movies().persons(url, folderName=folderName)
+		#movies.Movies().persons(url, folderName=folderName)
+		movies.Movies().persons_tmdb(url, folderName=folderName)
 	elif action == 'actorSearchMovies':
 		link = 'https://www.imdb.com/search/name/?count=100&name='
 		name = params.get('name')
@@ -313,7 +326,8 @@ def router(argv2):
 		tvshows.TVshows().years(url, folderName=folderName)
 	elif action == 'tvPersons':
 		from resources.lib.menus import tvshows
-		tvshows.TVshows().persons(url)
+		#tvshows.TVshows().persons(url)
+		tvshows.TVshows().persons_tmdb(url)
 	elif action == 'actorSearchTV':
 		link = 'https://www.imdb.com/search/name/?count=100&name='
 		name = params.get('name')
@@ -475,6 +489,17 @@ def router(argv2):
 			from resources.lib.debrid import alldebrid
 			alldebrid.AllDebrid().restart_transfer(params.get('id'), name, silent=False)
 
+	elif action and action.startswith('ed_'):
+		if action == 'ed_AccountInfo':
+			from resources.lib.debrid import easydebrid
+			easydebrid.EasyDebrid().account_info_to_dialog()
+		elif action == 'ed_Authorize':
+			from resources.lib.debrid import easydebrid
+			easydebrid.EasyDebrid().auth()
+		elif action == 'ed_Deauthorize':
+			from resources.lib.debrid import easydebrid
+			easydebrid.EasyDebrid().remove_auth()
+
 	elif action and action.startswith('en_'):
 		if action == 'en_ServiceNavigator':
 			from resources.lib.menus import navigator
@@ -585,6 +610,59 @@ def router(argv2):
 			from resources.lib.debrid import realdebrid
 			realdebrid.RealDebrid().delete_download(params.get('id'), name)
 
+	elif action and action.startswith('tb_'):
+		if action == 'tb_Authorize':
+			from resources.lib.debrid import torbox
+			torbox.TorBox().auth()
+		elif action == 'tb_Revoke':
+			from resources.lib.debrid import torbox
+			torbox.TorBox().remove_auth()
+		elif action == 'tb_AccountInfo':
+			from resources.lib.debrid import torbox
+			torbox.TorBox().account_info_to_dialog()
+		elif action == 'tb_CloudStorage':
+			from resources.lib.debrid import torbox
+			torbox.TorBox().user_cloud_to_listItem()
+		elif action == 'tb_BrowseUserTorrents':
+			from resources.lib.debrid import torbox
+			torbox.TorBox().browse_user_torrents(params.get('id'), mediatype)
+		elif action == 'tb_DeleteUserTorrent':
+			from resources.lib.debrid import torbox
+			torbox.TorBox().delete_user_torrent(params.get('id'), mediatype, name)
+		if action == 'tb_ServiceNavigator':
+			from resources.lib.menus import navigator
+			navigator.Navigator().torbox_service()
+		if action == 'tb_DeleteCloud':
+			from resources.lib.debrid import torbox
+			torbox.TorBox().delete_all_user_torrents()
+
+	elif action and action.startswith('oc_'):
+		if action == 'oc_ServiceNavigator':
+			from resources.lib.menus import navigator
+			navigator.Navigator().offcloud_service()
+		elif action == 'oc_AccountInfo':
+			from resources.lib.debrid import offcloud
+			offcloud.Offcloud().account_info_to_dialog()
+		elif action == 'oc_Authorize':
+			from resources.lib.debrid import offcloud
+			offcloud.Offcloud().auth()
+		elif action == 'oc_Deauthorize':
+			from resources.lib.debrid import offcloud
+			offcloud.Offcloud().remove_auth()
+		elif action == 'oc_CloudStorage':
+			from resources.lib.debrid import offcloud
+			offcloud.Offcloud().user_cloud_to_listItem()
+		elif action == 'oc_BrowseUserTorrents':
+			from resources.lib.debrid import offcloud
+			offcloud.Offcloud().browse_user_torrents(params.get('id'))
+		elif action == 'oc_DeleteUserTorrent':
+			from resources.lib.debrid import offcloud
+			offcloud.Offcloud().delete_user_torrent(params.get('id'), name)
+		elif action == 'oc_UserCloudClear':
+			from resources.lib.debrid import offcloud
+			offcloud.Offcloud().user_cloud_clear()
+
+
 	####################################################
 	#---Anime
 	####################################################
@@ -679,11 +757,28 @@ def router(argv2):
 				except:
 					import traceback
 					traceback.print_exc()
+			if caller == 'easydebrid':
+				control.busy()
+				try:
+					from resources.lib.modules import downloader
+					from resources.lib.debrid import easydebrid
+					downloader.download(name, image, easydebrid.EasyDebrid().unrestrict_link(url.replace(' ', '%20')))
+				except:
+					import traceback
+					traceback.print_exc()
 			if caller == 'easynews':
 				control.busy()
 				try:
 					from resources.lib.modules import downloader
 					downloader.download(name, image, url)
+				except:
+					import traceback
+					traceback.print_exc()
+			if caller == 'offcloud':
+				control.busy()
+				try:
+					from resources.lib.modules import downloader
+					downloader.download(name, image, url.replace(' ', '%20'))
 				except:
 					import traceback
 					traceback.print_exc()
@@ -708,12 +803,27 @@ def router(argv2):
 				except:
 					import traceback
 					traceback.print_exc()
+			if caller == 'torbox':
+				control.busy()
+				try:
+					from resources.lib.modules import downloader
+					from resources.lib.debrid import torbox
+					if mediatype == 'usenet': url = torbox.TorBox().unrestrict_usenet(url.replace(' ', '%20'))
+					else: url = torbox.TorBox().unrestrict_link(url.replace(' ', '%20'))
+					downloader.download(name, image, torbox.TorBox().add_headers_to_url(url))
+				except:
+					import traceback
+					traceback.print_exc()
+
 	####################################################
 	#---Color Picker
 	####################################################
 	elif action == 'colorpicker':
 		control.showColorPicker(current_setting)
 
+	elif action == 'resetCustomBG':
+		from resources.lib.modules import tools
+		tools.resetCustomBG()
 	####################################################
 	#---Tools
 	####################################################
@@ -773,36 +883,6 @@ def router(argv2):
 		elif action == 'tools_contextFuzzyBritchesSettings':
 			control.openSettings('0.0', 'context.fuzzybritches')
 			control.trigger_widget_refresh()
-		elif action == 'tools_cocoScrapersSettings':
-			if query == 'EasyNews':
-				control.openSettings('1.2', 'script.module.cocoscrapers')
-				control.sleep(500)
-				while control.condVisibility('Window.IsVisible(addonsettings)') or control.homeWindow.getProperty('cocoscrapers.active') == 'true':
-					control.sleep(500)
-				control.sleep(100)
-				control.syncAccounts()
-				control.sleep(100)
-				control.openSettings('11.3', 'plugin.video.fuzzybritches_v5')
-			elif query == 'FilePursuit':
-				control.openSettings('1.3', 'script.module.cocoscrapers')
-				control.sleep(500)
-				while control.condVisibility('Window.IsVisible(addonsettings)') or control.homeWindow.getProperty('cocoscrapers.active') == 'true':
-					control.sleep(500)
-				control.sleep(100)
-				control.syncAccounts()
-				control.sleep(100)
-				control.openSettings('11.4', 'plugin.video.fuzzybritches_v5')
-			elif query == 'Plex':
-				control.openSettings('1.1', 'script.module.cocoscrapers')
-				control.sleep(500)
-				while control.condVisibility('Window.IsVisible(addonsettings)') or control.homeWindow.getProperty('cocoscrapers.active') == 'true':
-					control.sleep(500)
-				control.sleep(100)
-				control.syncAccounts()
-				control.sleep(100)
-				control.openSettings('11.7', 'plugin.video.fuzzybritches_v5')
-			else:
-				control.openSettings('0.0','script.module.cocoscrapers')
 		elif action == 'tools_traktManager':
 			from resources.lib.modules import trakt
 			watched = (params.get('watched') == 'True') if params.get('watched') else None
@@ -901,6 +981,12 @@ def router(argv2):
 			elif caller == 'alldebrid':
 				from resources.lib.debrid import alldebrid
 				if params.get('type') == 'unrestrict': control.player.play(alldebrid.AllDebrid().unrestrict_link(url.replace(' ', '%20')))
+				else: control.player.play(url.replace(' ', '%20'))
+			elif caller == 'torbox':
+				from resources.lib.debrid import torbox
+				if params.get('type') == 'unrestrict':
+					if mediatype == 'usenet': control.player.play(torbox.TorBox().unrestrict_usenet(url.replace(' ', '%20')))
+					else: control.player.play(torbox.TorBox().unrestrict_link(url.replace(' ', '%20')))
 				else: control.player.play(url.replace(' ', '%20'))
 			else:
 				control.player.play(url.replace(' ', '%20'))
@@ -1055,6 +1141,10 @@ def router(argv2):
 			from resources.lib.debrid.premiumize import Premiumize as debrid_function
 		elif caller == 'AllDebrid':
 			from resources.lib.debrid.alldebrid import AllDebrid as debrid_function
+		elif caller == 'EasyDebrid':
+			from resources.lib.debrid.easydebrid import EasyDebrid as debrid_function
+		elif caller == 'TorBox':
+			from resources.lib.debrid.torbox import TorBox as debrid_function
 		success = debrid_function().add_uncached_torrent(url, pack=pack)
 		if success:
 			from resources.lib.modules import sources

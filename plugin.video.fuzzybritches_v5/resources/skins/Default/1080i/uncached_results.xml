@@ -171,7 +171,7 @@
 						<aligny>center</aligny>
 						<aspectratio>keep</aspectratio>
 						<texture>$INFO[ListItem.Property(fuzzybritches.quality_icon)]</texture>
-						<visible>!String.IsEqual(Window().Property(fuzzybritches.usecoloricons),1)</visible>
+						<visible>String.IsEqual(Window().Property(fuzzybritches.usecoloricons),0)</visible>
 					</control>
 					<control type="image">
 						<description>Quality Icon RD</description>
@@ -202,6 +202,36 @@
 						<align>left</align>
 						<texture colordiffuse="$INFO[Window().Property(fuzzybritches.premiumizecolor)]">$INFO[ListItem.Property(fuzzybritches.quality_icon1)]</texture>
 						<visible>String.IsEqual(ListItem.Property(fuzzybritches.debrid),Premiumize)+String.IsEqual(Window().Property(fuzzybritches.usecoloricons),1)</visible>
+					</control>
+					<control type="image">
+						<description>Quality Icon OC</description>
+						<left>0</left>
+						<top>0</top>
+						<width>100</width>
+						<height>100</height>
+						<align>left</align>
+						<texture colordiffuse="$INFO[Window().Property(fuzzybritches.offcloudcolor)]">$INFO[ListItem.Property(fuzzybritches.quality_icon1)]</texture>
+						<visible>String.IsEqual(ListItem.Property(fuzzybritches.debrid),Offcloud)+String.IsEqual(Window().Property(fuzzybritches.usecoloricons),1)</visible>
+					</control>
+					<control type="image">
+						<description>Quality Icon TB</description>
+						<left>0</left>
+						<top>0</top>
+						<width>100</width>
+						<height>100</height>
+						<align>left</align>
+						<texture colordiffuse="$INFO[Window().Property(fuzzybritches.torboxcolor)]">$INFO[ListItem.Property(fuzzybritches.quality_icon1)]</texture>
+						<visible>String.IsEqual(ListItem.Property(fuzzybritches.debrid),TorBox)+String.IsEqual(Window().Property(fuzzybritches.usecoloricons),1)</visible>
+					</control>
+					<control type="image">
+						<description>Quality Icon ED</description>
+						<left>0</left>
+						<top>0</top>
+						<width>100</width>
+						<height>100</height>
+						<align>left</align>
+						<texture colordiffuse="$INFO[Window().Property(fuzzybritches.easydebridcolor)]">$INFO[ListItem.Property(fuzzybritches.quality_icon1)]</texture>
+						<visible>String.IsEqual(ListItem.Property(fuzzybritches.debrid),EasyDebrid)+String.IsEqual(Window().Property(fuzzybritches.usecoloricons),1)</visible>
 					</control>
 					<control type="image">
 						<description>Quality Icon Plex</description>
@@ -287,7 +317,7 @@
 						<aligny>center</aligny>
 						<aspectratio>keep</aspectratio>
 						<texture>$INFO[ListItem.Property(fuzzybritches.quality_icon)]</texture>
-						<visible>!String.IsEqual(Window().Property(fuzzybritches.usecoloricons),1)</visible>
+						<visible>String.IsEqual(Window().Property(fuzzybritches.usecoloricons),0)</visible>
 					</control>
 					<control type="image">
 						<description>Quality Icon RD</description>
@@ -318,6 +348,36 @@
 						<align>left</align>
 						<texture colordiffuse="black">$INFO[ListItem.Property(fuzzybritches.quality_icon1)]</texture>
 						<visible>String.IsEqual(ListItem.Property(fuzzybritches.debrid),Premiumize)+String.IsEqual(Window().Property(fuzzybritches.usecoloricons),1)</visible>
+					</control>
+					<control type="image">
+						<description>Quality Icon PM</description>
+						<left>0</left>
+						<top>0</top>
+						<width>100</width>
+						<height>100</height>
+						<align>left</align>
+						<texture colordiffuse="black">$INFO[ListItem.Property(fuzzybritches.quality_icon1)]</texture>
+						<visible>String.IsEqual(ListItem.Property(fuzzybritches.debrid),TorBox)+String.IsEqual(Window().Property(fuzzybritches.usecoloricons),1)</visible>
+					</control>
+					<control type="image">
+						<description>Quality Icon PM</description>
+						<left>0</left>
+						<top>0</top>
+						<width>100</width>
+						<height>100</height>
+						<align>left</align>
+						<texture colordiffuse="black">$INFO[ListItem.Property(fuzzybritches.quality_icon1)]</texture>
+						<visible>String.IsEqual(ListItem.Property(fuzzybritches.debrid),EasyDebrid)+String.IsEqual(Window().Property(fuzzybritches.usecoloricons),1)</visible>
+					</control>
+					<control type="image">
+						<description>Quality Icon OC</description>
+						<left>0</left>
+						<top>0</top>
+						<width>100</width>
+						<height>100</height>
+						<align>left</align>
+						<texture colordiffuse="black">$INFO[ListItem.Property(fuzzybritches.quality_icon1)]</texture>
+						<visible>String.IsEqual(ListItem.Property(fuzzybritches.debrid),Offcloud)+String.IsEqual(Window().Property(fuzzybritches.usecoloricons),1)</visible>
 					</control>
 					<control type="image">
 						<description>Quality Icon Plex</description>

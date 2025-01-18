@@ -1,16 +1,27 @@
 # -*- coding: utf-8 -*-
-"""
-	FuzzyBritches Add-on Updated 10-3-22
-"""
+###############################################################################
+#                           "A BEER-WARE LICENSE"                             #
+# ----------------------------------------------------------------------------#
+# Feel free to do whatever you wish with this file. Since we most likey will  #
+# never meet, buy a stranger a beer. Give credit to ALL named, unnamed, past, #
+# present and future dev's of this & files like this. -Share the Knowledge!   #
+###############################################################################
+
+# Addon Name: Fuzzy Britches v5
+# Addon id: plugin.video.fuzzybritches_v5
+# Addon Provider: The Papaw
+
+'''
+Included with the Fuzzy Britches v5 Add-on
+'''
 
 from datetime import datetime, timedelta
 from json import dumps as jsdumps, loads as jsloads
 import re
-import _strptime # import _strptime to workaround python 2 bug with threads
 from sys import exit as sysexit
 from threading import Thread
 from time import time
-from urllib.parse import unquote, urlencode, quote_plus
+from urllib.parse import unquote, quote_plus
 from sqlite3 import dbapi2 as database
 from resources.lib.database import metacache, providerscache
 from resources.lib.modules import cleandate
@@ -21,7 +32,6 @@ from resources.lib.modules import string_tools
 from resources.lib.modules.source_utils import supported_video_extensions, getFileType, aliases_check
 from resources.lib.cloud_scrapers import cloudSources
 from resources.lib.internal_scrapers import internalSources
-#from cocoscrapers import sources as fs_sources
 
 homeWindow = control.homeWindow
 playerWindow = control.playerWindow
@@ -32,7 +42,7 @@ single_expiry = timedelta(hours=6)
 season_expiry = timedelta(hours=48)
 show_expiry = timedelta(hours=48)
 video_extensions = supported_video_extensions()
-internal_scrapers_clouds_list = [('realdebrid', 'rd_cloud', 'rd'), ('premiumize', 'pm_cloud', 'pm'), ('alldebrid', 'ad_cloud', 'ad')]
+internal_scrapers_clouds_list = [('realdebrid', 'rd_cloud', 'rd'), ('premiumize', 'pm_cloud', 'pm'), ('alldebrid', 'ad_cloud', 'ad'),('torbox', 'tb_cloud', 'tb'),('offcloud', 'oc_cloud', 'oc')]
 
 class Sources:
 	def __init__(self, all_providers=False, custom_query=False, filterless_scrape=False, rescrapeAll=False):
@@ -43,42 +53,28 @@ class Sources:
 		self.all_providers = all_providers
 		self.custom_query = custom_query
 		self.filterless_scrape = filterless_scrape
-		self.rescrapeAll = rescrapeAll
 		self.time = datetime.now()
 		self.getConstants()
 		self.enable_playnext = getSetting('enable.playnext') == 'true'
 		self.dev_mode = getSetting('dev.mode.enable') == 'true'
 		self.dev_disable_single = getSetting('dev.disable.single') == 'true'
-		self.useTitleSubs = getSetting('sources.useTitleSubs') == 'true'
 		# self.dev_disable_single_filter = getSetting('dev.disable.single.filter') == 'true'
-		
 		self.dev_disable_season_packs = getSetting('dev.disable.season.packs') == 'true'
 		self.dev_disable_season_filter = getSetting('dev.disable.season.filter') == 'true'
 		self.dev_disable_show_packs = getSetting('dev.disable.show.packs') == 'true'
 		self.dev_disable_show_filter = getSetting('dev.disable.show.filter') == 'true'
+		self.highlight_color = getSetting('scraper.dialog.color')
+		
+		self.rescrapeAll = rescrapeAll
+		self.retryallsources = getSetting('sources.retryall') == 'true'
 		self.uncached_nopopup = getSetting('sources.nocachepopup') == 'true'
-		self.highlight_color = getSetting('highlight.color')
-		self.sourceHighlightColor = getSetting('sources.highlight.color')
-		self.realdebridHighlightColor = control.getProviderHighlightColor('real-debrid')
-		self.alldebridHighlightColor = control.getProviderHighlightColor('alldebrid')
-		self.premiumizeHighlightColor = control.getProviderHighlightColor('premiumize.me')
-		self.easynewsHighlightColor = control.getProviderHighlightColor('easynews')
-		self.plexHighlightColor = control.getProviderHighlightColor('plexshare')
-		self.gdriveHighlightColor = control.getProviderHighlightColor('gdrive')
-		self.filePursuitHighlightColor = control.getProviderHighlightColor('filepursuit')
-		self.useProviders = True if getSetting('sources.highlightmethod') == '1' else False
-		self.providerColors = {"useproviders": self.useProviders, "defaultcolor": self.sourceHighlightColor, "realdebrid": self.realdebridHighlightColor, "alldebrid": self.alldebridHighlightColor, "premiumize": self.premiumizeHighlightColor, "easynews": self.easynewsHighlightColor, "plexshare": self.plexHighlightColor, "gdrive": self.gdriveHighlightColor, "filepursuit": self.filePursuitHighlightColor}
 		self.providercache_hours = int(getSetting('cache.providers'))
 		self.debuglog = control.setting('debug.level') == '1'
-		self.retryallsources = getSetting('sources.retryall') == 'true'
 		self.external_module = getSetting('external_provider.module')
+		self.isHidden = getSetting('progress.dialog') == '4'
+		self.useTitleSubs = getSetting('sources.useTitleSubs') == 'true'
 
 	def play(self, title, year, imdb, tmdb, tvdb, season, episode, tvshowtitle, premiered, meta, select, rescrape=None):
-		self.premiered = premiered
-		try:
-			control.checkPlayNextEpisodes()
-		except:
-			log_utils.error()
 		if not self.prem_providers:
 			control.sleep(200) ; control.hide()
 			return control.notification(message=33034)
@@ -117,6 +113,7 @@ class Sources:
 			homeWindow.clearProperty(self.labelProperty)
 			homeWindow.setProperty(self.labelProperty, p_label)
 			url = None
+			
 			self.mediatype = 'movie' if tvshowtitle is None else 'episode'
 			try: meta = jsloads(unquote(meta.replace('%22', '\\"')))
 			except: pass
@@ -169,13 +166,13 @@ class Sources:
 				try:
 					if self.mediatype != 'episode': raise Exception()
 					# do not add IMDBNUMBER as tmdb scraper puts their id in the key value
-					show_meta = control.jsonrpc('{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"filter":{"or": [{"field": "year", "operator": "is", "value": "%s"}, {"field": "year", "operator": "is", "value": "%s"}, {"field": "year", "operator": "is", "value": "%s"}]}, "properties" : ["title", "originaltitle", "uniqueid", "mpaa", "year", "genre", "runtime", "thumbnail", "file"]}, "id": 1}' % (self.year, str(int(self.year)+1), str(int(self.year)-1)))
+					show_meta = control.jsonrpc('{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"filter":{"or": [{"field": "year", "operator": "is", "value": "%s"}, {"field": "year", "operator": "is", "value": "%s"}, {"field": "year", "operator": "is", "value": "%s"}]}, "properties" : ["title", "originaltitle", "uniqueid", "mpaa", "year", "genre", "runtime", "thumbnail", "file"]}, "id": 1}' % (year, str(int(year)+1), str(int(year)-1)))
 					show_meta = jsloads(show_meta)['result']['tvshows']
 					show_meta = [i for i in show_meta if i.get('uniqueid', []).get('imdb', '') == imdb]
 					if show_meta: show_meta = show_meta[0]
 					else: raise Exception()
 					tvshowid = show_meta['tvshowid']
-					meta = control.jsonrpc('{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params":{"tvshowid": %d, "filter":{"and": [{"field": "season", "operator": "is", "value": "%s"}, {"field": "episode", "operator": "is", "value": "%s"}]}, "properties": ["title", "season", "episode", "showtitle", "firstaired", "runtime", "rating", "director", "writer", "cast", "plot", "thumbnail", "art", "file"]}, "id": 1}' % (tvshowid, self.season, self.episode))
+					meta = control.jsonrpc('{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params":{"tvshowid": %d, "filter":{"and": [{"field": "season", "operator": "is", "value": "%s"}, {"field": "episode", "operator": "is", "value": "%s"}]}, "properties": ["title", "season", "episode", "showtitle", "firstaired", "runtime", "rating", "director", "writer", "cast", "plot", "thumbnail", "art", "file"]}, "id": 1}' % (tvshowid, season, episode))
 					meta = jsloads(meta)['result']['episodes']
 					if meta: meta = meta[0]
 					else: raise Exception()
@@ -192,7 +189,7 @@ class Sources:
 					clearart = cleanLibArt(meta.get('art').get('tvshow.clearart', ''))
 					clearlogo = cleanLibArt(meta.get('art').get('tvshow.clearlogo', ''))
 					discart = cleanLibArt(meta.get('art').get('discart'))
-					meta.update({'imdb': self.imdb, 'tmdb': self.tmdb, 'tvdb': self.tvdb, 'poster': poster, 'fanart': fanart, 'clearart': clearart, 'clearlogo': clearlogo, 'discart': discart})
+					meta.update({'imdb': imdb, 'tmdb': tmdb, 'tvdb': tvdb, 'poster': poster, 'fanart': fanart, 'clearart': clearart, 'clearlogo': clearlogo, 'discart': discart})
 					return meta
 				except:
 					log_utils.error()
@@ -229,6 +226,7 @@ class Sources:
 				filter += [i for i in items if i not in uncached_items]
 				if filter: pass
 				elif not filter:
+					homeWindow.clearProperty('fuzzybritches.window_keep_alive')
 					if not self.uncached_nopopup:
 						if control.yesnoDialog('No cached torrents returned. Would you like to view the uncached torrents to cache yourself?', '', ''):
 							control.cancelPlayback()
@@ -268,6 +266,8 @@ class Sources:
 			#except:
 			#	log_utils.error()
 			#log_utils.log('Playing from play which indicates pre-scrape or autoplay source url is: %s' % url, level=log_utils.LOGDEBUG)
+			if season == 'None': season = None
+			if episode == 'None': episode = None
 			from resources.lib.modules import player
 			player.Player().play_source(title, year, season, episode, imdb, tmdb, tvdb, url, self.meta)
 		except:
@@ -276,7 +276,6 @@ class Sources:
 
 	def sourceSelect(self, title, items, uncached_items, meta):
 		try:
-			from resources.lib.windows.source_results import SourceResultsXML
 			control.hide()
 			control.playlist.clear()
 			if not items:
@@ -383,13 +382,18 @@ class Sources:
 				uncached_items = self.sort_byQuality(source_list=uncached_items)
 			if items == uncached_items:
 				from resources.lib.windows.uncached_results import UncachedResultsXML
-				window = UncachedResultsXML('uncached_results.xml', control.addonPath(control.addonId()), uncached=uncached_items, meta=self.meta, colors=self.providerColors)
-			else: window = SourceResultsXML('source_results.xml', control.addonPath(control.addonId()), results=items, uncached=uncached_items, meta=self.meta, colors=self.providerColors)
+				window = UncachedResultsXML('uncached_results.xml', control.addonPath(control.addonId()), uncached=uncached_items, meta=self.meta)
+			else:
+				from resources.lib.windows.source_results import SourceResultsXML
+				window = SourceResultsXML('source_results.xml', control.addonPath(control.addonId()), results=items, uncached=uncached_items, meta=self.meta)
 			action, chosen_source = window.run()
 			del window
 			if action == 'play_Item' and self.uncached_chosen != True:
 				return self.playItem(title, items, chosen_source.getProperty('fuzzybritches.source_dict'), self.meta)
 			else:
+				homeWindow.clearProperty('fuzzybritches.window_keep_alive')
+				try: self.window.close()
+				except: pass
 				control.cancelPlayback()
 		except:
 			log_utils.error('Error sourceSelect(): ')
@@ -414,24 +418,27 @@ class Sources:
 					resolve_items = [i for i in chosen_source + sources_next + sources_prev]
 			except: log_utils.error()
 			try:
-				resolvePoster = meta.get('poster')
+				poster = meta.get('poster')
 			except:
-				resolvePoster = None
+				poster = ''
 			header = homeWindow.getProperty(self.labelProperty) + ': Resolving...'
-			if getSetting('progress.dialog') == '0':
-				if getSetting('dialogs.usefuzzybritchesdialog') == 'true':
-					progressDialog = control.getProgressWindow(header, resolvePoster, 0,1)
-					progressDialog.set_controls()
-				else:
-					progressDialog = control.progressDialog
-					progressDialog.create(header,'')
-			if getSetting('progress.dialog') == '1':
+			try:
+				if getSetting('progress.dialog') == '0':
+					if getSetting('dialogs.usefuzzybritchesdialog') == 'true':
+						progressDialog = control.getProgressWindow(header, icon=poster)
+					else:
+						progressDialog = control.progressDialog
+						progressDialog.create(header,'')
+				elif getSetting('progress.dialog') in ('2', '3', '4'):
+					if homeWindow.getProperty('fuzzybritches.window_keep_alive') != 'true':
+						progressDialog = self.getWindowProgress(title, meta)
+						Thread(target=self.window_monitor, args=(progressDialog,)).start()
+					else: progressDialog = self.window
+				else: raise Exception()
+			except:
+				homeWindow.clearProperty('fuzzybritches.window_keep_alive')
 				progressDialog = control.progressDialogBG
 				progressDialog.create(header, '')
-			if getSetting('progress.dialog') == '2':
-				progressDialog = self.getProcessResolver(title, meta)
-			if getSetting('progress.dialog') == '3' or getSetting('progress.dialog') == '4':
-				progressDialog = self.getIconProgress()
 			for i in range(len(resolve_items)):
 				try:
 					resolve_index = items.index(resolve_items[i])+1
@@ -442,7 +449,12 @@ class Sources:
 						else:
 							label = '[COLOR %s]%s[CR]%02d - %s[CR]%s[/COLOR]' % (self.highlight_color, src_provider.upper(), resolve_index, resolve_items[i]['name'], str(round(resolve_items[i]['size'], 2)) + ' GB') # using "[CR]" has some weird delay with progressDialog.update() at times
 					elif getSetting('progress.dialog') == '2':
-						label = '[COLOR %s]%s[CR]%s[CR]%s[/COLOR]' % (self.highlight_color, src_provider.upper(), resolve_items[i]['provider'].upper(), resolve_items[i]['info'])
+						resolveInfo = resolve_items[i]['info'].replace('/',' ')
+						if meta.get('plot'):
+							plotLabel = '[COLOR %s]%s[/COLOR][CR][CR]' %  (getSetting('sources.highlight.color'),meta.get('plot'))
+						else:
+							plotLabel = ''
+						label = plotLabel + '[COLOR %s]%s[CR]%s[CR]%s[CR]%s[CR]%02d - %s[/COLOR]' % (self.highlight_color, src_provider.upper(), resolve_items[i]['provider'].upper(), resolve_items[i]['quality'].upper(), resolveInfo, resolve_index, resolve_items[i]['name'][:30])
 					else:
 						label = '[COLOR %s]%s[CR]%02d - %s[CR]%s[/COLOR]' % (self.highlight_color, src_provider.upper(), resolve_index, resolve_items[i]['name'], str(round(resolve_items[i]['size'], 2)) + ' GB') # using "[CR]" has some weird delay with progressDialog.update() at times
 					control.sleep(100)
@@ -450,7 +462,7 @@ class Sources:
 						if progressDialog.iscanceled(): break
 						progressDialog.update(int((100 / float(len(resolve_items))) * i), label)
 					except: 
-							progressDialog.update(int((100 / float(len(resolve_items))) * i), '[COLOR %s]Resolving...[/COLOR]%s' % (self.highlight_color, resolve_items[i]['name']))
+						progressDialog.update(int((100 / float(len(resolve_items))) * i), '[COLOR %s]Resolving...[/COLOR]%s' % (self.highlight_color, resolve_items[i]['name']))
 					w = Thread(target=self.sourcesResolve, args=(resolve_items[i],))
 					w.start()
 					for x in range(40):
@@ -467,12 +479,13 @@ class Sources:
 						control.sleep(200)
 					if not self.url: continue
 					# if not any(x in self.url.lower() for x in video_extensions):
-					if not any(x in self.url.lower() for x in video_extensions) and 'plex.direct:' not in self.url:
+					if not any(x in self.url.lower() for x in video_extensions) and 'plex.direct:' not in self.url and 'torbox' not in self.url and 'plugin://plugin.video.composite_for_plex' not in self.url:
 						log_utils.log('Playback not supported for (playItem()): %s' % self.url, level=log_utils.LOGWARNING)
 						continue
-					try: progressDialog.close()
-					except: pass
-					del progressDialog
+					if homeWindow.getProperty('fuzzybritches.window_keep_alive') != 'true':
+						try: progressDialog.close()
+						except: pass
+						del progressDialog
 					from resources.lib.modules import player
 					player.Player().play_source(title, self.year, self.season, self.episode, self.imdb, self.tmdb, self.tvdb, self.url, meta)
 					return self.url
@@ -484,6 +497,7 @@ class Sources:
 		except: log_utils.error('Error playItem: ')
 
 	def getSources(self, title, year, imdb, tmdb, tvdb, season, episode, tvshowtitle, premiered, meta=None, preScrape=False):
+		self.window = None
 		if preScrape:
 			self.isPrescrape = True
 			if tvshowtitle is not None:
@@ -524,6 +538,7 @@ class Sources:
 					alias = {'title': tvshowtitle + ' ' + i, 'country': i.lower()}
 					if not alias in aliases: aliases.append(alias)
 			data = {'title': title, 'year': year, 'imdb': imdb, 'tvdb': tvdb, 'season': season, 'episode': episode, 'tvshowtitle': tvshowtitle, 'aliases': aliases, 'premiered': premiered}
+			if self.debrid_service: data.update({'debrid_service': self.debrid_service, 'debrid_token': self.debrid_token})
 			for i in scraperDict:
 				name, pack = i[0].upper(), i[2]
 				if pack == 'season': name = '%s (season pack)' % name
@@ -584,24 +599,27 @@ class Sources:
 				except: log_utils.error()
 			#progressDialog = control.progressDialog if getSetting('progress.dialog') == '0' else control.progressDialogBG
 			header = homeWindow.getProperty(self.labelProperty) + ': Scraping...'
-			if getSetting('progress.dialog') == '0':
-				if getSetting('dialogs.usefuzzybritchesdialog') == 'true':
-					progressDialog = control.getProgressWindow(header, None, 0, 0)
-					progressDialog.set_controls()
-				else:
-					progressDialog = control.progressDialog
-					progressDialog.create(header,'')
-			if getSetting('progress.dialog') == '1':
+			try:
+				if getSetting('progress.dialog') == '0':
+					if getSetting('dialogs.usefuzzybritchesdialog') == 'true':
+						progressDialog = control.getProgressWindow(header, icon='')
+						debrid_message = '[COLOR %s][B]Please wait...[CR]Checking Providers[/B][/COLOR]' % self.highlight_color
+					else:
+						progressDialog = control.progressDialog
+						progressDialog.create(header,'')
+						debrid_message = '[COLOR %s][B]Please wait...[CR]Checking Providers[/B][/COLOR]' % self.highlight_color
+				elif getSetting('progress.dialog') in ('2', '3','4'):
+					try: meta = self.meta
+					except: meta = {'title': title, 'year': year, 'imdb': imdb, 'tvdb': tvdb, 'season': season, 'episode': episode, 'tvshowtitle': tvshowtitle}
+					progressDialog = self.getWindowProgress(title, meta)
+					Thread(target=self.window_monitor, args=(progressDialog,)).start()
+					debrid_message = '[COLOR %s][B]Please wait...[CR]Checking Providers[/B][/COLOR]' % self.highlight_color
+				else: raise Exception()
+			except:
+				homeWindow.clearProperty('fuzzybritches.window_keep_alive')
 				progressDialog = control.progressDialogBG
 				progressDialog.create(header, '')
-			if getSetting('progress.dialog') == '2':
-				try:
-					prometa = self.meta
-				except:
-					prometa = None
-				progressDialog = self.getProgressScraper(title, year, imdb, tvdb, season, episode, prometa)
-			if getSetting('progress.dialog') == '3' or getSetting('progress.dialog') == '4':
-				progressDialog = self.getIconProgress()
+				debrid_message = '[COLOR %s][B]Please wait...  Checking Providers[/B][/COLOR]' % self.highlight_color
 			self.prepareSources()
 			sourceDict = self.sourceDict
 			progressDialog.update(0, getLS(32600)) # preparing sources
@@ -620,6 +638,7 @@ class Sources:
 				try: aliases.extend([i for i in trakt_aliases if not i in aliases]) # combine TMDb and Trakt aliases
 				except: pass
 				data = {'title': title, 'aliases': aliases, 'year': year, 'imdb': imdb}
+				if self.debrid_service: data.update({'debrid_service': self.debrid_service, 'debrid_token': self.debrid_token})
 				for i in sourceDict: threads_append(Thread(target=self.getMovieSource, args=(imdb, data, i[0], i[1]), name=i[0].upper()))
 			else:
 				scraperDict = [(i[0], i[1], '') for i in sourceDict] if ((not self.dev_mode) or (not self.dev_disable_single)) else []
@@ -638,13 +657,14 @@ class Sources:
 						if not alias in aliases: aliases.append(alias)
 				aliases = aliases_check(tvshowtitle, aliases)
 				data = {'title': title, 'year': year, 'imdb': imdb, 'tvdb': tvdb, 'season': season, 'episode': episode, 'tvshowtitle': tvshowtitle, 'aliases': aliases, 'premiered': premiered}
+				if self.debrid_service: data.update({'debrid_service': self.debrid_service, 'debrid_token': self.debrid_token})
 				for i in scraperDict:
 					name, pack = i[0].upper(), i[2]
 					if pack == 'season': name = '%s (season pack)' % name
 					elif pack == 'show': name = '%s (show pack)' % name
 					threads_append(Thread(target=self.getEpisodeSource, args=(imdb, season, episode, data, i[0], i[1], pack), name=name))
 			[i.start() for i in threads]
-			sdc = getSetting('scraper.dialog.color')
+			sdc = getSetting('sources.highlight.color')
 			string1 = getLS(32404) % (self.highlight_color, sdc, '%s') # msgid "[COLOR %s]Time elapsed:[/COLOR]  [COLOR %s]%s seconds[/COLOR]"
 			string3 = getLS(32406) % (self.highlight_color, sdc, '%s') # msgid "[COLOR %s]Remaining providers:[/COLOR] [COLOR %s]%s[/COLOR]"
 			string4 = getLS(32407) % (self.highlight_color, sdc, '%s') # msgid "[COLOR %s]Unfiltered Total: [/COLOR]  [COLOR %s]%s[/COLOR]"
@@ -687,7 +707,8 @@ class Sources:
 			try:
 				if control.monitor.abortRequested(): return sysexit()
 				try:
-					if progressDialog.iscanceled(): break
+					if progressDialog.iscanceled(): 
+						break
 				except: pass
 
 				if terminate_onCloud:
@@ -728,18 +749,15 @@ class Sources:
 				try:
 					info = [x.getName() for x in threads if x.is_alive() is True]
 					line1 = pdiag_format % (source_4k_label, source_1080_label, source_720_label, source_sd_label)
-					line2 = string4 % source_total_label + '     ' + string1 % round(time() - start_time, 1)
+					#line2 = string4 % source_total_label + '     ' + string1 % round(time() - start_time, 1)
+					line2 = string1 % round(time() - start_time, 1)
 					if len(info) > 6: line3 = string3 % str(len(info))
 					elif len(info) > 0: line3 = string3 % (', '.join(info))
 					else: break
-					#if len(info) > 6: line3f = string3f % str(len(info))
-					#elif len(info) > 0: line3f = string3f % (', '.join(info))
-					#else: break
-					#line1f = pdiagfull_format % (source_4k_label, source_1080_label, source_720_label, source_sd_label)
-					#line2f = string4f % source_total_label + '     ' + string1f % round(time() - start_time, 1)
 					current_time = time()
 					current_progress = current_time - start_time
-					percent = int((current_progress / float(timeout)) * 100)
+					#percent = int((current_progress / float(timeout)) * 100)
+					percent = int((len(sourceDict) - len(info)) * 100 / len(sourceDict))
 					if progressDialog != control.progressDialog and progressDialog != control.progressDialogBG:
 						progressDialog.update(max(1, percent), line1 + '[CR]' + line2 + '[CR]' + line3)
 					elif progressDialog != control.progressDialogBG: progressDialog.update(max(1, percent), line1 + '[CR]' + line2 + '[CR]' + line3)
@@ -750,15 +768,17 @@ class Sources:
 					break
 				control.sleep(25)
 			except: log_utils.error()
-		try: progressDialog.close()
-		except: pass
-		del progressDialog
+		progressDialog.update(100, debrid_message)
 		del threads[:] # Make sure any remaining providers are stopped, only deletes threads not started yet.
 		self.sources.extend(self.scraper_sources)
 		self.tvshowtitle = tvshowtitle
 		self.year = year
 		homeWindow.clearProperty('fs_filterless_search')
 		if len(self.sources) > 0: self.sourcesFilter()
+		if homeWindow.getProperty('fuzzybritches.window_keep_alive') != 'true':
+			try: progressDialog.close()
+			except: pass
+			del progressDialog
 		return self.sources
 
 	def preResolve(self, next_sources, next_meta):
@@ -783,7 +803,7 @@ class Sources:
 							log_utils.log('preResolve failed for : next_sources[i]=%s' % str(next_sources[i]), level=log_utils.LOGWARNING)
 						continue
 					# if not any(x in url.lower() for x in video_extensions):
-					if not any(x in url.lower() for x in video_extensions) and 'plex.direct:' not in url:
+					if not any(x in self.url.lower() for x in video_extensions) and 'plex.direct:' not in self.url and 'torbox' not in self.url and 'plugin://plugin.video.composite_for_plex' not in self.url:
 						if self.debuglog:
 							log_utils.log('preResolve Playback not supported for (sourcesAutoPlay()): %s' % url, level=log_utils.LOGWARNING)
 						continue
@@ -1036,7 +1056,6 @@ class Sources:
 			self.sources = [i for i in self.sources if ' 7CH ' not in i.get('info', '')]
 		if getSetting('remove.channel.8ch') == 'true':
 			self.sources = [i for i in self.sources if ' 8CH ' not in i.get('info', '')]
-
 		local = [i for i in self.sources if 'local' in i and i['local'] is True] # for library and videoscraper (skips cache check)
 		self.sources = [i for i in self.sources if not i in local]
 		direct = [i for i in self.sources if i['direct'] == True] # acct scrapers (skips cache check)
@@ -1053,7 +1072,12 @@ class Sources:
 		if getSetting('filepursuit.enable') == 'true':
 			fPursuitList = [i for i in direct if i['provider'] == 'filepursuit']
 			directstart.extend(fPursuitList)
-
+		if getSetting('tb_cloud.enabled') == 'true':
+			tbCloudList = [i for i in direct if i['provider'] == 'tb_cloud']
+			directstart.extend(tbCloudList)
+		if getSetting('oc_cloud.enabled') == 'true':
+			ocCloudList = [i for i in direct if i['provider'] == 'oc_cloud']
+			directstart.extend(ocCloudList)
 		#direct = directstart
 		self.sources = [i for i in self.sources if not i in directstart]
 		from copy import deepcopy
@@ -1087,12 +1111,26 @@ class Sources:
 					valid_hoster = [i for i in valid_hosters if d.valid_url(i)]
 					threads.append(Thread(target=checkStatus, args=(self.ad_cache_chk_list, d.name, valid_hoster)))
 				except: log_utils.error()
+			if d.name == 'Offcloud' and getSetting('offcloud.enable') == 'true':
+				try:
+					valid_hoster = []
+					threads.append(Thread(target=checkStatus, args=(self.oc_cache_chk_list, d.name, valid_hoster)))
+				except: log_utils.error()
+			if d.name == 'EasyDebrid' and getSetting('easydebrid.enable') == 'true':
+				try:
+					valid_hoster = []
+					threads.append(Thread(name=d.name.upper(), target=checkStatus, args=(self.ed_cache_chk_list, d.name, valid_hoster)))
+				except: log_utils.error()
+			if d.name == 'TorBox' and getSetting('torbox.enable') == 'true':
+				try:
+					valid_hoster = []
+					threads.append(Thread(target=checkStatus, args=(self.tb_cache_chk_list, d.name, valid_hoster)))
+				except: log_utils.error()
 		if threads:
 			[i.start() for i in threads]
 			[i.join() for i in threads]
 		#self.filter += direct # add direct links in to be considered in priority sorting
 		self.filter += directstart
-		
 		try:
 			if len(self.prem_providers) > 1: # resort for debrid/direct priorty, when more than 1 account, because of order cache check threads finish
 				self.prem_providers.sort(key=lambda k: k[1])
@@ -1174,7 +1212,8 @@ class Sources:
 			a = i['url'].lower()
 			for sublist in filter:
 				try:
-					if i['source'] == 'cloud': break
+					if i['source'] == 'cloud':
+						break
 					b = sublist['url'].lower()
 					if 'magnet:' in a:
 						if i['hash'].lower() in b:
@@ -1199,64 +1238,63 @@ class Sources:
 		return filter
 
 	def sourcesAutoPlay(self, items):
-		control.hide()
-		control.sleep(200)
+		#control.hide()
+		#control.sleep(200)
 		if getSetting('autoplay.sd') == 'true': items = [i for i in items if not i['quality'] in ('4K', '1080p', '720p')]
 		header = homeWindow.getProperty(self.labelProperty) + ': Resolving...'
 		try:
-			resolvePoster = self.meta.get('poster')
+			poster = self.meta.get('poster')
 		except:
-			resolvePoster = None
+			poster = ''
 		try:
 			if getSetting('progress.dialog') == '0':
 				if getSetting('dialogs.usefuzzybritchesdialog') == 'true':
-					progressDialog = control.getProgressWindow(header, resolvePoster, 0,1)
-					progressDialog.set_controls()
+					progressDialog = control.getProgressWindow(header, icon=poster)
 				else:
 					progressDialog = control.progressDialog
 					progressDialog.create(header,'')
-			if getSetting('progress.dialog') == '1':
-				progressDialog = control.progressDialogBG
-				progressDialog.create(header, '')
-			if getSetting('progress.dialog') == '2':
-				progressDialog = self.getProcessResolver(self.title, self.meta)
-			if getSetting('progress.dialog') == '3' or getSetting('progress.dialog') == '4':
-				progressDialog = self.getIconProgress()
-		except: pass
+			elif getSetting('progress.dialog') in ('2', '3', '4'):
+				if homeWindow.getProperty('fuzzybritches.window_keep_alive') != 'true':
+					progressDialog = self.getWindowProgress(self.title, self.meta)
+					Thread(target=self.window_monitor, args=(progressDialog,)).start()
+				else: progressDialog = self.window
+			else: raise Exception()
+		except:
+			homeWindow.clearProperty('fuzzybritches.window_keep_alive')
+			progressDialog = control.progressDialogBG
+			progressDialog.create(header, '')
 		for i in range(len(items)):
 			try:
 				src_provider = items[i]['debrid'] if items[i].get('debrid') else ('%s - %s' % (items[i]['source'], items[i]['provider']))
-				if progressDialog != control.progressDialog and progressDialog != control.progressDialogBG:
-					sdc = getSetting('scraper.dialog.color')
-					#label = '[B][COLOR %s]%s[CR]%02d.)%s[CR]%s[/COLOR][/B]' % (sdc, src_provider.upper(), i+1, items[i]['name'], str(round(items[i]['size'], 2)) + ' GB') # using "[CR]" has some weird delay with progressDialog.update() at times
-					label = '[COLOR %s]%s[CR]%s[CR]%s[/COLOR]' % (self.highlight_color, src_provider.upper(), items[i]['provider'].upper() ,items[i]['info'])
+				if getSetting('progress.dialog') == '2':
+					resolveInfo = items[i]['info'].replace('/',' ')
+					if self.meta.get('plot'):
+						plotLabel = '[COLOR %s]%s[/COLOR][CR][CR]' % (getSetting('sources.highlight.color'), self.meta.get('plot'))
+					else:
+						plotLabel = ''
+					label = plotLabel + '[B][COLOR %s]%s[CR]%s[CR]%s[CR]%s[/COLOR][/B]' % (self.highlight_color, src_provider.upper(), items[i]['provider'].upper(),items[i]['quality'].upper(), resolveInfo)
 				else:
-					label = '[COLOR %s]%s[CR]%02d.)%s[CR]%s[/COLOR]' % (self.highlight_color, src_provider.upper(), i+1, items[i]['name'], str(round(items[i]['size'], 2)) + ' GB') # using "[CR]" has some weird delay with progressDialog.update() at times
-					
-				
+					label = '[B][COLOR %s]%s[CR]%s[CR]%s[/COLOR][/B]' % (self.highlight_color, src_provider.upper(), items[i]['provider'].upper(), items[i]['info'])
 				control.sleep(100)
 				try:
 					if progressDialog.iscanceled(): break
 					progressDialog.update(int((100 / float(len(items))) * i), label)
-				except: 
-					if progressDialog != control.progressDialog and progressDialog != control.progressDialogBG:
-						progressDialog.update(int((100 / float(len(items))) * i), '[COLOR %s]Resolving...[/COLOR]%02d.)%s' % (sdc, i+1, items[i]['name']))
-					else:
-						progressDialog.update(int((100 / float(len(items))) * i), '[COLOR %s]Resolving...[/COLOR]%02d.)%s' % (self.highlight_color, i+1, items[i]['name']))
+				except: progressDialog.update(int((100 / float(len(items))) * i), '[COLOR %s]Resolving...[/COLOR]%s' % (self.highlight_color, items[i]['name']))
 				try:
 					if control.monitor.abortRequested(): return sysexit()
 					url = self.sourcesResolve(items[i])
 					# if not any(x in url.lower() for x in video_extensions):
-					if not any(x in url.lower() for x in video_extensions) and 'plex.direct:' not in url:
+					if not any(x in self.url.lower() for x in video_extensions) and 'plex.direct:' not in self.url and 'torbox' not in self.url and 'plugin://plugin.video.composite_for_plex' not in self.url:
 						log_utils.log('Playback not supported for (sourcesAutoPlay()): %s' % url, level=log_utils.LOGWARNING)
 						continue
 					if url:
 						break
 				except: pass
 			except: log_utils.error()
-		try: progressDialog.close()
-		except: pass
-		del progressDialog
+		if homeWindow.getProperty('fuzzybritches.window_keep_alive') != 'true':
+			try: progressDialog.close()
+			except: pass
+			del progressDialog
 		return url
 
 	def sourcesResolve(self, item):
@@ -1282,7 +1320,14 @@ class Sources:
 						from resources.lib.debrid.premiumize import Premiumize as debrid_function
 					elif debrid_provider == 'AllDebrid':
 						from resources.lib.debrid.alldebrid import AllDebrid as debrid_function
+					elif debrid_provider == 'Offcloud':
+						from resources.lib.debrid.offcloud import Offcloud as debrid_function
+					elif debrid_provider == 'EasyDebrid':
+						from resources.lib.debrid.easydebrid import EasyDebrid as debrid_function
+					elif debrid_provider == 'TorBox':
+						from resources.lib.debrid.torbox import TorBox as debrid_function
 					else: return
+					
 					url = debrid_function().resolve_magnet(url, item['hash'], season, episode, title)
 					self.url = url
 					return url
@@ -1293,7 +1338,7 @@ class Sources:
 			try:
 				direct = item['direct']
 				if direct:
-					direct_sources = ('ad_cloud', 'pm_cloud', 'rd_cloud')
+					direct_sources = ('ad_cloud', 'oc_cloud', 'pm_cloud', 'rd_cloud', 'tb_cloud')
 					if item['provider'] in direct_sources:
 						try:
 							call = [i[1] for i in self.sourceDict if i[0] == item['provider']][0]
@@ -1311,6 +1356,8 @@ class Sources:
 						from resources.lib.debrid.premiumize import Premiumize as debrid_function
 					elif debrid_provider == 'AllDebrid':
 						from resources.lib.debrid.alldebrid import AllDebrid as debrid_function
+					#elif debrid_provider == 'TorBox':
+					#	from resources.lib.debrid.torbox import TorBox as debrid_function
 					url = debrid_function().unrestrict_link(url)
 					self.url = url
 					return url
@@ -1322,10 +1369,16 @@ class Sources:
 		try:
 			if provider in ('Real-Debrid', 'RD'):
 				from resources.lib.debrid.realdebrid import RealDebrid as debrid_function
-			elif provider in ('Premiumize.me', 'PM'):
+			elif provider in ('Premiumize', 'PM'):
 				from resources.lib.debrid.premiumize import Premiumize as debrid_function
 			elif provider in ('AllDebrid', 'AD'):
 				from resources.lib.debrid.alldebrid import AllDebrid as debrid_function
+			elif provider in ('Offcloud', 'OC'):
+				from resources.lib.debrid.offcloud import Offcloud as debrid_function
+			elif provider in ('EasyDebrid', 'ED'):
+				from resources.lib.debrid.easydebrid import EasyDebrid as debrid_function
+			elif provider in ('TorBox', 'TB'):
+				from resources.lib.debrid.torbox import TorBox as debrid_function
 			else: return
 			debrid_files = None
 			control.busy()
@@ -1338,17 +1391,31 @@ class Sources:
 			display_list = ['%02d | [B]%.2f GB[/B] | [I]%s[/I]' % (count, i['size'], i['filename'].upper()) for count, i in enumerate(debrid_files, 1)]
 			control.hide()
 			chosen = control.selectDialog(display_list, heading=name)
-			if chosen < 0: return None
+			if chosen < 0: 
+				if provider in ('TorBox', 'TB'):
+					if not getSetting('torbox.saveToCloud') == 'true':
+						torrent_id = debrid_files[0].get('link').split(',')[0]
+						debrid_function().delete_torrent(torrent_id)
+				return None
 			if control.condVisibility("Window.IsActive(source_results.xml)"): # close "source_results.xml" here after selection is made and valid
 				control.closeAll()
 			control.busy()
 			chosen_result = debrid_files[chosen]
 			if provider in ('Real-Debrid', 'RD'):
 				self.url = debrid_function().unrestrict_link(chosen_result['link'])
-			elif provider in ('Premiumize.me', 'PM'):
+			elif provider in ('Premiumize', 'PM'):
 				self.url = debrid_function().add_headers_to_url(chosen_result['link'])
 			elif provider in ('AllDebrid', 'AD'):
 				self.url = debrid_function().unrestrict_link(chosen_result['link'])
+			elif provider in ('Offcloud', 'OC'):
+				self.url = chosen_result['link']
+			elif provider in ('EasyDebrid', 'ED'):
+				self.url = chosen_result['link']
+			elif provider in ('TorBox', 'TB'):
+				self.url = debrid_function().unrestrict_link(chosen_result['link'])
+				if not getSetting('torbox.saveToCloud') == 'true':
+					torrent_id = chosen_result.get('link').split(',')[0]
+					debrid_function().delete_torrent(torrent_id)
 			from resources.lib.modules import player
 			meta = jsloads(unquote(homeWindow.getProperty(self.metaProperty).replace('%22', '\\"'))) # needed for CM "showDebridPack" action
 			title = meta['tvshowtitle']
@@ -1399,41 +1466,33 @@ class Sources:
 
 	def errorForSources(self,title=None, year=None, imdb=None, tmdb=None, tvdb=None, season=None, episode=None, tvshowtitle=None, premiered=None):
 		try:
+			
+			homeWindow.clearProperty('fuzzybritches.window_keep_alive')
 			control.sleep(200)
 			control.hide()
-			if self.url == 'close://': 
-				control.notification(message=32400)
-				control.cancelPlayback()
-			else: 
-				if self.retryallsources:
-					if self.rescrapeAll != 'true':
-						control.sleep(200)
-						control.notification(message=40404)
-						if self.mediatype == 'movie':
-							select = getSetting('play.mode.movie')
-						else: 
-							select = getSetting('play.mode.tv')
-						self.all_providers = 'true'
-						self.rescrapeAll = 'true'
-						plugin = 'plugin://plugin.video.fuzzybritches_v5/'
-						systitle = quote_plus(title)
-						if tvshowtitle:
-							systvshowtitle = quote_plus(tvshowtitle)
-						else:
-							systvshowtitle = ''
-						meta = self.meta
-						sysmeta = quote_plus(jsdumps(meta))
-						control.cancelPlayback()
-						path = 'PlayMedia(%s?action=rescrapeAuto&title=%s&year=%s&imdb=%s&tmdb=%s&tvdb=%s&season=%s&episode=%s&tvshowtitle=%s&premiered=%s&meta=%s&select=%s)' % (
-									plugin, systitle, year, imdb, tmdb, tvdb, season, episode, systvshowtitle, premiered, sysmeta, select)
-						control.execute(path)
-						#Sources(all_providers='true', rescrapeAll='true').play(title, year, imdb, tmdb, tvdb, season, episode, tvshowtitle, premiered, self.meta, select=select, rescrape='true')
-					else:
-						control.cancelPlayback()
-						control.notification(message=32401)
-				else:
+			if self.url == 'close://': control.notification(message=32400)
+			elif self.retryallsources:
+				if self.rescrapeAll == 'true':
 					control.notification(message=32401)
+				else:
+					control.notification(message=40404)
 					control.cancelPlayback()
+					control.sleep(200)
+					plugin = 'plugin://plugin.video.fuzzybritches_v5/'
+					if not episode: mediatype = 'movie'
+					else: mediatype = 'episode'
+					select = getSetting('play.mode.movie') if mediatype == 'movie' else getSetting('play.mode.tv')
+					systitle, sysmeta = quote_plus(title), quote_plus(jsdumps(self.meta))
+					if tvshowtitle:
+						url = '%s?action=rescrapeAuto&title=%s&year=%s&imdb=%s&tmdb=%s&tvdb=%s&season=%s&episode=%s&tvshowtitle=%s&premiered=%s&meta=%s&select=%s' % (
+								plugin, systitle, year, imdb, tmdb, tvdb, season, episode, quote_plus(tvshowtitle), premiered, sysmeta, select)
+					else:
+						url = '%s?action=rescrapeAuto&title=%s&year=%s&imdb=%s&tmdb=%s&premiered=%s&meta=%s&select=%s' % (
+								plugin, systitle, year, imdb, tmdb, premiered, sysmeta, select)
+					return control.execute('PlayMedia(%s)' % url)
+#					Sources(all_providers='true', rescrapeAll='true').play(title, year, imdb, tmdb, tvdb, season, episode, tvshowtitle, premiered, self.meta, select=select, rescrape='true')
+			else: control.notification(message=32401)
+			control.cancelPlayback()
 		except: log_utils.error()
 
 	def getAliasTitles(self, imdb, content):
@@ -1519,7 +1578,7 @@ class Sources:
 				#no external_provider_module
 				control.notification(message=control.lang(40447))
 				self.sourceDict = internalSources()
-				self.sourceDict.extend = cloudSources()
+				self.sourceDict.extend(cloudSources())
 			else:
 				try:
 					from sys import path
@@ -1542,6 +1601,14 @@ class Sources:
 			self.sourceDict.extend(cloudSources())
 		from resources.lib.debrid import premium_hosters
 		self.debrid_resolvers = debrid.debrid_resolvers()
+		for resolver in ('Real-Debrid', 'Premiumize.me', 'AllDebrid'):
+			try:
+				options = ((i.name, i.token) for i in self.debrid_resolvers if i.name == resolver)
+				if resolver := next(options, None):
+					self.debrid_service, self.debrid_token = (*resolver,)
+					break
+			except: pass
+		else: self.debrid_service, self.debrid_token = '', ''
 		self.prem_providers = [] # for sorting by debrid and direct source links priority
 		if control.setting('easynews.user'): self.prem_providers += [('easynews', int(getSetting('easynews.priority')))]
 		if control.setting('filepursuittoken'): self.prem_providers += [('filepursuit', int(getSetting('filepursuit.priority')))]
@@ -1588,7 +1655,8 @@ class Sources:
 				return self.sources
 		for i in self.sources:
 			try:
-				if i['provider'] == 'torrentio' or i['provider'] == 'selfhosted' or i['provider'] == 'elfhosted': continue # torrentio return file size based on episode query already so bypass re-calc
+#				if i['provider'] == 'torrentio' or i['provider'] == 'selfhosted' or i['provider'] == 'elfhosted': continue # torrentio return file size based on episode query already so bypass re-calc
+				if i['provider'] in ('torrentio', 'comet', 'knightcrawler', 'mediafusion', 'selfhosted'): continue # torrentio return file size based on episode query already so bypass re-calc
 				if 'package' in i:
 					dsize = i.get('size')
 					if not dsize: continue
@@ -1616,26 +1684,79 @@ class Sources:
 		return self.sources
 
 	def ad_cache_chk_list(self, torrent_List, hashList):
-		if len(torrent_List) == 0: return
+		#if len(torrent_List) == 0: return
 		try:
-			from resources.lib.debrid.alldebrid import AllDebrid
-			cached = AllDebrid().check_cache(hashList)
-			if not cached: return None
-			cached = cached['magnets']
+			# from resources.lib.debrid.alldebrid import AllDebrid
+			# cached = AllDebrid().check_cache(hashList)
+			# if not cached: return None
+			# cached = cached['magnets']
 			count = 0
 			for i in torrent_List:
-				if 'error' in cached[count]: # list index out of range
-					count += 1
-					continue
-				if cached[count]['instant'] is False:
-					if 'package' in i: i.update({'source': 'uncached (pack) torrent'})
-					else: i.update({'source': 'uncached torrent'})
-				else:
-					if 'package' in i: i.update({'source': 'cached (pack) torrent'})
-					else: i.update({'source': 'cached torrent'})
+				if 'package' in i: i.update({'source': 'unchecked (pack) torrent'})
+				else: i.update({'source': 'unchecked'})
+				# if 'error' in cached[count]: # list index out of range
+				# 	count += 1
+				# 	continue
+				# if cached[count]['instant'] is False:
+				# 	if 'package' in i: i.update({'source': 'uncached (pack) torrent'})
+				# 	else: i.update({'source': 'uncached torrent'})
+				# else:
+				# 	if 'package' in i: i.update({'source': 'cached (pack) torrent'})
+				# 	else: i.update({'source': 'cached torrent'})
 				count += 1
 			return torrent_List
 		except: log_utils.error()
+
+	def oc_cache_chk_list(self, torrent_List, hashList):
+		if len(torrent_List) == 0: return
+		try:
+			from resources.lib.debrid.offcloud import Offcloud
+			cached = Offcloud().check_cache(hashList)
+			if not cached: return None
+			cached = cached['cachedItems']
+			for i in torrent_List:
+				if i['hash'].lower() in cached:
+					if 'package' in i: i.update({'source': 'cached (pack) torrent'})
+					else: i.update({'source': 'cached torrent'})
+				else:
+					if 'package' in i: i.update({'source': 'uncached (pack) torrent'})
+					else: i.update({'source': 'uncached torrent'})
+			return torrent_List
+		except: log_utils.error()
+
+	def ed_cache_chk_list(self, torrent_List, hashList):
+		if len(torrent_List) == 0: return
+		try:
+			from resources.lib.debrid.easydebrid import EasyDebrid
+			cached = EasyDebrid().check_cache(hashList)
+			if not cached: return None
+			cached = cached['cached']
+			cached_torrent_list = []
+			for i, is_cached in zip(torrent_List, cached):
+				if i['hash'].lower() and is_cached:
+					if 'package' in i: i.update({'source': 'cached (pack) torrent'})
+					else: i.update({'source': 'cached torrent'})
+					cached_torrent_list.append(i)
+			return cached_torrent_list
+		except: log_utils.error()
+
+	def tb_cache_chk_list(self, torrent_List, hashList):
+		if len(torrent_List) == 0: return
+		try:
+			from resources.lib.debrid.torbox import TorBox
+			cached = TorBox().check_cache(hashList)
+			if not cached: return None
+			cached = [i['hash'] for i in cached['data']]
+			for i in torrent_List:
+				if i['hash'].lower() in cached:
+					if 'package' in i: i.update({'source': 'cached (pack) torrent'})
+					else: i.update({'source': 'cached torrent'})
+				else:
+					if 'package' in i: i.update({'source': 'uncached (pack) torrent'})
+					else: i.update({'source': 'uncached torrent'})
+			return torrent_List
+		except: log_utils.error()
+
 
 	def pm_cache_chk_list(self, torrent_List, hashList):
 		if len(torrent_List) == 0: return
@@ -1658,20 +1779,9 @@ class Sources:
 	def rd_cache_chk_list(self, torrent_List, hashList):
 		if len(torrent_List) == 0: return
 		try:
-			from resources.lib.debrid.realdebrid import RealDebrid
-			cached = RealDebrid().check_cache(hashList)
-			if not cached: return None
 			for i in torrent_List:
-				if 'rd' not in cached.get(i['hash'].lower(), {}): # i['hash'] could still be base32 here and not found due to conversion above
-					if 'package' in i: i.update({'source': 'uncached (pack) torrent'})
-					else: i.update({'source': 'uncached torrent'})
-					continue
-				elif len(cached[i['hash'].lower()]['rd']) >= 1:
-					if 'package' in i: i.update({'source': 'cached (pack) torrent'})
-					else: i.update({'source': 'cached torrent'})
-				else:
-					if 'package' in i: i.update({'source': 'uncached (pack) torrent'})
-					else: i.update({'source': 'uncached torrent'})
+				if 'package' in i: i.update({'source': 'unchecked (pack) torrent'})
+				else: i.update({'source': 'unchecked'})
 			return torrent_List
 		except: log_utils.error()
 
@@ -1763,38 +1873,21 @@ class Sources:
 		filter += [i for i in source_list if i['quality'] == 'CAM']
 		return filter
 
-	def getProgressScraper(self, title, year, imdb, tvdb, season, episode, meta):
-		from resources.lib.windows.progress_scrape import ProgressScrape
-		window = ProgressScrape('progress_scrape.xml', control.addonPath(control.addonId()), title=title, year=year, imdb=imdb, tvdb=tvdb, season=season, episode=episode, meta=meta)
+	def getWindowProgress(self, title, meta):
+		from resources.lib.windows.source_progress import WindowProgress
+		window = WindowProgress('source_progress.xml', control.addonPath(control.addonId()), title=title, meta=meta)
 		Thread(target=window.run).start()
 		return window
 
-	def getProcessResolver(self, title, meta):
-		year, imdb, tvdb, season, episode = self.year, self.imdb, self.tvdb, self.season, self.episode
-		if meta: meta = meta
-		else: meta = None
-		from resources.lib.windows.progress_resolve import ProgressResolve
-		window = ProgressResolve('progress_resolve.xml', control.addonPath(control.addonId()), title=title, year=year, imdb=imdb, tvdb=tvdb, season=season, episode=episode, meta=meta)
-		Thread(target=window.run).start()
-		return window
-
-	def getIconProgress(self):
-		blindmode = 'icon_scrape.xml'
-		if getSetting('progress.dialog') == '4':
-			blindmode = 'blind_scrape.xml'
-		from resources.lib.windows.icon_scrape import IconScrape
-		window = IconScrape(blindmode, control.addonPath(control.addonId()))
-		Thread(target=window.run).start()
-		return window
-
-	def getInfo(self):
-		#import xbmcgui
-		# li = xbmcgui.Window(xbmcgui.getCurrentWindowId()).getSelectedItem()
-		# dialog = xbmcgui.Dialog(li)
-		# return dialog.info(li)
-		#control.execute('Action(Info)')
-		#li = xbmcgui.Window().getControl(xbmcgui.getCurrentWindowId()).getSelectedItem()
-		pass
+	def window_monitor(self, window=None):
+		if window is None: return
+		self.window = window
+		homeWindow.setProperty('fuzzybritches.window_keep_alive', 'true')
+		while homeWindow.getProperty('fuzzybritches.window_keep_alive') == 'true': control.sleep(200)
+		homeWindow.clearProperty('fuzzybritches.window_keep_alive')
+		try: self.window.close()
+		except: pass
+		self.window = None
 
 	def get_internal_scrapers(self):
 		settings = ['provider.external', 'provider.plex', 'provider.gdrive']

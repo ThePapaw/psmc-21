@@ -1,7 +1,19 @@
 # -*- coding: utf-8 -*-
-"""
-	Scrapers Utility Module adapted from FS FuzzyBritches Dev 08/21/23
-"""
+###############################################################################
+#                           "A BEER-WARE LICENSE"                             #
+# ----------------------------------------------------------------------------#
+# Feel free to do whatever you wish with this file. Since we most likey will  #
+# never meet, buy a stranger a beer. Give credit to ALL named, unnamed, past, #
+# present and future dev's of this & files like this. -Share the Knowledge!   #
+###############################################################################
+
+# Addon Name: Fuzzy Britches v5
+# Addon id: plugin.video.fuzzybritches_v5
+# Addon Provider: The Papaw
+
+'''
+Included with the Fuzzy Britches v5 Add-on
+'''
 
 import re
 from resources.lib.modules import cleantitle
@@ -226,7 +238,7 @@ def clean_name(release_title):
 		if releasetitle_startswith('rifftrax'): return release_title # removed by "undesirables" anyway so exit
 		for i in unwanted_tags:
 			if releasetitle_startswith(i):
-				release_title = re.sub(r'^%s' % i.replace('+', '\+'), '', release_title, 1, re.I)
+				release_title = re.sub(r'^%s' % re.escape(i), '', release_title, 1, re.I)
 		release_title = release_title.lstrip('+.-:/ ')
 		release_title = re.sub(r'^\[.*?]', '', release_title, 1, re.I)
 		release_title = release_title.lstrip('.-[](){}:/')

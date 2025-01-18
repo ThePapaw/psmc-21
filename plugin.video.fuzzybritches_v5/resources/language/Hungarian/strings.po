@@ -1,6 +1,6 @@
-# Addon Name: FuzzyBritches
-# Addon id: plugin.video.fuzzybritches
-# Addon Provider: FuzzyBritches
+# Addon Name: Fuzzy Britches v5
+# Addon id: plugin.video.fuzzybritches_v5
+# Addon Provider: The Papaw
 # Translators:
 # Translators:
 # Translators:
@@ -10,7 +10,7 @@
 # Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: FuzzyBritches\n"
+"Project-Id-Version: Fuzzy Britches\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2022-10-02 16:35+0200\n"
 "Last-Translator: 1nf5um <infsum@proton.me>\n"
@@ -219,8 +219,8 @@ msgid "[B]SETTINGS[/B] : Downloads"
 msgstr "[B]BEÁLLÍTÁSOK[/B] : Letöltések"
 
 msgctxt "#32049"
-msgid "[B]FuzzyBritches[/B] : Viewtypes"
-msgstr "[B]FuzzyBritches[/B] : Nézettípusok"
+msgid "[B]Fuzzy Britches[/B] : Viewtypes"
+msgstr "[B]Fuzzy Britches[/B] : Nézettípusok"
 
 msgctxt "#32050"
 msgid "Enable cloud scraper"
@@ -287,11 +287,11 @@ msgid "Add To Playlist"
 msgstr "Hozzáadás a lejátszási listához"
 
 msgctxt "#32066"
-msgid "Watched in FuzzyBritches"
+msgid "Watched in Fuzzy Britches"
 msgstr "Umbrellában megtekintett"
 
 msgctxt "#32067"
-msgid "Unwatched in FuzzyBritches"
+msgid "Unwatched in Fuzzy Britches"
 msgstr "Umbrellában megtekintésre vár"
 
 msgctxt "#32068"
@@ -355,8 +355,8 @@ msgid "Trakt: Scrobble Reset"
 msgstr "Trakt: Ajánló alaphelyzetbe állítása "
 
 msgctxt "#32083"
-msgid "Clean Settings file: [B]FuzzyBritches[/B]"
-msgstr "Beállítási fájl tisztitása: [B]FuzzyBritches[/B]"
+msgid "Clean Settings file: [B]Fuzzy Britches[/B]"
+msgstr "Beállítási fájl tisztitása: [B]Fuzzy Britches[/B]"
 
 msgctxt "#32084"
 msgid "{} Obsolete Settings Entries Removed"
@@ -451,8 +451,8 @@ msgid "Update Service is disabled. Please enable and try again"
 msgstr "A frissítési szolgáltatás le van tiltva. Kérjük, engedélyezze és próbálja újra"
 
 msgctxt "#32107"
-msgid "Your Library Folders do not exist in PSMC Sources. Please run setup"
-msgstr "A könyvtármappák nem léteznek a PSMC forrásai közt. Kérjük, futtassa a varázslót"
+msgid "Your Library Folders do not exist in Kodi Sources. Please run setup"
+msgstr "A könyvtármappák nem léteznek a Kodi forrásai közt. Kérjük, futtassa a varázslót"
 
 msgctxt "#32108"
 msgid "No Shows in Addon Folder"
@@ -463,12 +463,12 @@ msgid "No Episode Updates Found"
 msgstr "Nem található frissebb epizód"
 
 msgctxt "#32110"
-msgid "Restart PSMC for changes is required"
-msgstr "Újra kell indítani a PSMC-t a változások alkalmazásához"
+msgid "Restart Kodi for changes is required"
+msgstr "Újra kell indítani a Kodi-t a változások alkalmazásához"
 
 msgctxt "#32111"
-msgid "Folders Failed to add to PSMC Sources"
-msgstr "A mappákat nem sikerült hozzáadni a PSMC forrásokhoz"
+msgid "Folders Failed to add to Kodi Sources"
+msgstr "A mappákat nem sikerült hozzáadni a Kodi forrásokhoz"
 
 msgctxt "#32112"
 msgid "Library Auto Update Service is now turned off"
@@ -488,7 +488,7 @@ msgstr "Hiba a Settings.xml tisztítása közben. A régi settings.xml fájl hel
 
 msgctxt "#32116"
 msgid "This feature is only supported in kodi 18 and beyond"
-msgstr "Ezt a funkciót csak a PSMC 18 és az azt követő verziók támogatják"
+msgstr "Ezt a funkciót csak a Kodi 18 és az azt követő verziók támogatják"
 
 msgctxt "#32117"
 msgid "Added to Favorites"
@@ -779,8 +779,8 @@ msgid "Paginate Lists when possible"
 msgstr "A listák oldalszámozása, ha lehetséges"
 
 msgctxt "#32189"
-msgid "Clear FuzzyBritches Log File"
-msgstr "FuzzyBritches naplófájl törlése"
+msgid "Clear Fuzzy Britches Log File"
+msgstr "Fuzzy Britches naplófájl törlése"
 
 msgctxt "#32190"
 msgid "Select All"
@@ -807,20 +807,20 @@ msgid "Prioritize HDR and Dolby-Vision to top"
 msgstr "A HDR és a Dolby Vision a lista tetejére helyezése"
 
 msgctxt "#32196"
-msgid "FuzzyBritches log file uploaded to:"
-msgstr "FuzzyBritches naplófájl feltöltve:"
+msgid "Fuzzy Britches log file uploaded to:"
+msgstr "Fuzzy Britches naplófájl feltöltve:"
 
 msgctxt "#32197"
-msgid "Write FuzzyBritches log in reverse order"
-msgstr "FuzzyBritches napló írása fordított sorrendben"
+msgid "Write Fuzzy Britches log in reverse order"
+msgstr "Fuzzy Britches napló írása fordított sorrendben"
 
 msgctxt "#32198"
-msgid "[B]PSMC - Upload log file to pastebin[/B]"
-msgstr "[B]PSMC - Naplófájl feltöltése a pastebinre[/B]"
+msgid "[B]Kodi - Upload log file to pastebin[/B]"
+msgstr "[B]Kodi - Naplófájl feltöltése a pastebinre[/B]"
 
 msgctxt "#32199"
-msgid "PSMC log file uploaded to:"
-msgstr "PSMC naplófájl feltöltve:"
+msgid "Kodi log file uploaded to:"
+msgstr "Kodi naplófájl feltöltve:"
 
 msgctxt "#32200"
 msgid "check title"
@@ -1207,8 +1207,8 @@ msgid "Providers Language"
 msgstr "Szolgáltatók nyelve"
 
 msgctxt "#32361"
-msgid "[B]FuzzyBritches[/B] : Reset View Types"
-msgstr "[B]FuzzyBritches[/B] : Nézet típusok visszaállítása"
+msgid "[B]Fuzzy Britches[/B] : Reset View Types"
+msgstr "[B]Fuzzy Britches[/B] : Nézet típusok visszaállítása"
 
 msgctxt "#32362"
 msgid "[B]SETTINGS[/B] : Navigation"
@@ -1711,8 +1711,8 @@ msgid "Resume"
 msgstr "Folytatás"
 
 msgctxt "#32506"
-msgid "[B]FuzzyBritches Global Context[/B] Settings"
-msgstr "[B]FuzzyBritches globális kontextus[/B] Beállítások"
+msgid "[B]Fuzzy Britches Global Context[/B] Settings"
+msgstr "[B]Fuzzy Britches globális kontextus[/B] Beállítások"
 
 msgctxt "#32510"
 msgid "[B]Cache Functions[/B]"
@@ -1771,20 +1771,20 @@ msgid "[B]Logging Tools[/B]"
 msgstr "[B]Naplózó eszközök[/B]"
 
 msgctxt "#32524"
-msgid "[B]FuzzyBritches - View Log File[/B]"
-msgstr "[B]FuzzyBritches - Naplófájl megtekintése[/B]"
+msgid "[B]Fuzzy Britches - View Log File[/B]"
+msgstr "[B]Fuzzy Britches - Naplófájl megtekintése[/B]"
 
 msgctxt "#32525"
-msgid "[B]FuzzyBritches - Clear Log File[/B]"
-msgstr "[B]FuzzyBritches - Naplófájl törlése[/B]"
+msgid "[B]Fuzzy Britches - Clear Log File[/B]"
+msgstr "[B]Fuzzy Britches - Naplófájl törlése[/B]"
 
 msgctxt "#3252"
-msgid "[B]FuzzyBritches - Show Changelog[/B]"
-msgstr "[B]FuzzyBritches - Változások listájának megjelenítése[/B]"
+msgid "[B]Fuzzy Britches - Show Changelog[/B]"
+msgstr "[B]Fuzzy Britches - Változások listájának megjelenítése[/B]"
 
 msgctxt "#32527"
-msgid "[B]FuzzyBritches - Upload log file to pastebin[/B]"
-msgstr "[B]FuzzyBritches - Naplófájl feltöltése a pastebinre[/B]"
+msgid "[B]Fuzzy Britches - Upload log file to pastebin[/B]"
+msgstr "[B]Fuzzy Britches - Naplófájl feltöltése a pastebinre[/B]"
 
 msgctxt "#32528"
 msgid "[B]My Accounts - View Log File[/B]"
@@ -1803,8 +1803,8 @@ msgid "[B]fuzzybritchesscrapers - Show Changelog[/B]"
 msgstr "[B]fuzzybritchesscrapers - Változások listájának megjelenítése[/B]"
 
 msgctxt "#32532"
-msgid "[B]View PSMC Log File[/B]"
-msgstr "[B]PSMC naplófájl megtekintése[/B]"
+msgid "[B]View Kodi Log File[/B]"
+msgstr "[B]Kodi naplófájl megtekintése[/B]"
 
 msgctxt "#32535"
 msgid "Play Random"
@@ -1879,24 +1879,24 @@ msgid "Are you sure?"
 msgstr "Biztos benne?"
 
 msgctxt "#32556"
-msgid "[B]FuzzyBritches[/B] : Library"
-msgstr "[B]FuzzyBritches[/B] : Könyvtár"
+msgid "[B]Fuzzy Britches[/B] : Library"
+msgstr "[B]Fuzzy Britches[/B] : Könyvtár"
 
 msgctxt "#32557"
 msgid "[B]LIBRARY[/B] : Settings"
 msgstr "[B]KÖNYVTÁR[/B] : Beállítások"
 
 msgctxt "#32558"
-msgid "[B]FuzzyBritches[/B] : Update library..."
-msgstr "[B]FuzzyBritches[/B] : Könyvtár frissítése..."
+msgid "[B]Fuzzy Britches[/B] : Update library..."
+msgstr "[B]Fuzzy Britches[/B] : Könyvtár frissítése..."
 
 msgctxt "#32559"
-msgid "[B]FuzzyBritches[/B] : Movie folder..."
-msgstr "[B]FuzzyBritches[/B] : Filmmappa..."
+msgid "[B]Fuzzy Britches[/B] : Movie folder..."
+msgstr "[B]Fuzzy Britches[/B] : Filmmappa..."
 
 msgctxt "#32560"
-msgid "[B]FuzzyBritches[/B] : TV folder..."
-msgstr "[B]FuzzyBritches[/B] : TV mappa..."
+msgid "[B]Fuzzy Britches[/B] : TV folder..."
+msgstr "[B]Fuzzy Britches[/B] : TV mappa..."
 
 msgctxt "#32561"
 msgid "[B]TRAKT[/B] : Import Movie Collection..."
@@ -2003,8 +2003,8 @@ msgid "[COLOR %s][I]New search...[/I][/COLOR]"
 msgstr "[COLOR %s][I]Új keresés...[/I][/COLOR][/COLOR]"
 
 msgctxt "#32604"
-msgid "[B]FuzzyBritches[/B] : Clear search history..."
-msgstr "[B]FuzzyBritches[/B] : Keresés előzményeinek törlése..."
+msgid "[B]Fuzzy Britches[/B] : Clear search history..."
+msgstr "[B]Fuzzy Britches[/B] : Keresés előzményeinek törlése..."
 
 msgctxt "#32605"
 msgid "Click to clear search history"
@@ -2107,8 +2107,8 @@ msgid "Provider filters"
 msgstr "Szolgáltatói szűrők"
 
 msgctxt "#32643"
-msgid "[B]FuzzyBritches[/B]: Settings"
-msgstr "[B]FuzzyBritches[/B]: Beállítások"
+msgid "[B]Fuzzy Britches[/B]: Settings"
+msgstr "[B]Fuzzy Britches[/B]: Beállítások"
 
 msgctxt "#32644"
 msgid "Trakt Bookmarks"
@@ -2119,8 +2119,8 @@ msgid "Auto Trakt Collections Syncing"
 msgstr "Trakt gyűjtemények automatikus szinkronizálása"
 
 msgctxt "#32646"
-msgid "Sync on PSMC Start"
-msgstr "Szinkronizálás a PSMC indulásakor"
+msgid "Sync on Kodi Start"
+msgstr "Szinkronizálás a Kodi indulásakor"
 
 msgctxt "#32647"
 msgid "Schedule Updates Every - Hour/s"
@@ -2231,12 +2231,12 @@ msgid "[B]TRAKT[/B] : Import TV Liked List..."
 msgstr "[B]TRAKT[/B] : Kedvelt sorozatok listájának importálása..."
 
 msgctxt "#32676"
-msgid "[B]FuzzyBritches[/B] : Clean library..."
-msgstr "[B]FuzzyBritches[/B] : Könyvtár tisztitása..."
+msgid "[B]Fuzzy Britches[/B] : Clean library..."
+msgstr "[B]Fuzzy Britches[/B] : Könyvtár tisztitása..."
 
 msgctxt "#32677"
-msgid "Add folders to PSMC Sources Now..."
-msgstr "Mappák hozzáadása a PSMC forrásokhoz most..."
+msgid "Add folders to Kodi Sources Now..."
+msgstr "Mappák hozzáadása a Kodi forrásokhoz most..."
 
 msgctxt "#32678"
 msgid "Updated TV Show title"
@@ -2295,8 +2295,8 @@ msgstr ""
 "Folytassuk?"
 
 msgctxt "#33020"
-msgid "FuzzyBritches will reload your profile to refresh the addon.xml"
-msgstr "Az FuzzyBritches újratölti a profilját, hogy frissítse az addon.xml-t"
+msgid "Fuzzy Britches will reload your profile to refresh the addon.xml"
+msgstr "Az Fuzzy Britches újratölti a profilját, hogy frissítse az addon.xml-t"
 
 msgctxt "#33021"
 msgid "Write failed"
@@ -2439,12 +2439,12 @@ msgid "Error"
 msgstr "Hiba"
 
 msgctxt "#33587"
-msgid "Install FuzzyBritches Global Context menu Addon..."
-msgstr "FuzzyBritches globális kontextus menü kiegészítő telepítése..."
+msgid "Install Fuzzy Britches Global Context menu Addon..."
+msgstr "Fuzzy Britches globális kontextus menü kiegészítő telepítése..."
 
 msgctxt "#33588"
-msgid "Enable FuzzyBritches Global Context menu"
-msgstr "FuzzyBritches globális kontextus menü engedélyezése"
+msgid "Enable Fuzzy Britches Global Context menu"
+msgstr "Fuzzy Britches globális kontextus menü engedélyezése"
 
 msgctxt "#33649"
 msgid "Ascending"
@@ -2543,8 +2543,8 @@ msgid "Unwatched Count"
 msgstr "Nem megtekintettek száma"
 
 msgctxt "#33942"
-msgid "The FuzzyBritches library path does not appear in the PSMC file sources and automatic library updates are therefore not possible. Please manually add the library path from FuzzyBritches's settings to the PSMC file sources. If the path in the settings were not changed, FuzzyBritches will use a directory in the addon profile to store library data."
-msgstr "Az FuzzyBritches könyvtár elérési útvonala nem jelenik meg a PSMC fájlforrásaiban, ezért az automatikus könyvtárfrissítés nem lehetséges. Kérjük, manuálisan adja hozzá a könyvtár elérési útvonalát az FuzzyBritches beállításaiból a PSMC fájlforrásaihoz. Ha a beállításokban szereplő elérési útvonal nem lett módosítva, az FuzzyBritches a könyvtári adatok tárolására a kiegészítő profiljában lévő könyvtárat fogja használni."
+msgid "The Fuzzy Britches library path does not appear in the Kodi file sources and automatic library updates are therefore not possible. Please manually add the library path from Fuzzy Britches's settings to the Kodi file sources. If the path in the settings were not changed, Fuzzy Britches will use a directory in the addon profile to store library data."
+msgstr "Az Fuzzy Britches könyvtár elérési útvonala nem jelenik meg a Kodi fájlforrásaiban, ezért az automatikus könyvtárfrissítés nem lehetséges. Kérjük, manuálisan adja hozzá a könyvtár elérési útvonalát az Fuzzy Britches beállításaiból a Kodi fájlforrásaihoz. Ha a beállításokban szereplő elérési útvonal nem lett módosítva, az Fuzzy Britches a könyvtári adatok tárolására a kiegészítő profiljában lévő könyvtárat fogja használni."
 
 msgctxt "#35017"
 msgid "Air Information"
@@ -2855,8 +2855,8 @@ msgid "Playlist Manager"
 msgstr "Lejátszási lista kezelő"
 
 msgctxt "#35523"
-msgid "A new version of FuzzyBritches is available from the repository. Please consider updating to v%s"
-msgstr "Az FuzzyBritches új verziója érhető el a depóból. Kérjük, fontolja meg a frissítést a v%s verzióra"
+msgid "A new version of Fuzzy Britches is available from the repository. Please consider updating to v%s"
+msgstr "Az Fuzzy Britches új verziója érhető el a depóból. Kérjük, fontolja meg a frissítést a v%s verzióra"
 
 msgctxt "#35524"
 msgid "Notify Me About Available Updates"
@@ -2959,8 +2959,8 @@ msgid "Saving Torrent to the %s Cloud"
 msgstr "Torrent mentése a(z) %s felhőbe"
 
 msgctxt "#40018"
-msgid "FuzzyBritches: Cloud Transfer"
-msgstr "FuzzyBritches: Felhő átvitel"
+msgid "Fuzzy Britches: Cloud Transfer"
+msgstr "Fuzzy Britches: Felhő átvitel"
 
 msgctxt "#40019"
 msgid "Authentication with Real-Debrid has failed, please try again"
@@ -3208,7 +3208,7 @@ msgstr "Ikon és poszter sikeresen törölve!"
 
 msgctxt "#40080"
 msgid "Trakt Tokens are out of sync and have been revoked. Please re-authorize Trakt in My Accounts module and reboot."
-msgstr "A Trakt tokenek nem szinkronizálódtak és visszavonták őket. Kérjük, engedélyezze újra a Traktet a Fiókjaim modulban és indítsa újra a PSMCt."
+msgstr "A Trakt tokenek nem szinkronizálódtak és visszavonták őket. Kérjük, engedélyezze újra a Traktet a Fiókjaim modulban és indítsa újra a Kodit."
 
 msgctxt "#40081"
 msgid "Prioritize Dolby-Vision above HDR"
@@ -3355,8 +3355,8 @@ msgid "Authorization"
 msgstr "Hitelesítés"
 
 msgctxt "#40122"
-msgid "Launch FuzzyBritches on PSMC Start"
-msgstr "Indítsa el az FuzzyBritches-t a PSMC indulásakor"
+msgid "Launch Fuzzy Britches on Kodi Start"
+msgstr "Indítsa el az Fuzzy Britches-t a Kodi indulásakor"
 
 msgctxt "#40123"
 msgid "[B]SETTINGS[/B] : Trakt"
@@ -4387,7 +4387,7 @@ msgid "TV Show Search Provider"
 msgstr ""
 
 msgctxt "#40334"
-msgid "Fix Blank Settings: [B]FuzzyBritches[/B]"
+msgid "Fix Blank Settings: [B]Fuzzy Britches[/B]"
 msgstr ""
 
 msgctxt "#40335"
@@ -4639,7 +4639,7 @@ msgid "Hidden"
 msgstr ""
 
 msgctxt "#40397"
-msgid "Use Full Context Menu in Widgets (PSMC 20 Only)"
+msgid "Use Full Context Menu in Widgets (Kodi 20 Only)"
 msgstr ""
 
 msgctxt "#40398"
@@ -4759,7 +4759,7 @@ msgid "Auto-Retry using all providers if no sources are found."
 msgstr ""
 
 msgctxt "#40406"
-msgid "Make FuzzyBritches work properly"
+msgid "Make fuzzybritches work properly"
 msgstr ""
 
 msgctxt "#40407"
@@ -4791,7 +4791,7 @@ msgid "Released this Month (Digital and DVD)"
 msgstr ""
 
 msgctxt "#40414"
-msgid "FuzzyBritches"
+msgid "Fuzzy Britches"
 msgstr ""
 
 msgctxt "#40415"
@@ -4835,7 +4835,7 @@ msgid "Custom Color"
 msgstr ""
 
 msgctxt "#40425"
-msgid "Use Custom FuzzyBritches Dialogs"
+msgid "Use Custom Fuzzy Britches Dialogs"
 msgstr ""
 
 msgctxt "#40426"
@@ -4855,7 +4855,7 @@ msgid "Import list(s) now"
 msgstr ""
 
 msgctxt "#40430"
-msgid "Show FuzzyBritches next to FuzzyBritches context items."
+msgid "Show Fuzzy Britches next to Fuzzy Britches context items."
 msgstr ""
 
 msgctxt "#40431"
@@ -4987,11 +4987,11 @@ msgid "Cache Functions"
 msgstr ""
 
 msgctxt "#40463"
-msgid "Add to FuzzyBritches Favourites"
+msgid "Add to Fuzzy Britches Favourites"
 msgstr ""
 
 msgctxt "#40464"
-msgid "FuzzyBritches Favourites"
+msgid "Fuzzy Britches Favourites"
 msgstr ""
 
 msgctxt "#40465"
@@ -5007,7 +5007,7 @@ msgid "Favourite Episodes"
 msgstr ""
 
 msgctxt "#40468"
-msgid "Remove from FuzzyBritches Favourites"
+msgid "Remove from Fuzzy Britches Favourites"
 msgstr ""
 
 msgctxt "#40469"
@@ -5019,7 +5019,7 @@ msgid "Refresh widgets on add / remove from favourites"
 msgstr ""
 
 msgctxt "#40471"
-msgid "Add Library Item to FuzzyBritches Favourites"
+msgid "Add Library Item to Fuzzy Britches Favourites"
 msgstr ""
 
 msgctxt "#40472"
@@ -5200,4 +5200,124 @@ msgstr ""
 
 msgctxt "#40516"
 msgid "One Season"
+msgstr ""
+
+msgctxt "#40517"
+msgid "Use TMDB Clearlogo"
+msgstr ""
+
+msgctxt "#40518"
+msgid "Fanart Cache Successfully Cleared!"
+msgstr ""
+
+msgctxt "#40519"
+msgid "Clear [COLOR yellow]Fanart Cache [/COLOR]..."
+msgstr ""
+
+msgctxt "#40520"
+msgid "Library Movie Cache Successfully Cleared!"
+msgstr ""
+
+msgctxt "#40521"
+msgid "Use custom background for Fanart"
+msgstr ""
+
+msgctxt "#40522"
+msgid "Background"
+msgstr ""
+
+msgctxt "#40523"
+msgid "Reset background"
+msgstr ""
+
+msgctxt "#40524"
+msgid "Use tmdb.org instead of themoviedb.org for API"
+msgstr ""
+
+msgctxt "#40525"
+msgid "Fuzzy Britches Addon Settings"
+msgstr ""
+
+msgctxt "#40526"
+msgid "Use language setting for trakt lists"
+msgstr ""
+
+msgctxt "#40527"
+msgid "Enable TorBox Menu"
+msgstr ""
+
+msgctxt "#40528"
+msgid "TorBox Revoked"
+msgstr ""
+
+msgctxt "#40529"
+msgid "TorBox"
+msgstr ""
+
+msgctxt "#40530"
+msgid "Account ID"
+msgstr ""
+
+msgctxt "#40531"
+msgid "Error Connecting to TorBox"
+msgstr ""
+
+msgctxt "#40532"
+msgid "TorBox Highlight Color"
+msgstr ""
+
+msgctxt "#40533"
+msgid "Play button behavior"
+msgstr ""
+
+msgctxt "#40534"
+msgid "Play immediately"
+msgstr ""
+
+msgctxt "#40535"
+msgid "Background scrape"
+msgstr ""
+
+msgctxt "#40536"
+msgid "EasyDebrid Highlight Color"
+msgstr ""
+
+msgctxt "#40537"
+msgid "EasyDebrid"
+msgstr ""
+
+msgctxt "#40538"
+msgid "easydebrid token"
+msgstr ""
+
+msgctxt "#40539"
+msgid "EasyDebrid successfully authorized"
+msgstr ""
+
+msgctxt "#40540"
+msgid "Offcloud"
+msgstr ""
+
+msgctxt "#40541"
+msgid "Enable Offcloud Menu"
+msgstr ""
+
+msgctxt "#40542"
+msgid "Offcloud Highlight Color"
+msgstr ""
+
+msgctxt "#40543"
+msgid "[B]Delete all active torrents from TorBox?[/B]"
+msgstr ""
+
+msgctxt "#40544"
+msgid "[B]Delete all queued torrents from TorBox?[/B]"
+msgstr ""
+
+msgctxt "#40545"
+msgid "No"
+msgstr ""
+
+msgctxt "#40546"
+msgid "[B]Delete all cloud files from TorBox?[/B]"
 msgstr ""

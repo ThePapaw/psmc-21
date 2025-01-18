@@ -1,7 +1,19 @@
 # -*- coding: utf-8 -*-
-"""
-	FuzzyBritches Add-on
-"""
+###############################################################################
+#                           "A BEER-WARE LICENSE"                             #
+# ----------------------------------------------------------------------------#
+# Feel free to do whatever you wish with this file. Since we most likey will  #
+# never meet, buy a stranger a beer. Give credit to ALL named, unnamed, past, #
+# present and future dev's of this & files like this. -Share the Knowledge!   #
+###############################################################################
+
+# Addon Name: Fuzzy Britches v5
+# Addon id: plugin.video.fuzzybritches_v5
+# Addon Provider: The Papaw
+
+'''
+Included with the Fuzzy Britches v5 Add-on
+'''
 
 from datetime import datetime, timedelta
 import time, calendar
@@ -134,8 +146,8 @@ def external_providers():
 def delete_all_subs():
 	import os, fnmatch
 	try:
-		from resources.lib.modules import log_utils
-		log_utils.log('removing all subtitle files.', level=log_utils.LOGDEBUG)
+		#from resources.lib.modules import log_utils
+		#log_utils.log('removing all subtitle files.', level=log_utils.LOGDEBUG)
 		download_path = control.subtitlesPath
 		subtitle = download_path
 		def find(pattern, path):
@@ -153,6 +165,14 @@ def delete_all_subs():
 			except:
 				from resources.lib.modules import log_utils
 				log_utils.error()
+	except:
+		from resources.lib.modules import log_utils
+		log_utils.error()
+
+def resetCustomBG():
+	try:
+		control.setSetting('custombg','')
+		control.openSettings('0.5', 'plugin.video.fuzzybritches_v5')
 	except:
 		from resources.lib.modules import log_utils
 		log_utils.error()

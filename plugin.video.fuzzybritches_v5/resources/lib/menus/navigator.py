@@ -1,7 +1,19 @@
 # -*- coding: utf-8 -*-
-"""
-	FuzzyBritches Add-on
-"""
+###############################################################################
+#                           "A BEER-WARE LICENSE"                             #
+# ----------------------------------------------------------------------------#
+# Feel free to do whatever you wish with this file. Since we most likey will  #
+# never meet, buy a stranger a beer. Give credit to ALL named, unnamed, past, #
+# present and future dev's of this & files like this. -Share the Knowledge!   #
+###############################################################################
+
+# Addon Name: Fuzzy Britches v5
+# Addon id: plugin.video.fuzzybritches_v5
+# Addon Provider: The Papaw
+
+'''
+Included with the Fuzzy Britches v5 Add-on
+'''
 
 from sys import exit as sysexit
 from urllib.parse import quote_plus
@@ -431,7 +443,7 @@ class Navigator:
 
 	def library(self, folderName=''): # -- Library - 9
 		if self.useContainerTitles: control.setContainerName(folderName)
-		self.addDirectoryItem(32557, 'tools_openSettings&query=13.0', 'tools.png', 'DefaultAddonProgram.png', isFolder=False)
+		##self.addDirectoryItem(32557, 'tools_openSettings&query=13.0', 'tools.png', 'DefaultAddonProgram.png', isFolder=False)
 		self.addDirectoryItem(32558, 'library_update', 'library_update.png', 'DefaultAddonLibrary.png', isFolder=False)
 		self.addDirectoryItem(32676, 'library_clean', 'library_update.png', 'DefaultAddonLibrary.png', isFolder=False)
 		self.addDirectoryItem(32559, getSetting('library.movie'), 'movies.png', 'DefaultMovies.png', isAction=False)
@@ -475,9 +487,11 @@ class Navigator:
 		if self.useContainerTitles: control.setContainerName(folderName)
 		if getMenuEnabled('navi.alldebrid'): self.addDirectoryItem(40059, 'ad_ServiceNavigator&folderName=%s' % quote_plus(getLS(40059)), 'alldebrid.png', 'alldebrid.png')
 		if getMenuEnabled('navi.easynews'): self.addDirectoryItem(32327, 'en_ServiceNavigator&folderName=%s' % quote_plus(getLS(32327)), 'easynews.png', 'easynews.png')
+		if getMenuEnabled('navi.offcloud'): self.addDirectoryItem(40540, 'oc_ServiceNavigator&folderName=%s' % quote_plus(getLS(40540)), 'offcloud.png', 'offcloud.png')
 		#if getMenuEnabled('navi.furk'): self.addDirectoryItem('Furk.net', 'furk_ServiceNavigator', 'furk.png', 'furk.png')
 		if getMenuEnabled('navi.premiumize'): self.addDirectoryItem(40057, 'pm_ServiceNavigator&folderName=%s' % quote_plus(getLS(40057)), 'premiumize.png', 'premiumize.png')
 		if getMenuEnabled('navi.realdebrid'): self.addDirectoryItem(40058, 'rd_ServiceNavigator&folderName=%s' % quote_plus(getLS(40058)), 'realdebrid.png', 'realdebrid.png')
+		if getMenuEnabled('navi.torbox'): self.addDirectoryItem(40529, 'tb_ServiceNavigator&folderName=%s' % quote_plus(getLS(35539)), 'torbox.png', 'torbox.png')
 		self.endDirectory()
 
 	def alldebrid_service(self, folderName=''):
@@ -487,7 +501,7 @@ class Navigator:
 			self.addDirectoryItem('All-Debrid: Transfers', 'ad_Transfers', 'alldebrid.png', 'DefaultAddonService.png')
 			self.addDirectoryItem('All-Debrid: Account Info', 'ad_AccountInfo', 'alldebrid.png', 'DefaultAddonService.png', isFolder=False)
 		else:
-			self.addDirectoryItem('[I]Please setup in Accounts[/I]', 'tools_openSettings&query=10.0', 'alldebrid.png', 'DefaultAddonService.png', isFolder=False)
+			self.addDirectoryItem('[I]Please setup in Settings.[/I]', 'tools_openSettings&query=10.0', 'alldebrid.png', 'DefaultAddonService.png', isFolder=False)
 		self.endDirectory()
 
 	def easynews_service(self, folderName=''):
@@ -496,7 +510,25 @@ class Navigator:
 			self.addDirectoryItem('Easy News: Search', 'en_Search', 'search.png', 'DefaultAddonsSearch.png')
 			self.addDirectoryItem('Easy News: Account Info', 'en_AccountInfo', 'easynews.png', 'DefaultAddonService.png', isFolder=False)
 		else:
-			self.addDirectoryItem('[I]Please setup in CocoScrapers[/I]', 'tools_cocoScrapersSettings&query=EasyNews', 'easynews.png', 'DefaultAddonService.png', isFolder=False)
+			self.addDirectoryItem('[I]Please setup in Settings.[/I]', 'tools_openSettings&query=10.0', 'easynews.png', 'DefaultAddonService.png', isFolder=False)
+		self.endDirectory()
+
+	def offcloud_service(self):
+		if getSetting('offcloudtoken'):
+			self.addDirectoryItem('Offcloud: Cloud Storage', 'oc_CloudStorage', 'offcloud.png', 'DefaultAddonService.png')
+			self.addDirectoryItem('Offcloud: Account Info', 'oc_AccountInfo', 'offcloud.png', 'DefaultAddonService.png', isFolder=False)
+			self.addDirectoryItem('Offcloud: Clear Cloud Storage', 'oc_UserCloudClear', 'offcloud.png', 'DefaultAddonService.png', isFolder=False)
+		else:
+			self.addDirectoryItem('[I]Please setup in Accounts[/I]', 'tools_openSettings&query=9.1', 'offcloud.png', 'DefaultAddonService.png', isFolder=False)
+		self.endDirectory()
+
+	def torbox_service(self):
+		if getSetting('torboxtoken'):
+			self.addDirectoryItem('TorBox: Cloud Storage', 'tb_CloudStorage', 'torbox.png', 'DefaultAddonService.png')
+			self.addDirectoryItem('TorBox: Account Info', 'tb_AccountInfo', 'torbox.png', 'DefaultAddonService.png', isFolder=False)
+			self.addDirectoryItem('TorBox: Delete All Cloud Files', 'tb_DeleteCloud', 'torbox.png', 'DefaultAddonService.png', isFolder=False)
+		else:
+			self.addDirectoryItem('[I]Please setup in Accounts[/I]', 'tools_openSettings&query=10.0', 'torbox.png', 'DefaultAddonService.png', isFolder=False)
 		self.endDirectory()
 
 	def premiumize_service(self, folderName=''):
@@ -506,7 +538,7 @@ class Navigator:
 			self.addDirectoryItem('Premiumize: Transfers', 'pm_Transfers', 'premiumize.png', 'DefaultAddonService.png')
 			self.addDirectoryItem('Premiumize: Account Info', 'pm_AccountInfo', 'premiumize.png', 'DefaultAddonService.png', isFolder=False)
 		else:
-			self.addDirectoryItem('[I]Please setup in Accounts[/I]', 'tools_openSettings&query=10.1', 'premiumize.png', 'DefaultAddonService.png', isFolder=False)
+			self.addDirectoryItem('[I]Please setup in Settings.[/I]', 'tools_openSettings&query=10.1', 'premiumize.png', 'DefaultAddonService.png', isFolder=False)
 		self.endDirectory()
 
 	def realdebrid_service(self, folderName=''):
@@ -516,7 +548,7 @@ class Navigator:
 			self.addDirectoryItem('Real-Debrid: My Downloads', 'rd_MyDownloads&query=1', 'realdebrid.png', 'DefaultAddonService.png')
 			self.addDirectoryItem('Real-Debrid: Account Info', 'rd_AccountInfo', 'realdebrid.png', 'DefaultAddonService.png', isFolder=False )
 		else:
-			self.addDirectoryItem('[I]Please setup in Accounts[/I]', 'tools_openSettings&query=10.2', 'realdebrid.png', 'DefaultAddonService.png', isFolder=False)
+			self.addDirectoryItem('[I]Please setup in Settings.[/I]', 'tools_openSettings&query=10.2', 'realdebrid.png', 'DefaultAddonService.png', isFolder=False)
 		self.endDirectory()
 
 	def search(self, folderName=''):

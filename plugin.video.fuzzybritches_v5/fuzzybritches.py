@@ -7,13 +7,13 @@
 # present and future dev's of this & files like this. -Share the Knowledge!   #
 ###############################################################################
 
-# Addon Name: Fuzzy Britches v4 Module
-# Addon id: script.module.fuzzybritches_v4
+# Addon Name: Fuzzy Britches v5
+# Addon id: plugin.video.fuzzybritches_v5
 # Addon Provider: The Papaw
 
-"""
-	FuzzyBritches Add-on
-"""
+'''
+Included with the Fuzzy Britches v5 Add-on
+'''
 
 import sys
 from resources.lib.modules import router

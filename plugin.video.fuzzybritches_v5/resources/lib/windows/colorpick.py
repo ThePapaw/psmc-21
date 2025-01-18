@@ -1,7 +1,22 @@
 # -*- coding: utf-8 -*-
+###############################################################################
+#                           "A BEER-WARE LICENSE"                             #
+# ----------------------------------------------------------------------------#
+# Feel free to do whatever you wish with this file. Since we most likey will  #
+# never meet, buy a stranger a beer. Give credit to ALL named, unnamed, past, #
+# present and future dev's of this & files like this. -Share the Knowledge!   #
+###############################################################################
+
+# Addon Name: Fuzzy Britches v5
+# Addon id: plugin.video.fuzzybritches_v5
+# Addon Provider: The Papaw
+
+'''
+Included with the Fuzzy Britches v5 Add-on
+'''
 from resources.lib.windows.base import BaseDialog
 from resources.lib.modules import colors
-from resources.lib.modules.control import dialog, setting as getSetting, darkColor
+from resources.lib.modules.control import dialog, setting as getSetting, isDarkColor
 
 button_ids = (10, 11)
 palettes = {'rainbow': colors.rainbow}
@@ -22,7 +37,7 @@ class ColorPick(BaseDialog):
         self.lightordark = getSetting('dialogs.lightordarkmode')
         self.buttonColor = getSetting('dialogs.button.color')
         self.customBackgroundColor = getSetting('dialogs.customcolor')
-        self.dark_text_background = darkColor(self.customBackgroundColor)
+        self.dark_text_background = isDarkColor(self.customBackgroundColor)
         self.useCustomTitleColor = getSetting('dialogs.usecolortitle') == 'true'
         self.customTitleColor = getSetting('dialogs.titlebar.color')
         self.set_properties()
@@ -78,11 +93,11 @@ class ColorPick(BaseDialog):
         if self.useCustomTitleColor:
             #need to use a custom titlebar color
             self.setProperty('fuzzybritches.titleBarColor', self.customTitleColor)
-            if darkColor(self.customTitleColor) == 'dark':
+            if isDarkColor(self.customTitleColor):
                 self.setProperty('fuzzybritches.titleTextColor', 'FFF5F5F5')
             else:
                 self.setProperty('fuzzybritches.titleTextColor', 'FF302F2F')
-        if darkColor(self.buttonColor) == 'dark':
+        if isDarkColor(self.buttonColor):
             self.setProperty('fuzzybritches.buttonTextColor', 'FFF5F5F5')
         else:
             self.setProperty('fuzzybritches.buttonTextColor', 'FF302F2F')
@@ -105,7 +120,7 @@ class ColorPick(BaseDialog):
         elif self.lightordark == '2':
             #ohh now we need a custom color, aren't we just special.
             self.setProperty('fuzzybritches.backgroundColor', self.customBackgroundColor) #setting custom color because screw your light or dark mode.
-            if self.dark_text_background == 'dark':
+            if self.dark_text_background == True:
                 self.setProperty('fuzzybritches.textColor', 'FFF5F5F5')
                 self.setProperty('fuzzybritches.buttonTextColorNS', 'FFF5F5F5')
                 self.setProperty('fuzzybritches.buttonnofocus', 'FFF5F5F5')

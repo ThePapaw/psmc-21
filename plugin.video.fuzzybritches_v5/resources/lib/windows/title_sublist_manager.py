@@ -1,7 +1,19 @@
 # -*- coding: utf-8 -*-
-"""
-	FuzzyBritches Add-on
-"""
+###############################################################################
+#                           "A BEER-WARE LICENSE"                             #
+# ----------------------------------------------------------------------------#
+# Feel free to do whatever you wish with this file. Since we most likey will  #
+# never meet, buy a stranger a beer. Give credit to ALL named, unnamed, past, #
+# present and future dev's of this & files like this. -Share the Knowledge!   #
+###############################################################################
+
+# Addon Name: Fuzzy Britches v5
+# Addon id: plugin.video.fuzzybritches_v5
+# Addon Provider: The Papaw
+
+'''
+Included with the Fuzzy Britches v5 Add-on
+'''
 
 from resources.lib.modules import sources
 from resources.lib.modules.control import joinPath, artPath, setting as getSetting
@@ -92,7 +104,7 @@ class TitleSublistManagerXML(BaseDialog):
 		try:
 			self.setProperty('fuzzybritches.total_results', self.total_results)
 			self.setProperty('fuzzybritches.highlight.color', self.highlight_color)
-			self.setProperty('fuzzybritches.fuzzybritches_icon', joinPath(artPath(), 'icon.gif'))
+			self.setProperty('fuzzybritches.fuzzybritches_icon', joinPath(artPath(), 'icon.png'))
 		except:
 			from resources.lib.modules import log_utils
 			log_utils.error()
