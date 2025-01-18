@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="repository.psmc-21" name="PSMC-21 Repository" version="21.0.3" provider-name="The Papaw">
+<addon id="repository.psmc-21" name="PSMC-21 Repository" version="21.0.4" provider-name="The Papaw">
     <requires>
 		<import addon="xbmc.addon" version="21.0.0"/>
     </requires>
