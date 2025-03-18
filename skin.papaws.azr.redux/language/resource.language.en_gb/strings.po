@@ -89,10 +89,6 @@ msgctxt "#31017"
 msgid "Colored icon media flags"
 msgstr ""
 
-msgctxt "#31018"
-msgid "Papaws AZR Redux"
-msgstr ""
-
 msgctxt "#31019"
 msgid "Supported Addons"
 msgstr ""
@@ -551,10 +547,6 @@ msgstr ""
 
 msgctxt "#31136"
 msgid "All colors are reset to their default values"
-msgstr ""
-
-msgctxt "#31137"
-msgid "[CR]Papaw's AZR Redux is based on the original Arctic Zephyr skin created by jurialmunkey.  AZR Redux is abut being simple, clean, minimalistic and extremely customizable. If you have any thoughts on this Skin, let me know at: https://github.com/ThePapaw/psmc-19"
 msgstr ""
 
 msgctxt "#31138"

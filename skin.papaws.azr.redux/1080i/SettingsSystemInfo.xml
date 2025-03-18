@@ -88,6 +88,32 @@
                     <param name="width" value="450"/>
                     <param name="overlayfix" value="true"/>
                 </include>
+			<control type="group" id="102">
+				<description>System Info page that shows a QR code linking to https://buymeacoffee.com/zizzlezazzle</description>
+				<left>550</left>
+				<right>50</right>
+				<top>260</top>
+				<bottom>50</bottom>
+				<control type="textbox">
+					<height>110</height>
+					<align>center</align>
+					<label>$LOCALIZE[12397]</label>
+				</control>
+				<control type="multiimage" id="103">
+					<top>90</top>
+					<height>225</height>
+					<imagepath>special://xbmc/media/qr/kodilove/</imagepath>
+					<aspectratio>keep</aspectratio>
+					<timeperimage>5000</timeperimage>
+					<fadetime>1000</fadetime>
+					<randomize>false</randomize>
+				</control>
+				<control type="label">
+					<top>300</top>
+					<align>center</align>
+					<label>$LOCALIZE[12398]</label>
+				</control>
+			</control>
 
                 <!-- Left Group -->
                 <control type="grouplist" id="9101">
@@ -132,10 +158,15 @@
                         <include>DefSettingsButtonGradient</include>
                         <label>12389</label>
                     </control>
-                    <control type="button" id="101">
-                        <include>DefSettingsButtonGradient</include>
-                        <label>31018</label>
-                    </control>
+					<control type="button" id="101">
+						<description>Button "Thank you!"</description>
+						<include>DefSettingsButtonGradient</include>
+						<include content="DefaultSettingButton">
+							<param name="height" value="85" />
+						</include>
+						<width>460</width>
+						<label>$LOCALIZE[12396]</label>
+					</control>
                 </control>
                 <control type="grouplist">
                     <left>480</left>
@@ -236,15 +267,6 @@
                         <height>47</height>
                         <left>385</left>
                         <texture>misc/matrix.png</texture>
-                    </control>
-                    <control type="button" id="9907">
-                        <animation effect="slide" start="0" end="0,-50" time="0" condition="true">Conditional</animation>
-                        <width>1310</width>
-                        <height>279</height>
-                        <visible>ControlGroup(9101).HasFocus(101)</visible>
-                        <include>DefSettingsButtonLabelInfo</include>
-                        <label>31137</label>
-                        <enable>false</enable>
                     </control>
                     <control type="label">
                         <width>300</width>
