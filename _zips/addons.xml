@@ -520,7 +520,7 @@ provider-name="jurialmunkey">
     </extension>
 </addon>
 
-<addon id="repository.psmc-21" name="PSMC-21 Repository" version="21.1.6" provider-name="The Papaw">
+<addon id="repository.psmc-21" name="PSMC-21 Repository" version="21.1.7" provider-name="The Papaw">
     <requires>
 		<import addon="xbmc.addon" version="21.0.0"/>
     </requires>
@@ -659,6 +659,23 @@ provider-name="jurialmunkey">
 			<screenshot>support/bmc-qr.jpg</screenshot>
         </assets>
     </extension>
+</addon>
+
+<addon id="script.module.jurialmunkey" name="jurialmunkey common" provider-name="jurialmunkey" version="0.2.21">
+  <requires>
+    <import addon="xbmc.python" version="3.0.1"/>
+    <import addon="script.module.requests" version="2.9.1"/>
+    <import addon="script.module.infotagger" version="0.0.5" />
+  </requires>
+  <extension point="xbmc.python.module" library="resources/modules" />
+  <extension point="xbmc.addon.metadata">
+    <description lang="en_GB">Common code required by TMDbHelper and other related jurialmunkey add-ons</description>
+    <license>GPL-3.0-or-later</license>
+    <website>https://github.com/jurialmunkey/script.module.jurialmunkey</website>
+    <assets>
+      <icon>icon.png</icon>
+    </assets>
+  </extension>
 </addon>
 
 <addon id="script.module.metahandler" name="metahandler" version="5.0.1" provider-name="Eldorado">
