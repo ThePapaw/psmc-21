@@ -826,6 +826,38 @@ provider-name="jurialmunkey">
     </extension>
 </addon>
 
+<addon id="skin.psmc.batman" version="1.3.0" name="PSMC's Batman Skin" provider-name="The Papaw">
+	<requires>
+		<import addon="xbmc.gui" version="5.17.0" />
+		<import addon="script.skinshortcuts" version="1.0.17" />
+		<import addon="resource.uisounds.psmc-batman" version="1.2.19" />
+	</requires>
+	<extension point="xbmc.gui.skin" debugging="false">
+		<res width="1920" height="1080" aspect="16:9" default="true" folder="16x9" />
+	</extension>
+	<extension point="xbmc.addon.metadata">
+	<news>If you would like to show your appreciation for the time and efforts I put into these projects, please buy me [B][COLOR deepskyblue]a cup of coffee[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR].[CR][CR][COLOR gold]Latest Update:[/COLOR][CR]v1.3.8[CR] - fixed cd cases[CR] - change User Profile image</news>
+	<summary lang="en">PSMC's Batman Skin is designed for [COLOR gold]Kids of ALL Ages[/COLOR] and is a "Sylvo" type skin. It includes [COLOR FFFFFF00]Home Screen Animations[/COLOR] [I][COLOR FFE67300] (can be toggled Off in the settings).[/COLOR][/I]. Double widgets and Lots of features and views to choose from.</summary>
+	<description>[CR]If you would like to show your appreciation for the time and efforts I put into these projects, please scan the "Coffee Cup" (QR code) above and buy me [COLOR deepskyblue]a cup of coffee[/COLOR] or subscribe for access to "What's Next" and all future updates.[CR][CR][COLOR limegreen]Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for EVERY donation and truly appreciate your kindness![/COLOR][COLOR deepskyblue]  â€¢ The Papaw[/COLOR]</description>
+	<platform>all</platform>
+	<license>CC BY-NC-SA 4.0</license>
+	<forum></forum>
+	<website>https://github.com/ThePapaw/psmc-21</website>
+	<source>https://github.com/ThePapaw/psmc-21</source>
+	<assets>
+			<icon>icon.png</icon>
+			<fanart>fanart.jpg</fanart>
+			<screenshot>resources/bmc-qr.jpg</screenshot>
+			<screenshot>resources/screenshot-01.jpg</screenshot>
+			<screenshot>resources/screenshot-02.jpg</screenshot>
+			<screenshot>resources/screenshot-03.jpg</screenshot>
+			<screenshot>resources/screenshot-04.jpg</screenshot>
+			<screenshot>resources/screenshot-05.jpg</screenshot>
+			<screenshot>resources/screenshot-06.jpg</screenshot>
+		</assets>
+	</extension>
+</addon>
+
 <addon id="skin.psmc.super.mario.galaxy" version="1.21.4" name="PSMC's Super Mario Galaxy Skin" provider-name="The Papaw">
 	<requires>
 		<import addon="xbmc.gui" version="5.17.0" />
