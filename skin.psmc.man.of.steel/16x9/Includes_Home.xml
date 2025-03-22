@@ -850,7 +850,7 @@
 			<font />
 		</control>
 	</include>
-	<!-- SiLVO Now Playing Widgets -->
+	<!-- PSMC Now Playing Widgets -->
 	<include name="NowPlayingVideoWidget">
 		<!-- Video Info -->
 		<control type="group">

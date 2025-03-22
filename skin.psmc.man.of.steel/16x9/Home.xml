@@ -21,7 +21,7 @@
 		</control>
 		<control type="fadelabel" id="4410">
 			<top>-100</top>
-			<width>2560</width>
+			<width>1920</width>
 			<height>0</height>
 			<scroll>false</scroll>
 			<scrollout>false</scrollout>
@@ -113,7 +113,7 @@
 		</control>
 		<control type="fadelabel" id="4411">
 			<top>-100</top>
-			<width>2560</width>
+			<width>1920</width>
 			<height>0</height>
 			<scroll>false</scroll>
 			<scrollout>false</scrollout>
