@@ -79,6 +79,42 @@
 					<texturefocus colordiffuse="$VAR[HighlightBarColor]" border="3">listselect_fo.png</texturefocus>
 					<label>12389</label>
 				</control>
+				
+				<control type="button" id="101">
+					<description>Button "Thank you!"</description>
+					<include content="DefaultSettingButton">
+						<param name="height" value="90" />
+					</include>
+					<width>356</width>
+					<label>$LOCALIZE[12396]</label>
+				</control>
+				</control><control type="group" id="102">
+					<description>System Info page that shows a QR code linking to https://buymeacoffee.com/zizzlezazzle</description>
+					<left>850</left>
+					<right>50</right>
+					<top>75</top>
+				<control type="textbox">
+					<height>110</height>
+					<align>center</align>
+					<label>$LOCALIZE[12397]</label>
+				</control>			
+				<control type="multiimage" id="103">
+					<left>-200</left>
+					<top>200</top>
+					<height>400</height>
+					<imagepath>special://xbmc/media/qr/kodilove/</imagepath>
+					<aspectratio>keep</aspectratio>
+					<timeperimage>5000</timeperimage>
+					<fadetime>1000</fadetime>
+					<randomize>false</randomize>
+				</control>
+				<control type="label">
+					<left>-400</left>
+					<top>575</top>
+					<align>center</align>
+					<label>$LOCALIZE[12398]</label>
+				</control>
+			
 			</control>
 			<control type="grouplist" id="9001">
 				<left>437</left>
