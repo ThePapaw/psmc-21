@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
-	<defaultcontrol condition="Skin.HasSetting(Enable.StartupIntro)">10</defaultcontrol>
+	<defaultcontrol condition="Skin.HasSetting(Disable.StartupIntro)">10</defaultcontrol>
 	<onload condition="!System.HasAddon(script.tv.show.next.aired)">Skin.SetBool(Disable.NextAired)</onload>
 	<onload>Skin.SetString(ColorboxMain,main:)</onload>
 	<onload>Skin.SetString(ColorboxComp,comp:)</onload>
@@ -23,8 +23,8 @@
 	<onload condition="System.HasAddon(script.colorbox)">RunScript(script.colorbox,daemon=True)</onload>
 	<onload condition="System.HasAddon(script.artistslideshow)">RunScript(script.artistslideshow,daemon=True)</onload>
 	<!-- Intro -->
-	<onload condition="!Skin.HasSetting(Enable.StartupIntro)">ReplaceWindow($INFO[System.StartupWindow])</onload>
-	<onunload condition="Skin.HasSetting(Enable.StartupIntro)">PlayerControl(Stop)</onunload>
+	<onload condition="!Skin.HasSetting(Disable.StartupIntro)">ReplaceWindow($INFO[System.StartupWindow])</onload>
+	<onunload condition="Skin.HasSetting(Disable.StartupIntro)">PlayerControl(Stop)</onunload>
 	<controls>
 		<control type="button" id="10">
 			<include>HiddenObject</include>
