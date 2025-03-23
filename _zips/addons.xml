@@ -913,7 +913,7 @@ provider-name="jurialmunkey">
     </extension>
 </addon>
 
-<addon id="skin.psmc.batman" version="21.2.3" name="PSMC's Batman Skin" provider-name="The Papaw">
+<addon id="skin.psmc.batman" version="21.2.4" name="PSMC's Batman Skin" provider-name="The Papaw">
 	<requires>
 		<import addon="xbmc.gui" version="5.17.0" />
 		<import addon="script.skinshortcuts" version="1.0.17" />
