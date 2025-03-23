@@ -73,10 +73,11 @@
 			<visible>system.getbool(input.enablemouse) + !Window.IsVisible(1128) + !Window.IsVisible(1130) + !Window.IsVisible(1131) + !Window.IsVisible(1132)</visible>
 		</control>
 		<control type="image">
-			<top>-15</top>
-			<width>400</width>
-			<height>130</height>
-			<texture>aeon-nox-logo.png</texture>
+			<top>40</top>
+			<left>100</left>
+			<width>150</width>
+			<height>50</height>
+			<texture>xbmc-logo.png</texture>
 		</control>
 	</include>
 	<include name="KioskModeButton">

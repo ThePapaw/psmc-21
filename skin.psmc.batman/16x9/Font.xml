@@ -11,255 +11,255 @@
 		</font>
 		<font>
 			<name>font10</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<size>21</size>
+			<filename>batman-forever.ttf</filename>
+			<size>16</size>
 		</font>
 		<font>
 			<name>font11_compact</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<size>24</size>
+			<filename>batman-forever.ttf</filename>
+			<size>19</size>
 			<linespacing>.8</linespacing>
 		</font>
 		<font>
 			<name>font12</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<size>26</size>
+			<filename>batman-forever.ttf</filename>
+			<size>21</size>
 		</font>
 		<font>
 			<name>font13</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<size>30</size>
+			<filename>batman-forever.ttf</filename>
+			<size>25</size>
 		</font>
 		<font>
 			<name>font13_bold</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
+			<filename>batman-forever.ttf</filename>
 			<style>bold</style>
-			<size>30</size>
+			<size>25</size>
 		</font>
 		<font>
 			<name>font14_textbox</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<size>33</size>
+			<filename>batman-forever.ttf</filename>
+			<size>28</size>
 			<linespacing>1.27</linespacing>
 		</font>
 		<font>
 			<name>font14_textbox2</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<size>33</size>
+			<filename>batman-forever.ttf</filename>
+			<size>28</size>
 			<linespacing>1.1</linespacing>
 		</font>
 		<font>
 			<name>font15_textbox</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<size>35</size>
+			<filename>batman-forever.ttf</filename>
+			<size>30</size>
 			<linespacing>1.4</linespacing>
 		</font>
 		<font>
 			<name>font15_textbox2</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<size>36</size>
+			<filename>batman-forever.ttf</filename>
+			<size>30</size>
 			<linespacing>1.3</linespacing>
 		</font>
 		<font>
 			<name>font14</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<size>33</size>
+			<filename>batman-forever.ttf</filename>
+			<size>26</size>
 		</font>
 		<font>
 			<name>font14_bold</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
+			<filename>batman-forever.ttf</filename>
 			<style>bold</style>
-			<size>33</size>
+			<size>26</size>
 		</font>
 		<font>
 			<name>font15</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<size>35</size>
+			<filename>batman-forever.ttf</filename>
+			<size>30</size>
 		</font>
 		<font>
 			<name>font15_bold</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
+			<filename>batman-forever.ttf</filename>
 			<style>bold</style>
-			<size>35</size>
+			<size>30</size>
 		</font>
 		<font>
 			<name>font16</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<size>38</size>
+			<filename>batman-forever.ttf</filename>
+			<size>33</size>
 		</font>
 		<font>
 			<name>font16_textbox</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<size>38</size>
+			<filename>batman-forever.ttf</filename>
+			<size>33</size>
 			<linespacing>1.4</linespacing>
 		</font>
 		<font>
 			<name>font16bold_textbox</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
+			<filename>batman-forever.ttf</filename>
 			<style>bold</style>
-			<size>38</size>
+			<size>33</size>
 			<linespacing>1.3</linespacing>
 		</font>
 		<font>
 			<name>font18_textbox</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<size>44</size>
+			<filename>batman-forever.ttf</filename>
+			<size>39</size>
 			<linespacing>1.3</linespacing>
 		</font>
 		<font>
 			<name>font30</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<size>45</size>
+			<filename>batman-forever.ttf</filename>
+			<size>40</size>
 		</font>
 		<font>
 			<name>font48</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<size>48</size>
+			<filename>batman-forever.ttf</filename>
+			<size>43</size>
 		</font>
 		<font>
 			<name>font48_bold</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
+			<filename>batman-forever.ttf</filename>
 			<style>bold</style>
-			<size>48</size>
+			<size>43</size>
 		</font>
 		<font>
 			<name>font52_bold</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
+			<filename>batman-forever.ttf</filename>
 			<style>bold</style>
-			<size>52</size>
+			<size>47</size>
 		</font>
 		<!-- LiveTV Fonts -->
 		<font>
 			<name>font60</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<size>60</size>
+			<filename>batman-forever.ttf</filename>
+			<size>55</size>
 		</font>
 		<font>
 			<name>font65</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<size>65</size>
+			<filename>batman-forever.ttf</filename>
+			<size>60</size>
 		</font>
 		<font>
 			<name>font24_bold</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<size>24</size>
+			<filename>batman-forever.ttf</filename>
+			<size>19</size>
 			<style>bold</style>
 		</font>
 		<font>
 			<name>font28_bold</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<size>28</size>
+			<filename>batman-forever.ttf</filename>
+			<size>23</size>
 			<style>bold</style>
 		</font>
 		<font>
 			<name>font11</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<size>24</size>
+			<filename>batman-forever.ttf</filename>
+			<size>19</size>
 		</font>
 		<font>
 			<name>font12b</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<size>28</size>
+			<filename>batman-forever.ttf</filename>
+			<size>23</size>
 		</font>
 		<font>
 			<name>font13b</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<size>32</size>
+			<filename>batman-forever.ttf</filename>
+			<size>27</size>
 		</font>
 		<!-- Title Fonts -->
 		<font>
 			<name>font12_title</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
+			<filename>batman-forever.ttf</filename>
 			<style>uppercase</style>
-			<size>26</size>
+			<size>21</size>
 		</font>
 		<font>
 			<name>font13_title</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
+			<filename>batman-forever.ttf</filename>
 			<style>uppercase</style>
 			<size>30</size>
 		</font>
 		<font>
 			<name>font14_title</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
+			<filename>batman-forever.ttf</filename>
+			<style>uppercase</style>
+			<size>28</size>
+		</font>
+		<font>
+			<name>font15_title</name>
+			<filename>batman-forever.ttf</filename>
+			<style>uppercase</style>
+			<size>30</size>
+		</font>
+		<font>
+			<name>font16_title</name>
+			<filename>batman-forever.ttf</filename>
 			<style>uppercase</style>
 			<size>33</size>
 		</font>
 		<font>
-			<name>font15_title</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<style>uppercase</style>
-			<size>35</size>
-		</font>
-		<font>
-			<name>font16_title</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<style>uppercase</style>
-			<size>38</size>
-		</font>
-		<font>
 			<name>font16_title_bold</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
+			<filename>batman-forever.ttf</filename>
 			<style>uppercase bold</style>
-			<size>38</size>
+			<size>33</size>
 		</font>
 		<font>
 			<name>font24_title</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
+			<filename>batman-forever.ttf</filename>
 			<style>uppercase</style>
-			<size>36</size>
+			<size>31</size>
 		</font>
 		<font>
 			<name>font30_title</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
+			<filename>batman-forever.ttf</filename>
 			<style>uppercase</style>
-			<size>45</size>
+			<size>40</size>
 		</font>
 		<font>
 			<name>font30_title_bold</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
+			<filename>batman-forever.ttf</filename>
 			<style>uppercase bold</style>
-			<size>45</size>
+			<size>40</size>
 		</font>
 		<font>
 			<name>font48_title</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
+			<filename>batman-forever.ttf</filename>
 			<style>uppercase</style>
-			<size>48</size>
+			<size>43</size>
 		</font>
 		<font>
 			<name>font35_title</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
+			<filename>batman-forever.ttf</filename>
 			<style>uppercase</style>
-			<size>52</size>
+			<size>47</size>
 		</font>
 		<font>
 			<name>font35_title_bold</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
+			<filename>batman-forever.ttf</filename>
 			<style>uppercase bold</style>
-			<size>52</size>
+			<size>47</size>
 		</font>
 		<font>
 			<name>font60caps_title</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
+			<filename>batman-forever.ttf</filename>
 			<style>uppercase</style>
-			<size>60</size>
+			<size>55</size>
 		</font>
 		<font>
 			<name>font45caps_title</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
+			<filename>batman-forever.ttf</filename>
 			<style>uppercase</style>
-			<size>68</size>
+			<size>63</size>
 		</font>
 		<font>
 			<name>font100caps_title</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
+			<filename>batman-forever.ttf</filename>
 			<style>uppercase</style>
-			<size>100</size>
+			<size>95</size>
 		</font>
 		<font>
 			<name>font_musicviz</name>
-			<filename>BebasNeue.ttf</filename>
+			<filename>batman-forever.ttf</filename>
 			<size>92</size>
 		</font>
 		<font>
@@ -276,31 +276,31 @@
 		</font>
 		<font>
 			<name>font_MainMenu</name>
-			<filename>BebasNeue.ttf</filename>
+			<filename>batman-forever.ttf</filename>
 			<linespacing>0</linespacing>
-			<size>112</size>
+			<size>107</size>
 		</font>
 		<font>
 			<name>font_VerticalMainMenu</name>
-			<filename>BebasNeue.ttf</filename>
-			<size>75</size>
+			<filename>batman-forever.ttf</filename>
+			<size>70</size>
 		</font>
 		<font>
 			<name>BigAssFont</name>
-			<filename>BebasNeue.ttf</filename>
-			<size>600</size>
+			<filename>batman-forever.ttf</filename>
+			<size>595</size>
 		</font>
 		<font>
 			<name>BigAssTimeFont</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
-			<size>180</size>
+			<filename>batman-forever.ttf</filename>
+			<size>175</size>
 			<linespacing>.8</linespacing>
 		</font>
 		<font>
 			<name>WeatherTemp</name>
-			<filename>RobotoCondensed-Regular.ttf</filename>
+			<filename>batman-forever.ttf</filename>
 			<style>uppercase</style>
-			<size>120</size>
+			<size>115</size>
 		</font>
 		<!-- Icons -->
 		<include>CommonIconFonts</include>
@@ -1427,8 +1427,8 @@
 		</font>
 		<font>
 			<name>font_musicviz</name>
-			<filename>BebasNeue.ttf</filename>
-			<size>92</size>
+			<filename>batman-forever.ttf</filename>
+			<size>87</size>
 		</font>
 		<font>
 			<name>font_skinversion</name>
@@ -1451,13 +1451,13 @@
 		</font>
 		<font>
 			<name>font_VerticalMainMenu</name>
-			<filename>BebasNeue.ttf</filename>
-			<size>75</size>
+			<filename>batman-forever.ttf</filename>
+			<size>70</size>
 		</font>
 		<font>
 			<name>BigAssFont</name>
-			<filename>BebasNeue.ttf</filename>
-			<size>600</size>
+			<filename>batman-forever.ttf</filename>
+			<size>595</size>
 		</font>
 		<font>
 			<name>BigAssTimeFont</name>
@@ -2019,8 +2019,8 @@
 		</font>
 		<font>
 			<name>font_musicviz</name>
-			<filename>BebasNeue.ttf</filename>
-			<size>92</size>
+			<filename>batman-forever.ttf</filename>
+			<size>87</size>
 		</font>
 		<font>
 			<name>font_skinversion</name>
@@ -2042,13 +2042,13 @@
 		</font>
 		<font>
 			<name>font_VerticalMainMenu</name>
-			<filename>BebasNeue.ttf</filename>
-			<size>75</size>
+			<filename>batman-forever.ttf</filename>
+			<size>70</size>
 		</font>
 		<font>
 			<name>BigAssFont</name>
-			<filename>BebasNeue.ttf</filename>
-			<size>600</size>
+			<filename>batman-forever.ttf</filename>
+			<size>595</size>
 		</font>
 		<font>
 			<name>BigAssTimeFont</name>
@@ -2331,8 +2331,8 @@
 		</font>
 		<font>
 			<name>font_musicviz</name>
-			<filename>BebasNeue.ttf</filename>
-			<size>92</size>
+			<filename>batman-forever.ttf</filename>
+			<size>87</size>
 		</font>
 		<font>
 			<name>font_skinversion</name>
@@ -2354,13 +2354,13 @@
 		</font>
 		<font>
 			<name>font_VerticalMainMenu</name>
-			<filename>BebasNeue.ttf</filename>
-			<size>75</size>
+			<filename>batman-forever.ttf</filename>
+			<size>70</size>
 		</font>
 		<font>
 			<name>BigAssFont</name>
-			<filename>BebasNeue.ttf</filename>
-			<size>600</size>
+			<filename>batman-forever.ttf</filename>
+			<size>595</size>
 		</font>
 		<font>
 			<name>BigAssTimeFont</name>
