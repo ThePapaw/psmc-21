@@ -1881,6 +1881,9 @@
 		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),BigList) + Skin.HasSetting(noindicatorbiglist)">$LOCALIZE[16041]</value>
 		<value>$LOCALIZE[351]</value>
 	</variable>
+		<value condition="String.StartsWith(System.BuildVersion,21.)">$INFO[System.BuildVersion,OMEGA - v]$INFO[System.BuildDate, (,)]</value>
+		<value condition="String.StartsWith(System.BuildVersion,20.)">$INFO[System.BuildVersion,NEXUS - v]$INFO[System.BuildDate, (,)]</value>
+		<value condition="String.StartsWith(System.BuildVersion,19.)">$INFO[System.BuildVersion,MATRIX - v]$INFO[System.BuildDate, (,)]</value>
 	<variable name="KodiVersionLabelVar">
 		<value condition="String.StartsWith(System.BuildVersion,18.)">$INFO[System.BuildVersion,LEIA - v]$INFO[System.BuildDate, (,)]</value>
 		<value condition="String.StartsWith(System.BuildVersion,17.)">KRYPTON - [COLOR invalid]$LOCALIZE[31341][/COLOR]</value>
