@@ -68,8 +68,8 @@
 			</item>
 		<item id="6">
 			<property name="id">$NUMBER[6]</property>
-			<label>$LOCALIZE[31502]</label>
-			<label2 />
+			<label>Live TV</label>
+			<label2>Custom item</label2>
 			<icon>special://skin/extras/icons/DefaultAddonPVRClient.png</icon>
 			<thumb />
 			<onclick condition="String.IsEqual(ListItem.Property(path),ActivateWindow(1129))">SetProperty(CustomSelectSearch,True,Home)</onclick>
@@ -77,7 +77,7 @@
 			<property name="path">ActivateWindow(TVChannels)</property>
 			<onclick condition="![System.HasPVRAddon]">ActivateWindow(addonbrowser,addons://repository.xbmc.org/xbmc.pvrclient,return)</onclick>
 			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
-			<property name="submenuVisibility">num-31502</property>
+			<property name="submenuVisibility">livetv</property>
 			<property name="hasSubmenu">True</property>
 			</item>
 		<item id="7">
@@ -95,15 +95,15 @@
 			</item>
 		<item id="8">
 			<property name="id">$NUMBER[8]</property>
-			<label>$LOCALIZE[31957]</label>
-			<label2 />
+			<label>Addons</label>
+			<label2>Custom item</label2>
 			<icon>special://skin/extras/icons/DefaultAddon.png</icon>
 			<thumb />
 			<onclick condition="String.IsEqual(ListItem.Property(path),ActivateWindow(1129))">SetProperty(CustomSelectSearch,True,Home)</onclick>
 			<onclick>ActivateWindow(1133)</onclick>
 			<property name="path">ActivateWindow(1133)</property>
 			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
-			<property name="submenuVisibility">num-31957</property>
+			<property name="submenuVisibility">addons</property>
 			<property name="hasSubmenu">True</property>
 			</item>
 		<item id="9">
@@ -530,7 +530,7 @@
 			<onclick condition="System.HasPVRAddon">ActivateWindow(RadioChannels)</onclick>
 			<property name="path">ActivateWindow(RadioChannels)</property>
 			<onclick condition="![System.HasPVRAddon]">ActivateWindow(addonbrowser,addons://repository.xbmc.org/xbmc.pvrclient,return)</onclick>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(9000).ListItem.Property(submenuVisibility),num-31502)</visible>
+			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(9000).ListItem.Property(submenuVisibility),livetv)</visible>
 			<property name="isSubmenu">True</property>
 			</item>
 		<item id="2">
@@ -543,7 +543,7 @@
 			<onclick condition="System.HasPVRAddon">ActivateWindow(TVChannels)</onclick>
 			<property name="path">ActivateWindow(TVChannels)</property>
 			<onclick condition="![System.HasPVRAddon]">ActivateWindow(addonbrowser,addons://repository.xbmc.org/xbmc.pvrclient,return)</onclick>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(9000).ListItem.Property(submenuVisibility),num-31502)</visible>
+			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(9000).ListItem.Property(submenuVisibility),livetv)</visible>
 			<property name="isSubmenu">True</property>
 			</item>
 		<item id="3">
@@ -556,7 +556,7 @@
 			<onclick condition="System.HasPVRAddon">ActivateWindow(TVGuide)</onclick>
 			<property name="path">ActivateWindow(TVGuide)</property>
 			<onclick condition="![System.HasPVRAddon]">ActivateWindow(addonbrowser,addons://repository.xbmc.org/xbmc.pvrclient,return)</onclick>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(9000).ListItem.Property(submenuVisibility),num-31502)</visible>
+			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(9000).ListItem.Property(submenuVisibility),livetv)</visible>
 			<property name="isSubmenu">True</property>
 			</item>
 		<item id="4">
@@ -569,7 +569,7 @@
 			<onclick condition="System.HasPVRAddon">ActivateWindow(TVRecordings)</onclick>
 			<property name="path">ActivateWindow(TVRecordings)</property>
 			<onclick condition="![System.HasPVRAddon]">ActivateWindow(addonbrowser,addons://repository.xbmc.org/xbmc.pvrclient,return)</onclick>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(9000).ListItem.Property(submenuVisibility),num-31502)</visible>
+			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(9000).ListItem.Property(submenuVisibility),livetv)</visible>
 			<property name="isSubmenu">True</property>
 			</item>
 		<item id="5">
@@ -582,7 +582,7 @@
 			<onclick condition="System.HasPVRAddon">ActivateWindow(TVTimers)</onclick>
 			<property name="path">ActivateWindow(TVTimers)</property>
 			<onclick condition="![System.HasPVRAddon]">ActivateWindow(addonbrowser,addons://repository.xbmc.org/xbmc.pvrclient,return)</onclick>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(9000).ListItem.Property(submenuVisibility),num-31502)</visible>
+			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(9000).ListItem.Property(submenuVisibility),livetv)</visible>
 			<property name="isSubmenu">True</property>
 			</item>
 		<item id="1">
@@ -668,7 +668,7 @@
 			<thumb />
 			<onclick>ActivateWindow(Music,Addons,return)</onclick>
 			<property name="path">ActivateWindow(Music,Addons,return)</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(9000).ListItem.Property(submenuVisibility),num-31957)</visible>
+			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(9000).ListItem.Property(submenuVisibility),addons)</visible>
 			<property name="isSubmenu">True</property>
 			</item>
 		<item id="2">
@@ -680,7 +680,7 @@
 			<thumb />
 			<onclick>ActivateWindow(Videos,Addons,return)</onclick>
 			<property name="path">ActivateWindow(Videos,Addons,return)</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(9000).ListItem.Property(submenuVisibility),num-31957)</visible>
+			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(9000).ListItem.Property(submenuVisibility),addons)</visible>
 			<property name="isSubmenu">True</property>
 			</item>
 		<item id="3">
@@ -692,7 +692,7 @@
 			<thumb />
 			<onclick>ActivateWindow(Addonbrowser)</onclick>
 			<property name="path">ActivateWindow(Addonbrowser)</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(9000).ListItem.Property(submenuVisibility),num-31957)</visible>
+			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(9000).ListItem.Property(submenuVisibility),addons)</visible>
 			<property name="isSubmenu">True</property>
 			</item>
 		<item id="4">
@@ -704,7 +704,7 @@
 			<thumb />
 			<onclick>ActivateWindow(Programs,Addons,return)</onclick>
 			<property name="path">ActivateWindow(Programs,Addons,return)</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(9000).ListItem.Property(submenuVisibility),num-31957)</visible>
+			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(9000).ListItem.Property(submenuVisibility),addons)</visible>
 			<property name="isSubmenu">True</property>
 			</item>
 		<item id="5">
@@ -716,7 +716,7 @@
 			<thumb />
 			<onclick>ActivateWindow(Pictures,Addons,return)</onclick>
 			<property name="path">ActivateWindow(Pictures,Addons,return)</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(9000).ListItem.Property(submenuVisibility),num-31957)</visible>
+			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(9000).ListItem.Property(submenuVisibility),addons)</visible>
 			<property name="isSubmenu">True</property>
 			</item>
 		<item id="1">

@@ -177,7 +177,7 @@
 			<name>font13_title</name>
 			<filename>batman-forever.ttf</filename>
 			<style>uppercase</style>
-			<size>30</size>
+			<size>26</size>
 		</font>
 		<font>
 			<name>font14_title</name>

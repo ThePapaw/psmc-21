@@ -187,7 +187,7 @@
 					<width>175</width>
 					<height>50</height>
 					<texture flipx="true" border="0">batmobile.png</texture>
-					<animation effect="slide" start="0.0" end="2400,0" time="7250" delay="20000" reversible="true" loop="true" condition="true">Conditional</animation>
+					<animation effect="slide" start="0.0" end="2400,0" time="7250" delay="12000" acceleration="2.5" reversible="true" loop="true" condition="true">Conditional</animation>
 					<animation effect="slide" start="-50,0" end="-50,0" time="4300" delay="12000" reversible="true" pulse="false" condition="true">Conditional</animation>
 				</control>
 			
