@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="skin.papaws.azr.redux" version="21.2.0" name="Papaw's AZR Redux" provider-name="The Papaw">
+<addon id="skin.papaws.azr.redux" version="21.2.1" name="Papaw's AZR Redux" provider-name="The Papaw">
     <requires>
         <import version="5.17.0" addon="xbmc.gui"/>
         <import addon="resource.uisounds.pazr" />
@@ -7,11 +7,9 @@
         <import addon="script.embuary.info" />
         <import addon="script.embuary.helper" />
         <import addon="script.image.resource.select" />
-		<import addon="script.skinshortcuts" version="2.0.3"/>
-		<import addon="resource.images.studios.coloured" version="0.0.23" />
+		<import addon="script.skinshortcuts" />
         <import addon="resource.images.weathericons.white" />
-		<import addon="plugin.program.autocompletion" version="2.1.3" />
-		<import addon="plugin.video.themoviedb.helper" version="5.5.0" />
+		<import addon="plugin.video.themoviedb.helper" />
     </requires>
 	<extension debugging="false" defaultthemename="Textures.xbt" effectslowdown="1" point="xbmc.gui.skin">
         <res aspect="16:9" default="true" folder="1080i" height="1080" width="1920" />
