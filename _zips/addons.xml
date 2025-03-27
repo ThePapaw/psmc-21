@@ -634,6 +634,28 @@ provider-name="jurialmunkey">
   </extension>
 </addon>
 
+<addon id="resource.uisounds.psmc-donaldduck" version="21.2.0" name="PSMC's Donald Duck GUI Sounds" provider-name="The Papaw">
+  <requires>
+    <import addon="kodi.resource" version="1.0.0"/>
+  </requires>
+  <extension point="kodi.resource.uisounds"/>
+  <extension point="kodi.addon.metadata">
+    <summary lang="en">GUI Sounds for the PSMCs Donald Duck skin.</summary>
+	<description lang="en">These GUI Sounds were created for use with the PSMCs Donald Duck skin provided by The Papaw.</description>
+    <platform>all</platform>
+	<license>CC BY-NC-SA 4.0</license>
+		<forum></forum>
+		<website>https://github.com/ThePapaw/psmc-21</website>
+		<source>https://github.com/ThePapaw/psmc-21</source>
+		<video_guide></video_guide>
+		<assets>
+			<icon>icon.png</icon>
+			<fanart>fanart.jpg</fanart>
+		</assets>
+		<news>[COLOR FFFFFF00]GUI Sounds for the PSMC's Donald Duck skin[/COLOR][COLOR FF00D5FF][/COLOR]</news>
+  </extension>
+</addon>
+
 <addon id="resource.uisounds.psmc-manofsteel" version="21.2.0" name="GUI sounds for PSMC's Man of Steel skin" provider-name="The Papaw">
   <requires>
     <import addon="kodi.resource" version="1.0.0"/>
