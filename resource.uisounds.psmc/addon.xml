@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="resource.uisounds.psmc" version="21.2.1" name="PSMCs Sylvo GUI Sounds" provider-name="The Papaw">
+<addon id="resource.uisounds.psmc-batman" version="21.2.2" name="PSMCs Sylvo GUI Sounds" provider-name="The Papaw">
   <requires>
     <import addon="kodi.resource" version="1.0.0"/>
   </requires>
   <extension point="kodi.resource.uisounds"/>
   <extension point="kodi.addon.metadata">
-    <news>If you would like to show your appreciation for the time and efforts I put into these projects, please buy me [B][COLOR deepskyblue]"a cup of coffee"[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR].[CR][CR][COLOR gold]Latest Update:[/COLOR][CR]v21.1.1[CR] - updated for use with PSMC v21 and above</news>
-	<summary lang="en">GUI sounds for the PSMC's Sylvo skin</summary>
+    <summary lang="en">GUI Sounds for the PSMCs Sylvo skin.</summary>
     <description lang="en">GUI sounds for the PSMCs Sylvo skin. [CR][CR]If you would like to show your appreciation for the time and efforts I put into these projects, please scan the "Coffee Cup" (QR code) above and buy me [COLOR deepskyblue]a cup of coffee[/COLOR] or subscribe for access to "What's Next" and all future updates.[CR][CR][COLOR limegreen]Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for EVERY donation and truly appreciate your kindness![/COLOR][COLOR skyblue]  • The Papaw[/COLOR]</description>
+	<description lang="en">These GUI Sounds were created for use with the PSMCs Sylvo skin provided by The Papaw.</description>
+    <news>If you would like to show your appreciation for the time and efforts I put into these projects, please buy me [B][COLOR deepskyblue]"a cup of coffee"[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR].[CR][CR][COLOR gold]Latest Update:[/COLOR][CR]v21.1.2[CR] - updated for use with PSMC v21 and above</news>
     <platform>all</platform>
-    <assets>
-      <icon>icon.png</icon>
-	  <fanart>fanart.jpg</fanart>
+	<license>CC BY-NC-SA 4.0</license>
+		<forum></forum>
+		<website>https://github.com/ThePapaw/psmc-21</website>
+		<source>https://github.com/ThePapaw/psmc-21</source>
+		<video_guide></video_guide>
+		<assets>
+			<icon>icon.png</icon>
+			<fanart>fanart.jpg</fanart>
 	  <screenshot>support/screenshot-01.jpg</screenshot>
 	  <screenshot>support/bmc-qr.jpg</screenshot>
-    </assets>
+		</assets>
   </extension>
 </addon>
