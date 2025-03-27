@@ -965,11 +965,11 @@ provider-name="jurialmunkey">
 	</extension>
 </addon>
 
-<addon id="skin.psmc.donaldduck" version="21.2.0" name="PSMC's Donald Duck Skin" provider-name="The Papaw">
+<addon id="skin.psmc.donaldduck" version="21.2.1" name="PSMC's Donald Duck Skin" provider-name="The Papaw">
 	<requires>
 		<import addon="xbmc.gui" version="5.17.0" />
 		<import addon="script.skinshortcuts" version="1.0.17" />
-		<import addon="resource.uisounds.psmc" />
+		<import addon="resource.uisounds.psmc-donaldduck" />
 		<import addon="service.library.data.provider" version="0.0.7"/>
 		<import addon="resource.images.studios.white" version="0.0.1"/>
 		<import addon="resource.images.recordlabels.white" version="0.0.1"/>
