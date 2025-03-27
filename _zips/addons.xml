@@ -520,7 +520,7 @@ provider-name="jurialmunkey">
     </extension>
 </addon>
 
-<addon id="repository.psmc-21" name="PSMC-21 Repository" version="21.1.10" provider-name="The Papaw">
+<addon id="repository.psmc-21" name="PSMC-21 Repository" version="21.1.11" provider-name="The Papaw">
     <requires>
 		<import addon="xbmc.addon" version="21.0.0"/>
     </requires>
@@ -533,7 +533,7 @@ provider-name="jurialmunkey">
 		</dir>
     </extension>
     <extension point="xbmc.addon.metadata">
-        <news>If you would like to show your appreciation for the time and efforts I put into these projects, please buy me [B][COLOR deepskyblue]"a cup of coffee"[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR].[CR][CR][COLOR gold]Latest Update:[/COLOR][CR]v21.1.10[CR] - uploaded lots of Animated skins for use with PSMC v21 or above</news>
+        <news>If you would like to show your appreciation for the time and efforts I put into these projects, please buy me [B][COLOR deepskyblue]"a cup of coffee"[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR].[CR][CR][COLOR gold]Latest Update:[/COLOR][CR]v21.1.11[CR] - uploaded lots of Animated skins for use with PSMC v21 or above</news>
 		<summary>The Official Repo for PSMC 21</summary>
         <description>[CR]This is the "Official" repository for PSMC 21 (Papaw's Son Media Center). Providing skins, tools, gaming, and streaming addons for PSMC 21 and Kodi.[CR][CR]If you would like to show your appreciation for the time and efforts I put into these projects, please buy me [B][COLOR deepskyblue]"a cup of coffee"[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR]. [CR][CR][COLOR limegreen](Generosity like yours is rare to find these days. I thank you in advance for your support. I am very grateful for EVERY donation and truly appreciate your kindness!)[/COLOR][COLOR skyblue]  â€¢ The Papaw[/COLOR]</description>
         <platform>all</platform>
