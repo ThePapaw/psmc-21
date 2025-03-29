@@ -59,6 +59,7 @@ VIDEO_ID = 'video_id'
 # Events
 CHECK_SETTINGS = 'check_settings'
 PLAYBACK_INIT = 'playback_init'
+PLAYBACK_FAILED = 'playback_failed'
 PLAYBACK_STARTED = 'playback_started'
 PLAYBACK_STOPPED = 'playback_stopped'
 REFRESH_CONTAINER = 'refresh_container'
@@ -72,11 +73,19 @@ WAKEUP = 'wakeup'
 
 # Play options
 PLAY_FORCE_AUDIO = 'audio_only'
+PLAY_FORCED = 'play_forced'
 PLAY_PROMPT_QUALITY = 'ask_for_quality'
 PLAY_PROMPT_SUBTITLES = 'prompt_for_subtitles'
 PLAY_STRM = 'strm'
 PLAY_TIMESHIFT = 'timeshift'
 PLAY_WITH = 'play_with'
+FORCE_PLAY_PARAMS = frozenset((
+    PLAY_FORCE_AUDIO,
+    PLAY_TIMESHIFT,
+    PLAY_PROMPT_QUALITY,
+    PLAY_PROMPT_SUBTITLES,
+    PLAY_WITH,
+))
 
 # Stored data
 CONTAINER_ID = 'container_id'
@@ -90,6 +99,12 @@ PLAYER_DATA = 'player_json'
 PLAYLIST_PATH = 'playlist_path'
 PLAYLIST_POSITION = 'playlist_position'
 REROUTE_PATH = 'reroute_path'
+
+# Routing parameters
+WINDOW_CACHE = 'window_cache'
+WINDOW_FALLBACK = 'window_fallback'
+WINDOW_REPLACE = 'window_replace'
+WINDOW_RETURN = 'window_return'
 
 __all__ = (
     # Addon paths
@@ -119,6 +134,7 @@ __all__ = (
     # Events
     'CHECK_SETTINGS',
     'PLAYBACK_INIT',
+    'PLAYBACK_FAILED',
     'PLAYBACK_STARTED',
     'PLAYBACK_STOPPED',
     'REFRESH_CONTAINER',
@@ -132,11 +148,13 @@ __all__ = (
 
     # Play options
     'PLAY_FORCE_AUDIO',
+    'PLAY_FORCED',
     'PLAY_PROMPT_QUALITY',
     'PLAY_PROMPT_SUBTITLES',
     'PLAY_STRM',
     'PLAY_TIMESHIFT',
     'PLAY_WITH',
+    'FORCE_PLAY_PARAMS',
 
     # Stored data
     'CONTAINER_ID',
@@ -150,6 +168,12 @@ __all__ = (
     'PLAYLIST_PATH',
     'PLAYLIST_POSITION',
     'REROUTE_PATH',
+
+    # Routing parameters
+    'WINDOW_CACHE',
+    'WINDOW_FALLBACK',
+    'WINDOW_REPLACE',
+    'WINDOW_RETURN',
 
     # Other constants
     'CONTENT',

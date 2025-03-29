@@ -16,6 +16,7 @@ from ..logger import Logger
 from ..compatibility import (
     parse_qsl,
     quote,
+    string_type,
     to_str,
     unquote,
     urlencode,
@@ -30,6 +31,10 @@ from ..constants import (
     PLAY_TIMESHIFT,
     PLAY_WITH,
     VALUE_FROM_STR,
+    WINDOW_CACHE,
+    WINDOW_FALLBACK,
+    WINDOW_REPLACE,
+    WINDOW_RETURN,
 )
 from ..json_store import AccessManager
 from ..sql_store import (
@@ -64,14 +69,16 @@ class AbstractContext(Logger):
         'hide_next_page',
         'hide_playlists',
         'hide_search',
+        'hide_shorts',
         'incognito',
         'location',
         'logged_in',
         'resume',
         'screensaver',
-        'window_fallback',
-        'window_replace',
-        'window_return',
+        WINDOW_CACHE,
+        WINDOW_FALLBACK,
+        WINDOW_REPLACE,
+        WINDOW_RETURN,
     }
     _INT_PARAMS = {
         'fanart_type',
@@ -87,6 +94,7 @@ class AbstractContext(Logger):
     }
     _FLOAT_PARAMS = {
         'end',
+        'recent_days',
         'seek',
         'start',
     }
@@ -147,14 +155,13 @@ class AbstractContext(Logger):
         self._plugin_icon = None
         self._version = 'UNKNOWN'
 
-        self._path = path
-        self._path_parts = []
-        self.set_path(path, force=True)
-
         self._params = params or {}
         self.parse_params(self._params)
 
-        self._uri = self.create_uri(self._path, self._params)
+        self._uri = None
+        self._path = path
+        self._path_parts = []
+        self.set_path(path, force=True)
 
     @staticmethod
     def format_date_short(date_obj, str_format=None):
@@ -169,6 +176,9 @@ class AbstractContext(Logger):
         raise NotImplementedError()
 
     def get_language_name(self, lang_id=None):
+        raise NotImplementedError()
+
+    def get_player_language(self):
         raise NotImplementedError()
 
     def get_subtitle_language(self):
@@ -266,7 +276,14 @@ class AbstractContext(Logger):
     def get_system_version():
         return current_system_version
 
-    def create_uri(self, path=None, params=None, run=False):
+    def create_uri(self,
+                   path=None,
+                   params=None,
+                   parse_params=False,
+                   run=False,
+                   play=None,
+                   window=None,
+                   command=False):
         if isinstance(path, (list, tuple)):
             uri = self.create_path(*path, is_uri=True)
         elif path:
@@ -274,18 +291,52 @@ class AbstractContext(Logger):
         else:
             uri = '/'
 
-        uri = self._plugin_id.join(('plugin://', uri))
+        if not uri.startswith('plugin://'):
+            uri = self._plugin_id.join(('plugin://', uri))
 
         if params:
-            if isinstance(params, (dict, list, tuple)):
-                params = urlencode(params)
+            if isinstance(params, string_type):
+                if parse_params:
+                    params = dict(parse_qsl(params, keep_blank_values=True))
+            else:
+                parse_params = True
+            if parse_params:
+                if isinstance(params, dict):
+                    params = params.items()
+                params = urlencode([
+                    (('%' + param, ','.join([quote(item) for item in value]))
+                     if len(value) > 1 else
+                     (param, value[0]))
+                    if isinstance(value, (list, tuple)) else
+                    (param, value)
+                    for param, value in params
+                ])
             uri = '?'.join((uri, params))
 
-        return ''.join((
-            'RunPlugin(',
-            uri,
-            ')'
-        )) if run else uri
+        command = 'command://' if command else ''
+        if run:
+            return ''.join((command, 'RunPlugin(', uri, ')'))
+        if play is not None:
+            return ''.join((
+                command,
+                'PlayMedia(',
+                uri,
+                ',playlist_type_hint=', str(play), ')',
+            ))
+        if window:
+            if not isinstance(window, dict):
+                window = {}
+            window_replace = window.setdefault('replace', False)
+            window_return = window.setdefault('return', True)
+            return ''.join((
+                command,
+                'ReplaceWindow(Videos,'
+                if window_replace else
+                'ActivateWindow(Videos,',
+                uri,
+                ',return)' if window_return else ')',
+            ))
+        return uri
 
     def get_parent_uri(self, **kwargs):
         return self.create_uri(self._path_parts[:-1], **kwargs)
@@ -295,7 +346,7 @@ class AbstractContext(Logger):
         include_parts = kwargs.get('parts')
         parts = [
             part for part in [
-                str(arg).strip('/').replace('\\', '/').replace('//', '/')
+                to_str(arg).strip('/').replace('\\', '/').replace('//', '/')
                 for arg in args
             ] if part
         ]
@@ -321,8 +372,18 @@ class AbstractContext(Logger):
 
     def set_path(self, *path, **kwargs):
         if kwargs.get('force'):
-            path = unquote(path[0]).split('/')
-        self._path, self._path_parts = self.create_path(*path, parts=True)
+            parts = kwargs.get('parts')
+            path = unquote(path[0])
+            if parts is None:
+                path = path.split('/')
+                path, parts = self.create_path(*path, parts=True)
+        else:
+            path, parts = self.create_path(*path, parts=True)
+
+        self._path = path
+        self._path_parts = parts
+        if kwargs.get('update_uri', True):
+            self.update_uri()
 
     def get_params(self):
         return self._params
@@ -330,13 +391,16 @@ class AbstractContext(Logger):
     def get_param(self, name, default=None):
         return self._params.get(name, default)
 
-    def parse_uri(self, uri):
+    def parse_uri(self, uri, update=False):
         uri = urlsplit(uri)
-        path = uri.path.rstrip('/')
+        path = uri.path
         params = self.parse_params(
             dict(parse_qsl(uri.query, keep_blank_values=True)),
             update=False,
         )
+        if update:
+            self._params = params
+            self.set_path(path)
         return path, params
 
     def parse_params(self, params, update=True):
@@ -344,6 +408,9 @@ class AbstractContext(Logger):
         output = self._params if update else {}
 
         for param, value in params.items():
+            if param.startswith('%'):
+                param = param[1:]
+                value = unquote(value)
             try:
                 if param in self._BOOL_PARAMS:
                     parsed_value = VALUE_FROM_STR.get(str(value), False)
@@ -359,7 +426,7 @@ class AbstractContext(Logger):
                     parsed_value = (
                         list(value)
                         if isinstance(value, (list, tuple)) else
-                        [val for val in value.split(',') if val]
+                        [unquote(val) for val in value.split(',') if val]
                     )
                 elif param in self._STRING_PARAMS:
                     parsed_value = to_str(value)
@@ -371,7 +438,7 @@ class AbstractContext(Logger):
                     elif param == 'action':
                         if parsed_value in {'play_all', 'play_video'}:
                             to_delete.append(param)
-                            self.set_path(PATHS.PLAY)
+                            self.set_path(PATHS.PLAY, update_uri=False)
                             continue
                     elif param == 'videoid':
                         to_delete.append(param)
@@ -406,8 +473,8 @@ class AbstractContext(Logger):
 
         return output
 
-    def set_param(self, name, value):
-        self.parse_params({name: value})
+    def set_params(self, **kwargs):
+        self.parse_params(kwargs)
 
     def get_data_path(self):
         """
@@ -434,6 +501,9 @@ class AbstractContext(Logger):
 
     def get_uri(self):
         return self._uri
+
+    def update_uri(self):
+        self._uri = self.create_uri(self._path, self._params)
 
     def get_name(self):
         return self._plugin_name
@@ -489,4 +559,8 @@ class AbstractContext(Logger):
         pass
 
     def wakeup(self, target, timeout=None):
+        raise NotImplementedError()
+
+    @staticmethod
+    def is_plugin_folder(folder_name=None):
         raise NotImplementedError()

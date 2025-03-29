@@ -10,14 +10,13 @@
 
 from __future__ import absolute_import, division, unicode_literals
 
-import re
 from datetime import date, datetime, time as dt_time, timedelta
 from importlib import import_module
+from re import compile as re_compile
 from sys import modules
-from threading import Condition, Lock
 
 from ..exceptions import KodionException
-from ..logger import Logger
+
 
 try:
     from datetime import timezone
@@ -25,21 +24,21 @@ except ImportError:
     timezone = None
 
 
-__RE_MATCH_TIME_ONLY__ = re.compile(
+__RE_MATCH_TIME_ONLY__ = re_compile(
     r'^(?P<hour>[0-9]{2})(:?(?P<minute>[0-9]{2})(:?(?P<second>[0-9]{2}))?)?$'
 )
-__RE_MATCH_DATE_ONLY__ = re.compile(
+__RE_MATCH_DATE_ONLY__ = re_compile(
     r'^(?P<year>[0-9]{4})[-/.]?(?P<month>[0-9]{2})[-/.]?(?P<day>[0-9]{2})$'
 )
-__RE_MATCH_DATETIME__ = re.compile(
+__RE_MATCH_DATETIME__ = re_compile(
     r'^(?P<year>[0-9]{4})[-/.]?(?P<month>[0-9]{2})[-/.]?(?P<day>[0-9]{2})'
     r'["T ](?P<hour>[0-9]{2}):?(?P<minute>[0-9]{2}):?(?P<second>[0-9]{2})'
 )
-__RE_MATCH_PERIOD__ = re.compile(
+__RE_MATCH_PERIOD__ = re_compile(
     r'P((?P<years>\d+)Y)?((?P<months>\d+)M)?((?P<days>\d+)D)?'
     r'(T((?P<hours>\d+)H)?((?P<minutes>\d+)M)?((?P<seconds>\d+)S)?)?'
 )
-__RE_MATCH_ABBREVIATED__ = re.compile(
+__RE_MATCH_ABBREVIATED__ = re_compile(
     r'\w+, (?P<day>\d+) (?P<month>\w+) (?P<year>\d+)'
     r' (?P<hour>\d+):(?P<minute>\d+):(?P<second>\d+)'
 )
@@ -175,7 +174,7 @@ def utc_to_local(dt):
     return dt + offset
 
 
-def datetime_to_since(context, dt, local=True):
+def datetime_to_since(context, dt, local=True, as_seconds=False):
     if timezone:
         _now = now(tz=timezone.utc)
         if local:
@@ -184,12 +183,15 @@ def datetime_to_since(context, dt, local=True):
         _now = now() if local else datetime.utcnow()
 
     diff = _now - dt
+    seconds = diff.total_seconds()
+    if as_seconds:
+        return seconds
+
     yesterday = _now - timedelta(days=1)
     yyesterday = _now - timedelta(days=2)
     use_yesterday = (_now - yesterday).total_seconds() > 10800
     today = _now.date()
     tomorrow = today + timedelta(days=1)
-    seconds = diff.total_seconds()
 
     if seconds > 0:
         if seconds < 60:
@@ -237,7 +239,13 @@ def datetime_to_since(context, dt, local=True):
     return ' '.join((context.format_date_short(dt), context.format_time(dt)))
 
 
-def strptime(datetime_str, fmt=None):
+# Python strptime bug workaround
+# https://github.com/python/cpython/issues/71587
+if '_strptime' not in modules:
+    modules['_strptime'] = import_module('_strptime')
+
+
+def strptime(datetime_str, fmt=None, _strptime=modules['_strptime']):
     if fmt is None:
         fmt = '%Y-%m-%d%H%M%S'
 
@@ -276,33 +284,9 @@ def strptime(datetime_str, fmt=None):
         else:
             datetime_str = time_part
 
-    try:
-        return datetime.strptime(datetime_str, fmt)
-    except TypeError:
-        if '_strptime' not in modules or strptime.reloading.locked():
-            if strptime.reloaded.acquire(False):
-                _strptime = import_module('_strptime')
-                modules['_strptime'] = _strptime
-                Logger.log_error('Python strptime bug workaround'
-                                 ' - https://github.com/python/cpython/issues/71587')
-                strptime.reloaded.notify_all()
-                strptime.reloaded.release()
-            else:
-                strptime.reloaded.acquire()
-                while '_strptime' not in modules:
-                    strptime.reloaded.wait()
-                _strptime = modules['_strptime']
-                strptime.reloaded.release()
-        else:
-            _strptime = modules['_strptime']
-
-        if timezone:
-            return _strptime._strptime_datetime(datetime, datetime_str, fmt)
-        return datetime(*(_strptime._strptime(datetime_str, fmt)[0][0:6]))
-
-
-strptime.reloading = Lock()
-strptime.reloaded = Condition(lock=strptime.reloading)
+    if timezone:
+        return _strptime._strptime_datetime(datetime, datetime_str, fmt)
+    return datetime(*(_strptime._strptime(datetime_str, fmt)[0][0:6]))
 
 
 def since_epoch(dt_object=None):

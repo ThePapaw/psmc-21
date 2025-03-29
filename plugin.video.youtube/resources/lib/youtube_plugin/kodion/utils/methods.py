@@ -12,12 +12,23 @@ from __future__ import absolute_import, division, unicode_literals
 
 import json
 import os
-import re
 import shutil
 from datetime import timedelta
 from math import floor, log
+from re import (
+    compile as re_compile,
+)
 
-from ..compatibility import byte_string_type, string_type, xbmc, xbmcvfs
+from ..compatibility import (
+    byte_string_type,
+    parse_qs,
+    string_type,
+    urlencode,
+    urlsplit,
+    urlunsplit,
+    xbmc,
+    xbmcvfs,
+)
 from ..logger import Logger
 
 
@@ -31,14 +42,15 @@ __all__ = (
     'loose_version',
     'make_dirs',
     'merge_dicts',
-    'print_items',
-    'redact_ip',
+    'parse_and_redact_uri',
+    'redact_auth_header',
+    'redact_ip_in_uri',
+    'redact_params',
     'rm_dir',
     'seconds_to_duration',
     'select_stream',
     'strip_html_from_text',
     'to_unicode',
-    'validate_ip_address',
     'wait',
 )
 
@@ -60,14 +72,17 @@ def select_stream(context,
                   stream_data_list,
                   ask_for_quality,
                   audio_only,
-                  use_adaptive_formats=True):
+                  use_mpd=True):
     settings = context.get_settings()
-    isa_capabilities = context.inputstream_adaptive_capabilities()
-    use_adaptive = (use_adaptive_formats
-                    and settings.use_isa()
-                    and bool(isa_capabilities))
-    live_type = ('live' in isa_capabilities
-                 and settings.live_stream_type()) or 'hls'
+    if settings.use_isa():
+        isa_capabilities = context.inputstream_adaptive_capabilities()
+        use_adaptive = bool(isa_capabilities)
+        use_live_adaptive = use_adaptive and 'live' in isa_capabilities
+        use_live_mpd = use_live_adaptive and settings.use_mpd_live_streams()
+    else:
+        use_adaptive = False
+        use_live_adaptive = False
+        use_live_mpd = False
 
     if audio_only:
         context.log_debug('Select stream - Audio only')
@@ -77,11 +92,12 @@ def select_stream(context,
         stream_list = [
             item for item in stream_data_list
             if (not item.get('adaptive')
-                or (not item.get('live') and use_adaptive)
+                or (not item.get('live')
+                    and ((use_mpd and item.get('dash/video'))
+                         or (use_adaptive and item.get('hls/video'))))
                 or (item.get('live')
-                    and live_type.startswith('isa')
-                    and ((live_type == 'isa_mpd' and item.get('dash/video'))
-                         or item.get('hls/video'))))
+                    and ((use_live_mpd and item.get('dash/video'))
+                         or (use_live_adaptive and item.get('hls/video')))))
         ]
 
     if not stream_list:
@@ -109,7 +125,7 @@ def select_stream(context,
 
         original_value = log_data.get('url')
         if original_value:
-            log_data['url'] = redact_ip(original_value)
+            log_data['url'] = redact_ip_in_uri(original_value)
 
         context.log_debug('Stream {idx}:'
                           '\n\t{stream_details}'
@@ -130,26 +146,14 @@ def select_stream(context,
     return stream_list[selected_stream]
 
 
-def strip_html_from_text(text):
+def strip_html_from_text(text, tag_re=re_compile('<[^<]+?>')):
     """
     Removes html tags
     :param text: html text
+    :param tag_re: RE pattern object used to match html tags
     :return:
     """
-    return re.sub('<[^<]+?>', '', text)
-
-
-def print_items(items):
-    """
-    Prints the given test_items. Basically for tests
-    :param items: list of instances of base_item
-    :return:
-    """
-    if not items:
-        items = []
-
-    for item in items:
-        print(item)
+    return tag_re.sub('', text)
 
 
 def make_dirs(path):
@@ -195,9 +199,11 @@ def rm_dir(path):
     return False
 
 
-def find_video_id(plugin_path):
-    match = re.search(r'.*video_id=(?P<video_id>[a-zA-Z0-9_\-]{11}).*',
-                      plugin_path)
+def find_video_id(plugin_path,
+                  video_id_re=re_compile(
+                      r'.*video_id=(?P<video_id>[a-zA-Z0-9_\-]{11}).*'
+                  )):
+    match = video_id_re.search(plugin_path)
     if match:
         return match.group('video_id')
     return ''
@@ -216,17 +222,15 @@ def friendly_number(value, precision=3, scale=('', 'K', 'M', 'B'), as_str=True):
     return output if as_str else (output, value)
 
 
-_RE_PERIODS = re.compile(r'([\d.]+)(d|h|m|s|$)')
-_SECONDS_IN_PERIODS = {
-    '': 1,       # 1 second for unitless period
-    's': 1,      # 1 second
-    'm': 60,     # 1 minute
-    'h': 3600,   # 1 hour
-    'd': 86400,  # 1 day
-}
-
-
-def duration_to_seconds(duration):
+def duration_to_seconds(duration,
+                        periods_seconds_map={
+                            '': 1,       # 1 second for unitless period
+                            's': 1,      # 1 second
+                            'm': 60,     # 1 minute
+                            'h': 3600,   # 1 hour
+                            'd': 86400,  # 1 day
+                        },
+                        periods_re=re_compile(r'([\d.]+)(d|h|m|s|$)')):
     if ':' in duration:
         seconds = 0
         for part in duration.split(':'):
@@ -234,8 +238,8 @@ def duration_to_seconds(duration):
         return seconds
     return sum(
         (float(number) if '.' in number else int(number))
-        * _SECONDS_IN_PERIODS.get(period, 1)
-        for number, period in re.findall(_RE_PERIODS, duration.lower())
+        * periods_seconds_map.get(period, 1)
+        for number, period in periods_re.findall(duration.lower())
     )
 
 
@@ -243,8 +247,12 @@ def seconds_to_duration(seconds):
     return str(timedelta(seconds=seconds))
 
 
-def merge_dicts(item1, item2, templates=None, _=Ellipsis):
+def merge_dicts(item1, item2, templates=None, compare_str=False, _=Ellipsis):
     if not isinstance(item1, dict) or not isinstance(item2, dict):
+        if (compare_str
+                and isinstance(item1, string_type)
+                and isinstance(item2, string_type)):
+            return item1 if len(item1) > len(item2) else item2
         return (
             item1 if item2 is _ else
             _ if (item1 is KeyError or item2 is KeyError) else
@@ -280,17 +288,6 @@ def get_kodi_setting_bool(setting):
     return xbmc.getCondVisibility(setting.join(('System.GetBool(', ')')))
 
 
-def validate_ip_address(ip_address):
-    try:
-        octets = [octet for octet in map(int, ip_address.split('.'))
-                  if 0 <= octet <= 255]
-        if len(octets) != 4:
-            raise ValueError
-    except ValueError:
-        return 0, 0, 0, 0
-    return tuple(octets)
-
-
 def jsonrpc(batch=None, **kwargs):
     """
     Perform JSONRPC calls
@@ -319,5 +316,54 @@ def wait(timeout=None):
     return xbmc.Monitor().waitForAbort(timeout)
 
 
-def redact_ip(url):
-    return re.sub(r'([?&/])ip([=/])[^?&/]+', r'\g<1>ip\g<2><redacted>', url)
+def redact_ip_in_uri(
+    url,
+    _re=re_compile(r'([?&/]|%3F|%26|%2F)ip([=/]|%3D|%2F)[^?&/%]+'),
+):
+    return _re.sub(r'\g<1>ip\g<2><redacted>', url)
+
+
+def redact_auth_header(header_string,
+                       _re=re_compile(r'"Authorization": "[^"]+"')):
+    return _re.sub(r'"Authorization": "<redacted>"', header_string)
+
+
+def redact_params(params, values_as_list=True):
+    log_params = params.copy()
+    for param, value in params.items():
+        if values_as_list:
+            value = value[0]
+        if param in {'key', 'api_key', 'api_secret', 'client_secret'}:
+            log_param = '...'.join((value[:3], value[-3:]))
+        elif param in {'api_id', 'client_id'}:
+            log_param = '...'.join((value[:3], value[-5:]))
+        elif param in {'access_token', 'refresh_token', 'token'}:
+            log_param = '<redacted>'
+        elif param == 'url':
+            log_param = redact_ip_in_uri(value)
+        elif param == 'ip':
+            log_param = '<redacted>'
+        elif param == 'location':
+            log_param = '|xx.xxxx,xx.xxxx|'
+        elif param == '__headers':
+            log_param = redact_auth_header(value)
+        else:
+            continue
+        log_params[param] = log_param
+    return log_params
+
+
+def parse_and_redact_uri(uri, redact_only=False):
+    parts = urlsplit(uri)
+    if parts.query:
+        params = parse_qs(parts.query, keep_blank_values=True)
+        log_params = redact_params(params)
+        log_uri = urlunsplit((
+            parts.scheme, parts.netloc, parts.path, urlencode(log_params), '',
+        ))
+    else:
+        params = log_params = None
+        log_uri = uri
+    if redact_only:
+        return log_uri
+    return parts, params, log_uri, log_params

@@ -10,9 +10,9 @@
 
 from __future__ import absolute_import, division, unicode_literals
 
-from .view_manager import ViewManager
-from .xbmc_progress_dialog import XbmcProgressDialog, XbmcProgressDialogBG
-from ..abstract_context_ui import AbstractContextUI
+from weakref import proxy
+
+from ..abstract_context_ui import AbstractContextUI, AbstractProgressDialog
 from ...compatibility import xbmc, xbmcgui
 from ...constants import ADDON_ID, REFRESH_CONTAINER
 from ...utils import to_unicode
@@ -22,23 +22,29 @@ class XbmcContextUI(AbstractContextUI):
     def __init__(self, context):
         super(XbmcContextUI, self).__init__()
         self._context = context
-        self._view_manager = None
 
     def create_progress_dialog(self,
                                heading,
                                message='',
+                               total=None,
                                background=False,
-                               message_template=None):
-        if background:
-            return XbmcProgressDialogBG(heading, message, message_template)
+                               message_template=None,
+                               template_params=None):
+        if not message_template:
+            message_template = '{_message} {_current}/{_total}'
 
-        return XbmcProgressDialog(heading, message, message_template)
-
-    def get_view_manager(self):
-        if self._view_manager is None:
-            self._view_manager = ViewManager(self._context)
-
-        return self._view_manager
+        return AbstractProgressDialog(
+            ui=proxy(self),
+            dialog=(xbmcgui.DialogProgressBG
+                    if background else
+                    xbmcgui.DialogProgress),
+            background=background,
+            heading=heading,
+            message=message or self._context.localize('please_wait'),
+            total=int(total) if total is not None else 0,
+            message_template=message_template,
+            template_params=template_params,
+        )
 
     def on_keyboard_input(self, title, default='', hidden=False):
         # Starting with Gotham (13.X > ...)
@@ -87,12 +93,17 @@ class XbmcContextUI(AbstractContextUI):
         )
 
     def on_select(self, title, items=None, preselect=-1, use_details=False):
-        if items is None:
-            items = []
+        if isinstance(items, (list, tuple)):
+            items = enumerate(items)
+        elif isinstance(items, dict):
+            items = items.items()
+        else:
+            return -1
 
         result_map = {}
         dialog_items = []
-        for idx, item in enumerate(items):
+
+        for idx, item in items:
             if isinstance(item, (list, tuple)):
                 num_details = len(item)
                 if num_details > 2:
@@ -146,30 +157,34 @@ class XbmcContextUI(AbstractContextUI):
     def refresh_container(self):
         self._context.send_notification(REFRESH_CONTAINER)
 
-    @staticmethod
-    def set_property(property_id, value='true'):
-        property_id = '-'.join((ADDON_ID, property_id))
-        xbmcgui.Window(10000).setProperty(property_id, value)
+    def set_property(self, property_id, value='true'):
+        self._context.log_debug('Set property |{id}|: {value!r}'
+                                .format(id=property_id, value=value))
+        _property_id = '-'.join((ADDON_ID, property_id))
+        xbmcgui.Window(10000).setProperty(_property_id, value)
         return value
 
-    @staticmethod
-    def get_property(property_id):
-        property_id = '-'.join((ADDON_ID, property_id))
-        return xbmcgui.Window(10000).getProperty(property_id)
+    def get_property(self, property_id):
+        _property_id = '-'.join((ADDON_ID, property_id))
+        value = xbmcgui.Window(10000).getProperty(_property_id)
+        self._context.log_debug('Get property |{id}|: {value!r}'
+                                .format(id=property_id, value=value))
+        return value
 
-    @staticmethod
-    def pop_property(property_id):
-        property_id = '-'.join((ADDON_ID, property_id))
+    def pop_property(self, property_id):
+        _property_id = '-'.join((ADDON_ID, property_id))
         window = xbmcgui.Window(10000)
-        value = window.getProperty(property_id)
+        value = window.getProperty(_property_id)
         if value:
-            window.clearProperty(property_id)
+            window.clearProperty(_property_id)
+        self._context.log_debug('Pop property |{id}|: {value!r}'
+                                .format(id=property_id, value=value))
         return value
 
-    @staticmethod
-    def clear_property(property_id):
-        property_id = '-'.join((ADDON_ID, property_id))
-        xbmcgui.Window(10000).clearProperty(property_id)
+    def clear_property(self, property_id):
+        self._context.log_debug('Clear property |{id}|'.format(id=property_id))
+        _property_id = '-'.join((ADDON_ID, property_id))
+        xbmcgui.Window(10000).clearProperty(_property_id)
         return None
 
     @staticmethod
@@ -246,8 +261,18 @@ class XbmcContextUI(AbstractContextUI):
         )
 
     @staticmethod
-    def busy_dialog_active():
+    def busy_dialog_active(dialog_ids=frozenset((
+            10100,  # WINDOW_DIALOG_YES_NO
+            10101,  # WINDOW_DIALOG_PROGRESS
+            10103,  # WINDOW_DIALOG_KEYBOARD
+            10109,  # WINDOW_DIALOG_NUMERIC
+            10138,  # WINDOW_DIALOG_BUSY
+            10151,  # WINDOW_DIALOG_EXT_PROGRESS
+            10160,  # WINDOW_DIALOG_BUSY_NOCANCEL
+            12000,  # WINDOW_DIALOG_SELECT
+            12002,  # WINDOW_DIALOG_OK
+    ))):
         dialog_id = xbmcgui.getCurrentWindowDialogId()
-        if dialog_id == 10160 or dialog_id == 10138:
+        if dialog_id in dialog_ids:
             return dialog_id
         return False

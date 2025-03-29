@@ -10,6 +10,7 @@
 __all__ = (
     'BaseHTTPRequestHandler',
     'TCPServer',
+    'ThreadingMixIn',
     'available_cpu_count',
     'byte_string_type',
     'datetime_infolabel',
@@ -17,10 +18,12 @@ __all__ = (
     'parse_qs',
     'parse_qsl',
     'quote',
+    'quote_plus',
     'string_type',
     'to_str',
     'unescape',
     'unquote',
+    'unquote_plus',
     'urlencode',
     'urljoin',
     'urlsplit',
@@ -36,12 +39,14 @@ __all__ = (
 try:
     from html import unescape
     from http.server import BaseHTTPRequestHandler
-    from socketserver import TCPServer
+    from socketserver import TCPServer, ThreadingMixIn
     from urllib.parse import (
         parse_qs,
         parse_qsl,
         quote,
+        quote_plus,
         unquote,
+        unquote_plus,
         urlencode,
         urljoin,
         urlsplit,
@@ -77,10 +82,12 @@ try:
 except ImportError:
     from BaseHTTPServer import BaseHTTPRequestHandler
     from contextlib import contextmanager as _contextmanager
-    from SocketServer import TCPServer
+    from SocketServer import TCPServer, ThreadingMixIn
     from urllib import (
         quote as _quote,
+        quote_plus as _quote_plus,
         unquote as _unquote,
+        unquote_plus as _unquote_plus,
         urlencode as _urlencode,
     )
     from urlparse import (
@@ -105,8 +112,16 @@ except ImportError:
         return _quote(to_str(data), *args, **kwargs)
 
 
+    def quote_plus(data, *args, **kwargs):
+        return _quote_plus(to_str(data), *args, **kwargs)
+
+
     def unquote(data):
         return _unquote(to_str(data))
+
+
+    def unquote_plus(data):
+        return _unquote_plus(to_str(data))
 
 
     def urlencode(data, *args, **kwargs):
