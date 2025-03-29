@@ -25,8 +25,14 @@ from resolveurl.resolver import ResolveUrl, ResolverError
 
 class MoflixStreamResolver(ResolveUrl):
     name = 'MoflixStream'
-    domains = ['moflix-stream.fans', 'boosteradx.online', 'mov18plus.cloud', 'moviesapi.club', 'boosterx.stream']
-    pattern = r'(?://|\.)((?:moflix-stream|boostera?d?x|mov18plus|w1\.moviesapi)\.(?:fans|online|cloud|club|stream))/' \
+    domains = [
+        'moflix-stream.fans', 'boosteradx.online', 'mov18plus.cloud',
+        'moviesapi.club', 'boosterx.stream', 'vidstreamnew.xyz',
+        'boltx.stream', 'chillx.top', 'watchx.top', 'bestx.stream',
+        'https://playerx.stream/', 'https://vidstreaming.xyz/'
+    ]
+    pattern = r'(?://|\.)((?:moflix-stream|boostera?d?x|mov18plus|w1\.moviesapi|vidstream(?:new|ing)|(?:chill|watch|best|bolt|player)x)\.' \
+              r'(?:fans|online|cloud|club|stream|xyz|top))/' \
               r'(?:d|v)/([0-9a-zA-Z$:/.-_]+)'
 
     def get_media_url(self, host, media_id, subs=False):
@@ -39,7 +45,7 @@ class MoflixStreamResolver(ResolveUrl):
             headers.update({'Referer': 'https://moviesapi.club/'})
         web_url = self.get_url(host, media_id)
         html = self.net.http_GET(web_url, headers=headers).content
-        r = re.search(r'''Encrypted\s*=\s*'([^']+)''', html)
+        r = re.search(r'''(?:const|var|let|window\.)\s*\w*\s*=\s*'([^']+)''', html)
         if r:
             html2 = self.mf_decrypt(r.group(1))
             r = re.search(r'file"?:\s*"([^"]+)', html2)
@@ -51,7 +57,12 @@ class MoflixStreamResolver(ResolveUrl):
                 })
                 stream_url = murl + helpers.append_headers(headers)
                 if subs:
-                    subtitles = helpers.scrape_subtitles(html2, web_url)
+                    subtitles = helpers.scrape_subtitles(
+                        html2,
+                        web_url,
+                        patterns=[r'''["']?\s*(?:file|src)\s*["']?\s*[:=,]?\s*["'](?P<url>[^"']+)(?:[^}>\]]+)["']?\s*label\s*["']?\s*[:=]\s*["']?(?P<label>[^"',]+)["'],"kind":"captions"'''],
+                        generic_patterns=False
+                    )
                     if not subtitles:
                         s = re.search(r'subtitle"?:\s*"([^"]+)', html2)
                         if s:
@@ -63,28 +74,19 @@ class MoflixStreamResolver(ResolveUrl):
         raise ResolverError('File not found')
 
     def get_url(self, host, media_id):
-        return self._default_get_url(host, media_id, template='https://{host}/v/{media_id}/')
+        return self._default_get_url(host, media_id, template='https://{host}/v/{media_id}')
 
     @staticmethod
     def mf_decrypt(data):
         """
-        (c) 2024 MrDini123
+        (c) 2025 MrDini123, yogesh-hacker
         """
-        import base64
-        import zlib
-        lookup_table = {
-            "!": "a",
-            "@": "b",
-            "#": "c",
-            "$": "d",
-            "%": "e",
-            "^": "f",
-            "&": "g",
-            "*": "h",
-            "(": "i",
-            ")": "j",
-        }
-        data = base64.b64decode(data)
-        s = zlib.decompress(bytes(int(bin(byte)[2:].zfill(8)[::-1], 2) for byte in data)).decode('latin-1')
-        s = "".join(lookup_table.get(char, char) for char in s)
-        return base64.b64decode(s).decode('latin-1')
+        # Func ID: AkeGtWh
+        import binascii
+        from resolveurl.lib import pyaes
+        data = helpers.b64decode(data, binary=True)
+        key = binascii.unhexlify(helpers.b64decode('ZmJlYTcyMGU5MDY0NDE3Mzg1MDc0MjMzOThiYTcwMjg5ZTQwNjJmZTU2NGFhNTU5OTY5OWZhNjA2NDVmNzdjZA=='))
+        decryptor = pyaes.Decrypter(pyaes.AESModeOfOperationCBC(key, data[:16]))
+        ddata = decryptor.feed(data[16:])
+        ddata += decryptor.feed()
+        return ddata.decode('utf-8')
