@@ -1171,7 +1171,7 @@ provider-name="jurialmunkey">
     </extension>
 </addon>
 
-<addon id="skin.papaws.azr.redux" version="21.2.2" name="Papaw's AZR Redux" provider-name="The Papaw">
+<addon id="skin.papaws.azr.redux" version="21.2.3" name="Papaw's AZR Redux" provider-name="The Papaw">
     <requires>
         <import version="5.17.0" addon="xbmc.gui"/>
         <import addon="resource.uisounds.pazr" />
