@@ -1213,7 +1213,7 @@ provider-name="jurialmunkey">
     </extension>
 </addon>
 
-<addon id="skin.papaws.azr.redux" version="21.2.5" name="Papaw's AZR Redux" provider-name="The Papaw">
+<addon id="skin.papaws.azr.redux" version="21.2.6" name="Papaw's AZR Redux" provider-name="The Papaw">
     <requires>
         <import version="5.17.0" addon="xbmc.gui"/>
         <import addon="resource.uisounds.pazr" />
@@ -1249,7 +1249,7 @@ provider-name="jurialmunkey">
             <screenshot>resources/screenshot-09.jpg</screenshot>
             <screenshot>resources/screenshot-10.jpg</screenshot>
         </assets>
-        <news>If you would like to show your appreciation for the time and efforts I put into these projects, please buy me [B][COLOR deepskyblue]"a cup of coffee"[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR].[CR][CR][COLOR gold]Latest Update:[/COLOR][CR]v1.4.3[CR] - updated screenshots</news>
+        <news>If you would like to show your appreciation for the time and efforts I put into these projects, please buy me [B][COLOR deepskyblue]"a cup of coffee"[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR].[CR][CR][COLOR gold]Latest Update:[/COLOR][CR]v21.2.6[CR] - graphical changes</news>
         <summary lang="de">Papaw's AZR Redux is gebaseerd op de originele Arctic Zephyr-skin gemaakt door jurialmunkey. Papaw's AZR Redux gaat over eenvoudig, strak, minimalistisch en uiterst aanpasbaar.</summary>
         <summary lang="en">Papaw's AZR Redux is based on the original Arctic Zephyr skin created by jurialmunkey. Papaw's AZR Redux is about being simple, clean, minimalistic and extremely customizable.</summary>
         <summary lang="en_AU">Papaw's AZR Redux is based on the original Arctic Zephyr skin created by jurialmunkey. Papaw's AZR Redux is about being simple, clean, minimalistic and extremely customizable.</summary>
