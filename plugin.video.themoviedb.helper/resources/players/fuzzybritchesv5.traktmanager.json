@@ -1,8 +1,0 @@
-{
-    "name" : "[COLOR red]FuzzyBritches_v5[/COLOR] (Trakt Manager)", 
-    "plugin" : "plugin.video.fuzzybritches_v5", 
-    "priority" : 103, 
-    "is_resolvable" : "true", 
-    "play_episode" : "plugin://plugin.video.fuzzybritches_v5/?action=tools_traktManager&name={title_url}&imdb={imdb}&tvdb={tvdb}&season={season}&episode={episode}", 
-    "play_movie" : "plugin://plugin.video.fuzzybritches_v5/?action=tools_traktManager&name={title_url}&imdb={imdb}"
-}
