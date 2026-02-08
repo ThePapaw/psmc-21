@@ -744,7 +744,7 @@ provider-name="jurialmunkey">
     </extension>
 </addon>
 
-<addon id="repository.psmc-21" name="PSMC-21 Repository" version="21.1.13" provider-name="The Papaw">
+<addon id="repository.psmc-21" name="PSMC-21 Repository" version="21.1.14" provider-name="The Papaw">
     <requires>
 		<import addon="xbmc.addon" version="21.0.0"/>
     </requires>
