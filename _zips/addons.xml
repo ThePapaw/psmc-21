@@ -1185,7 +1185,7 @@ provider-name="jurialmunkey">
     </extension>
 </addon>
 
-<addon id="script.psgc.launcher" name="PSGC Launcher" version="21.0.0" provider-name="The Papaw">
+<addon id="script.psgc.launcher" name="PSGC Launcher" version="21.0.1" provider-name="The Papaw">
     <requires>
         <import addon="xbmc.python" version="3.0.0"/>
     </requires>
