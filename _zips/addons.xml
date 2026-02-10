@@ -39,7 +39,7 @@
     </extension>
 </addon>
 
-<addon id="plugin.program.psmcmaintenance" name="PSMC Maintenance" version="1.1.2" provider-name="The Papaw">
+<addon id="plugin.program.psmcmaintenance" name="PSMC Maintenance" version="1.1.21" provider-name="The Papaw">
   <requires>
     <import addon="script.module.requests" version="1.0.0" />
   </requires>
@@ -56,8 +56,8 @@
     <platform>all</platform>
 		<license>CC BY-NC-SA 4.0</license>
 		<forum></forum>
-		<website>https://github.com/ThePapaw/psmc-20</website>
-		<source>https://github.com/ThePapaw/psmc-20</source>
+		<website>https://buymeacoffee.com/zizzlezazzle</website>
+		<source>https://github.com/ThePapaw/psmc-21</source>
 		<video_guide></video_guide>
 	<assets>
 		<icon>icon.png</icon>
