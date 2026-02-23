@@ -70,7 +70,7 @@
   </extension>
 </addon>
 
-<addon id="plugin.video.fuzzybritches" name="FuzzyBritches" provider-name="The Papaw" version="1.2.21">
+<addon id="plugin.video.fuzzybritches" name="FuzzyBritches" provider-name="The Papaw" version="2.1.21">
 	<requires>
 		<import addon="xbmc.python" version="3.0.0" />
 		<import addon="script.module.requests" />
@@ -624,28 +624,6 @@
   <extension point="xbmc.addon.metadata">
     <platform>all</platform>
     <description lang="en_GB">ResolveURL and Link Tester</description>
-    <license></license>
-    <language></language>
-    <website></website>
-    <news></news>
-    <assets>
-      <icon>icon.png</icon>
-      <fanart>fanart.jpg</fanart>
-    </assets>
-  </extension>
-</addon>
-
-<addon id="repository.slyguy" name="SlyGuy Repository" provider-name="SlyGuy" version="0.0.9">
-  <extension point="xbmc.addon.repository" name="SlyGuy Repository">
-    <dir>
-      <info compressed="false">https://slyguy.uk/.repo/repository.slyguy/addons.xml</info>
-      <checksum>https://slyguy.uk/.repo/repository.slyguy/addons.xml.md5</checksum>
-      <datadir zip="true">https://slyguy.uk/.repo/repository.slyguy/</datadir>
-    </dir>
-  </extension>
-  <extension point="xbmc.addon.metadata">
-    <platform>all</platform>
-    <description lang="en">Addons by SlyGuy (slyguy.uk)</description>
     <license></license>
     <language></language>
     <website></website>
