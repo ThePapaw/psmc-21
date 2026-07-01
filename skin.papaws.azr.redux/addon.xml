@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="skin.papaws.azr.redux" version="21.2.7" name="Papaw's AZR Redux" provider-name="The Papaw">
+<addon id="skin.papaws.azr.redux" version="21.2.8" name="Papaw's AZR Redux" provider-name="The Papaw">
     <requires>
         <import version="5.17.0" addon="xbmc.gui"/>
         <import addon="resource.uisounds.pazr" />
-        <import addon="script.globalsearch" />
+        <import addon="script.psmcsearch" />
         <import addon="script.embuary.info" />
         <import addon="script.embuary.helper" />
         <import addon="script.image.resource.select" />
