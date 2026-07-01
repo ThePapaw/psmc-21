@@ -13,6 +13,8 @@ from resources.lib.modules.control import lang as getLS, setting as getSetting
 import json
 from resources.lib.modules import trakt
 from resources.lib.modules import simkl
+from resources.lib.modules import mdblist
+from resources.lib.database import traktsync
 
 ZoneUtc = 'utc'
 ZoneLocal = 'local'
@@ -20,7 +22,9 @@ FormatDateTime = '%Y-%m-%d %H:%M:%S'
 FormatDate = '%Y-%m-%d'
 FormatTime = '%H:%M:%S'
 FormatTimeShort = '%H:%M'
-service_syncInterval = int(getSetting('background.service.syncInterval')) if getSetting('background.service.syncInterval') else 15
+service_syncInterval = int(getSetting('background.service.syncInterval')) if getSetting('background.service.syncInterval') else 30
+simkl_syncInterval = int(getSetting('simkl.service.syncInterval')) if getSetting('simkl.service.syncInterval') else 30
+mdblist_syncInterval = int(getSetting('mdblist.service.syncInterval')) if getSetting('mdblist.service.syncInterval') else 30
 
 # def datetime_from_string(self, string, format=FormatDateTime):
 	# try:
@@ -171,21 +175,25 @@ def resetCustomBG():
 
 def setIndicatorService():
 	try:
+		import xbmcgui
+		art = control.artPath()
 		currentSetting = control.setting('indicators.alt')
-		options = ['Local']
-		if simkl.getSimKLCredentialsInfo():
-			options += ['Simkl']
+		service_map = [('Local', control.joinPath(art, 'icon.png'), '0')]
 		if trakt.getTraktCredentialsInfo():
-			options += ['Trakt']
-		select = control.selectDialog(options, 'Please select service to use for indicators:')
-		if select == -1: return
-		selection = options[select]
-		if selection == 'Local':
-			optionVal = '0'
-		if selection == 'Trakt':
-			optionVal = '1'
-		if selection == 'Simkl':
-			optionVal = '2'
+			service_map.append(('Trakt', control.joinPath(art, 'trakt.png'), '1'))
+		if simkl.getSimKLCredentialsInfo():
+			service_map.append(('Simkl', control.joinPath(art, 'simkl.png'), '2'))
+		if mdblist.getMDBListCredentialsInfo():
+			service_map.append(('MDBList', control.joinPath(art, 'mdblist.png'), '3'))
+		current_index = next((i for i, (_, _, v) in enumerate(service_map) if v == currentSetting), -1)
+		items = []
+		for i, (label, icon, _) in enumerate(service_map):
+			li = xbmcgui.ListItem(label=label, label2='[COLOR lime]Active[/COLOR]' if i == current_index else '')
+			li.setArt({'icon': icon, 'thumb': icon})
+			items.append(li)
+		select = control.selectDialog(items, 'Please select service to use for indicators:', useDetails=True)
+		if select == -1: control.openSettings('5.0', 'plugin.video.fuzzybritches'); return
+		selection, _, optionVal = service_map[select]
 
 		if currentSetting != optionVal:
 			if optionVal == '1':
@@ -196,12 +204,44 @@ def setIndicatorService():
 		control.setSetting('indicators.alt', optionVal)
 		control.homeWindow.setProperty('fuzzybritches.updateSettings', 'true')
 		control.setSetting('indicators', str(selection))
-		control.openSettings('0.0', 'plugin.video.fuzzybritches')
+		control.openSettings('5.0', 'plugin.video.fuzzybritches')
+	except:
+		from resources.lib.modules import log_utils
+		log_utils.error()
+
+def setScrobbleService():
+	try:
+		import xbmcgui
+		art = control.artPath()
+		currentSetting = control.setting('scrobble.source')
+		service_map = [('Local', control.joinPath(art, 'icon.png'), '0')]
+		if trakt.getTraktCredentialsInfo():
+			service_map.append(('Trakt', control.joinPath(art, 'trakt.png'), '1'))
+		if simkl.getSimKLCredentialsInfo():
+			service_map.append(('Simkl', control.joinPath(art, 'simkl.png'), '2'))
+		if mdblist.getMDBListCredentialsInfo():
+			service_map.append(('MDBList', control.joinPath(art, 'mdblist.png'), '3'))
+		current_index = next((i for i, (_, _, v) in enumerate(service_map) if v == currentSetting), -1)
+		items = []
+		for i, (label, icon, _) in enumerate(service_map):
+			li = xbmcgui.ListItem(label=label, label2='[COLOR lime]Active[/COLOR]' if i == current_index else '')
+			li.setArt({'icon': icon, 'thumb': icon})
+			items.append(li)
+		select = control.selectDialog(items, getLS(40623), useDetails=True)
+		if select == -1: control.openSettings('5.0', 'plugin.video.fuzzybritches'); return
+		selection, _, optionVal = service_map[select]
+		control.homeWindow.setProperty('fuzzybritches.updateSettings', 'false')
+		control.setSetting('scrobble.source', optionVal)
+		control.homeWindow.setProperty('fuzzybritches.updateSettings', 'true')
+		control.setSetting('scrobble', str(selection))
+		control.openSettings('5.0', 'plugin.video.fuzzybritches')
 	except:
 		from resources.lib.modules import log_utils
 		log_utils.error()
 
 def services_syncs():
+	last_simkl_sync = 0
+	last_mdblist_sync = 0
 	while not control.monitor.abortRequested():
 		control.sleep(5000) # wait 5sec in case of device wake from sleep
 		try:
@@ -212,37 +252,69 @@ def services_syncs():
 			internets = None
 			from resources.lib.modules import log_utils
 			log_utils.error()
+		if control.monitor.abortRequested(): break
 		if internets and trakt.getTraktCredentialsInfo(): # run service in case user auth's trakt later
 			from resources.lib.modules import log_utils
-			log_utils.log('Trakt Sync Service is running.', 1)
-			activities = trakt.getTraktAsJson('/sync/last_activities', silent=True)
-			if getSetting('bookmarks') == 'true' and getSetting('resume.source') == '1':
-				trakt.sync_playbackProgress(activities)
-			trakt.sync_watchedProgress(activities)
-			if getSetting('indicators.alt') == '1':
-				trakt.sync_watched(activities) # writes to traktsync.db as of 1-19-2022
-			trakt.sync_user_lists(activities)
-			trakt.sync_liked_lists(activities)
-			trakt.sync_hidden_progress(activities)
-			trakt.sync_collection(activities)
-			trakt.sync_watch_list(activities)
-			trakt.sync_popular_lists()
-			trakt.sync_trending_lists()
+			if control.condVisibility('Player.HasVideo'):
+				log_utils.log('Trakt Sync: skipping — video is playing', 1)
+			else:
+				log_utils.log('Trakt Sync Service is running.', 1)
+				activities = trakt.getTraktAsJson('/sync/last_activities', silent=True)
+				all_activity_ts = activities.get('all', '') if activities else ''
+				all_ts = int(cleandate.iso_2_utc(all_activity_ts)) if all_activity_ts else 0
+				last_all_ts = traktsync.last_sync('last_all_activity')
+				if all_ts > 0 and all_ts <= last_all_ts:
+					log_utils.log('Trakt Sync: no changes since last sync, skipping all', 1)
+				else:
+					if all_ts > 0: traktsync.insert_service('last_all_activity', all_activity_ts)
+					if not control.monitor.abortRequested():
+						if getSetting('bookmarks') == 'true' and getSetting('scrobble.source') == '1':
+							trakt.sync_playbackProgress(activities)
+						trakt.sync_watchedProgress(activities, trigger_refresh=False)
+					if not control.monitor.abortRequested():
+						if getSetting('indicators.alt') == '1':
+							trakt.sync_watched(activities) # writes to traktsync.db as of 1-19-2022
+						trakt.sync_user_lists(activities)
+						trakt.sync_liked_lists(activities)
+						trakt.sync_hidden_progress(activities)
+						trakt.sync_collection(activities)
+						trakt.sync_watch_list(activities)
+						trakt.sync_popular_lists()
+						trakt.sync_trending_lists()
+		if control.monitor.abortRequested(): break
 		if internets and simkl.getSimKLCredentialsInfo():
-			activities = simkl.get_request('/sync/activities')
-			activities = json.dumps(activities)
-			from resources.lib.modules import log_utils
-			log_utils.log('SimKl Sync Service is running.', 1)
-			#if getSetting('bookmarks') == 'true' and getSetting('resume.source') == '2': simkl does not have playback progress currently
-			#	simkl.sync_playbackProgress(activities)
-			simkl.sync_watchedProgress(activities)
-			if getSetting('indicators.alt') == '2':
-				simkl.sync_watched(activities) #
-			simkl.sync_plantowatch(activities)
-			simkl.sync_watching(activities)
-			simkl.sync_completed(activities)
-			simkl.sync_dropped(activities)
-			simkl.sync_hold(activities)
+			current_time = time.time()
+			if (current_time - last_simkl_sync) >= (60 * simkl_syncInterval):
+				activities = simkl.get_request('/sync/activities')
+				activities = json.dumps(activities)
+				from resources.lib.modules import log_utils
+				log_utils.log('SimKl Sync Service is running.', 1)
+				if not control.monitor.abortRequested():
+					if getSetting('bookmarks') == 'true' and getSetting('scrobble.source') == '2':
+						simkl.sync_playbackProgress(forced=True)
+					simkl.sync_watchedProgress(activities)
+				if not control.monitor.abortRequested():
+					if getSetting('indicators.alt') == '2':
+						simkl.sync_watched(activities) #
+					simkl.sync_all_watchlists(activities)
+				last_simkl_sync = current_time
+		if control.monitor.abortRequested(): break
+		if internets and mdblist.getMDBListCredentialsInfo():
+			current_time = time.time()
+			if (current_time - last_mdblist_sync) >= (60 * mdblist_syncInterval):
+				activities = mdblist.getActivities()
+				from resources.lib.modules import log_utils
+				log_utils.log('MDBList Sync Service is running.', 1)
+				if not control.monitor.abortRequested():
+					if getSetting('indicators.alt') == '3':
+						mdblist.sync_watchedProgress(activities)
+					mdblist.sync_watch_list(activities)
+					mdblist.sync_collection(activities)
+					mdblist.sync_dropped(activities)
+				if not control.monitor.abortRequested():
+					if getSetting('bookmarks') == 'true' and getSetting('scrobble.source') == '3':
+						mdblist.sync_playbackProgress()
+				last_mdblist_sync = current_time
 		if control.monitor.waitForAbort(60*service_syncInterval): break
 
 def originCountry_Select():
@@ -266,14 +338,15 @@ def originCountry_Select():
 		selected = [countryDict[list(countryDict.keys())[i]] for i in multiselected]
 		control.setSetting('originCountry', '|'.join(selected))
 
-def make_qr(url):
+def make_qr(url, filename='qr.png'):
     #import segno and make a qr code using the url passed in. save the image. return the path.
 	if url == None: return
 	try:
 		from resources.lib.externals import segno
 		qrcode = segno.make(url, micro=False)
-		qrcode.save(control.joinPath(control.artPath(), "qr.png"), scale=20)
-		image = control.joinPath(control.artPath(), 'qr.png')
+		dest = control.joinPath(control.dataPath, filename)
+		qrcode.save(dest, scale=20)
+		image = dest
 	except:
 		from resources.lib.modules import log_utils
 		log_utils.error()

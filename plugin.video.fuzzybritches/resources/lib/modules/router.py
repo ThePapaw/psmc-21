@@ -44,6 +44,33 @@ def router(argv2):
 			from resources.lib.modules import changelog
 			changelog.get('FuzzyBritches')
 		navigator.Navigator().root()
+	elif action == 'mainMenuEditor':
+		from resources.lib.menus import navigator
+		navigator.Navigator(lightweight=True).mainMenuEditor(params.get('menu_name', 'root'))
+	elif action == 'movieNavigatorEditor':
+		from resources.lib.menus import navigator
+		navigator.Navigator(lightweight=True).mainMenuEditor(params.get('menu_name', 'movies'))
+	elif action == 'tvNavigatorEditor':
+		from resources.lib.menus import navigator
+		navigator.Navigator(lightweight=True).mainMenuEditor(params.get('menu_name', 'tvshows'))
+	elif action == 'myMoviesNavigatorEditor':
+		from resources.lib.menus import navigator
+		navigator.Navigator(lightweight=True).mainMenuEditor(params.get('menu_name', 'mymovies'))
+	elif action == 'myTVShowsNavigatorEditor':
+		from resources.lib.menus import navigator
+		navigator.Navigator(lightweight=True).mainMenuEditor(params.get('menu_name', 'mytvshows'))
+	elif action == 'runBuiltin':
+		import xbmc
+		xbmc.executebuiltin(params.get('cmd', ''))
+	elif action == 'customFolderNavigator':
+		from resources.lib.menus import navigator
+		navigator.Navigator().customFolder(params.get('folder_id', ''), folderName=folderName)
+	elif action == 'customFolderManager':
+		from resources.lib.menus import navigator
+		navigator.Navigator(lightweight=True).customFolderManager()
+	elif action == 'customFolderEditor':
+		from resources.lib.menus import navigator
+		navigator.Navigator(lightweight=True).mainMenuEditor(params.get('folder_id', ''))
 	####################################################
 	#---MOVIES
 	####################################################
@@ -150,15 +177,27 @@ def router(argv2):
 	elif action == 'moviesUnfinished':
 		from resources.lib.menus import movies
 		movies.Movies().unfinished(url, folderName=folderName)
+	elif action == 'mdblistMoviesUnfinished':
+		from resources.lib.menus import movies
+		movies.Movies().mdblist_unfinished(url, folderName=folderName)
 	elif action == 'movieUserlists':
 		from resources.lib.menus import movies
 		movies.Movies().userlists(folderName=folderName, create_directory=True)
+	elif action == 'tmdbUserListsMovies':
+		from resources.lib.menus import movies
+		movies.Movies().tmdb_v4_userlists(folderName=folderName)
 	elif action == 'traktAuth':
 		from resources.lib.modules import trakt as Trakt
 		Trakt.traktAuth(fromSettings=1)
 	elif action == 'traktRevoke':
 		from resources.lib.modules import trakt as Trakt
 		Trakt.traktRevoke(fromSettings=1)
+	elif action == 'mdblistAuth':
+		from resources.lib.modules import mdblist
+		mdblist.mdblistAuth(fromSettings=1)
+	elif action == 'mdblistRevoke':
+		from resources.lib.modules import mdblist
+		mdblist.mdblistRevoke(fromSettings=1)
 	elif action == 'traktAccountInfo':
 		from resources.lib.modules import trakt as Trakt
 		Trakt.getTraktAccountInfo()
@@ -186,6 +225,12 @@ def router(argv2):
 	elif action == 'movies_traktWatchListManager':
 		from resources.lib.menus import movies
 		movies.Movies().watchlistManager()
+	elif action == 'movies_mdblistWatchlistManager':
+		from resources.lib.menus import movies
+		movies.Movies().mdblistWatchlistManager()
+	elif action == 'movies_mdblistCollectionManager':
+		from resources.lib.menus import movies
+		movies.Movies().mdblistCollectionManager()
 	elif action == 'movies_favorites':
 		from resources.lib.modules import favourites
 		favourites.getFavouritesMoviesfromXML()
@@ -203,10 +248,25 @@ def router(argv2):
 		movies.Movies().getMDBUserList(folderName=folderName)
 	elif action == 'mdbUserWatchListMovies':
 		from resources.lib.menus import movies
-		movies.Movies().get_mdbuser_watchlist(folderName=folderName)
+		movies.Movies().get_mdbuser_watchlist(url, folderName=folderName)
+	elif action == 'mdbUserCollectionMovies':
+		from resources.lib.menus import movies
+		movies.Movies().get_mdbuser_collection(url, folderName=folderName)
+	elif action == 'mdbOfficialListMovies':
+		from resources.lib.menus import movies
+		movies.Movies().getMDBOfficialLists(folderName=folderName)
+	elif action == 'mdbLikedListMovies':
+		from resources.lib.menus import movies
+		movies.Movies().getMDBLikedLists(folderName=folderName)
 	elif action == 'mdbUserWatchListTVShows':
 		from resources.lib.menus import tvshows
-		tvshows.TVshows().get_mdbuser_watchlist(folderName=folderName)
+		tvshows.TVshows().get_mdbuser_watchlist(url, folderName=folderName)
+	elif action == 'mdbUserCollectionTVShows':
+		from resources.lib.menus import tvshows
+		tvshows.TVshows().get_mdbuser_collection(url, folderName=folderName)
+	elif action == 'mdbOfficialListTV':
+		from resources.lib.menus import tvshows
+		tvshows.TVshows().getMDBOfficialLists(folderName=folderName)
 	elif action == 'moviesimilarFromLibrary':
 		from resources.lib.menus import movies
 		movies.Movies().similarFromLibrary(tmdb=tmdb)
@@ -336,6 +396,9 @@ def router(argv2):
 	elif action == 'tvUserlists':
 		from resources.lib.menus import tvshows
 		tvshows.TVshows().userlists(folderName=folderName, create_directory=True)
+	elif action == 'tmdbUserListsTV':
+		from resources.lib.menus import tvshows
+		tvshows.TVshows().tmdb_v4_userlists(folderName=folderName)
 	elif action == 'tvOriginals':
 		from resources.lib.menus import tvshows
 		tvshows.TVshows().originals(folderName)
@@ -357,9 +420,21 @@ def router(argv2):
 	elif action == 'shows_traktWatchListManager':
 		from resources.lib.menus import tvshows
 		tvshows.TVshows().watchlistManager()
+	elif action == 'shows_mdblistWatchlistManager':
+		from resources.lib.menus import tvshows
+		tvshows.TVshows().mdblistWatchlistManager()
+	elif action == 'shows_mdblistCollectionManager':
+		from resources.lib.menus import tvshows
+		tvshows.TVshows().mdblistCollectionManager()
+	elif action == 'shows_mdblistDroppedManager':
+		from resources.lib.menus import tvshows
+		tvshows.TVshows().mdblistDroppedManager()
 	elif action == 'mdbUserListTV':
 		from resources.lib.menus import tvshows
 		tvshows.TVshows().getMDBUserList(folderName=folderName)
+	elif action == 'mdbLikedListShows':
+		from resources.lib.menus import tvshows
+		tvshows.TVshows().getMDBLikedLists(folderName=folderName)
 	elif action == 'shows_progress':
 		from resources.lib.menus import tvshows
 		tvshows.TVshows().tvshow_progress(url, folderName=folderName)
@@ -369,6 +444,15 @@ def router(argv2):
 	elif action == 'simkl_shows_progress':
 		from resources.lib.menus import tvshows
 		tvshows.TVshows().simkl_progress(url, folderName=folderName)
+	elif action == 'mdblist_shows_progress':
+		from resources.lib.menus import tvshows
+		tvshows.TVshows().mdblist_progress(url, folderName=folderName)
+	elif action == 'local_shows_progress':
+		from resources.lib.menus import tvshows
+		tvshows.TVshows().local_progress(url, folderName=folderName)
+	elif action == 'local_finish_watching_movies':
+		from resources.lib.menus import movies
+		movies.Movies().local_finish_watching(url, folderName=folderName)
 
 	####################################################
 	#---Plex
@@ -441,12 +525,24 @@ def router(argv2):
 	elif action == 'episodesUnfinished':
 		from resources.lib.menus import episodes
 		episodes.Episodes().unfinished(url, folderName=folderName)
+	elif action == 'mdblistEpisodesUnfinished':
+		from resources.lib.menus import episodes
+		episodes.Episodes().mdblist_unfinished(url=url, folderName=folderName)
 	elif action == 'episodes_traktUnfinishedManager':
 		from resources.lib.menus import episodes
 		episodes.Episodes().unfinishedManager()
 	elif action == 'simkl_calendar':
 		from resources.lib.menus import episodes
 		episodes.Episodes().simkl_calendar(url, folderName=folderName)
+	elif action == 'mdblist_calendar':
+		from resources.lib.menus import episodes
+		episodes.Episodes().mdblist_calendar(url, folderName=folderName)
+	elif action == 'local_calendar':
+		from resources.lib.menus import episodes
+		episodes.Episodes().local_calendar(url, folderName=folderName)
+	elif action == 'local_finish_watching_episodes':
+		from resources.lib.menus import episodes
+		episodes.Episodes().local_finish_watching(url, folderName=folderName)
 
 	####################################################
 	#---Premium Services
@@ -492,16 +588,17 @@ def router(argv2):
 			from resources.lib.debrid import alldebrid
 			alldebrid.AllDebrid().restart_transfer(params.get('id'), name, silent=False)
 
-	elif action and action.startswith('ed_'):
-		if action == 'ed_AccountInfo':
-			from resources.lib.debrid import easydebrid
-			easydebrid.EasyDebrid().account_info_to_dialog()
-		elif action == 'ed_Authorize':
-			from resources.lib.debrid import easydebrid
-			easydebrid.EasyDebrid().auth()
-		elif action == 'ed_Deauthorize':
-			from resources.lib.debrid import easydebrid
-			easydebrid.EasyDebrid().remove_auth()
+	# EasyDebrid disabled
+	# elif action and action.startswith('ed_'):
+	# 	if action == 'ed_AccountInfo':
+	# 		from resources.lib.debrid import easydebrid
+	# 		easydebrid.EasyDebrid().account_info_to_dialog()
+	# 	elif action == 'ed_Authorize':
+	# 		from resources.lib.debrid import easydebrid
+	# 		easydebrid.EasyDebrid().auth()
+	# 	elif action == 'ed_Deauthorize':
+	# 		from resources.lib.debrid import easydebrid
+	# 		easydebrid.EasyDebrid().remove_auth()
 
 	elif action and action.startswith('en_'):
 		if action == 'en_ServiceNavigator':
@@ -632,6 +729,9 @@ def router(argv2):
 		elif action == 'tb_DeleteUserTorrent':
 			from resources.lib.debrid import torbox
 			torbox.TorBox().delete_user_torrent(params.get('id'), mediatype, name)
+		elif action == 'tb_ReferralLink':
+			from resources.lib.debrid import torbox
+			torbox.TorBox().referral_link()
 		if action == 'tb_ServiceNavigator':
 			from resources.lib.menus import navigator
 			navigator.Navigator().torbox_service()
@@ -675,10 +775,10 @@ def router(argv2):
 			navigator.Navigator().anime(folderName=folderName)
 		elif action == 'anime_Movies':
 			from resources.lib.menus import movies
-			movies.Movies().get(url, folderName=folderName)
+			movies.Movies().getAnime(folderName=folderName)
 		elif action == 'anime_TVshows':
 			from resources.lib.menus import tvshows
-			tvshows.TVshows().get(url, folderName=folderName)
+			tvshows.TVshows().getAnime(folderName=folderName)
 
 	elif action == 'trakt_Navigator':
 		from resources.lib.menus import navigator
@@ -760,15 +860,16 @@ def router(argv2):
 				except:
 					import traceback
 					traceback.print_exc()
-			if caller == 'easydebrid':
-				control.busy()
-				try:
-					from resources.lib.modules import downloader
-					from resources.lib.debrid import easydebrid
-					downloader.download(name, image, easydebrid.EasyDebrid().unrestrict_link(url.replace(' ', '%20')))
-				except:
-					import traceback
-					traceback.print_exc()
+			# EasyDebrid disabled
+			# if caller == 'easydebrid':
+			# 	control.busy()
+			# 	try:
+			# 		from resources.lib.modules import downloader
+			# 		from resources.lib.debrid import easydebrid
+			# 		downloader.download(name, image, easydebrid.EasyDebrid().unrestrict_link(url.replace(' ', '%20')))
+			# 	except:
+			# 		import traceback
+			# 		traceback.print_exc()
 			if caller == 'easynews':
 				control.busy()
 				try:
@@ -812,12 +913,66 @@ def router(argv2):
 					from resources.lib.modules import downloader
 					from resources.lib.debrid import torbox
 					if mediatype == 'usenet': url = torbox.TorBox().unrestrict_usenet(url.replace(' ', '%20'))
+					elif mediatype == 'webdl': url = torbox.TorBox().unrestrict_webdl(url.replace(' ', '%20'))
 					else: url = torbox.TorBox().unrestrict_link(url.replace(' ', '%20'))
 					downloader.download(name, image, torbox.TorBox().add_headers_to_url(url))
 				except:
 					import traceback
 					traceback.print_exc()
+		elif action == 'downloadPack':
+			caller = params.get('caller')
+			if caller == 'sources':
+				control.busy()
+				try:
+					from json import loads as jsloads
+					from resources.lib.modules import downloader
+					info = jsloads(source)[0]
+					downloader.download_pack(name, image, info)
+				except:
+					import traceback
+					traceback.print_exc()
 
+	####################################################
+	#---tmdbbv4
+	####################################################
+	elif action == 'tmdb_v4_authenticate':
+		from resources.lib.modules import tmdb4
+		tmdb4.authenticate(fromSettings=1)
+	elif action == 'tmdb_v4_revoke':
+		from resources.lib.modules import tmdb4
+		tmdb4.revoke(fromSettings=1)
+	elif action == 'tmdb_v4_createList':
+		from resources.lib.modules import tmdb4
+		tmdb4.create_list_dialog()
+	elif action == 'tmdbV4WatchlistMovies':
+		from resources.lib.menus import movies
+		from resources.lib.modules import tmdb4
+		import xbmcaddon
+		account_id = xbmcaddon.Addon('plugin.video.fuzzybritches').getSetting('tmdb.v4.accountid')
+		sort_by = tmdb4.get_watchlist_sort_by('movie')
+		sort_param = ('&sort_by=%s' % sort_by) if sort_by else ''
+		movies.Movies().tmdb_v4_watchlist('https://api.themoviedb.org/4/account/%s/movie/watchlist?page=1%s' % (account_id, sort_param), folderName=folderName)
+	elif action == 'tmdbV4WatchlistTV':
+		from resources.lib.menus import tvshows
+		from resources.lib.modules import tmdb4
+		import xbmcaddon
+		account_id = xbmcaddon.Addon('plugin.video.fuzzybritches').getSetting('tmdb.v4.accountid')
+		sort_by = tmdb4.get_watchlist_sort_by('tv')
+		sort_param = ('&sort_by=%s' % sort_by) if sort_by else ''
+		tvshows.TVshows().tmdb_v4_watchlist('https://api.themoviedb.org/4/account/%s/tv/watchlist?page=1%s' % (account_id, sort_param), folderName=folderName)
+	elif action == 'tmdb_v4_watchlist_add':
+		from resources.lib.modules import tmdb4
+		tmdb4.watchlist_add(tmdb, params.get('mediatype', 'movie'))
+	elif action == 'tmdb_v4_watchlist_remove':
+		from resources.lib.modules import tmdb4
+		tmdb4.watchlist_remove(tmdb, params.get('mediatype', 'movie'))
+	elif action == 'tmdb_v4_watchlist_toggle':
+		from resources.lib.modules import tmdb4
+		mediatype = params.get('mediatype', 'movie')
+		if str(tmdb) in tmdb4.get_watchlist_ids(mediatype):
+			tmdb4.watchlist_remove(tmdb, mediatype)
+		else:
+			tmdb4.watchlist_add(tmdb, mediatype)
 	####################################################
 	#---Color Picker
 	####################################################
@@ -829,7 +984,7 @@ def router(argv2):
 		tools.resetCustomBG()
 	elif action == 'customizeArt':
 		from resources.lib.database import artwork
-		artwork.manager(mediatype=mediatype, imdb=imdb, tmdb=tmdb, tvdb=tvdb, season=season, episode=episode, poster=params.get('poster'), fanart=params.get('fanart'), landscape=params.get('landscape'), banner=params.get('banner'), clearart=params.get('clearart'), clearlogo=params.get('clearlogo'), discart=params.get('discart'), keyart=params.get('keyart'))
+		artwork.manager(mediatype=mediatype, imdb=imdb, tmdb=tmdb, tvdb=tvdb, season=season, episode=episode, thumb=params.get('thumb'), poster=params.get('poster'), fanart=params.get('fanart'), landscape=params.get('landscape'), banner=params.get('banner'), clearart=params.get('clearart'), clearlogo=params.get('clearlogo'), discart=params.get('discart'), keyart=params.get('keyart'))
 	####################################################
 	#---Tools
 	####################################################
@@ -861,6 +1016,9 @@ def router(argv2):
 		elif action == 'tools_indicators':
 			from resources.lib.modules import tools
 			tools.setIndicatorService()
+		elif action == 'tools_scrobble':
+			from resources.lib.modules import tools
+			tools.setScrobbleService()
 		elif action == 'tools_toolNavigator':
 			from resources.lib.menus import navigator
 			navigator.Navigator().tools(folderName=folderName)
@@ -871,6 +1029,9 @@ def router(argv2):
 		elif action == 'tools_simklToolsNavigator':
 			from resources.lib.menus import navigator
 			navigator.Navigator().simklTools(folderName=folderName)
+		elif action == 'tools_mdblistToolsNavigator':
+			from resources.lib.menus import navigator
+			navigator.Navigator().mdblistTools(folderName=folderName)
 		elif action == 'tools_searchNavigator':
 			from resources.lib.menus import navigator
 			navigator.Navigator().search(folderName=folderName)
@@ -909,9 +1070,14 @@ def router(argv2):
 			unfinished = (params.get('unfinished') == 'True') if params.get('unfinished') else False
 			tvshow = (params.get('tvshow') == 'tvshow')
 			trakt.manager(name, imdb, tvdb, season, episode, watched=watched, unfinished=unfinished,tvshow=tvshow)
+		elif action == 'tools_tmdbListManager':
+			from resources.lib.modules import tmdb4
+			mediatype = params.get('mediatype', 'movie')
+			tmdb4.manager(name, tmdb, mediatype)
 		elif action == 'tools_mdbWatchlist':
+			watched = (params.get('watched') == 'True') if params.get('watched') else None
 			from resources.lib.modules import mdblist
-			mdblist.manager(name, imdb, tvdb, tmdb)
+			mdblist.manager(name, imdb, tvdb, tmdb, watched=watched, season=season, episode=episode)
 		elif action == 'tools_simklManager':
 			watched = (params.get('watched') == 'True') if params.get('watched') else None
 			unfinished = (params.get('unfinished') == 'True') if params.get('unfinished') else False
@@ -927,9 +1093,15 @@ def router(argv2):
 		elif action == 'tools_forceTraktSync':
 			from resources.lib.modules import trakt
 			trakt.force_traktSync()
+		elif action == 'tools_deleteTraktSyncDatabase':
+			from resources.lib.modules import trakt
+			trakt.delete_traktSyncDatabase()
 		elif action == 'tools_forceSimklSync':
 			from resources.lib.modules import simkl
 			simkl.force_simklSync(silent=False)
+		elif action == 'tools_forceMDBListSync':
+			from resources.lib.modules import mdblist
+			mdblist.force_mdblistSync()
 		elif action == 'tools_clearLogFile':
 			from resources.lib.modules import log_utils
 			cleared = log_utils.clear_logFile()
@@ -951,18 +1123,43 @@ def router(argv2):
 				isFromSettings=True
 			from resources.lib.modules import library
 			library.lib_tools().importListsManager(isFromSettings)
+		elif action == 'tools_importListManagerMulti':
+			isFromSettings=False
+			if query == 'settings':
+				isFromSettings=True
+			from resources.lib.modules import library
+			library.lib_tools().importListsManagerMulti(isFromSettings)
 		elif action == 'tools_traktImportListsNow':
 			isFromSettings=False
 			if query == 'settings':
 				isFromSettings=True
 			from resources.lib.modules import library
-			library.lib_tools().importListsNow(isFromSettings)
+			#library.lib_tools().importListsNow(isFromSettings)
+			library.lib_tools().importListsNowMulti(isFromSettings)
 		elif action == 'tools_traktImportListsNowNoSelect':
 			isFromSettings=False
 			if query == 'settings':
 				isFromSettings=True
 			from resources.lib.modules import library
 			library.lib_tools().importListsNowNoSelect(isFromSettings)
+		elif action == 'tools_mdblistImportListsNow':
+			isFromSettings=False
+			if query == 'settings':
+				isFromSettings=True
+			from resources.lib.modules import library
+			library.lib_tools().importListsNowMdbList(isFromSettings)
+		elif action == 'tools_tmdbV4ImportListsNow':
+			isFromSettings=False
+			if query == 'settings':
+				isFromSettings=True
+			from resources.lib.modules import library
+			library.lib_tools().importListsNowTMDbV4(isFromSettings)
+		elif action == 'tools_tmdbV4ImportListManager':
+			isFromSettings=False
+			if query == 'settings':
+				isFromSettings=True
+			from resources.lib.modules import library
+			library.lib_tools().importListsManagerTMDbV4(isFromSettings)
 		elif action == 'tools_fuzzybritchesProper':
 			from resources.lib.modules import tools
 			tools.nonsense()
@@ -1021,6 +1218,7 @@ def router(argv2):
 				from resources.lib.debrid import torbox
 				if params.get('type') == 'unrestrict':
 					if mediatype == 'usenet': control.player.play(torbox.TorBox().unrestrict_usenet(url.replace(' ', '%20')))
+					elif mediatype == 'webdl': control.player.play(torbox.TorBox().unrestrict_webdl(url.replace(' ', '%20')))
 					else: control.player.play(torbox.TorBox().unrestrict_link(url.replace(' ', '%20')))
 				else: control.player.play(url.replace(' ', '%20'))
 			else:
@@ -1176,14 +1374,12 @@ def router(argv2):
 			from resources.lib.debrid.premiumize import Premiumize as debrid_function
 		elif caller == 'AllDebrid':
 			from resources.lib.debrid.alldebrid import AllDebrid as debrid_function
-		elif caller == 'EasyDebrid':
-			from resources.lib.debrid.easydebrid import EasyDebrid as debrid_function
+		# elif caller == 'EasyDebrid':  # EasyDebrid disabled
+		# 	from resources.lib.debrid.easydebrid import EasyDebrid as debrid_function
 		elif caller == 'TorBox':
 			from resources.lib.debrid.torbox import TorBox as debrid_function
-		success = debrid_function().add_uncached_torrent(url, pack=pack)
-		if success:
-			from resources.lib.modules import sources
-			sources.Sources().playItem(title, params.get('items'), source, params.get('meta'))
+		rd_inst = debrid_function()
+		rd_inst.add_uncached_torrent(url, pack=pack)
 
 	elif action == 'rescrapeAuto':
 		from resources.lib.modules import sources
@@ -1198,9 +1394,9 @@ def router(argv2):
 		items = [
 			control.lang(32207),
 			control.lang(32208),
-			control.lang(32209) % highlight_color, 
-			control.lang(32210) % highlight_color, 
-			control.lang(32216) % highlight_color, 
+			control.lang(32209) % highlight_color,
+			control.lang(32210) % highlight_color,
+			control.lang(32216) % highlight_color,
 			control.lang(32217) % highlight_color,
 			control.lang(32232) % (highlight_color, highlight_color)]
 		select = control.selectDialog(items, heading=control.addonInfo('name') + ' - ' + 'Rescrape Options Menu')

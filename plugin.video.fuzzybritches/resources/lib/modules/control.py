@@ -10,9 +10,8 @@ import xbmcaddon
 import xbmcgui
 import xbmcplugin
 import xbmcvfs
-#import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as ET
 from threading import Thread
-from xml.dom.minidom import parse as mdParse
 from urllib.parse import unquote_plus
 from re import sub as re_sub
 
@@ -140,33 +139,35 @@ def setting(id, fallback=None):
 	return value
 
 def settings_fallback(id):
-	return {id: xbmcaddon.Addon().getSetting(id)}
+	try:
+		return {id: xbmcaddon.Addon().getSetting(id)}
+	except:
+		return {id: ''}
 
 def setSetting(id, value):
 	xbmcaddon.Addon().setSetting(id, value)
 
 def make_settings_dict(): # service runs upon a setting change
+	settings_dict = None
+	for attempt in range(2):
+		try:
+			root = ET.parse(settingsFile).getroot()
+			settings_dict = {}
+			for item in root.iter('setting'):
+				setting_id = item.get('id')
+				setting_value = item.text
+				if setting_value is None: setting_value = ''
+				settings_dict.update({setting_id: setting_value})
+			break
+		except:
+			if attempt < 1: xbmc.sleep(1000)
+	if settings_dict is None: return None
 	try:
-		#root = ET.parse(settingsFile).getroot()
-		root = mdParse(settingsFile) #minidom instead of element tree
-		curSettings = root.getElementsByTagName("setting") #minidom instead of element tree
-		settings_dict = {}
-		for item in curSettings:
-			dict_item = {}
-			#setting_id = item.get('id')
-			setting_id = item.getAttribute('id') #minidom instead of element tree
-			try:
-				setting_value = item.firstChild.data #minidom instead of element tree
-			except:
-				setting_value = None
-			if setting_value is None: setting_value = ''
-			dict_item = {setting_id: setting_value}
-			settings_dict.update(dict_item)
 		homeWindow.setProperty('fuzzybritches_settings', jsdumps(settings_dict))
 		refresh_playAction()
 		refresh_libPath()
-		return settings_dict
-	except: return None
+	except: pass
+	return settings_dict
 
 def openSettings(query=None, id=addonInfo('id')):
 	try:
@@ -221,14 +222,23 @@ def addonInstalled(addon_id):
 
 def artPath():
 	theme = appearance()
+	user_path = joinPath(userIconFolders(), theme)
+	if os.path.isdir(user_path):
+		return user_path
 	return joinPath(xbmcaddon.Addon('plugin.video.fuzzybritches').getAddonInfo('path'), 'resources', 'artwork', theme)
 
 def genreIconPath():
 	theme = appearance()
+	user_path = joinPath(userIconFolders(), theme, 'genre_media', 'icons')
+	if os.path.isdir(user_path):
+		return user_path
 	return joinPath(xbmcaddon.Addon('plugin.video.fuzzybritches').getAddonInfo('path'), 'resources', 'artwork', theme, 'genre_media', 'icons')
 
 def genrePosterPath():
 	theme = appearance()
+	user_path = joinPath(userIconFolders(), theme, 'genre_media', 'posters')
+	if os.path.isdir(user_path):
+		return user_path
 	return joinPath(xbmcaddon.Addon('plugin.video.fuzzybritches').getAddonInfo('path'), 'resources', 'artwork', theme, 'genre_media', 'posters')
 
 def appearance():
@@ -238,10 +248,13 @@ def appearance():
 def iconFolders():
 	return joinPath(xbmcaddon.Addon('plugin.video.fuzzybritches').getAddonInfo('path'), 'resources', 'artwork')
 
+def userIconFolders():
+	return joinPath(dataPath, 'icon_packs')
+
 def addonIcon():
 	theme = appearance()
 	art = artPath()
-	if not (art is None and theme in ('-', '')): return joinPath(art, 'icon.gif')
+	if not (art is None and theme in ('-', '')): return joinPath(art, 'icon.png')
 	return addonInfo('icon')
 
 def addonThumb():
@@ -320,10 +333,10 @@ def yesnocustomDialog(line1, line2, line3, heading=addonInfo('name'), customlabe
 	message = '%s[CR]%s[CR]%s' % (line1, line2, line3)
 	return dialog.yesnocustom(heading, message, customlabel, nolabel, yeslabel)
 
-def selectDialog(list, heading=addonInfo('name'),useDetails=False):
+def selectDialog(list, heading=addonInfo('name'), useDetails=False, preselect=-1):
 	if useDetails:
-		return dialog.select(heading, list, useDetails=True)
-	else: return dialog.select(heading, list)
+		return dialog.select(heading, list, useDetails=True, preselect=preselect)
+	else: return dialog.select(heading, list, preselect=preselect)
 
 def okDialog(title=None, message=None, icon=None):
 	if title == 'default' or title is None: title = addonName()
@@ -492,12 +505,13 @@ def getMenuEnabled(menu_title):
 	return True
 
 def trigger_widget_refresh():
-	# import time
-	# timestr = time.strftime("%Y%m%d%H%M%S", time.gmtime())
-	# homeWindow.setProperty("widgetreload", timestr)
-	# homeWindow.setProperty('widgetreload-episodes', timestr)
-	# homeWindow.setProperty('widgetreload-movies', timestr)
-	execute('UpdateLibrary(video,/fake/path/to/force/refresh/on/home)') # make sure this is ok coupled with above
+	import time
+	timestr = time.strftime("%Y%m%d%H%M%S", time.gmtime())
+	homeWindow.setProperty('widgetreload', timestr)
+	homeWindow.setProperty('widgetreload-episodes', timestr)
+	homeWindow.setProperty('widgetreload-movies', timestr)
+	if xbmc.getSkinDir() != 'skin.arctic.fuse.3':
+		execute('UpdateLibrary(video,/fake/path/to/force/refresh/on/home)')
 
 def refresh_playAction(): # for fuzzybritches global CM play actions
 	autoPlayTV = 'true' if setting('play.mode.tv') == '1' else '0'
@@ -524,6 +538,8 @@ def refresh_contextProperties():
 		'context.fuzzybritches.traktManager',
 		'context.fuzzybritches.mdblistManager',
 		'context.fuzzybritches.simklManager',
+		'context.fuzzybritches.tmdbListManager',
+		'context.fuzzybritches.tmdbWatchlist',
 		'context.fuzzybritches.clearProviders',
 		'context.fuzzybritches.clearBookmark',
 		'context.fuzzybritches.rescrape',
@@ -573,7 +589,7 @@ def set_info(item, meta, setUniqueIDs=None, resumetime='', fileNameandPath=None)
 			info_tag.setPlot(meta_get('plot'))
 			info_tag.setPlotOutline(meta_get('plot'))
 			info_tag.setDateAdded(meta_get('dateadded'))
-			info_tag.setPremiered(meta_get('premiered'))
+			info_tag.setPremiered(meta_get('premiered') or '')
 			info_tag.setYear(convert_type(int, meta_get('year', 0)))
 			info_tag.setRating(convert_type(float, meta_get('rating', 0.0)))
 			info_tag.setMpaa(meta_get('mpaa'))
@@ -598,7 +614,7 @@ def set_info(item, meta, setUniqueIDs=None, resumetime='', fileNameandPath=None)
 			info_tag.setDirectors(to_list(meta_get('director', [])))
 			if setUniqueIDs:
 				info_tag.setIMDBNumber(setUniqueIDs.get('imdb'))
-			if resumetime: info_tag.setResumePoint(float(resumetime))
+			if resumetime: info_tag.setResumePoint(float(resumetime), float(meta.get('duration') or 2700))
 			if meta_get('mediatype') in ['tvshow', 'season']:
 				info_tag.setTvShowTitle(meta_get('tvshowtitle'))
 				info_tag.setTvShowStatus(meta_get('status'))

@@ -1,3 +1,151 @@
+
+[B]Update - v1.2.21 - June 29th, 2026 [/B]
+--[Fix] Fixed issue for incorrect time format causing double scrapes.
+
+[B]Update - v1.2.20 - June 22nd, 2026 [/B]
+--[Change] Added support for Collection from MDBList. Add/Remove/View
+--[Change] Added official lists from MDBList.
+--[Fix] Fix for MDBList Watchlist and Collection pagination.
+--[Change] Added support for "dropped" in MDBList.
+--[Change] Added support for pause actions on simkl and mdblist.
+--[Fix] System service changed to use daemon for users getting shutdown errors.
+--[Fix] Reverted change for cloud scrapers from using startwith to in.
+--[Fix] Added a fix for tmdb pagination not working correctly after page 1.
+--[Change] Added setting for tmdb pagination to be enabled/disabled.
+--[Change] MDBList change for refereshing list on episode completion.
+--[Change] MDBList episodes in progress no longer uses cache when reloading after watching an episode.
+--[Change] Added window property to refresh trakt list after an item removal instead of getting from cache.
+--[Change] Added "Finish Watching" for local tracking.
+--[Fix] Changed make_settings_dict to use ET instead of minidom.
+--[Fix] Change made for updating watch history table when an item has been marked as unwatched.
+--[Fix] Correction to make authorizations open the correct settings after authorization is complete. Wrong due to removing 3 sections from settings.
+--[Fix] Changes made to allow for download of packs.
+--[Change] Changes made to attempt to comply with Trakt 250 item limits.
+
+[B]Update - v1.2.19 - May 26th, 2026 [/B]
+--[Fix] Small fix pushed for blank My TV Shows and My Movies menus.
+
+[B]Update - v1.2.18 - May 26th, 2026 [/B]
+--[Change] Made Main menu, Movies, TV Shows, My Movies, and My TV Shows all dynamic menus that can be enabled, disabled, re-ordered, or custom shortcuts can be added.
+--[Change] Added option to prefer smaller file sizes in source select.
+--[Fix] Change made to prevent multiple threads when resolving rd from causing users to get rate limited. Threading using semaphore limit of 3.
+--[Fix] Downloads now pad single digits with a leading zero on folder name and file name.
+--[Change] Change to cloud scrapers to reduce number of false matches.
+--[Fix] Changes made for season pack on torbox when downloading being named file-hash instead of source file name.
+--[Fix] Changes made for local tracking and marking movies.
+--[Change] Change made so that dropping a show on trakt immediately updates.
+--[Change] Added a new setting to filter known infringing filenames from rd. Setting added to rd section in settings.
+--[Change] Added Finish Watching for MDBList for movies and shows. (if you do not want it, just hide it)
+--[Change] Added the ability to browse addons for shortcut creation.
+--[Change] Added the ability to select icons from skin, fuzzybritches, or custom url when setting a custom shortcut.
+--[Change] Added shortcut folders. The option is under Tools.
+--[Change] Added ability to edit custom items. Label, icon, or path.
+--[Change] Added ability to use kodi built in functions as custom items. (Reload Skin or Exit Kodi)
+--[Fix] Change made for plex authorization.
+
+[B]Update - v1.2.17 - May 14th, 2026 [/B]
+--[Fix] Change for case sensitivity on hash comparison in Torbox. -credit to SoMe0nE-BG
+--[Change] Added option to add year in tv show title. Settings, TV Shows, Show Year in TV Show title
+
+[B]Update - v1.2.16 - May 14th, 2026 [/B]
+--[Change] Changes made for sorting. Quality, Provider, Size / Quality, Size, Provider / Provider, Quality, Size / Provider, Size, Quality / Size, Quality, Provider / Size, Provider, Quality. Thanks to Fen or POV for sort methods.
+--[Change] Change made to include year in folder name when downloading for shows.
+--[Change] Removed Torbox referral screen. Thank you to anyone who referred!
+
+[B]Update - v1.2.15 - May 13th, 2026 [/B]
+--[Change] Torbox moved to device auth. You will need to re-authorize.
+--[Change] Changed MDBList to use Device Auth now instead of apikey. Will need to re-authorize.
+--[Change] Added retry for Easynews. Also added option to enable/ disable seekable for easy news links in settings.
+--[Change] Added Torbox referral link to Torbox settings. Thank you to all who have referred.
+--[Change] Added "liked lists" from MDBList.
+--[Change] Moved Anime from getting list from imdb (no longer working) to use SIMKL trending daily file.
+
+[B]Update - v1.2.14 - May 11th, 2026 [/B]
+--[Fix] Made change where episode data is coming from tmdb instead of trakt to reduce calls to trakt.
+--[Fix] Change made for RD when infringing file is returned.
+--[Fix] Fix for crash during playback when using certain skins due to closeAll() causing the skin to attempt to access a destroyed window.
+
+[B]Update - v1.2.13 - May 8th, 2026 [/B]
+--[Fix] Change to Torbox cloud scraper to respect timeout.
+--[Fix] Reverted Trakt back to 1,000 limit due to issues with crashing and freezing on lower limit.
+--[Fix] Made changes for Trakt api call to continue to use extended=full until trakt api changes to send fill information without that parameter.
+
+[B]Update - v1.2.12 - May 6th, 2026 [/B]
+--[Change] Changes made for page limit with new Trakt 250 limit.
+--[Change] Changes made in the resolve code for packs.
+--[Change] Changes made to avoid failded scrobble notification on a watched item.
+--[Change] Changes made to Trakt api to comply with new 250 pagination limit that starts in June. If you have large lists and large amounts of watch history I would switch to a different service.
+
+[B]Update - v1.2.11 - April 30th, 2026 [/B]
+--[Change] Removed DMM Cache check due to users having issues with cached vs uncached.
+
+[B]Update - v1.2.10 - April 30th, 2026 [/B]
+--[Fix] Fix for "no sources" when using real-debrid.
+
+[B]Update - v1.2.9 - April 30th, 2026 [/B]
+--[Fix] Fix added for uncached torrents from RD.
+--[Fix] Fix where several menu items in tools list were opening wrong settings page.
+--[Fix] Fix for bug where a fresh install would default to Trakt for watch indicators without Trakt being authenticated.
+--[Change] Added DMM cache check as an option. Turn off to have all RD as unchecked again. Turn on for cached vs uncached.
+--[Change] Added new filter for ai upscale.
+--[Change] Added fix for year missing on re-scrape.
+
+[B]Update - v1.2.8 - April 22nd, 2026 [/B]
+--[Fix] Changes for more Trakt reductions in results from api.
+--[Fix] Made changes to hidden/ dropped items from progress.
+--[Fix] Made changes for scrobble reset showing wrong service in title.
+--[Fix] Change made to settings to allow Watch History and Indicators to show when no online services are enabled.
+--[Fix] Changed ah2 and arctic fuse style playnext window skins to look the same on all skins.
+--[Fix] Scrobble reset option added for MDBList Manager.
+--[Fix] Made changes for mdblist marking episode or season as watched from mdblist manager.
+--[Fix] Made changes for calculation of total episodes when using mdblist.
+--[Change] Added DMM cache check for RD results. Credit to kodifitzwell for the method.
+--[Fix] Made changes for error after backing out of source selection.
+
+[B]Update - v1.2.7 - April 8th, 2026 [/B]
+--[Change] Set simkl to use percent watched on "start" when resuming.
+--[Fix] Bug fix for real debrid cloud scraper.
+--[Fix] Bug for for double marking from trakt.
+
+[B]Update - v1.2.6 - April 7th, 2026 [/B]
+--[Change] Made changes for trakt re-try logic.
+--[Fix] Changed MDBList scrobble episode due to errors from api.
+
+[B]Update - v1.2.5 - April 7th, 2026 [/B]
+--[Change] Added fix for episodes without runtimes to prevent false values.
+--[Fix] Added MDBList to services checked when loading my tv shows or my movies.
+
+[B]Update - v1.2.4 - April 1st, 2026 [/B]
+--[Change] Made changes to allow users to set number of batches to use for Trakt. Settings: General > Performance
+--[Fix] Fixed issue with old hidden shows causing dropped not to sync from Trakt. You will need to "Drop" any shows previously hidden.
+
+[B]Update - v1.2.3 - Mar 30th, 2026 [/B]
+--[Change] Made changes to the trakt force sync to no longer delete database and added individual option to do it.
+--[Fix] Fix for Trakt sync error causing endless sync when user has no liked lists.
+--[Fix] Made a change to mark episode as watched using a thread to stop blocking other processses.
+--[Fix] Moved prescrape variables to homescreen properties instead of player window properties to avoid race conditions.
+--[Fix] Real-Debrid error notifications (internal_error, connection errors) are now suppressed during background pre-resolve so they no longer pop up on-screen mid-playback.
+--[Fix] Fixed Real-Debrid server notifications setting being ignored.
+--[Fix] Changes for playnext total time remaining calculation.
+--[Fix] Changes to the way json is read back from kodi.
+--[Fix] Changes for those using reuselanguageInvoker
+--[Fix] Changes for trakt key and storage.
+--[Change] Changed the way online services popup and scrobble services popup looked. motivated by pov so credit to kfw.
+
+[B]Update - v1.2.2 - Mar 25th, 2026[/B]
+--[Fix] Made force trakt sync delete actual local database file first to fix malformed trakt databases.
+--[Change] Removed ISO files from results.
+
+[B]Update - v1.2.1 - Mar 24th, 2026[/B]
+--[Change] Updated for new offcloud api changes.
+--[Fix] Simkl sorting fix for movies.
+--[Fix] Trakt sorting for data_watched on movies and others..
+--[Fix] Fix for double scrobble when onPlayBackStopped and onPlayBackEneded have already run.
+--[Fix] Made changes to endpoints being called for mdblist scrobble and mark as watched.
+
+[B]Update - v1.2.0 - Mar 17th, 2026[/B]
+--[Fix] Changes made to trakt to try to fix issues with Trakt sync causing out of memory error and crashing kodi.
+
 [B]Update - v1.1.21 - Jan 14th, 2026[/B]
 --[Update] Replacement for FuzzyBritches_v5
 --[Update] Initial Upload

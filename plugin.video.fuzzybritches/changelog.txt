@@ -1,3 +1,2 @@
-[B]Update - v1.1.21 - Jan 14th, 2026[/B]
---[Update] Replacement for FuzzyBritches_v5
---[Update] Initial Upload
+[B]Update - v1.2.21 - June 29th, 2026 [/B]
+--[Fix] Fixed issue for incorrect time format causing double scrapes.

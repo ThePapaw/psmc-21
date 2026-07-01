@@ -1,6 +1,6 @@
 ﻿# Addon Name: FuzzyBritches
 # Addon id: plugin.video.fuzzybritches
-# Addon Provider: FuzzyBritches
+# Addon Provider: The Papaw
 # Translators:
 # Translators:
 # Kr1ss, 2017
@@ -199,7 +199,7 @@ msgid "[B]SETTINGS[/B] : General"
 msgstr "[B]EINSTELLUNGEN[/B] : Allgemein"
 
 msgctxt "#32044"
-msgid "[B]SETTINGS[/B] : Accounts"
+msgid "[B]SETTINGS[/B] : Accounts Debrid"
 msgstr "[B]EINSTELLUNGEN[/B] : Konten"
 
 msgctxt "#32045"
@@ -451,7 +451,7 @@ msgid "Update Service is disabled. Please enable and try again"
 msgstr "Update-Dienst ist deaktiviert. Bitte aktivieren und erneut versuchen"
 
 msgctxt "#32107"
-msgid "Your Library Folders do not exist in PSMC Sources. Please run setup"
+msgid "Your Library Folders do not exist in Kodi Sources. Please run setup"
 msgstr "Update-Dienst ist deaktiviert. Bitte aktivieren und erneut versuchen"
 
 msgctxt "#32108"
@@ -463,12 +463,12 @@ msgid "No Episode Updates Found"
 msgstr "Keine Episoden-Updates gefunden"
 
 msgctxt "#32110"
-msgid "Restart PSMC for changes is required"
-msgstr "Neustart von PSMC für Änderungen ist erforderlich"
+msgid "Restart Kodi for changes is required"
+msgstr "Neustart von Kodi für Änderungen ist erforderlich"
 
 msgctxt "#32111"
-msgid "Folders Failed to add to PSMC Sources"
-msgstr "Ordner konnten nicht zu PSMC-Quellen hinzugefügt werden"
+msgid "Folders Failed to add to Kodi Sources"
+msgstr "Ordner konnten nicht zu Kodi-Quellen hinzugefügt werden"
 
 msgctxt "#32112"
 msgid "Library Auto Update Service is now turned off"
@@ -487,8 +487,8 @@ msgid "Error Cleaning Settings.xml. Old settings.xml files Restored."
 msgstr "Fehler beim Bereinigen von Settings.xml. Alte settings.xml-Dateien wiederhergestellt."
 
 msgctxt "#32116"
-msgid "This feature is only supported in PSMC 18 and beyond"
-msgstr "Diese Funktion wird nur in PSMC 18 und höher unterstützt"
+msgid "This feature is only supported in kodi 18 and beyond"
+msgstr "Diese Funktion wird nur in Kodi 18 und höher unterstützt"
 
 msgctxt "#32117"
 msgid "Added to Favorites"
@@ -815,12 +815,12 @@ msgid "Write FuzzyBritches log in reverse order"
 msgstr "Schreiben Sie das FuzzyBritches-Log in umgekehrter Reihenfolge"
 
 msgctxt "#32198"
-msgid "[B]PSMC - Upload log file to pastebin[/B]"
-msgstr "[B]PSMC - Log-Datei in Pastebin hochladen[/B]"
+msgid "[B]Kodi - Upload log file to pastebin[/B]"
+msgstr "[B]Kodi - Log-Datei in Pastebin hochladen[/B]"
 
 msgctxt "#32199"
-msgid "PSMC log file uploaded to:"
-msgstr "PSMC-Protokolldatei hochgeladen auf:"
+msgid "Kodi log file uploaded to:"
+msgstr "Kodi-Protokolldatei hochgeladen auf:"
 
 msgctxt "#32200"
 msgid "check title"
@@ -1586,12 +1586,12 @@ msgid "Calendar (TVMaze)"
 msgstr "Kalender (TVMaze)"
 
 msgctxt "#32451"
-msgid "Oscar Winners"
-msgstr "Oscar-Gewinner"
+msgid "Academy Award Winners"
+msgstr "Academy Award Winners"
 
 msgctxt "#32452"
-msgid "Oscar Winners (IMDb)"
-msgstr "Oscar-Gewinner (IMDb)"
+msgid "Academy Award Winners (IMDb)"
+msgstr "Academy Award Winners (IMDb)"
 
 msgctxt "#32453"
 msgid "Oscar Nominees"
@@ -1910,8 +1910,8 @@ msgid "[B]fuzzybritchesscrapers - Show Changelog[/B]"
 msgstr "[B]fuzzybritchesscrapers - Changelog anzeigen[/B]"
 
 msgctxt "#32532"
-msgid "[B]View PSMC Log File[/B]"
-msgstr "[B]PSMC-Protokolldatei anzeigen[/B]"
+msgid "[B]View Kodi Log File[/B]"
+msgstr "[B]Kodi-Protokolldatei anzeigen[/B]"
 
 msgctxt "#32533"
 msgid ""
@@ -2238,8 +2238,8 @@ msgid "Logging Location"
 msgstr "Logging-Standort"
 
 msgctxt "#32618"
-msgid "PSMC.Log"
-msgstr "PSMC.Log"
+msgid "kodi.Log"
+msgstr "kodi.Log"
 
 msgctxt "#32619"
 msgid "fuzzybritches.log"
@@ -2342,8 +2342,8 @@ msgid "Auto Trakt Collections Syncing"
 msgstr "Synchronisierung von Auto-Trakt-Sammlungen"
 
 msgctxt "#32646"
-msgid "Sync on PSMC Start"
-msgstr "Bei PSMC Start synchronisieren"
+msgid "Sync on Kodi Start"
+msgstr "Bei Kodi Start synchronisieren"
 
 msgctxt "#32647"
 msgid "Schedule Updates Every - Hour/s"
@@ -2466,8 +2466,8 @@ msgid "[B]FuzzyBritches[/B] : Clean library..."
 msgstr "[B]GIFT[/B] : Bibliothek bereinigen..."
 
 msgctxt "#32677"
-msgid "Add folders to PSMC Sources Now..."
-msgstr "Fügen Sie jetzt Ordner zu PSMC-Quellen hinzu ..."
+msgid "Add folders to Kodi Sources Now..."
+msgstr "Fügen Sie jetzt Ordner zu Kodi-Quellen hinzu ..."
 
 msgctxt "#32678"
 msgid "Updated TV Show title"
@@ -3155,8 +3155,8 @@ msgstr ""
 
 
 msgctxt "#33942"
-msgid "The FuzzyBritches library path does not appear in the PSMC file sources and automatic library updates are therefore not possible. Please manually add the library path from FuzzyBritches's settings to the PSMC file sources. If the path in the settings were not changed, FuzzyBritches will use a directory in the addon profile to store library data."
-msgstr "Der FuzzyBritches-Bibliothekspfad erscheint nicht in den PSMC-Dateiquellen und automatische Bibliotheksaktualisierungen sind daher nicht möglich. Bitte fügen Sie den Bibliothekspfad aus den FuzzyBritches-Einstellungen manuell zu den PSMC-Dateiquellen hinzu. Wenn der Pfad in den Einstellungen nicht geändert wurde, verwendet FuzzyBritches ein Verzeichnis im Addon-Profil, um Bibliotheksdaten zu speichern."
+msgid "The FuzzyBritches library path does not appear in the Kodi file sources and automatic library updates are therefore not possible. Please manually add the library path from FuzzyBritches's settings to the Kodi file sources. If the path in the settings were not changed, FuzzyBritches will use a directory in the addon profile to store library data."
+msgstr "Der FuzzyBritches-Bibliothekspfad erscheint nicht in den Kodi-Dateiquellen und automatische Bibliotheksaktualisierungen sind daher nicht möglich. Bitte fügen Sie den Bibliothekspfad aus den FuzzyBritches-Einstellungen manuell zu den Kodi-Dateiquellen hinzu. Wenn der Pfad in den Einstellungen nicht geändert wurde, verwendet FuzzyBritches ein Verzeichnis im Addon-Profil, um Bibliotheksdaten zu speichern."
 
 
 
@@ -3366,7 +3366,7 @@ msgid "[COLOR %s][B]Force Trakt Sync to local database[/B][/COLOR]"
 msgstr "[COLOR %s][B]Trakt Sync mit lokaler Datenbank erzwingen[/B][/COLOR]"
 
 msgctxt "#35067"
-msgid ""
+msgid "[COLOR %s][B]Delete Trakt Sync Database[/B][/COLOR]"
 msgstr ""
 
 msgctxt "#35068"
@@ -4273,8 +4273,8 @@ msgid "[COLOR %s][B]Hide[/B][/COLOR] %s"
 msgstr "[COLOR %s][B]Ausblenden[/B][/COLOR] %s"
 
 msgctxt "#40076"
-msgid "[COLOR %s][B]Scrobbble Reset[/B][/COLOR] Item"
-msgstr "[COLOR %s][B]Scrobbble-Reset[/B][/COLOR] Pozycja"
+msgid "[COLOR %s][B]Scrobble Reset[/B][/COLOR] Item"
+msgstr "[COLOR %s][B]Scrobble-Reset[/B][/COLOR] Pozycja"
 
 msgctxt "#40077"
 msgid "Originals (TMDb)"
@@ -4362,23 +4362,23 @@ msgstr ""
 
 msgctxt "#40098"
 msgid "Next Episode in"
-msgstr 
+msgstr ""
 
 msgctxt "#40099"
 msgid "Watch Now"
-msgstr 
+msgstr ""
 
 msgctxt "#40100"
 msgid "Hide"
-msgstr
+msgstr ""
 
 msgctxt "#40101"
 msgid "Show Close/Hide Button"
-msgstr
+msgstr ""
 
 msgctxt "#40102"
 msgid "Use Skin Theme for PlayNext"
-msgstr
+msgstr ""
 
 msgctxt "#40103"
 msgid "Trakt Client ID"
@@ -4457,7 +4457,7 @@ msgid "Authorization"
 msgstr ""
 
 msgctxt "#40122"
-msgid "Launch FuzzyBritches on PSMC Start"
+msgid "Launch FuzzyBritches on Kodi Start"
 msgstr ""
 
 msgctxt "#40123"
@@ -5541,7 +5541,7 @@ msgid "Hidden"
 msgstr ""
 
 msgctxt "#40397"
-msgid "Use Full Context Menu in Widgets (PSMC 20 Only)"
+msgid "Use Full Context Menu in Widgets (Kodi 20 Only)"
 msgstr ""
 
 msgctxt "#40398"
@@ -6432,6 +6432,458 @@ msgctxt "#40598"
 msgid "MDBList Watchlist Lib"
 msgstr ""
 
+msgctxt "#40598"
+msgid "MDBList Watchlist Lib"
+msgstr ""
+
 msgctxt "#40599"
 msgid "Use alternate API address. (app.real-debrid.com)"
+msgstr ""
+
+msgctxt "#40600"
+msgid "Auto-update library from list(s)"
+msgstr ""
+
+msgctxt "#40601"
+msgid "TMDB v4 Read Access Token"
+msgstr ""
+
+msgctxt "#40602"
+msgid "TMDB v4 Access Token (stored)"
+msgstr ""
+
+msgctxt "#40603"
+msgid "TMDB v4 Account ID (stored)"
+msgstr ""
+
+msgctxt "#40604"
+msgid "Authenticate TMDB v4"
+msgstr ""
+
+msgctxt "#40605"
+msgid "Revoke TMDB v4"
+msgstr ""
+
+msgctxt "#40606"
+msgid "TMDB List Manager"
+msgstr ""
+
+msgctxt "#40607"
+msgid "Not authenticated with TMDB v4. Check Settings."
+msgstr ""
+
+msgctxt "#40608"
+msgid "New List Name"
+msgstr ""
+
+msgctxt "#40609"
+msgid "TMDB v4"
+msgstr ""
+
+msgctxt "#40610"
+msgid "Simkl service sync interval (in minutes)"
+msgstr ""
+
+msgctxt "#40611"
+msgid "[B]SETTINGS[/B] : SIMKL"
+msgstr ""
+
+msgctxt "#40612"
+msgid "TMDb Watchlist"
+msgstr ""
+
+msgctxt "#40613"
+msgid "Add to TMDb Watchlist"
+msgstr ""
+
+msgctxt "#40614"
+msgid "Remove from TMDb Watchlist"
+msgstr ""
+
+msgctxt "#40615"
+msgid "TMDb Watchlist Add/Remove"
+msgstr ""
+
+msgctxt "#40616"
+msgid "TMDb List Sort"
+msgstr ""
+
+msgctxt "#40617"
+msgid "Trakt: Re-authorize required. Your token was issued with different client credentials. Please re-authorize Trakt in settings."
+msgstr ""
+
+msgctxt "#40618"
+msgid "Enable scrobbling"
+msgstr ""
+
+msgctxt "#40619"
+msgid "Show notification on scrobble"
+msgstr ""
+
+msgctxt "#40620"
+msgid "Simkl scrobbles"
+msgstr ""
+
+msgctxt "#40621"
+msgid "MDBList"
+msgstr ""
+
+msgctxt "#40622"
+msgid "Online Services"
+msgstr ""
+
+msgctxt "#40623"
+msgid "Scrobble & Resume Points"
+msgstr ""
+
+msgctxt "#40624"
+msgid "Local"
+msgstr ""
+
+msgctxt "#40625"
+msgid "Also mark watched on Trakt"
+msgstr ""
+
+msgctxt "#40626"
+msgid "Also mark watched on Simkl"
+msgstr ""
+
+msgctxt "#40627"
+msgid "Also mark watched on MDBList"
+msgstr ""
+
+msgctxt "#40628"
+msgid "Show Scrobble Notification"
+msgstr ""
+
+msgctxt "#40629"
+msgid "Also mark watched on:"
+msgstr ""
+
+msgctxt "#40630"
+msgid "MDBList sync interval (in minutes)"
+msgstr ""
+
+msgctxt "#40631"
+msgid "MDBList Mark as Watched"
+msgstr ""
+
+msgctxt "#40632"
+msgid "MDBList Mark as Unwatched"
+msgstr ""
+
+msgctxt "#40633"
+msgid "Service Selection"
+msgstr ""
+
+msgctxt "#40634"
+msgid "Watch History & Indicators"
+msgstr ""
+
+msgctxt "#40635"
+msgid "[B]MDBList Management Tools[/B]"
+msgstr ""
+
+msgctxt "#40636"
+msgid "MDBList Management Tools"
+msgstr ""
+
+msgctxt "#40637"
+msgid "[COLOR %s][B]Force MDBList Sync to local database[/B][/COLOR]"
+msgstr ""
+
+msgctxt "#40638"
+msgid "[COLOR %s][B]Watchlist Manager - Movies[/B][/COLOR]"
+msgstr ""
+
+msgctxt "#40639"
+msgid "[COLOR %s][B]Watchlist Manager - Shows[/B][/COLOR]"
+msgstr ""
+
+msgctxt "#40640"
+msgid "%s Failed to Mark As Watched On MDBList"
+msgstr ""
+
+msgctxt "#40641"
+msgid "%s Marked As Watched On MDBList"
+msgstr ""
+
+msgctxt "#40642"
+msgid "%s Failed to Mark As Unwatched On MDBList"
+msgstr ""
+
+msgctxt "#40643"
+msgid "%s Marked As Unwatched On MDBList"
+msgstr ""
+
+msgctxt "#40644"
+msgid "Mark Watched/Unwatched Notifications"
+msgstr ""
+
+msgctxt "#40645"
+msgid "MDBList Progress Shows"
+msgstr ""
+
+msgctxt "#40646"
+msgid "MDBList Progress Episodes"
+msgstr ""
+
+msgctxt "#40649"
+msgid "MDBList Manager"
+msgstr ""
+
+msgctxt "#40650"
+msgid "Caching Progress Dialog"
+msgstr ""
+
+msgctxt "#40651"
+msgid "MDBList Progress Show unaired episodes"
+msgstr ""
+
+msgctxt "#40652"
+msgid "MDBList Upcoming Progress prepend date"
+msgstr ""
+
+msgctxt "#40653"
+msgid "Show In-Progress Episodes"
+msgstr ""
+
+msgctxt "#40654"
+msgid "Show In-Progress Shows"
+msgstr ""
+
+msgctxt "#40655"
+msgid "Hide Watched in Collection"
+msgstr ""
+
+msgctxt "#40656"
+msgid "Simkl: Scrobbled"
+msgstr ""
+
+msgctxt "#40657"
+msgid "MDBList: Scrobbled"
+msgstr ""
+
+msgctxt "#40658"
+msgid "Local: In-Progress Shows"
+msgstr ""
+
+msgctxt "#40659"
+msgid "Local: In-Progress Episodes"
+msgstr ""
+
+msgctxt "#40660"
+msgid "[COLOR %s][B]Force MDBList Sync to local database[/B][/COLOR]"
+msgstr ""
+
+msgctxt "#40661"
+msgid "New TV Shows (TMDb)"
+msgstr ""
+
+msgctxt "#40662"
+msgid "Batch Thread Limit"
+msgstr ""
+
+msgctxt "#40663"
+msgid "Unlimited Batch Threads"
+msgstr ""
+
+msgctxt "#40664"
+msgid "Visit offcloud.com/activate and enter the code shown"
+msgstr ""
+
+msgctxt "#40665"
+msgid "Performance"
+msgstr ""
+
+msgctxt "#40667"
+msgid "Remove AI Upscaled Sources"
+msgstr ""
+
+msgctxt "#40668"
+msgid "MDBList Liked Lists"
+msgstr ""
+
+msgctxt "#40669"
+msgid "Authorize MDBList"
+msgstr ""
+
+msgctxt "#40670"
+msgid "Revoke MDBList Authorization"
+msgstr ""
+
+msgctxt "#40671"
+msgid "FuzzyBritches TorBox Referral Link"
+msgstr ""
+
+msgctxt "#40672"
+msgid "Source Sort Order"
+msgstr ""
+
+msgctxt "#40673"
+msgid "Quality, Provider, Size"
+msgstr ""
+
+msgctxt "#40674"
+msgid "Quality, Size, Provider"
+msgstr ""
+
+msgctxt "#40675"
+msgid "Provider, Quality, Size"
+msgstr ""
+
+msgctxt "#40676"
+msgid "Provider, Size, Quality"
+msgstr ""
+
+msgctxt "#40677"
+msgid "Size, Quality, Provider"
+msgstr ""
+
+msgctxt "#40678"
+msgid "Size, Provider, Quality"
+msgstr ""
+
+msgctxt "#40679"
+msgid "Show Year in TV Show Title"
+msgstr ""
+
+msgctxt "#40680"
+msgid "Filter Common Infringing Filenames"
+msgstr ""
+
+msgctxt "#40681"
+msgid "User Lists (MDBList)"
+msgstr ""
+
+msgctxt "#40682"
+msgid "Watchlist (MDBList)"
+msgstr ""
+
+msgctxt "#40683"
+msgid "Liked Lists (MDBList)"
+msgstr ""
+
+msgctxt "#40684"
+msgid "Progress Shows (MDBList)"
+msgstr ""
+
+msgctxt "#40685"
+msgid "Progress Episodes (MDBList)"
+msgstr ""
+
+msgctxt "#40686"
+msgid "Finish Watching (MDBList)"
+msgstr ""
+
+msgctxt "#40687"
+msgid "Finish Watching (Trakt)"
+msgstr ""
+
+msgctxt "#40688"
+msgid "Progress Episodes (Trakt)"
+msgstr ""
+
+msgctxt "#40689"
+msgid "Progress Shows (Trakt)"
+msgstr ""
+
+msgctxt "#40690"
+msgid "Watched Shows (Trakt)"
+msgstr ""
+
+msgctxt "#40691"
+msgid "Upcoming Progress (Trakt)"
+msgstr ""
+
+msgctxt "#40692"
+msgid "Recent Episodes (Trakt)"
+msgstr ""
+
+msgctxt "#40693"
+msgid "Upcoming Episodes (Trakt)"
+msgstr ""
+
+msgctxt "#40694"
+msgid "Season Premieres (Trakt)"
+msgstr ""
+
+msgctxt "#40695"
+msgid "History (Trakt)"
+msgstr ""
+
+msgctxt "#40696"
+msgid "Watchlist (Trakt)"
+msgstr ""
+
+msgctxt "#40697"
+msgid "Collection (Trakt)"
+msgstr ""
+
+msgctxt "#40698"
+msgid "My Liked Lists (Trakt)"
+msgstr ""
+
+msgctxt "#40699"
+msgid "User Lists"
+msgstr ""
+
+msgctxt "#40700"
+msgid "Watchlist"
+msgstr ""
+
+msgctxt "#40701"
+msgid "Liked Lists"
+msgstr ""
+
+msgctxt "#40702"
+msgid "Trending Today"
+msgstr ""
+
+msgctxt "#40703"
+msgid "Trending Weekly"
+msgstr ""
+
+msgctxt "#40704"
+msgid "Prefer Smaller File Sizes"
+msgstr ""
+
+msgctxt "#40705"
+msgid "Cloud Sources First"
+msgstr ""
+
+msgctxt "#40706"
+msgid "Collection (MDBList)"
+msgstr ""
+
+msgctxt "#40707"
+msgid "Add to [COLOR %s][B]MDBList Collection[/B][/COLOR]"
+msgstr ""
+
+msgctxt "#40708"
+msgid "Remove from [COLOR %s][B]MDBList Collection[/B][/COLOR]"
+msgstr ""
+
+msgctxt "#40709"
+msgid "Collection Manager - Movies"
+msgstr ""
+
+msgctxt "#40710"
+msgid "Collection Manager - Shows"
+msgstr ""
+
+msgctxt "#40711"
+msgid "Official Lists (MDBList)"
+msgstr ""
+
+msgctxt "#40712"
+msgid "Add to [COLOR %s][B]MDBList Dropped[/B][/COLOR]"
+msgstr ""
+
+msgctxt "#40713"
+msgid "Remove from [COLOR %s][B]MDBList Dropped[/B][/COLOR]"
+msgstr ""
+
+msgctxt "#40714"
+msgid "[COLOR %s][B]Dropped Manager - Shows[/B][/COLOR]"
 msgstr ""

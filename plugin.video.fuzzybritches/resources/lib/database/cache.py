@@ -35,7 +35,7 @@ def get(function, duration, *args):
 		fresh_result = repr(function(*args)) # may need a try-except block for server timeouts
 
 		if cache_result and (result and len(result) == 1) and fresh_result == '[]': # fix for syncSeason mark unwatched season when it's the last item remaining
-			if result[0].isdigit():
+			if isinstance(result[0], str) and result[0].isdigit():
 				remove(function, *args)
 				return []
 
@@ -86,6 +86,8 @@ def cache_existing(function, *args):
 		return None
 
 def cache_get(key):
+	dbcon = None
+	dbcur = None
 	try:
 		dbcon = get_connection()
 		dbcur = get_connection_cursor(dbcon)
@@ -98,9 +100,12 @@ def cache_get(key):
 		log_utils.error()
 		return None
 	finally:
-		dbcur.close() ; dbcon.close()
+		if dbcur: dbcur.close()
+		if dbcon: dbcon.close()
 
 def cache_insert(key, value):
+	dbcon = None
+	dbcur = None
 	try:
 		dbcon = get_connection()
 		dbcur = get_connection_cursor(dbcon)
@@ -112,7 +117,8 @@ def cache_insert(key, value):
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		if dbcur: dbcur.close()
+		if dbcon: dbcon.close()
 
 def remove(function, *args):
 	try:
@@ -143,6 +149,8 @@ def _generate_md5(*args):
 
 def cache_clear(flush_only=False):
 	cleared = False
+	dbcon = None
+	dbcur = None
 	try:
 		dbcon = get_connection()
 		dbcur = get_connection_cursor(dbcon)
@@ -161,7 +169,8 @@ def cache_clear(flush_only=False):
 		log_utils.error()
 		cleared = False
 	finally:
-		dbcur.close() ; dbcon.close()
+		if dbcur: dbcur.close()
+		if dbcon: dbcon.close()
 	return cleared
 
 def clearMovieCache():
@@ -216,7 +225,10 @@ def cache_clear_search():
 		log_utils.error()
 		cleared = False
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 	return cleared
 
 def cache_clear_SearchPhrase(table, key):
@@ -233,7 +245,10 @@ def cache_clear_SearchPhrase(table, key):
 		log_utils.error()
 		cleared = False
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 	return cleared
 
 def get_connection_search():
@@ -250,13 +265,12 @@ def cache_clear_thumbnails():
 	try:
 		dbcon = sqlite3.connect(databasePath+'/Textures13.db')
 		dbcur = dbcon.cursor()
-		icon = dbcur.execute("SELECT cachedurl FROM texture WHERE url ='" + addonPath + "/plugin.video.fuzzybritches/icon.gif';").fetchone()
-		icon = dbcur.execute("SELECT cachedurl FROM texture WHERE url ='" + addonPath + "/plugin.video.fuzzybritches/icon.gif';").fetchone()
+		icon = dbcur.execute("SELECT cachedurl FROM texture WHERE url ='" + addonPath + "/plugin.video.fuzzybritches/icon.png';").fetchone()
 		fanart = dbcur.execute("SELECT cachedurl FROM texture WHERE url ='" + addonPath + "/plugin.video.fuzzybritches/fanart.jpg';").fetchone()
 		if icon is not None:
 			if xbmcvfs.exists(thumbnailsPath + icon[0]):
 				xbmcvfs.delete(thumbnailsPath + icon[0])
-			dbcur.execute("DELETE FROM texture WHERE url ='" + addonPath + "/plugin.video.fuzzybritches/icon.gif';") #delete the icon
+			dbcur.execute("DELETE FROM texture WHERE url ='" + addonPath + "/plugin.video.fuzzybritches/icon.png';") #delete the icon
 		if fanart is not None:
 			if xbmcvfs.exists(thumbnailsPath + fanart[0]):
 				xbmcvfs.delete(thumbnailsPath + fanart[0])
@@ -284,7 +298,10 @@ def cache_clear_bookmarks():
 		log_utils.error()
 		cleared = False
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 	return cleared
 
 def cache_clear_bookmark(name, year='0'):
@@ -308,7 +325,10 @@ def cache_clear_bookmark(name, year='0'):
 		log_utils.error()
 		cleared = False
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 	return cleared
 
 def get_connection_bookmarks():
@@ -318,11 +338,13 @@ def get_connection_bookmarks():
 	return conn
 ##################
 def clear_local_bookmarks(): # clear all fuzzybritches bookmarks from kodi database
+	dbcon = dbcur = None
 	try:
 		dbcon = db.connect(get_video_database_path())
 		dbcur = dbcon.cursor()
 		dbcur.execute('''SELECT * FROM files WHERE strFilename LIKE "%plugin.video.fuzzybritches%"''')
 		file_ids = [str(i[0]) for i in dbcur.fetchall()]
+		if not file_ids: return
 		for table in ('bookmark', 'streamdetails', 'files'):
 			dbcur.execute('''DELETE FROM {} WHERE idFile IN ({})'''.format(table, ','.join(file_ids)))
 		dbcur.connection.commit()
@@ -330,7 +352,10 @@ def clear_local_bookmarks(): # clear all fuzzybritches bookmarks from kodi datab
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try:
+			if dbcur: dbcur.close()
+			if dbcon: dbcon.close()
+		except: pass
 
 def clear_local_bookmark(url): # clear all item specific bookmarks from kodi database
 	try:
@@ -346,7 +371,10 @@ def clear_local_bookmark(url): # clear all item specific bookmarks from kodi dat
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 
 def get_video_database_path():
 	databaseFound = False

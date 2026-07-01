@@ -68,18 +68,32 @@ class Sources:
 			return control.notification(message=33034)
 		try:
 			control.sleep(200)
-			if control.playlist.getposition() == 0 or control.playlist.size() <= 1 or rescrape == 'true': 
+			if control.playlist.getposition() == 0 or control.playlist.size() <= 1 or rescrape == 'true':
 				playerWindow.clearProperty('fuzzybritches.preResolved_nextUrl')
+				playerWindow.clearProperty('fuzzybritches.preResolved_season')
+				playerWindow.clearProperty('fuzzybritches.preResolved_episode')
+				playerWindow.clearProperty('fuzzybritches.preResolved_imdb')
 			preResolved_nextUrl = playerWindow.getProperty('fuzzybritches.preResolved_nextUrl')
-			if preResolved_nextUrl != '':
-				control.sleep(500)
+			if preResolved_nextUrl != '' and (episode is None or getSetting('play.mode.tv') != '0'):
+				preResolved_season = playerWindow.getProperty('fuzzybritches.preResolved_season')
+				preResolved_episode = playerWindow.getProperty('fuzzybritches.preResolved_episode')
+				preResolved_imdb = playerWindow.getProperty('fuzzybritches.preResolved_imdb')
+				_match = preResolved_imdb == str(imdb) and preResolved_season == str(season) and preResolved_episode == str(episode)
 				playerWindow.clearProperty('fuzzybritches.preResolved_nextUrl')
-				try: meta = jsloads(unquote(meta.replace('%22', '\\"')))
-				except: pass
-				if self.debuglog:
-					log_utils.log('Playing preResolved_nextUrl = %s' % preResolved_nextUrl, level=log_utils.LOGDEBUG)
-				from resources.lib.modules import player
-				return player.Player().play_source(title, year, season, episode, imdb, tmdb, tvdb, preResolved_nextUrl, meta)
+				playerWindow.clearProperty('fuzzybritches.preResolved_season')
+				playerWindow.clearProperty('fuzzybritches.preResolved_episode')
+				playerWindow.clearProperty('fuzzybritches.preResolved_imdb')
+				if _match:
+					control.sleep(500)
+					try: meta = jsloads(unquote(meta.replace('%22', '\\"')))
+					except: pass
+					if self.debuglog:
+						log_utils.log('Playing preResolved_nextUrl = %s' % preResolved_nextUrl, level=log_utils.LOGDEBUG)
+					from resources.lib.modules import player
+					return player.Player().play_source(title, year, season, episode, imdb, tmdb, tvdb, preResolved_nextUrl, meta)
+				else:
+					if self.debuglog:
+						log_utils.log('preResolved_nextUrl mismatch (wanted S%sE%s imdb=%s, got S%sE%s imdb=%s) - discarding' % (season, episode, imdb, preResolved_season, preResolved_episode, preResolved_imdb), level=log_utils.LOGWARNING)
 			if title: title = self.getTitle(title)
 			if tvshowtitle: tvshowtitle = self.getTitle(tvshowtitle)
 			homeWindow.clearProperty(self.metaProperty)
@@ -120,6 +134,7 @@ class Sources:
 				meta = metacache.fetch([{'imdb': imdb, 'tmdb': tmdb, 'tvdb': tvdb}], self.lang, self.user)[0]
 				if meta != self.ids: meta = dict((k, v) for k, v in iter(meta.items()) if v is not None and v != '')
 			def checkLibMeta(): # check Kodi db for meta for library playback.
+				
 				def cleanLibArt(art):
 					if not art: return ''
 					art = unquote(art.replace('image://', ''))
@@ -131,7 +146,7 @@ class Sources:
 					meta = control.jsonrpc('{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"filter":{"or": [{"field": "year", "operator": "is", "value": "%s"}, {"field": "year", "operator": "is", "value": "%s"}, {"field": "year", "operator": "is", "value": "%s"}]}, "properties" : ["title", "originaltitle", "uniqueid", "year", "premiered", "genre", "studio", "country", "runtime", "rating", "votes", "mpaa", "director", "writer", "cast", "plot", "plotoutline", "tagline", "thumbnail", "art", "file"]}, "id": 1}' % (year, str(int(year) + 1), str(int(year) - 1)))
 					meta = jsloads(meta)['result']['movies']
 					try:
-						meta = [i for i in meta if i.get('uniqueid', []).get('imdb', '') == imdb]
+						meta = [i for i in meta if i.get('uniqueid', {}).get('imdb', '') == imdb]
 					except:
 						if self.debuglog:
 							log_utils.log('Get Meta Failed in checkLibMeta: %s' % str(meta), level=log_utils.LOGDEBUG)
@@ -157,7 +172,7 @@ class Sources:
 					# do not add IMDBNUMBER as tmdb scraper puts their id in the key value
 					show_meta = control.jsonrpc('{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"filter":{"or": [{"field": "year", "operator": "is", "value": "%s"}, {"field": "year", "operator": "is", "value": "%s"}, {"field": "year", "operator": "is", "value": "%s"}]}, "properties" : ["title", "originaltitle", "uniqueid", "mpaa", "year", "genre", "runtime", "thumbnail", "file"]}, "id": 1}' % (year, str(int(year)+1), str(int(year)-1)))
 					show_meta = jsloads(show_meta)['result']['tvshows']
-					show_meta = [i for i in show_meta if i.get('uniqueid', []).get('imdb', '') == imdb]
+					show_meta = [i for i in show_meta if i.get('uniqueid', {}).get('imdb', '') == imdb]
 					if show_meta: show_meta = show_meta[0]
 					else: raise Exception()
 					tvshowid = show_meta['tvshowid']
@@ -228,7 +243,7 @@ class Sources:
 					return self.errorForSources(title, year, imdb, tmdb, tvdb, season, episode, tvshowtitle, premiered)
 			else: uncached_items += [i for i in items if re.match(r'^uncached.*torrent', i['source'])]
 			if select is None:
-				if episode is not None and self.enable_playnext: select = '1'
+				if episode is not None and self.enable_playnext and getSetting('play.mode.tv') != '0': select = '1'
 				elif episode == None:
 					select = getSetting('play.mode.movie')
 				else: select = getSetting('play.mode.tv')
@@ -266,7 +281,8 @@ class Sources:
 	def sourceSelect(self, title, items, uncached_items, meta):
 		try:
 			control.hide()
-			control.playlist.clear()
+			if not self.enable_playnext:
+				control.playlist.clear()
 			if not items:
 				control.sleep(200) ; control.hide() ; sysexit()
 ## - compare meta received to database and use largest(eventually switch to a request to fetch missing db meta for item)
@@ -306,7 +322,7 @@ class Sources:
 				meta = control.jsonrpc('{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"filter":{"or": [{"field": "year", "operator": "is", "value": "%s"}, {"field": "year", "operator": "is", "value": "%s"}, {"field": "year", "operator": "is", "value": "%s"}]}, "properties" : ["title", "originaltitle", "uniqueid", "year", "premiered", "genre", "studio", "country", "runtime", "rating", "votes", "mpaa", "director", "writer", "cast", "plot", "plotoutline", "tagline", "thumbnail", "art", "file"]}, "id": 1}' % (self.year, str(int(self.year) + 1), str(int(self.year) - 1)))
 				meta = jsloads(meta)['result']['movies']
 				try:
-					meta = [i for i in meta if i.get('uniqueid', []).get('imdb', '') == self.imdb]
+					meta = [i for i in meta if i.get('uniqueid', {}).get('imdb', '') == self.imdb]
 				except:
 					if self.debuglog:
 						log_utils.log('Get Meta Failed in checkLibMeta: %s' % str(meta), level=log_utils.LOGDEBUG)
@@ -332,7 +348,7 @@ class Sources:
 				# do not add IMDBNUMBER as tmdb scraper puts their id in the key value
 				show_meta = control.jsonrpc('{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"filter":{"or": [{"field": "year", "operator": "is", "value": "%s"}, {"field": "year", "operator": "is", "value": "%s"}, {"field": "year", "operator": "is", "value": "%s"}]}, "properties" : ["title", "originaltitle", "uniqueid", "mpaa", "year", "genre", "runtime", "thumbnail", "file"]}, "id": 1}' % (self.year, str(int(self.year)+1), str(int(self.year)-1)))
 				show_meta = jsloads(show_meta)['result']['tvshows']
-				show_meta = [i for i in show_meta if i.get('uniqueid', []).get('imdb', '') == self.imdb]
+				show_meta = [i for i in show_meta if i.get('uniqueid', {}).get('imdb', '') == self.imdb]
 				if show_meta: show_meta = show_meta[0]
 				else: raise Exception()
 				tvshowid = show_meta['tvshowid']
@@ -370,7 +386,7 @@ class Sources:
 			if getSetting('uncached.seeder.sort') == 'true':
 				uncached_items = sorted(uncached_items, key=lambda k: k['seeders'], reverse=True)
 				uncached_items = self.sort_byQuality(source_list=uncached_items)
-			if items == uncached_items:
+			if items == uncached_items and not self.uncached_chosen:
 				from resources.lib.windows.uncached_results import UncachedResultsXML
 				window = UncachedResultsXML('uncached_results.xml', control.addonPath(control.addonId()), uncached=uncached_items, meta=self.meta)
 			else:
@@ -378,13 +394,28 @@ class Sources:
 				window = SourceResultsXML('source_results.xml', control.addonPath(control.addonId()), results=items, uncached=uncached_items, meta=self.meta)
 			action, chosen_source = window.run()
 			del window
-			if action == 'play_Item' and self.uncached_chosen != True:
+			if action == 'play_Item':
 				return self.playItem(title, items, chosen_source.getProperty('fuzzybritches.source_dict'), self.meta)
+			elif action == 'play_EN_Seekable':
+				from resources.lib.modules import player
+				player.Player().play(chosen_source)
+				return
 			else:
 				homeWindow.clearProperty('fuzzybritches.window_keep_alive')
 				try: self.window.close()
 				except: pass
-				control.cancelPlayback()
+				if self.enable_playnext:
+					# During continuous playback Kodi holds a valid plugin handle.
+					# Resolving with False triggers "Playback Failed". Resolve with
+					# True + empty offscreen item instead so no error dialog appears.
+					control.playlist.clear()
+					try: control.player.stop()
+					except: pass
+					from sys import argv
+					control.resolve(int(argv[1]), True, control.item(offscreen=True))
+					control.closeOk()
+				else:
+					control.cancelPlayback()
 		except:
 			log_utils.error('Error sourceSelect(): ')
 			control.cancelPlayback()
@@ -477,7 +508,16 @@ class Sources:
 						except: pass
 						del progressDialog
 					from resources.lib.modules import player
-					player.Player().play_source(title, self.year, self.season, self.episode, self.imdb, self.tmdb, self.tvdb, self.url, meta)
+					player.Player().play_source(
+						title,
+						getattr(self, 'year', meta.get('year') if isinstance(meta, dict) else None),
+						getattr(self, 'season', meta.get('season') if isinstance(meta, dict) else None),
+						getattr(self, 'episode', meta.get('episode') if isinstance(meta, dict) else None),
+						getattr(self, 'imdb', meta.get('imdb', '') if isinstance(meta, dict) else ''),
+						getattr(self, 'tmdb', meta.get('tmdb', '') if isinstance(meta, dict) else ''),
+						getattr(self, 'tvdb', meta.get('tvdb', '') if isinstance(meta, dict) else ''),
+						self.url, meta
+					)
 					return self.url
 				except: log_utils.error()
 			try: progressDialog.close()
@@ -743,7 +783,21 @@ class Sources:
 					line2 = string1 % round(time() - start_time, 1)
 					if len(info) > 6: line3 = string3 % str(len(info))
 					elif len(info) > 0: line3 = string3 % (', '.join(info))
-					else: break
+					else:
+						source_4k = len([e for e in self.scraper_sources if e['quality'] == '4K'])
+						source_1080 = len([e for e in self.scraper_sources if e['quality'] == '1080p'])
+						source_720 = len([e for e in self.scraper_sources if e['quality'] == '720p'])
+						source_sd = len([e for e in self.scraper_sources if e['quality'] in ('SD', 'SCR', 'CAM')])
+						source_4k_label = total_format2 % source_4k if source_4k == 0 else total_format % (sdc, source_4k)
+						source_1080_label = total_format2 % source_1080 if source_1080 == 0 else total_format % (sdc, source_1080)
+						source_720_label = total_format2 % source_720 if source_720 == 0 else total_format % (sdc, source_720)
+						source_sd_label = total_format2 % source_sd if source_sd == 0 else total_format % (sdc, source_sd)
+						line1 = pdiag_format % (source_4k_label, source_1080_label, source_720_label, source_sd_label)
+						if progressDialog != control.progressDialog and progressDialog != control.progressDialogBG:
+							progressDialog.update(100, line1 + '[CR]' + line2 + '[CR]' + '')
+						elif progressDialog != control.progressDialogBG:
+							progressDialog.update(100, line1 + '[CR]' + line2 + '[CR]' + '')
+						break
 					current_time = time()
 					current_progress = current_time - start_time
 					#percent = int((current_progress / float(timeout)) * 100)
@@ -782,34 +836,41 @@ class Sources:
 			log_utils.error()
 			return playerWindow.clearProperty('fuzzybritches.preResolved_nextUrl')
 
-		for i in range(len(next_sources)):
-			try:
-				control.sleep(1000)
+		homeWindow.setProperty('fuzzybritches.preResolving', 'true')
+		try:
+			for i in range(len(next_sources)):
 				try:
-					if control.monitor.abortRequested(): return sysexit()
-					url = self.sourcesResolve(next_sources[i])
-					if not url:
-						if self.debuglog:
-							log_utils.log('preResolve failed for : next_sources[i]=%s' % str(next_sources[i]), level=log_utils.LOGWARNING)
-						continue
-					# if not any(x in url.lower() for x in video_extensions):
-					if not any(x in self.url.lower() for x in video_extensions) and 'plex.direct:' not in self.url and 'torbox' not in self.url and 'tb-cdn' not in self.url and 'plugin://plugin.video.composite_for_plex' not in self.url:
-						if self.debuglog:
-							log_utils.log('preResolve Playback not supported for (sourcesAutoPlay()): %s' % url, level=log_utils.LOGWARNING)
-						continue
-					if url:
-						control.sleep(500)
-						player_hasVideo = control.condVisibility('Player.HasVideo')
-						if player_hasVideo: # do not setPropery if user stops playback quickly because "onPlayBackStopped" is already called and won't be able to clear it.
-							playerWindow.setProperty('fuzzybritches.preResolved_nextUrl', url)
+					control.sleep(1000)
+					try:
+						if control.monitor.abortRequested(): return sysexit()
+						url = self.sourcesResolve(next_sources[i])
+						if not url:
 							if self.debuglog:
-								log_utils.log('preResolved_nextUrl : %s' % url, level=log_utils.LOGDEBUG)
-						else:
+								log_utils.log('preResolve failed for : next_sources[i]=%s' % str(next_sources[i]), level=log_utils.LOGWARNING)
+							continue
+						# if not any(x in url.lower() for x in video_extensions):
+						if not any(x in self.url.lower() for x in video_extensions) and 'plex.direct:' not in self.url and 'torbox' not in self.url and 'tb-cdn' not in self.url and 'plugin://plugin.video.composite_for_plex' not in self.url:
 							if self.debuglog:
-								log_utils.log('player_hasVideo = %s : skipping setting preResolved_nextUrl' % player_hasVideo, level=log_utils.LOGWARNING)
-						break
-				except: pass
-			except: log_utils.error()
+								log_utils.log('preResolve Playback not supported for (sourcesAutoPlay()): %s' % url, level=log_utils.LOGWARNING)
+							continue
+						if url:
+							control.sleep(500)
+							player_hasVideo = control.condVisibility('Player.HasVideo')
+							if player_hasVideo: # do not setPropery if user stops playback quickly because "onPlayBackStopped" is already called and won't be able to clear it.
+								playerWindow.setProperty('fuzzybritches.preResolved_nextUrl', url)
+								playerWindow.setProperty('fuzzybritches.preResolved_season', str(next_meta.get('season', '')))
+								playerWindow.setProperty('fuzzybritches.preResolved_episode', str(next_meta.get('episode', '')))
+								playerWindow.setProperty('fuzzybritches.preResolved_imdb', str(next_meta.get('imdb', '')))
+								if self.debuglog:
+									log_utils.log('preResolved_nextUrl : %s' % url, level=log_utils.LOGDEBUG)
+							else:
+								if self.debuglog:
+									log_utils.log('player_hasVideo = %s : skipping setting preResolved_nextUrl' % player_hasVideo, level=log_utils.LOGWARNING)
+							break
+					except: pass
+				except: log_utils.error()
+		finally:
+			homeWindow.clearProperty('fuzzybritches.preResolving')
 		control.sleep(200)
 
 	def prepareSources(self):
@@ -1016,6 +1077,8 @@ class Sources:
 				self.sources = [i for i in self.sources if i['quality'] != 'SD']
 		if getSetting('remove.3D.sources') == 'true':
 			self.sources = [i for i in self.sources if '3D' not in i.get('info', '')]
+		if getSetting('remove.aiupscaled.sources') == 'true':
+			self.sources = [i for i in self.sources if ' AI-UPSCALED ' not in i.get('info', '')]
 		if getSetting('remove.audio.opus') == 'true':   #start of audio codec filters
 			self.sources = [i for i in self.sources if ' OPUS ' not in i.get('info', '')]
 		if getSetting('remove.audio.atmos') == 'true': 
@@ -1154,11 +1217,12 @@ class Sources:
 					valid_hoster = []
 					threads.append(Thread(target=checkStatus, args=(self.oc_cache_chk_list, d.name, valid_hoster)))
 				except: log_utils.error()
-			if d.name == 'EasyDebrid' and getSetting('easydebrid.enable') == 'true':
-				try:
-					valid_hoster = []
-					threads.append(Thread(name=d.name.upper(), target=checkStatus, args=(self.ed_cache_chk_list, d.name, valid_hoster)))
-				except: log_utils.error()
+			# EasyDebrid disabled
+			# if d.name == 'EasyDebrid' and getSetting('easydebrid.enable') == 'true':
+			# 	try:
+			# 		valid_hoster = []
+			# 		threads.append(Thread(name=d.name.upper(), target=checkStatus, args=(self.ed_cache_chk_list, d.name, valid_hoster)))
+			# 	except: log_utils.error()
 			if d.name == 'TorBox' and getSetting('torbox.enable') == 'true':
 				try:
 					valid_hoster = []
@@ -1174,28 +1238,48 @@ class Sources:
 				self.prem_providers.sort(key=lambda k: k[1])
 				self.prem_providers = [i[0] for i in self.prem_providers]
 				#log_utils.log('self.prem_providers sort order=%s' % self.prem_providers, level=log_utils.LOGDEBUG)
-				self.filter.sort(key=lambda k: self.prem_providers.index(k['debrid'] if k.get('debrid', '') else k['provider']))
+				self.filter.sort(key=lambda k: self.prem_providers.index(
+					k.get('debrid', '') or _cloud_to_debrid.get(k.get('provider', ''), k.get('provider', ''))
+				) if (k.get('debrid', '') or _cloud_to_debrid.get(k.get('provider', ''), k.get('provider', ''))) in self.prem_providers else 10**6)
 		except: log_utils.error()
 
 		self.filter += local # library and video scraper sources
 		self.sources = self.filter
 
-		if getSetting('sources.group.sort') == '1':
-			torr_filter = []
-			torr_filter += [i for i in self.sources if 'torrent' in i['source']]  #torrents first
-			if getSetting('sources.size.sort') == 'true': torr_filter.sort(key=lambda k: round(k.get('size', 0)), reverse=True)
-			aact_filter = []
-			aact_filter += [i for i in self.sources if i['direct'] == True]  #account scrapers and local/library next
-			if getSetting('sources.size.sort') == 'true': aact_filter.sort(key=lambda k: round(k.get('size', 0)), reverse=True)
-			prem_filter = []
-			prem_filter += [i for i in self.sources if 'torrent' not in i['source'] and i['debridonly'] is True]  #prem.hosters last
-			if getSetting('sources.size.sort') == 'true': prem_filter.sort(key=lambda k: round(k.get('size', 0)), reverse=True)
-			self.sources = torr_filter
-			self.sources += aact_filter
-			self.sources += prem_filter
-		elif getSetting('sources.size.sort') == 'true':
-			reverse_sort = True if getSetting('sources.sizeSort.reverse') == 'false' else False
-			self.sources.sort(key=lambda k: round(k.get('size', 0), 2), reverse=reverse_sort)
+		if getSetting('realdebrid.filter.filename') == 'true':
+			_rd_block = re.compile(r'(?i)\b(WEB-DL|WEBRip|BDRip|HDRip|DVDRip|HDTV|AMZN|NF|DSNP|CR|YTS|TGX|TorrentGalaxy|FGT|LOL|KILLERS|EPSiLON|Erai-raws)\b|rartv|rarbg|eztv')
+			self.sources = [i for i in self.sources if not (i.get('debrid') == 'Real-Debrid' and _rd_block.search(i.get('name', '')))]
+
+		quality_rank_maps = {
+			'0': {'4K': 0, '1080p': 1, '720p': 2, 'SCR': 3, 'SD': 4, 'CAM': 5},
+			'1': {'4K': 5, '1080p': 0, '720p': 1, 'SCR': 2, 'SD': 3, 'CAM': 4},
+			'2': {'4K': 5, '1080p': 4, '720p': 0, 'SCR': 1, 'SD': 2, 'CAM': 3},
+			'3': {'4K': 5, '1080p': 4, '720p': 3, 'SCR': 0, 'SD': 1, 'CAM': 2},
+		}
+		_preferred_q = getSetting('hosts.quality') or '0'
+		_qmap = quality_rank_maps.get(_preferred_q, quality_rank_maps['0'])
+		if self.prem_providers and isinstance(self.prem_providers[0], tuple):
+			_sorted_pp = sorted(self.prem_providers, key=lambda k: k[1])
+			_prov_list = [i[0] for i in _sorted_pp]
+		else:
+			_prov_list = list(self.prem_providers)
+		def _qrank(src): return _qmap.get(src.get('quality', 'SD'), 5)
+		def _prank(src):
+			key = src.get('debrid', '') or _cloud_to_debrid.get(src.get('provider', ''), src.get('provider', ''))
+			try: return _prov_list.index(key)
+			except: return 10**6
+		_prefer_smaller = getSetting('source.prefer.smaller') == 'true'
+		def _srank(src): return round(float(src.get('size', 0))) if _prefer_smaller else -round(float(src.get('size', 0)))
+		_sort_order = int(getSetting('sources.sort.order') or '0')
+		_sort_keys = (
+			lambda k: (_qrank(k), _prank(k), _srank(k)),
+			lambda k: (_qrank(k), _srank(k), _prank(k)),
+			lambda k: (_prank(k), _qrank(k), _srank(k)),
+			lambda k: (_prank(k), _srank(k), _qrank(k)),
+			lambda k: (_srank(k), _qrank(k), _prank(k)),
+			lambda k: (_srank(k), _prank(k), _qrank(k)),
+		)
+		self.sources.sort(key=_sort_keys[_sort_order])
 
 		if getSetting('source.prioritize.av1') == 'true': # filter to place AV1 sources first
 			filter = []
@@ -1223,16 +1307,9 @@ class Sources:
 			filter += [i for i in self.sources if i not in filter]
 			self.sources = filter
 
-		self.sources = self.sort_byQuality(source_list=self.sources)
-
-		filter = [] # filter to place cloud files first
-		filter += [i for i in self.sources if i['source'] == 'cloud']
-		filter += [i for i in self.sources if i not in filter]
-		self.sources = filter
-
-		if getSetting('source.prioritize.direct') == 'true': # filter to place plex sources first
-			filter = [] # filter to place cloud files first
-			filter += [i for i in self.sources if i['source'] == 'direct']
+		if getSetting('cloud.sources.first') == 'true': # filter to place cloud files first
+			filter = []
+			filter += [i for i in self.sources if i['source'] == 'cloud']
 			filter += [i for i in self.sources if i not in filter]
 			self.sources = filter
 
@@ -1360,8 +1437,8 @@ class Sources:
 						from resources.lib.debrid.alldebrid import AllDebrid as debrid_function
 					elif debrid_provider == 'Offcloud':
 						from resources.lib.debrid.offcloud import Offcloud as debrid_function
-					elif debrid_provider == 'EasyDebrid':
-						from resources.lib.debrid.easydebrid import EasyDebrid as debrid_function
+					# elif debrid_provider == 'EasyDebrid':  # EasyDebrid disabled
+					# 	from resources.lib.debrid.easydebrid import EasyDebrid as debrid_function
 					elif debrid_provider == 'TorBox':
 						from resources.lib.debrid.torbox import TorBox as debrid_function
 					else: return
@@ -1385,6 +1462,17 @@ class Sources:
 							return url
 						except: pass
 					else:
+						if item.get('provider') == 'easynews':
+							try:
+								from resources.lib.debrid.easynews import EasyNews
+								base_url = url.split('|')[0]
+								resolved = EasyNews().unrestrict_link(base_url)
+								if resolved:
+									if getSetting('easynews.seekable') != 'true':
+										resolved += '|seekable=0'
+									self.url = resolved
+									return resolved
+							except: log_utils.error()
 						self.url = url
 						return url
 				else: # hosters
@@ -1413,8 +1501,8 @@ class Sources:
 				from resources.lib.debrid.alldebrid import AllDebrid as debrid_function
 			elif provider in ('Offcloud', 'OC'):
 				from resources.lib.debrid.offcloud import Offcloud as debrid_function
-			elif provider in ('EasyDebrid', 'ED'):
-				from resources.lib.debrid.easydebrid import EasyDebrid as debrid_function
+			# elif provider in ('EasyDebrid', 'ED'):  # EasyDebrid disabled
+			# 	from resources.lib.debrid.easydebrid import EasyDebrid as debrid_function
 			elif provider in ('TorBox', 'TB'):
 				from resources.lib.debrid.torbox import TorBox as debrid_function
 			else: return
@@ -1447,8 +1535,8 @@ class Sources:
 				self.url = debrid_function().unrestrict_link(chosen_result['link'])
 			elif provider in ('Offcloud', 'OC'):
 				self.url = chosen_result['link']
-			elif provider in ('EasyDebrid', 'ED'):
-				self.url = chosen_result['link']
+			# elif provider in ('EasyDebrid', 'ED'):  # EasyDebrid disabled
+			# 	self.url = chosen_result['link']
 			elif provider in ('TorBox', 'TB'):
 				self.url = debrid_function().unrestrict_link(chosen_result['link'])
 				if not getSetting('torbox.saveToCloud') == 'true':
@@ -1721,26 +1809,11 @@ class Sources:
 		return self.sources
 
 	def ad_cache_chk_list(self, torrent_List, hashList):
-		#if len(torrent_List) == 0: return
+		if len(torrent_List) == 0: return
 		try:
-			# from resources.lib.debrid.alldebrid import AllDebrid
-			# cached = AllDebrid().check_cache(hashList)
-			# if not cached: return None
-			# cached = cached['magnets']
-			count = 0
 			for i in torrent_List:
 				if 'package' in i: i.update({'source': 'unchecked (pack) torrent'})
 				else: i.update({'source': 'unchecked'})
-				# if 'error' in cached[count]: # list index out of range
-				# 	count += 1
-				# 	continue
-				# if cached[count]['instant'] is False:
-				# 	if 'package' in i: i.update({'source': 'uncached (pack) torrent'})
-				# 	else: i.update({'source': 'uncached torrent'})
-				# else:
-				# 	if 'package' in i: i.update({'source': 'cached (pack) torrent'})
-				# 	else: i.update({'source': 'cached torrent'})
-				count += 1
 			return torrent_List
 		except: log_utils.error()
 
@@ -1761,21 +1834,22 @@ class Sources:
 			return torrent_List
 		except: log_utils.error()
 
-	def ed_cache_chk_list(self, torrent_List, hashList):
-		if len(torrent_List) == 0: return
-		try:
-			from resources.lib.debrid.easydebrid import EasyDebrid
-			cached = EasyDebrid().check_cache(hashList)
-			if not cached: return None
-			cached = cached['cached']
-			cached_torrent_list = []
-			for i, is_cached in zip(torrent_List, cached):
-				if i['hash'].lower() and is_cached:
-					if 'package' in i: i.update({'source': 'cached (pack) torrent'})
-					else: i.update({'source': 'cached torrent'})
-					cached_torrent_list.append(i)
-			return cached_torrent_list
-		except: log_utils.error()
+	def ed_cache_chk_list(self, torrent_List, hashList):  # EasyDebrid disabled
+		pass
+		# if len(torrent_List) == 0: return
+		# try:
+		# 	from resources.lib.debrid.easydebrid import EasyDebrid
+		# 	cached = EasyDebrid().check_cache(hashList)
+		# 	if not cached: return None
+		# 	cached = cached['cached']
+		# 	cached_torrent_list = []
+		# 	for i, is_cached in zip(torrent_List, cached):
+		# 		if i['hash'].lower() and is_cached:
+		# 			if 'package' in i: i.update({'source': 'cached (pack) torrent'})
+		# 			else: i.update({'source': 'cached torrent'})
+		# 			cached_torrent_list.append(i)
+		# 	return cached_torrent_list
+		# except: log_utils.error()
 
 	def tb_cache_chk_list(self, torrent_List, hashList):
 		if len(torrent_List) == 0: return

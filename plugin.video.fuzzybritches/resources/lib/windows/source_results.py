@@ -3,7 +3,7 @@
 	FuzzyBritches Add-on
 """
 
-from json import dumps as jsdumps
+from json import dumps as jsdumps, loads as jsloads
 from urllib.parse import quote_plus
 from resources.lib.modules.control import joinPath, transPath, dialog, notification, addonFanart, setting as getSetting, getProviderColors
 from resources.lib.modules import tools
@@ -101,9 +101,16 @@ class SourceResultsXML(BaseDialog):
 				if not 'UNCACHED' in source and self.dnlds_enabled:
 					cm_list += [('[B]Download[/B]', 'download')]
 					cm_list += [('[B]Create Strm File[/B]', 'strmFile')]
+					try:
+						_src_info = jsloads(source_dict)
+						if _src_info and _src_info[0].get('package') in ('season', 'show') and 'magnet:' in _src_info[0].get('url', ''):
+							cm_list += [('[B]Download Pack[/B]', 'downloadPack')]
+					except: pass
 				debrid = chosen_source.getProperty('fuzzybritches.debrid')
 				if (re_match(r'^CACHED.*TORRENT', source) or 'unchecked' in source_dict) and debrid != 'EasyDebrid':
 					cm_list += [('[B]Save to %s Cloud[/B]' % debrid, 'saveToCloud')]
+				if chosen_source.getProperty('fuzzybritches.provider').upper() == 'EASYNEWS':
+					cm_list += [('[B]Play EasyNews Seekable[/B]', 'playENSeekable')]
 				chosen_cm_item = dialog.contextmenu([i[0] for i in cm_list])
 				if chosen_cm_item == -1: return
 				cm_action = cm_list[chosen_cm_item][1]
@@ -122,6 +129,7 @@ class SourceResultsXML(BaseDialog):
 					if 'tvshowtitle' in self.meta and 'season' in self.meta and 'episode' in self.meta:
 						sysname = quote_plus(self.meta.get('tvshowtitle'))
 						poster = self.meta.get('season_poster') or self.meta.get('poster')
+						if 'year' in self.meta: sysname += quote_plus(' (%s)' % self.meta['year'])
 						sysname += quote_plus(' S%02dE%02d' % (int(self.meta['season']), int(self.meta['episode'])))
 					elif 'year' in self.meta: sysname += quote_plus(' (%s)' % self.meta['year'])
 					try: new_sysname = quote_plus(chosen_source.getProperty('fuzzybritches.name'))
@@ -129,12 +137,26 @@ class SourceResultsXML(BaseDialog):
 					self.execute_code('RunPlugin(plugin://plugin.video.fuzzybritches/?action=download&name=%s&image=%s&source=%s&caller=sources&title=%s)' %
 										(new_sysname, quote_plus(poster), quote_plus(source_dict), sysname))
 					self.selected = (None, '')
+				elif cm_action == 'downloadPack':
+					sysname = quote_plus(self.meta.get('title'))
+					poster = self.meta.get('poster', '')
+					if 'tvshowtitle' in self.meta:
+						sysname = quote_plus(self.meta.get('tvshowtitle'))
+						poster = self.meta.get('season_poster') or self.meta.get('poster')
+						if 'year' in self.meta: sysname += quote_plus(' (%s)' % self.meta['year'])
+					elif 'year' in self.meta: sysname += quote_plus(' (%s)' % self.meta['year'])
+					try: new_sysname = quote_plus(chosen_source.getProperty('fuzzybritches.name'))
+					except: new_sysname = sysname
+					self.execute_code('RunPlugin(plugin://plugin.video.fuzzybritches/?action=downloadPack&name=%s&image=%s&source=%s&caller=sources)' %
+										(new_sysname, quote_plus(poster), quote_plus(source_dict)))
+					self.selected = (None, '')
 				elif cm_action == 'strmFile':
 					sysname = quote_plus(self.meta.get('title'))
 					poster = self.meta.get('poster', '')
 					if 'tvshowtitle' in self.meta and 'season' in self.meta and 'episode' in self.meta:
 						sysname = quote_plus(self.meta.get('tvshowtitle'))
 						poster = self.meta.get('season_poster') or self.meta.get('poster')
+						if 'year' in self.meta: sysname += quote_plus(' (%s)' % self.meta['year'])
 						sysname += quote_plus(' S%02dE%02d' % (int(self.meta['season']), int(self.meta['episode'])))
 					elif 'year' in self.meta: sysname += quote_plus(' (%s)' % self.meta['year'])
 					try: new_sysname = quote_plus(chosen_source.getProperty('fuzzybritches.name'))
@@ -170,6 +192,14 @@ class SourceResultsXML(BaseDialog):
 						debrid_icon = easydebrid.ed_icon
 					result = transfer_function().create_transfer(magnet)
 					if result: notification(message='Sending MAGNET to the %s cloud' % debrid, icon=debrid_icon)
+				elif cm_action == 'playENSeekable':
+					from resources.lib.debrid.easynews import EasyNews
+					full_url = chosen_source.getProperty('fuzzybritches.url')
+					base_url = full_url.split('|')[0]
+					resolved = EasyNews().unrestrict_link(base_url)
+					if resolved:
+						self.selected = ('play_EN_Seekable', resolved)
+						return self.close()
 			elif action in self.closing_actions:
 				self.selected = (None, '')
 				self.close()

@@ -1,0 +1,2 @@
+[B]Update - v1.2.21 - June 29th, 2026 [/B]
+--[Fix] Fixed issue for incorrect time format causing double scrapes.

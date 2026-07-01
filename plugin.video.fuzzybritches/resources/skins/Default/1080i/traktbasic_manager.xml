@@ -27,8 +27,8 @@
 				<width>1350</width>
 				<height>7</height>
 				<reveal>true</reveal>
-				<texturebg colordiffuse="FF302F2F">common/white.png</texturebg>
-				<midtexture colordiffuse="FFFF4081">common/white.png</midtexture>
+				<texturebg colordiffuse="FF302F2F">common/fuzwhite.png</texturebg>
+				<midtexture colordiffuse="FFFF4081">common/fuzwhite.png</midtexture>
 			</control>
 			<control type="button" id="2045">
 				<description>Stop Trailer playback Button</description>
@@ -39,8 +39,8 @@
 				<width>120</width>
 				<height>70</height>
 				<textoffsetx>0</textoffsetx>
-				<texturefocus colordiffuse="$INFO[Window().Property(fuzzybritches.highlight.color)]">common/button5.png</texturefocus>
-				<texturenofocus>common/button5.png</texturenofocus>
+				<texturefocus colordiffuse="$INFO[Window().Property(fuzzybritches.highlight.color)]">common/fuzbutton5.png</texturefocus>
+				<texturenofocus>common/fuzbutton5.png</texturenofocus>
 				<label>$ADDON[plugin.video.fuzzybritches 32170]</label>
 				<font>font12</font>
 				<align>center</align>
@@ -149,14 +149,14 @@
 						<top>0</top>
 						<width>1350</width>
 						<height>100</height>
-						<texture colordiffuse="$INFO[Window().Property(fuzzybritches.highlight.color)]">common/white.png</texture>
+						<texture colordiffuse="$INFO[Window().Property(fuzzybritches.highlight.color)]">common/fuzwhite.png</texture>
 					</control>
 					<control type="image">
 						<left>0</left>
 						<top>0</top>
 						<width>1350</width>
 						<height>100</height>
-						<texture colordiffuse="gainsboro">common/white.png</texture>
+						<texture colordiffuse="gainsboro">common/fuzwhite.png</texture>
 						<visible>!Control.HasFocus(2050)</visible>
 					</control>
 					<control type="image">
@@ -217,8 +217,8 @@
 						<width>120</width>
 						<height>70</height>
 						<textoffsetx>0</textoffsetx>
-						<texturefocus colordiffuse="$INFO[Window().Property(fuzzybritches.highlight.color)]">common/button5.png</texturefocus>
-						<texturenofocus>common/button5.png</texturenofocus>
+						<texturefocus colordiffuse="$INFO[Window().Property(fuzzybritches.highlight.color)]">common/fuzbutton5.png</texturefocus>
+						<texturenofocus>common/fuzbutton5.png</texturenofocus>
 						<label>$ADDON[plugin.video.fuzzybritches 32179]</label>
 						<font>font12</font>
 						<align>center</align>
@@ -234,8 +234,8 @@
 						<width>120</width>
 						<height>70</height>
 						<textoffsetx>0</textoffsetx>
-						<texturefocus colordiffuse="$INFO[Window().Property(fuzzybritches.highlight.color)]">common/button5.png</texturefocus>
-						<texturenofocus>common/button5.png</texturenofocus>
+						<texturefocus colordiffuse="$INFO[Window().Property(fuzzybritches.highlight.color)]">common/fuzbutton5.png</texturefocus>
+						<texturenofocus>common/fuzbutton5.png</texturenofocus>
 						<label>$ADDON[plugin.video.fuzzybritches 32180]</label>
 						<font>font12</font>
 						<align>center</align>
@@ -251,8 +251,8 @@
 						<width>120</width>
 						<height>70</height>
 						<textoffsetx>0</textoffsetx>
-						<texturefocus colordiffuse="$INFO[Window().Property(fuzzybritches.highlight.color)]">common/button5.png</texturefocus>
-						<texturenofocus>common/button5.png</texturenofocus>
+						<texturefocus colordiffuse="$INFO[Window().Property(fuzzybritches.highlight.color)]">common/fuzbutton5.png</texturefocus>
+						<texturenofocus>common/fuzbutton5.png</texturenofocus>
 						<label>$ADDON[plugin.video.fuzzybritches 32190]</label>
 						<font>font12</font>
 						<align>center</align>
@@ -347,7 +347,7 @@
 						<width>25</width>
 						<height>25</height>
 						<aspect>keep</aspect>
-						<texture colordiffuse="FFFF4081">common/star.png</texture>
+						<texture colordiffuse="FFFF4081">common/fuzstar.png</texture>
 						<animation effect="slide" end="20,35" time="0" condition="true">Conditional</animation>
 						<visible>!String.IsEmpty(Container(2050).ListItem.Property(fuzzybritches.rating))</visible>
 					</control>

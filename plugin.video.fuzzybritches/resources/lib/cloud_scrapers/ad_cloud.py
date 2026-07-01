@@ -162,7 +162,7 @@ class source:
 							else:
 								file_path = (file.get('path') or '')
 								if all(not bool(re.search(i, file_path)) for i in query_list):
-									if rt.startswith('.etrg.'):
+									if '.etrg.' in rt:
 										continue
 									name = folder.get('filename', '') or name
 

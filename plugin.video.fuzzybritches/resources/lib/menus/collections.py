@@ -35,7 +35,6 @@ class Collections:
 		self.today_date = (self.date_time).strftime('%Y-%m-%d')
 		self.lang = control.apiLanguage()['trakt']
 		self.traktCredentials = trakt.getTraktCredentialsInfo()
-		self.imdb_user = getSetting('imdbuser').replace('ur', '')
 		self.tmdb_key = getSetting('tmdb.apikey')
 		if self.tmdb_key == '' or self.tmdb_key is None: self.tmdb_key = 'edde6b5e41246ab79a2697cd125e1781'
 		# self.user = str(self.imdb_user) + str(self.tmdb_key)
@@ -49,7 +48,7 @@ class Collections:
 		self.tmdbCollection_link = tmdb_base +'/3/collection/%s?api_key=%s&page=1' % ('%s', self.tmdb_key) # does not support request sorting
 		self.imdb_link = 'https://www.imdb.com/search/title?title=%s&title_type=%s&num_votes=1000,&countries=us&languages=en&sort=%s' % ('%s', '%s', self.imdb_sort())
 		self.tmdbCollectionsSearch_link = tmdb_base+'/3/search/collection?api_key=%s&language=en-US&query=%s&page=1' % (self.tmdb_key, '%s')
-		self.imdblist_hours = int(getSetting('cache.imdblist'))
+		self.imdblist_hours = 168
 		self.hide_watched_in_widget = getSetting('enable.fuzzybritcheshidewatched') == 'true'
 		self.useFullContext = getSetting('enable.fuzzybritcheswidgetcontext') == 'true'
 		self.useContainerTitles = getSetting('enable.containerTitles') == 'true'
@@ -654,7 +653,7 @@ class Collections:
 		else:
 			watchedMenu, unwatchedMenu = getLS(32066), getLS(32067)
 		playlistManagerMenu, queueMenu = getLS(35522), getLS(32065)
-		traktManagerMenu, addToLibrary = getLS(32070), getLS(32551)
+		traktManagerMenu, addToLibrary = '[COLOR %s]Trakt Manager[/COLOR]' % self.highlight_color, getLS(32551)
 		nextMenu, clearSourcesMenu = getLS(32053), getLS(32611)
 		rescrapeMenu, rescrapeAllMenu, findSimilarMenu = getLS(32185), getLS(32193), getLS(32184)
 		for i in items:

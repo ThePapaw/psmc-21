@@ -7,7 +7,7 @@
             <top>0</top>
             <width>1920</width>
             <height>1080</height>
-            <texture colordiffuse="FF000000">common/white.png</texture>
+            <texture colordiffuse="FF000000">common/fuzwhite.png</texture>
             <animation type="WindowOpen" reversible="false">
                 <effect type="fade" start="0" end="80" time="120" />
             </animation>
@@ -23,12 +23,12 @@
                 <control type="image">
                     <width>1660</width>
                     <height>940</height>
-                    <texture border="16" colordiffuse="$INFO[Window.Property(fuzzybritches.backgroundColor)]">common/dialog.png</texture>
+                    <texture border="16" colordiffuse="$INFO[Window.Property(fuzzybritches.backgroundColor)]">common/fuzdialog.png</texture>
                 </control>
                 <control type="image">
                     <height>50</height>
                     <width>1660</width>
-                    <texture border="16" colordiffuse="$INFO[Window.Property(fuzzybritches.titleBarColor)]">common/dialogtop.png</texture>
+                    <texture border="16" colordiffuse="$INFO[Window.Property(fuzzybritches.titleBarColor)]">common/fuzdialogtop.png</texture>
                 </control>
                 <control type="image">
                     <left>4</left>
@@ -38,7 +38,7 @@
                     <align>left</align>
                     <aligny>top</aligny>
                     <aspectratio aligny="top">keep</aspectratio>
-                    <texture colordiffuse="FFCCCCCC">common/icon.gif</texture>
+                    <texture colordiffuse="FFCCCCCC">common/icon.png</texture>
                 </control>
                 <control type="label">
                     <top>10</top>
@@ -77,7 +77,7 @@
                             <top>0</top>
                             <width>44</width>
                             <height>44</height>
-                            <texture colordiffuse="$INFO[Window.Property(fuzzybritches.backgroundColor)]">common/white.png</texture>
+                            <texture colordiffuse="$INFO[Window.Property(fuzzybritches.backgroundColor)]">common/fuzwhite.png</texture>
                         </control>
                         <control type="image">
                             <left>2</left>

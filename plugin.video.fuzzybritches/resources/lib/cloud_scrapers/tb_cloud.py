@@ -4,8 +4,8 @@
 """
 
 import re
-#from threading import Thread
-from concurrent.futures import ThreadPoolExecutor
+from threading import Thread
+from time import time as gettime
 from resources.lib.cloud_scrapers import cloud_utils
 from resources.lib.database import cache
 from resources.lib.debrid.torbox import TorBox
@@ -37,22 +37,15 @@ class source:
 			query_list = self.episode_query_list() if 'tvshowtitle' in data else self.year_query_list()
 			# log_utils.log('query_list = %s' % query_list)
 			folders = []
-			#testing using threadpool instead of threads.
-			# threads = (
-			# 	Thread(target=self._scraper, args=(TorBox().user_cloud, folders, 'torent')),
-			# 	Thread(target=self._scraper, args=(TorBox().user_cloud_usenet, folders, 'usenet'))
-			# )
-			# [i.start() for i in threads]
-			# [i.join() for i in threads]
-			with ThreadPoolExecutor(max_workers=2) as executor: #max-workers likely needs to be a setting.
-				futures = [
-					executor.submit(self._scraper, TorBox().user_cloud, folders, 'torent'),
-					executor.submit(self._scraper, TorBox().user_cloud_usenet, folders, 'usenet'),
-				]
-
-				# Wait for all tasks to complete
-				for future in futures:
-					future.result()
+			deadline = gettime() + 30
+			threads = [
+				Thread(target=self._scraper, args=(TorBox().user_cloud, folders, 'torent')),
+				Thread(target=self._scraper, args=(TorBox().user_cloud_usenet, folders, 'usenet')),
+				Thread(target=self._scraper, args=(TorBox().user_cloud_webdl, folders, 'webdl'))
+			]
+			[i.start() for i in threads]
+			for t in threads:
+				t.join(timeout=max(0, deadline - gettime()))
 			if not folders: return sources
 			extras_filter = cloud_utils.extras_filter()
 		except:
@@ -66,11 +59,17 @@ class source:
 #				if not cloud_utils.cloud_check_title(title, aliases, folder_name): continue
 				mediatype = folder.get('mediatype', '')
 				request_id = folder.get('id', '')
-				folder_files = folder['files']
+				folder_files = folder.get('files')
+				if not folder_files:
+					torrent_func = TorBox().user_cloud_usenet if mediatype == 'usenet' else TorBox().user_cloud
+					result = torrent_func(request_id)
+					if not result or not isinstance(result.get('data'), dict): continue
+					folder_files = result['data'].get('files', [])
+				if not folder_files: continue
 			except:
 				from resources.lib.modules import log_utils
 				log_utils.error('TB_CLOUD: ')
-				return sources
+				continue
 
 			for file in folder_files:
 				try:
@@ -129,7 +128,7 @@ class source:
 				except:
 					from resources.lib.modules import log_utils
 					log_utils.error('TB_CLOUD: ')
-					return sources
+					continue
 		return sources
 
 	def year_query_list(self):
@@ -177,5 +176,11 @@ class source:
 			return None
 
 	def _scraper(self, function, results, mediatype):
-		try: results += [{**i, 'mediatype': mediatype} for i in function()['data'] if i['download_finished']]
-		except: pass
+		try:
+			response = function()
+			if not response: return
+			items = [{**i, 'mediatype': mediatype} for i in (response.get('data') or []) if i.get('download_finished') or i.get('download_state') == 'completed']
+			results += items
+		except:
+			from resources.lib.modules import log_utils
+			log_utils.error('TB_CLOUD: ')

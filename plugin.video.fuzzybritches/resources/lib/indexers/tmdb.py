@@ -30,6 +30,32 @@ else:
 	session.mount('https://api.themoviedb.org', HTTPAdapter(max_retries=retries, pool_maxsize=100))
 
 
+def _convert_gb_movie_rating(rating):
+	uk_certs = {'U', 'PG', '12', '12A', '15', '18', 'R18'}
+	if rating in uk_certs:
+		return rating
+	us_to_uk = {'G': 'U', 'PG': 'PG', 'PG-13': '12A', 'R': '18', 'NC-17': '18'}
+	return us_to_uk.get(rating, rating)
+
+
+def _convert_gb_tv_rating(rating):
+	uk_certs = {'U', 'PG', '12', '12A', '15', '18'}
+	if rating in uk_certs:
+		return rating
+	us_tv_to_uk = {'TV-Y': 'U', 'TV-G': 'U', 'TV-Y7': 'PG', 'TV-PG': 'PG', 'TV-14': '12', 'TV-MA': '18'}
+	if rating in us_tv_to_uk:
+		return us_tv_to_uk[rating]
+	try:
+		val = int(rating.rstrip('+').rstrip('A'))
+		if val <= 7: return 'U'
+		if val <= 12: return '12'
+		if val <= 15: return '15'
+		return '18'
+	except (ValueError, AttributeError):
+		pass
+	return rating
+
+
 class TMDb:
 	def __init__(self):
 		self.API_key = getSetting('tmdb.apikey')
@@ -39,6 +65,26 @@ class TMDb:
 		self.mpa_country = mpaCountry()
 		self.enable_fanarttv = getSetting('enable.fanarttv') == 'true'
 		self.tmdbcollection_hours = getSetting('cache.tmdbcollection') == 'true'
+
+	def get_v4_request(self, url):
+		"""Make a TMDB v4 API request using the stored user access token as Bearer auth."""
+		try:
+			access_token = getSetting('tmdb.v4.accesstoken')
+			if not access_token:
+				import xbmcaddon
+				access_token = xbmcaddon.Addon().getSetting('tmdb.v4.accesstoken')
+			if not access_token:
+				return self.get_request(url)
+			headers = {'Authorization': 'Bearer %s' % access_token, 'Content-Type': 'application/json'}
+			try: response = session.get(url, headers=headers, timeout=20)
+			except requests.exceptions.SSLError:
+				response = session.get(url, headers=headers, verify=False)
+			if response.status_code in (200, 201): return response.json()
+			return None
+		except:
+			from resources.lib.modules import log_utils
+			log_utils.error()
+			return None
 
 	def get_request(self, url):
 		try:
@@ -135,7 +181,7 @@ class Movies(TMDb):
 		#big thanks to extreme pettiness for this change.
 		self.movie_link = base_link + 'movie/%s?api_key=%s&language=%s&append_to_response=credits,release_dates,videos,alternative_titles,images' % ('%s', self.API_key, self.lang)
 		###  other "append_to_response" options external_ids,images,translations
-		self.art_link = base_link + 'movie/%s/images?api_key=%s' % ('%s', self.API_key)
+		self.art_link = base_link + 'movie/%s/images?api_key=%s&language=%s&include_image_language=%s,en,xx,null' % ('%s', self.API_key, self.lang, self.lang)
 		self.external_ids = base_link + 'movie/%s/external_ids?api_key=%s' % ('%s', self.API_key)
 		# self.user = str(self.imdb_user) + str(self.API_key)
 		self.user = str(self.API_key)
@@ -216,25 +262,33 @@ class Movies(TMDb):
 
 	def tmdb_collections_list(self, url):
 		try:
-			result = cache.get(self.get_request, self.tmdbcollection_hours, url)
+			if '/4/list/' in url or '/4/account/' in url:
+				fetch_url = url
+				result = self.get_v4_request(url)
+			else:
+				fetch_url = url % self.API_key if '%s' in url else url
+				result = cache.get(self.get_request, self.tmdbcollection_hours, fetch_url)
 			if result is None: return
-			if '404:NOT FOUND' in result: return result
+			if isinstance(result, str) and '404:NOT FOUND' in result: return result
 			if '/collection/' in url: items = result['parts']
 			elif '/3/' in url: items = result['items']
-			else: items = result['results']
+			else: items = result.get('results', result.get('items', []))
 		except: return
 		self.list = []
 		try:
+			from urllib.parse import urlsplit, parse_qsl, urlencode, urlunsplit
 			page = int(result['page'])
 			total = int(result['total_pages'])
 			if page >= total: raise Exception()
-			if 'page=' not in url: raise Exception()
-			next = '%s&page=%s' % (url.split('&page=', 1)[0], page+1)
+			parsed = urlsplit(fetch_url)
+			qs = [(k, v) for k, v in parse_qsl(parsed.query) if k != 'page']
+			qs.append(('page', str(page + 1)))
+			next = urlunsplit(parsed._replace(query=urlencode(qs)))
 		except: next = ''
 		for item in items:
 			try:
 				values = {}
-				values['next'] = next 
+				values['next'] = next
 				media_type = item.get('media_type')
 				if media_type == 'tv': continue
 				values['tmdb'] = str(item.get('id', '')) if item.get('id') else ''
@@ -390,9 +444,13 @@ class Movies(TMDb):
 						break
 			try: parse_mpaa([x for x in result['release_dates']['results'] if x['iso_3166_1'] == self.mpa_country][0])
 			except: pass
+			if self.mpa_country == 'GB' and meta['mpaa'] == 'NR':
+				meta['mpaa'] = ''
 			if not meta['mpaa'] and self.mpa_country != 'US':
 				try: parse_mpaa([x for x in result['release_dates']['results'] if x['iso_3166_1'] == 'US'][0])
 				except: pass
+			if self.mpa_country == 'GB' and meta['mpaa']:
+				meta['mpaa'] = _convert_gb_movie_rating(meta['mpaa'])
 			if meta['mpaa']: meta['mpaa'] = getSetting('mpa.prefix') + meta['mpaa']
 			try:
 				trailer = [x for x in result['videos']['results'] if x['site'] == 'YouTube' and x['type'] in ('Trailer', 'Teaser')][0]['key']
@@ -528,16 +586,13 @@ class Movies(TMDb):
 		artworkList = []
 		tmdbart_items = []
 		if artworkType == 'poster':
-			tmdbart_items = [item for item in tmdbart.get('posters', []) if (item.get('iso_639_1') == self.lang or item.get('iso_639_1') == None)]
-		#changed due to tmdb using "xx" for fanart.
-		#elif artworkType == 'fanart': 
-		#	tmdbart_items = [item for item in tmdbart.get('backdrops', []) if (item.get('iso_639_1') == self.lang or item.get('iso_639_1') == None)] 
+			tmdbart_items = [item for item in tmdbart.get('posters', []) if item.get('iso_639_1') in (self.lang, 'en')]
 		elif artworkType == 'fanart':
-			tmdbart_items = [item for item in tmdbart.get('backdrops', []) if (item.get('iso_639_1') == self.lang or item.get('iso_639_1') == 'xx')]
+			tmdbart_items = [item for item in tmdbart.get('backdrops', []) if item.get('iso_639_1') == None]
 		elif artworkType == 'landscape':
-			tmdbart_items = [item for item in tmdbart.get('backdrops', []) if (item.get('iso_639_1') == self.lang or item.get('iso_639_1') == None)]
+			tmdbart_items = [item for item in tmdbart.get('backdrops', []) if item.get('iso_639_1') != None]
 		elif artworkType == 'clearlogo':
-			tmdbart_items = [item for item in tmdbart.get('logos', []) if (item.get('iso_639_1') == self.lang or item.get('iso_639_1') == None)]
+			tmdbart_items = [item for item in tmdbart.get('logos', []) if item.get('iso_639_1') in (self.lang, 'en')]
 		else:
 			return artworkList
 
@@ -564,7 +619,7 @@ class TVshows(TMDb):
 		self.meta = []
 		self.show_link = base_link + 'tv/%s?api_key=%s&language=%s&append_to_response=credits,content_ratings,external_ids,alternative_titles,videos,images' % ('%s', self.API_key, self.lang)
 		# 'append_to_response=translations, aggregate_credits' (DO NOT USE, response data way to massive and bogs the response time)
-		self.art_link = base_link + 'tv/%s/images?api_key=%s' % ('%s', self.API_key)
+		self.art_link = base_link + 'tv/%s/images?api_key=%s&language=%s&include_image_language=%s,en,xx,null' % ('%s', self.API_key, self.lang, self.lang)
 		self.tvdb_key = getSetting('tvdb.api.key')
 		self.imdb_user = getSetting('imdb.user').replace('ur', '')
 		self.user = str(self.imdb_user) + str(self.tvdb_key)
@@ -650,25 +705,31 @@ class TVshows(TMDb):
 	def tmdb_collections_list(self, url):
 		if not url: return
 		try:
-			result = self.get_request(url)
+			if '/4/list/' in url or '/4/account/' in url:
+				result = self.get_v4_request(url)
+			else:
+				result = self.get_request(url)
 			if result is None: return
-			if '404:NOT FOUND' in result: return result
+			if isinstance(result, str) and '404:NOT FOUND' in result: return result
 			if '/collection/' in url: items = result['parts']
 			elif '/3/' in url: items = result['items']
-			else: items = result['results']
+			else: items = result.get('results', result.get('items', []))
 		except: return
 		self.list = []
 		try:
+			from urllib.parse import urlsplit, parse_qsl, urlencode, urlunsplit
 			page = int(result['page'])
 			total = int(result['total_pages'])
 			if page >= total: raise Exception()
-			if 'page=' not in url: raise Exception()
-			next = '%s&page=%s' % (url.split('&page=', 1)[0], page+1)
+			parsed = urlsplit(url)
+			qs = [(k, v) for k, v in parse_qsl(parsed.query) if k != 'page']
+			qs.append(('page', str(page + 1)))
+			next = urlunsplit(parsed._replace(query=urlencode(qs)))
 		except: next = ''
 		for item in items:
 			try:
 				values = {}
-				values['next'] = next 
+				values['next'] = next
 				media_type = item.get('media_type', '')
 				if media_type == 'movie': continue
 				values['tmdb'] = str(item.get('id', '')) if item.get('id') else ''
@@ -723,6 +784,35 @@ class TVshows(TMDb):
 			log_utils.error()
 		return result
 
+	def get_season_aired_counts(self, tmdb): # lightweight: returns {str(season_num): aired_episode_count} using last_episode_to_air for accuracy on airing shows
+		if not tmdb: return None
+		try:
+			url = base_link + 'tv/%s?api_key=%s&language=%s' % (tmdb, self.API_key, self.lang)
+			result = self.get_request(url)
+			if not result or '404:NOT FOUND' in str(result): return None
+			seasons = result.get('seasons') or []
+			last_aired = result.get('last_episode_to_air') or {}
+			status = (result.get('status') or '').lower()
+			ended = status in ('ended', 'canceled', 'cancelled')
+			last_aired_season = last_aired.get('season_number', 0)
+			last_aired_episode = last_aired.get('episode_number', 0)
+			counts = {}
+			for s in seasons:
+				sn = s.get('season_number')
+				if sn is None: continue
+				ep_count = s.get('episode_count', 0)
+				if ended or sn < last_aired_season:
+					counts[str(sn)] = ep_count  # all episodes have aired
+				elif sn == last_aired_season:
+					counts[str(sn)] = last_aired_episode  # only episodes up to last aired
+				else:
+					counts[str(sn)] = 0  # future season, nothing aired yet
+			return counts
+		except:
+			from resources.lib.modules import log_utils
+			log_utils.error()
+			return None
+
 	def get_showSeasons_meta(self, tmdb): # builds seasons meta from show level request
 		if not tmdb: return None
 		try:
@@ -740,7 +830,13 @@ class TVshows(TMDb):
 			try: tmdblogo_path = [i['file_path'] for i in result['images']['logos'] if 'file_path' in i if i['file_path'].endswith('png')][0]
 			except: tmdblogo_path = ''
 			meta['tmdblogo'] = '%s%s' % (self.fanart_path, tmdblogo_path) if tmdblogo_path else ''
-			try: meta['duration'] = min(result['episode_run_time']) * 60
+			try:
+				run_times = result.get('episode_run_time') or []
+				if run_times:
+					meta['duration'] = min(run_times) * 60
+				else:
+					last_ep_runtime = (result.get('last_episode_to_air') or {}).get('runtime')
+					meta['duration'] = int(last_ep_runtime) * 60 if last_ep_runtime else ''
 			except: meta['duration'] = ''
 			meta['premiered'] = str(result.get('first_air_date', '')) if result.get('first_air_date') else ''
 			try: meta['year'] = meta['premiered'][:4]
@@ -795,12 +891,14 @@ class TVshows(TMDb):
 				except: pass
 				if len(meta['castandart']) == 150: break
 			mpaa = []
-			mpaa += [x['rating'] for x in result['content_ratings']['results'] if x['iso_3166_1'] == self.mpa_country]
+			mpaa += [x['rating'] for x in result['content_ratings']['results'] if x['iso_3166_1'] == self.mpa_country and x['rating'] != 'NR']
 			mpaa += [x['rating'] for x in result['content_ratings']['results'] if x['iso_3166_1'] == 'US']
 			try: meta['mpaa'] = mpaa[0]
-			except: 
+			except:
 				try: meta['mpaa'] = result['content_ratings'][0]['rating']
 				except: meta['mpaa'] = ''
+			if self.mpa_country == 'GB' and meta['mpaa']:
+				meta['mpaa'] = _convert_gb_tv_rating(meta['mpaa'])
 			if meta['mpaa']: meta['mpaa'] = getSetting('mpa.prefix') + meta['mpaa']
 			ids = result.get('external_ids', {})
 			meta['imdb'] = str(ids.get('imdb_id', '')) if ids.get('imdb_id') else ''
@@ -1216,13 +1314,13 @@ class TVshows(TMDb):
 		artworkList = []
 		tmdbart_items = []
 		if artworkType == 'poster':
-			tmdbart_items = [item for item in tmdbart.get('posters', []) if (item.get('iso_639_1') == self.lang or item.get('iso_639_1') == None)]
+			tmdbart_items = [item for item in tmdbart.get('posters', []) if item.get('iso_639_1') in (self.lang, 'en')]
 		elif artworkType == 'fanart':
-			tmdbart_items = [item for item in tmdbart.get('backdrops', []) if (item.get('iso_639_1') == self.lang or item.get('iso_639_1') == 'xx')]
+			tmdbart_items = [item for item in tmdbart.get('backdrops', []) if item.get('iso_639_1') == None]
 		elif artworkType == 'landscape':
-			tmdbart_items = [item for item in tmdbart.get('backdrops', []) if (item.get('iso_639_1') == self.lang or item.get('iso_639_1') == None)]
+			tmdbart_items = [item for item in tmdbart.get('backdrops', []) if item.get('iso_639_1') != None]
 		elif artworkType == 'clearlogo':
-			tmdbart_items = [item for item in tmdbart.get('logos', []) if (item.get('iso_639_1') == self.lang or item.get('iso_639_1') == None)]
+			tmdbart_items = [item for item in tmdbart.get('logos', []) if item.get('iso_639_1') in (self.lang, 'en')]
 		else:
 			return artworkList
 
@@ -1242,6 +1340,30 @@ class TVshows(TMDb):
 		except:
 			return None
 
+	def get_all_episode_art(self, **kwargs):
+		tmdb = kwargs.get('tmdb', '')
+		season = kwargs.get('season', '')
+		episode = kwargs.get('episode', '')
+		if not tmdb or season == '' or episode == '':
+			return None
+		url = base_link + 'tv/%s/season/%s/episode/%s/images?api_key=%s' % (tmdb, season, episode, self.API_key)
+		try:
+			from resources.lib.database import cache
+			tmdbart = cache.get(self.get_request, 10000, url)
+		except:
+			return None
+		if not tmdbart:
+			return None
+		artworkType = kwargs.get('artwork_type', '')
+		artworkList = []
+		if artworkType == 'thumb':
+			tmdbart_items = tmdbart.get('stills', [])
+			for index, item in enumerate(tmdbart_items, start=1):
+				filepath = item.get('file_path')
+				itemurl = '%s%s' % (self.profile_path, filepath) if filepath else ''
+				artworkList.append({'artworkType': artworkType, 'source': 'Tmdb %s' % index, 'url': itemurl})
+		return artworkList
+
 
 class Auth:
 	def __init__(self):
@@ -1254,7 +1376,7 @@ class Auth:
 			from resources.lib.modules.control import setSetting
 			if getSetting('tmdbusername') == '' or getSetting('tmdbpassword') == '':
 				if fromSettings == 1:
-						openSettings('11.1', 'plugin.video.fuzzybritches')
+						openSettings('8.2', 'plugin.video.fuzzybritches')
 				return notification(message='TMDb Account info missing', icon='ERROR')
 			url = self.auth_base_link + '/token/new?api_key=%s' % self.API_key
 			result = requests.get(url).json()
@@ -1277,14 +1399,14 @@ class Auth:
 						setSetting('tmdb.sessionid', session_id)
 						notification(message='TMDb Successfully Authorized')
 						if fromSettings == 1:
-							openSettings('11.1', 'plugin.video.fuzzybritches')
+							openSettings('8.2', 'plugin.video.fuzzybritches')
 					else: 
 						notification(message='TMDb Authorization Cancelled')
 						if fromSettings == 1:
-							openSettings('11.1', 'plugin.video.fuzzybritches')
+							openSettings('8.2', 'plugin.video.fuzzybritches')
 			else:
 				if fromSettings == 1:
-						openSettings('11.1', 'plugin.video.fuzzybritches')
+						openSettings('8.2', 'plugin.video.fuzzybritches')
 				return notification(message='Please check TMDB Account Info and Password.', icon='ERROR')
 		except:
 			from resources.lib.modules import log_utils
@@ -1301,7 +1423,7 @@ class Auth:
 				setSetting('tmdb.sessionid', '')
 				notification(message='TMDb session_id successfully deleted')
 				if fromSettings == 1:
-					openSettings('11.1', 'plugin.video.fuzzybritches')
+					openSettings('8.2', 'plugin.video.fuzzybritches')
 			else:
 				from resources.lib.modules import log_utils
 				log_utils.log('TMDb Revoke session_id FAILED: %s' % result.get('status_message', ''), __name__, log_utils.LOGWARNING)
@@ -1309,10 +1431,10 @@ class Auth:
 					setSetting('tmdb.sessionid', '')
 					notification(message=result.get('status_message', ''), icon='ERROR')
 					if fromSettings == 1:
-						openSettings('11.1', 'plugin.video.fuzzybritches')
+						openSettings('8.2', 'plugin.video.fuzzybritches')
 				else:
 					if fromSettings == 1:
-						openSettings('11.1', 'plugin.video.fuzzybritches')
+						openSettings('8.2', 'plugin.video.fuzzybritches')
 					notification(message='TMDb session_id deletion FAILED', icon='ERROR')
 		except:
 			from resources.lib.modules import log_utils

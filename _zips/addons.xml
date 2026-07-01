@@ -70,7 +70,7 @@
   </extension>
 </addon>
 
-<addon id="plugin.video.fuzzybritches" name="FuzzyBritches" provider-name="The Papaw" version="2.2.21">
+<addon id="plugin.video.fuzzybritches" name="FuzzyBritches" provider-name="FuzzyBritches" version="1.2.21">
 	<requires>
 		<import addon="xbmc.python" version="3.0.0" />
 		<import addon="script.module.requests" />
@@ -144,6 +144,33 @@
 					[String.IsEqual(ListItem.dbtype,tvshow) | String.IsEqual(ListItem.dbtype,movie)]
 				</visible>
 			</item>
+			<item library="resources\lib\context\simklManager.py">
+				<label>$INFO[Window(home).Property(context.fuzzybritches.showFuzzyBritches)]SimKL Manager</label>
+				<visible>
+					!String.IsEmpty(Window(home).Property(context.fuzzybritches.simklManager)) +
+					String.StartsWith(ListItem.path,plugin://plugin.video.fuzzybritches/) +
+					String.IsEqual(ListItem.Property(isFuzzyBritches_widget),true) +
+					[String.IsEqual(ListItem.dbtype,episode) | String.IsEqual(ListItem.dbtype,tvshow) | String.IsEqual(ListItem.dbtype,season) | String.IsEqual(ListItem.dbtype,movie)]
+				</visible>
+			</item>
+			<item library="resources\lib\context\tmdbListManager.py">
+				<label>$INFO[Window(home).Property(context.fuzzybritches.showFuzzyBritches)]TMDB List Manager</label>
+				<visible>
+					!String.IsEmpty(Window(home).Property(context.fuzzybritches.tmdbListManager)) +
+					String.StartsWith(ListItem.path,plugin://plugin.video.fuzzybritches/) +
+					String.IsEqual(ListItem.Property(isFuzzyBritches_widget),true) +
+					[String.IsEqual(ListItem.dbtype,tvshow) | String.IsEqual(ListItem.dbtype,movie)]
+				</visible>
+			</item>
+			<item library="resources\lib\context\tmdbWatchlist.py">
+				<label>$INFO[Window(home).Property(context.fuzzybritches.showFuzzyBritches)]TMDb Watchlist</label>
+				<visible>
+					!String.IsEmpty(Window(home).Property(context.fuzzybritches.tmdbWatchlist)) +
+					String.StartsWith(ListItem.path,plugin://plugin.video.fuzzybritches/) +
+					String.IsEqual(ListItem.Property(isFuzzyBritches_widget),true) +
+					[String.IsEqual(ListItem.dbtype,tvshow) | String.IsEqual(ListItem.dbtype,movie)]
+				</visible>
+			</item>
 			<item library="resources\lib\context\clearProviders.py">
 				<label>$INFO[Window(home).Property(context.fuzzybritches.showFuzzyBritches)]Clear Providers</label>
 				<visible>
@@ -178,6 +205,7 @@
 			<item library="resources\lib\context\libMdblistManager.py">
 				<label>$INFO[Window(home).Property(context.fuzzybritches.showFuzzyBritches)]MDBList Watchlist Lib</label>
 				<visible>
+					!String.IsEmpty(Window(home).Property(context.fuzzybritches.libMdblistManager)) +
 					[String.Contains(Container.FolderPath,videodb://) | String.Contains(Container.ListItem.FolderPath,videodb://)] +
 					[String.Contains(Container.ListItem.Path,Window(home).Property(fuzzybritches.movieLib.path)) | String.Contains(Container.ListItem.Path,Window(home).Property(fuzzybritches.tvLib.path))] +
 					[String.IsEqual(ListItem.dbtype,episode) | String.IsEqual(ListItem.dbtype,movie)]
@@ -186,6 +214,7 @@
 			<item library="resources\lib\context\addLibtoFavourite.py">
 				<label>$INFO[Window(home).Property(context.fuzzybritches.showFuzzyBritches)]Add/Remove Favourite</label>
 				<visible>
+					!String.IsEmpty(Window(home).Property(context.fuzzybritches.addLibtoFavourite)) +
 					[String.Contains(Container.FolderPath,videodb://) | String.Contains(Container.ListItem.FolderPath,videodb://)] +
 					[String.Contains(Container.ListItem.Path,Window(home).Property(fuzzybritches.movieLib.path)) | String.Contains(Container.ListItem.Path,Window(home).Property(fuzzybritches.tvLib.path))] +
 					[String.IsEqual(ListItem.dbtype,episode) | String.IsEqual(ListItem.dbtype,movie)]
@@ -266,7 +295,7 @@
 		<platform>all</platform>
 		<license>CC BY-NC-SA 4.0</license>
 		<forum />
-		<website>https://github.com/ThePapaw/psmc-21</website>
+		<website>https://zz-members.com/</website>
 		<source>https://github.com/ThePapaw/psmc-21</source>
 		<disclaimer lang="en">The author is not responsible for the use of this addon. The author is not responsible for the content found using this addon. The author does not host or own any content found within this addon.[CR]The author is in no way affiliated with Kodi, Team Kodi, or the XBMC Foundation.[CR]This is a Non-profit resource, organized solely for educational purposes which is protected under the Fair-Use doctrine of the Copyright Act, Specifically section 107, which does promote freedom of expression, by permitting the unlicensed use of copyright-protected works. Use at your own risk!</disclaimer>
 		<assets>
@@ -277,7 +306,9 @@
 			<screenshot>resources/screenshots/screenshot003.jpg</screenshot>
 			<screenshot>resources/screenshots/screenshot004.jpg</screenshot>
 		</assets>
-		<news>See the Changelog in the Tools Menu for more News.[CR]If you would like to show your appreciation for the time and efforts I put into these projects, please buy me [B][COLOR deepskyblue]a cup of coffee[/COLOR][/B] by scanning the QR code or visiting [COLOR deepskyblue]bit.ly/3Lb5nd5[/COLOR].[CR][CR][COLOR gold]Latest Update:[/COLOR][CR]v1.0.0[CR] - Initial Release
+		<news>
+[B]Update - v1.1.21 - June 29th, 2026 [/B]
+--[Fix] Fixed issue for incorrect time format causing double scrapes.
 		</news>
 	</extension>
 

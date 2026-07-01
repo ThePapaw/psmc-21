@@ -5,6 +5,8 @@
 
 import re
 import requests
+from threading import Semaphore
+_rd_magnet_semaphore = Semaphore(3)
 from requests.adapters import HTTPAdapter
 from sys import argv, exit as sysexit
 from urllib3.util.retry import Retry
@@ -64,7 +66,7 @@ class RealDebrid:
 		self.device_code = ''
 		self.auth_timeout = 0
 		self.auth_step = 0
-		self.server_notifications = getSetting('realdebrid.server.notifications')
+		self.server_notifications = getSetting('realdebrid.server.notifications') == 'true'
 		self.store_to_cloud = getSetting('realdebrid.saveToCloud') == 'true'
 		self.highlightColor = control.setting('highlight.color')
 
@@ -84,7 +86,7 @@ class RealDebrid:
 				url += "&auth_token=%s" % self.token
 			response = session.get(url, timeout=45) # cache checkiing of show packs results in random timeout at 30
 			if 'Temporarily Down For Maintenance' in response.text:
-				if self.server_notifications: control.notification(message='Real-Debrid Temporarily Down For Maintenance', icon=rd_icon)
+				if self.server_notifications and not control.homeWindow.getProperty('fuzzybritches.preResolving'): control.notification(message='Real-Debrid Temporarily Down For Maintenance', icon=rd_icon)
 				log_utils.log('Real-Debrid Temporarily Down For Maintenance', level=log_utils.LOGWARNING)
 				return None
 			else: response = response.json()
@@ -94,7 +96,7 @@ class RealDebrid:
 					response = self._get(original_url, fail_check=True)
 			return response
 		except requests.exceptions.ConnectionError:
-			if self.server_notifications: control.notification(message='Failed to connect to Real-Debrid', icon=rd_icon)
+			if self.server_notifications and not control.homeWindow.getProperty('fuzzybritches.preResolving'): control.notification(message='Failed to connect to Real-Debrid', icon=rd_icon)
 			log_utils.log('Failed to connect to Real-Debrid', __name__, log_utils.LOGWARNING)
 		except BaseException:
 			log_utils.error()
@@ -116,7 +118,7 @@ class RealDebrid:
 			response = session.post(url, data=data, timeout=15)
 			if '[204]' in str(response): return None
 			if 'Temporarily Down For Maintenance' in response.text:
-				if self.server_notifications: control.notification(message='Real-Debrid Temporarily Down For Maintenance', icon=rd_icon)
+				if self.server_notifications and not control.homeWindow.getProperty('fuzzybritches.preResolving'): control.notification(message='Real-Debrid Temporarily Down For Maintenance', icon=rd_icon)
 				log_utils.log('Real-Debrid Temporarily Down For Maintenance', level=log_utils.LOGWARNING)
 				return None
 			else: response = response.json()
@@ -125,8 +127,8 @@ class RealDebrid:
 				response = self._post(original_url, data)
 			elif 'error' in response:
 				message = response.get('error')
-				if message == 'action_already_done': return None
-				if self.server_notifications: control.notification(message=message, icon=rd_icon)
+				if message in ('action_already_done', 'infringing_file', 'parameter_missing', 'too_many_requests'): return None
+				if self.server_notifications and not control.homeWindow.getProperty('fuzzybritches.preResolving'): control.notification(message=message, icon=rd_icon)
 				log_utils.log('Real-Debrid Error:  %s' % message, log_utils.LOGWARNING)
 				return None
 			return response
@@ -149,7 +151,7 @@ class RealDebrid:
 				log_utils.error()
 				control.okDialog(title='default', message=40019)
 				if fromSettings == 1:
-					control.openSettings('9.5', 'plugin.video.fuzzybritches')
+					control.openSettings('6.5', 'plugin.video.fuzzybritches')
 			return
 
 	def auth(self, fromSettings=0):
@@ -161,8 +163,9 @@ class RealDebrid:
 		line = '%s\n%s\n%s'
 		if control.setting('dialogs.usefuzzybritchesdialog') == 'true':
 			from resources.lib.modules import tools
-			rd_qr = tools.make_qr(response.get('direct_verification_url'))
-			self.progressDialog = control.getProgressWindow(getLS(40055), rd_qr, 1)
+			direct_url = response.get('direct_verification_url') or ('%s?user_code=%s' % (response.get('verification_url', 'https://real-debrid.com/device'), response.get('user_code', '')))
+			rd_qr = tools.make_qr(direct_url, 'rd_qr.png')
+			self.progressDialog = control.getProgressWindow(getLS(40055), rd_qr, 1 if rd_qr else 0)
 			self.progressDialog.set_controls()
 		else:
 			self.progressDialog = control.progressDialog
@@ -256,11 +259,13 @@ class RealDebrid:
 		extensions = supported_video_extensions()
 		try:
 			#file_info = [i for i in torrent_files['files'] if i['path'].lower().endswith(tuple(extensions))] original before tiki change
-			file_info = [i for i in torrent_files['files'] if i['selected'] == 1 and i['path'].lower().endswith(tuple(extensions))]
 			file_urls = torrent_files['links']
-			for c, i in enumerate(file_info):
-				try: i.update({'url_link': file_urls[c]})
-				except: pass
+			all_selected = [i for i in torrent_files['files'] if i['selected'] == 1]
+			for c, i in enumerate(all_selected):
+				if i['path'].lower().endswith(tuple(extensions)):
+					try: i.update({'url_link': file_urls[c]})
+					except: pass
+			file_info = [i for i in all_selected if 'url_link' in i]
 			pack_info = sorted(file_info, key=lambda k: k['path'])
 		except:
 			if self.server_notifications: control.notification(message='Real-Debrid Error:  browse_user_torrents failed', icon=rd_icon)
@@ -392,73 +397,76 @@ class RealDebrid:
 	def resolve_magnet(self, magnet_url, info_hash, season, episode, title):
 		from resources.lib.modules.source_utils import seas_ep_filter, extras_filter
 		# from resources.lib.cloud_scrapers.cloud_utils import cloud_check_title # alias and title checking no longer used
-		try:
-			#failed_reason, torrent_id, file_url, match = 'Unknown', None, None, False
-			extensions = supported_video_extensions()
-			extras_filtering_list = extras_filter()
-			info_hash = info_hash.lower()
-			compare_title = re.sub(r'[^A-Za-z0-9-]+', '.', title.replace('\'', '').replace('&', 'and').replace('%', '.percent')).lower()
-			elapsed_time, transfer_finished = 0, False
-			self.rd_check_max()
-			torrent_id = self.add_magnet(magnet_url)
-			self.add_torrent_select(torrent_id,'all')
-			torrent_info = self.user_cloud_info_check(torrent_id)
-			if not torrent_info['links'] or 'error' in torrent_info: 
-				self.delete_torrent(torrent_id)
-				return None
-			control.sleep(1000)
-			while elapsed_time <= 4 and not transfer_finished:
-				active_count = self.torrents_activeCount()
-				active_list = active_count['list']
-				elapsed_time += 1
-				if info_hash in active_list: control.sleep(1000)
-				else: transfer_finished = True
-			if not transfer_finished:
-				self.delete_torrent(torrent_id)
-				return None
-			selected_files = [(idx, i) for idx, i in enumerate([i for i in torrent_info['files'] if i['selected'] == 1 and i['path'].lower().endswith(tuple(extensions))])]
-			selected_files = sorted(selected_files, key=lambda x: x[1]['bytes'], reverse=True)
-			match = False
-			if season:
-				correct_files = []
-				correct_file_check = False
-				for value in selected_files:
-					correct_file_check = seas_ep_filter(season, episode, value[1]['path'])
-					if correct_file_check: correct_files.append(value[1]); break
-				if len(correct_files) == 0: match = False
+		with _rd_magnet_semaphore:
+			try:
+				failed_reason, torrent_id, file_url = 'Unknown', None, None
+				extensions = supported_video_extensions()
+				extras_filtering_list = extras_filter()
+				info_hash = info_hash.lower()
+				compare_title = re.sub(r'[^A-Za-z0-9-]+', '.', title.replace('\'', '').replace('&', 'and').replace('%', '.percent')).lower()
+				elapsed_time, transfer_finished = 0, False
+				self.rd_check_max()
+				torrent_id = self.add_magnet(magnet_url)
+				if not torrent_id:
+					return None
+				self.add_torrent_select(torrent_id,'all')
+				torrent_info = self.user_cloud_info_check(torrent_id)
+				if not torrent_info or not torrent_info.get('links') or 'error' in torrent_info:
+					self.delete_torrent(torrent_id)
+					return None
+				control.sleep(1000)
+				while elapsed_time <= 4 and not transfer_finished:
+					active_count = self.torrents_activeCount()
+					active_list = active_count['list']
+					elapsed_time += 1
+					if info_hash in active_list: control.sleep(1000)
+					else: transfer_finished = True
+				if not transfer_finished:
+					self.delete_torrent(torrent_id)
+					return None
+				selected_files = [(idx, i) for idx, i in enumerate([i for i in torrent_info['files'] if i['selected'] == 1]) if i['path'].lower().endswith(tuple(extensions))]
+				selected_files = sorted(selected_files, key=lambda x: x[1]['bytes'], reverse=True)
+				match = False
+				if season:
+					correct_files = []
+					correct_file_check = False
+					for value in selected_files:
+						correct_file_check = seas_ep_filter(season, episode, value[1]['path'])
+						if correct_file_check: correct_files.append(value[1]); break
+					if len(correct_files) == 0: match = False
+					else:
+						for i in correct_files:
+							compare_link = seas_ep_filter(season, episode, i['path'], split=True)
+							compare_link = re.sub(compare_title, '', compare_link)
+							if any(x in compare_link for x in extras_filtering_list): continue
+							else: match = True; break
+					if match: index = [i[0] for i in selected_files if i[1]['path'] == correct_files[0]['path']][0]
 				else:
-					for i in correct_files:
-						compare_link = seas_ep_filter(season, episode, i['path'], split=True)
-						compare_link = re.sub(compare_title, '', compare_link)
-						if any(x in compare_link for x in extras_filtering_list): continue
-						else: match = True; break
-				if match: index = [i[0] for i in selected_files if i[1]['path'] == correct_files[0]['path']][0]
-			else:
-				for value in selected_files:
-					filename = re.sub(r'[^A-Za-z0-9-]+', '.', value[1]['path'].rsplit('/', 1)[1].replace('\'', '').replace('&', 'and').replace('%', '.percent')).lower()
-					filename_info = filename.replace(compare_title, '')
-					if any(x in filename_info for x in extras_filtering_list): continue
-					match, index = True, value[0]; break
-			if match:
-				rd_link = torrent_info['links'][index]
-				file_url = self.unrestrict_link(rd_link)
-				if file_url.endswith('rar'):
-					file_url, failed_reason = None, 'RD returned unsupported .rar file --> %s' % file_url
-				try:
-					if not any(file_url.lower().endswith(x) for x in extensions):
-						file_url, failed_reason = None, 'RD returned unsupported file extension --> %s' % file_url
-				except:
-						file_url, failed_reason = None, 'RD returned unsupported file extension or error getting file extension.' 
-				if not self.store_to_cloud: self.delete_torrent(torrent_id)
-			else:
-				self.delete_torrent(torrent_id)
-			if not file_url:
-				log_utils.log('Real-Debrid: FAILED TO RESOLVE MAGNET "%s" : (%s)' % (magnet_url, failed_reason), __name__, log_utils.LOGWARNING)
-				self.delete_torrent(torrent_id)
-			return file_url
-		except:
-			log_utils.error('Real-Debrid: Error RESOLVE MAGNET "%s" ' % magnet_url)
-			if torrent_id: self.delete_torrent(torrent_id)
+					for value in selected_files:
+						filename = re.sub(r'[^A-Za-z0-9-]+', '.', value[1]['path'].rsplit('/', 1)[1].replace('\'', '').replace('&', 'and').replace('%', '.percent')).lower()
+						filename_info = filename.replace(compare_title, '')
+						if any(x in filename_info for x in extras_filtering_list): continue
+						match, index = True, value[0]; break
+				if match:
+					rd_link = torrent_info['links'][index]
+					file_url = self.unrestrict_link(rd_link)
+					if file_url.endswith('rar'):
+						file_url, failed_reason = None, 'RD returned unsupported .rar file --> %s' % file_url
+					try:
+						if not any(file_url.lower().endswith(x) for x in extensions):
+							file_url, failed_reason = None, 'RD returned unsupported file extension --> %s' % file_url
+					except:
+							file_url, failed_reason = None, 'RD returned unsupported file extension or error getting file extension.'
+					if not self.store_to_cloud: self.delete_torrent(torrent_id)
+				else:
+					self.delete_torrent(torrent_id)
+				if not file_url:
+					log_utils.log('Real-Debrid: FAILED TO RESOLVE MAGNET "%s" : (%s)' % (magnet_url, failed_reason), __name__, log_utils.LOGWARNING)
+					self.delete_torrent(torrent_id)
+				return file_url
+			except:
+				log_utils.error('Real-Debrid: Error RESOLVE MAGNET "%s" ' % magnet_url)
+				if torrent_id: self.delete_torrent(torrent_id)
 			return None
 
 	def display_magnet_pack(self, magnet_url, info_hash):
@@ -518,39 +526,44 @@ class RealDebrid:
 		if 'error_code' in torrent_info: return _return_failed()
 		status = torrent_info['status']
 		line = '%s\n%s\n%s'
+		show_popup = control.setting('torrent.cacheprogress.dialog') != 'false'
 		if status == 'magnet_conversion':
 			line1 = getLS(40013)
 			line2 = torrent_info['filename']
 			line3 = getLS(40012) % str(torrent_info['seeders'])
 			timeout = 100
 			###################
-			if control.setting('dialogs.usefuzzybritchesdialog') == 'true':
-				self.progressDialog = control.getProgressWindow(getLS(40018), None, 0)
-				self.progressDialog.set_controls()
-				self.progressDialog.update(0, line % (line1, line2, line3))
-			else:
-				self.progressDialog = control.progressDialog
-				self.progressDialog.create(getLS(40018), line % (line1, line2, line3))
+			if show_popup:
+				if control.setting('dialogs.usefuzzybritchesdialog') == 'true':
+					self.progressDialog = control.getProgressWindow(getLS(40018), None, 0)
+					self.progressDialog.set_controls()
+					self.progressDialog.update(0, line % (line1, line2, line3))
+				else:
+					self.progressDialog = control.progressDialog
+					self.progressDialog.create(getLS(40018), line % (line1, line2, line3))
 			while status == 'magnet_conversion' and timeout > 0:
-				self.progressDialog.update(timeout, line % (line1, line2, line3))
+				if show_popup:
+					self.progressDialog.update(timeout, line % (line1, line2, line3))
 				if control.monitor.abortRequested(): return sysexit()
-				try:
-					if self.progressDialog.iscanceled(): return _return_failed(getLS(40014))
-				except: pass
+				if show_popup:
+					try:
+						if self.progressDialog.iscanceled(): return _return_failed(getLS(40014))
+					except: pass
 				timeout -= interval
 				control.sleep(1000 * interval)
 				torrent_info = self.torrent_info(torrent_id)
 				status = torrent_info['status']
 				if any(x in status for x in stalled): return _return_failed()
 				line3 = getLS(40012) % str(torrent_info['seeders'])
-			try: self.progressDialog.close()
-			except: pass
+			if show_popup:
+				try: self.progressDialog.close()
+				except: pass
 		if status == 'downloaded':
 			control.busy()
 			return True
 		if status == 'magnet_conversion': return _return_failed()
 		if any(x in status for x in stalled): return _return_failed(status)
-		if status == 'waiting_files_selection': 
+		if status == 'waiting_files_selection':
 			video_files = []
 			append = video_files.append
 			all_files = torrent_info['files']
@@ -585,13 +598,14 @@ class RealDebrid:
 			line1 = '%s...' % (getLS(40017) % getLS(40058))
 			line2 = torrent_info['filename']
 			line3 = status
-			if control.setting('dialogs.usefuzzybritchesdialog') == 'true':
-				self.progressDialog = control.getProgressWindow(getLS(40018), None, 0)
-				self.progressDialog.set_controls()
-				self.progressDialog.update(0, line % (line1, line2, line3))
-			else:
-				self.progressDialog = control.progressDialog
-				self.progressDialog.create(getLS(40018), line % (line1, line2, line3))
+			if show_popup:
+				if control.setting('dialogs.usefuzzybritchesdialog') == 'true':
+					self.progressDialog = control.getProgressWindow(getLS(40018), None, 0)
+					self.progressDialog.set_controls()
+					self.progressDialog.update(0, line % (line1, line2, line3))
+				else:
+					self.progressDialog = control.progressDialog
+					self.progressDialog.create(getLS(40018), line % (line1, line2, line3))
 			while not status == 'downloaded':
 				control.sleep(1000 * interval)
 				torrent_info = self.torrent_info(torrent_id)
@@ -600,20 +614,23 @@ class RealDebrid:
 					line3 = getLS(40011) % (file_size, round(float(torrent_info['speed']) / (1000**2), 2), torrent_info['seeders'], torrent_info['progress'])
 				else:
 					line3 = status
-				self.progressDialog.update(int(float(torrent_info['progress'])), line % (line1, line2, line3))
+				if show_popup:
+					self.progressDialog.update(int(float(torrent_info['progress'])), line % (line1, line2, line3))
 				if control.monitor.abortRequested(): return sysexit()
-				try:
-					if self.progressDialog.iscanceled():
-						if control.yesnoDialog('Delete RD download also?', 'No will continue the download', 'but close dialog','Real-Debrid','No','Yes'):
-							return _return_failed(getLS(40014))
-						else:
-							self.progressDialog.close()
-							control.hide()
-							return False
-				except: pass
+				if show_popup:
+					try:
+						if self.progressDialog.iscanceled():
+							if control.yesnoDialog('Delete RD download also?', 'No will continue the download', 'but close dialog','Real-Debrid','No','Yes'):
+								return _return_failed(getLS(40014))
+							else:
+								self.progressDialog.close()
+								control.hide()
+								return False
+					except: pass
 				if any(x in status for x in stalled): return _return_failed()
-			try: self.progressDialog.close()
-			except: pass
+			if show_popup:
+				try: self.progressDialog.close()
+				except: pass
 			control.hide()
 			return True
 		control.hide()
@@ -643,7 +660,7 @@ class RealDebrid:
 
 			response = self._post(add_magnet_url, data)
 			log_utils.log('Real-Debrid: Sending MAGNET to cloud: %s' % magnet, __name__, log_utils.LOGDEBUG)
-			return response.get('id', "")
+			return response.get('id', "") if response else ""
 		except: log_utils.error('Real-Debrid Error: ADD MAGNET to cloud%s : ' % magnet)
 
 	def add_torrent_select(self, torrent_id, file_ids):
@@ -783,7 +800,7 @@ class RealDebrid:
 				if self.server_notifications: control.notification(message='Real-Debrid Temporarily Down For Maintenance', icon=rd_icon)
 				log_utils.log('Real-Debrid Temporarily Down For Maintenance', level=log_utils.LOGWARNING)
 				if fromSettings == 1:
-					control.openSettings('9.5', 'plugin.video.fuzzybritches')
+					control.openSettings('6.5', 'plugin.video.fuzzybritches')
 				return False, response.text
 			else: response = response.json()
 
@@ -792,29 +809,30 @@ class RealDebrid:
 				if self.server_notifications: control.notification(message=message, icon=rd_icon)
 				log_utils.log('Real-Debrid Error:  %s' % message, level=log_utils.LOGWARNING)
 				if fromSettings == 1:
-					control.openSettings('9.5', 'plugin.video.fuzzybritches')
+					control.openSettings('6.5', 'plugin.video.fuzzybritches')
 				return False, response
 
 			self.token = response['access_token']
-			control.sleep(500)
-			account_info = self.account_info()
-			username = account_info['username']
 			control.homeWindow.setProperty('fuzzybritches.updateSettings', 'false')
-			control.setSetting('realdebridusername', username)
 			control.setSetting('realdebrid.clientid', self.client_ID)
-			control.setSetting('realdebridsecret', self.secret,)
+			control.setSetting('realdebridsecret', self.secret)
 			control.setSetting('realdebridtoken', self.token)
 			#control.addon('script.module.myaccounts').setSetting('realdebridtoken', self.token)
 			control.homeWindow.setProperty('fuzzybritches.updateSettings', 'true')
 			control.setSetting('realdebridrefresh', response['refresh_token'])
+			control.sleep(500)
+			account_info = self.account_info()
+			username = account_info['username'] if account_info else ''
+			if username:
+				control.setSetting('realdebridusername', username)
 			if fromSettings == 1:
-				control.openSettings('9.5', 'plugin.video.fuzzybritches')
+				control.openSettings('6.5', 'plugin.video.fuzzybritches')
 				control.notification(message="Real Debrid Authorized", icon=rd_icon)
 			return True, None
 		except:
 			log_utils.error('Real Debrid Authorization Failed : ')
 			if fromSettings == 1:
-				control.openSettings('9.5', 'plugin.video.fuzzybritches')
+				control.openSettings('6.5', 'plugin.video.fuzzybritches')
 			return False, None
 
 	def reset_authorization(self, fromSettings=0):
@@ -827,7 +845,7 @@ class RealDebrid:
 			control.homeWindow.setProperty('fuzzybritches.updateSettings', 'true')
 			control.setSetting('realdebridusername', '')
 			if fromSettings == 1:
-				control.openSettings('9.5', 'plugin.video.fuzzybritches')
+				control.openSettings('6.5', 'plugin.video.fuzzybritches')
 			control.dialog.ok(getLS(40058), getLS(32320))
 
 		except: log_utils.error()

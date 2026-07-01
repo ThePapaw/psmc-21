@@ -23,7 +23,10 @@ def fetch_movie(imdb, tmdb):
 		
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 	return list
 
 def fetch_show(imdb=None, tmdb=None, tvdb=None):
@@ -44,7 +47,10 @@ def fetch_show(imdb=None, tmdb=None, tvdb=None):
 		
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 	return list
 
 def fetch_season(imdb=None, tmdb=None, tvdb=None, season=None):
@@ -65,7 +71,33 @@ def fetch_season(imdb=None, tmdb=None, tvdb=None, season=None):
 		
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
+	return list
+
+def fetch_episode(imdb=None, tmdb=None, tvdb=None, season=None, episode=None):
+	list = ''
+	try:
+		dbcon = get_connection()
+		dbcur = get_connection_cursor(dbcon)
+		ck_table = dbcur.execute('''SELECT * FROM sqlite_master WHERE type='table' AND name=?;''', ('episodes',)).fetchone()
+		if not ck_table:
+			dbcur.execute('''CREATE TABLE IF NOT EXISTS %s (imdb TEXT, tmdb TEXT, tvdb TEXT, season TEXT, episode TEXT, thumb TEXT, poster TEXT, fanart TEXT, landscape TEXT, banner TEXT, clearart TEXT, clearlogo TEXT, UNIQUE(imdb, season, episode));''' % 'episodes')
+			dbcur.connection.commit()
+			return list
+		try:
+			match = dbcur.execute('''SELECT * FROM episodes WHERE (imdb=? OR tvdb=?) AND season=? AND episode=?''', (imdb, tvdb, season, episode)).fetchall()
+			list = [{'imdb': i[0], 'tmdb': i[1], 'tvdb': i[2], 'season': i[3], 'episode': i[4], 'thumb': i[5], 'poster': i[6], 'fanart': i[7], 'landscape': i[8], 'banner': i[9], 'clearart': i[10], 'clearlogo': i[11]} for i in match]
+		except: pass
+	except:
+		log_utils.error()
+	finally:
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 	return list
 
 def manager(**kwargs):
@@ -83,6 +115,7 @@ def manager(**kwargs):
 	clearart = kwargs.get('clearart')
 	discart = kwargs.get('discart')
 	keyart = kwargs.get('keyart')
+	thumb = kwargs.get('thumb')
 	lists = []
 	try:
 		if season: season = int(season)
@@ -92,8 +125,15 @@ def manager(**kwargs):
 		items = []
 		movieartworkItems = [{'poster': poster}, {'fanart': fanart}, {'landscape': landscape},{'banner': banner},{'clearart': clearart}, {'clearlogo': clearlogo}, {'discart': discart}, {'keyart': keyart}]
 		tvshowartworkItems = [{'poster': poster}, {'fanart': fanart}, {'landscape': landscape},{'banner': banner},{'clearart': clearart}, {'clearlogo': clearlogo}]
+		episodeartworkItems = [{'thumb': thumb}, {'poster': poster}, {'fanart': fanart}, {'landscape': landscape},{'banner': banner},{'clearart': clearart}, {'clearlogo': clearlogo}]
 		if mediatype == 'movie':
 			for artwork in movieartworkItems:
+				for key, value in artwork.items():
+					item = control.item(label=key, offscreen=True)
+					item.setArt({'thumb': value})
+					items.append(item)
+		elif mediatype == 'episode':
+			for artwork in episodeartworkItems:
 				for key, value in artwork.items():
 					item = control.item(label=key, offscreen=True)
 					item.setArt({'thumb': value})
@@ -113,30 +153,9 @@ def manager(**kwargs):
 		if select >= 0:
 			if items[select].getLabel() == 'Reset All':
 				delete_artwork(season=season, episode=episode, media_type=mediatype,imdb=imdb, tmdb=tmdb)
-			if items[select].getLabel() == 'poster':
+			if items[select].getLabel() in ('thumb', 'poster', 'fanart', 'landscape', 'banner', 'clearart', 'clearlogo', 'discart', 'keyart'):
 				heading = str(items[select].getLabel()) + ' artwork for: %s' % control.infoLabel('Container.ListItem.Title')
-				show_artwork_window(season=season, episode=episode, imdb=imdb, tmdb=tmdb, tvdb=tvdb, mediatype=mediatype, heading=heading, artworktype=str(items[select].getLabel()), title=control.infoLabel('Container.ListItem.Title'), poster=poster, fanart=fanart, landscape=landscape, banner=banner, clearart=clearart, clearlogo=clearlogo, discart=discart, keyart=keyart)
-			if items[select].getLabel() == 'fanart':
-				heading = str(items[select].getLabel()) + ' artwork for: %s' % control.infoLabel('Container.ListItem.Title')
-				show_artwork_window(season=season, episode=episode, imdb=imdb, tmdb=tmdb, tvdb=tvdb, mediatype=mediatype, heading=heading, artworktype=str(items[select].getLabel()), title=control.infoLabel('Container.ListItem.Title'), poster=poster, fanart=fanart, landscape=landscape, banner=banner, clearart=clearart, clearlogo=clearlogo, discart=discart, keyart=keyart)
-			if items[select].getLabel() == 'landscape':
-				heading = str(items[select].getLabel()) + ' artwork for: %s' % control.infoLabel('Container.ListItem.Title')
-				show_artwork_window(season=season, episode=episode, imdb=imdb, tmdb=tmdb, tvdb=tvdb, mediatype=mediatype, heading=heading, artworktype=str(items[select].getLabel()), title=control.infoLabel('Container.ListItem.Title'), poster=poster, fanart=fanart, landscape=landscape, banner=banner, clearart=clearart, clearlogo=clearlogo, discart=discart, keyart=keyart)
-			if items[select].getLabel() == 'banner':
-				heading = str(items[select].getLabel()) + ' artwork for: %s' % control.infoLabel('Container.ListItem.Title')
-				show_artwork_window(season=season, episode=episode, imdb=imdb, tmdb=tmdb, tvdb=tvdb, mediatype=mediatype, heading=heading, artworktype=str(items[select].getLabel()), title=control.infoLabel('Container.ListItem.Title'), poster=poster, fanart=fanart, landscape=landscape, banner=banner, clearart=clearart, clearlogo=clearlogo, discart=discart, keyart=keyart)
-			if items[select].getLabel() == 'clearart':
-				heading = str(items[select].getLabel()) + ' artwork for: %s' % control.infoLabel('Container.ListItem.Title')
-				show_artwork_window(season=season, episode=episode, imdb=imdb, tmdb=tmdb, tvdb=tvdb, mediatype=mediatype, heading=heading, artworktype=str(items[select].getLabel()), title=control.infoLabel('Container.ListItem.Title'), poster=poster, fanart=fanart, landscape=landscape, banner=banner, clearart=clearart, clearlogo=clearlogo, discart=discart, keyart=keyart)
-			if items[select].getLabel() == 'clearlogo':
-				heading = str(items[select].getLabel()) + ' artwork for: %s' % control.infoLabel('Container.ListItem.Title')
-				show_artwork_window(season=season, episode=episode, imdb=imdb, tmdb=tmdb, tvdb=tvdb, mediatype=mediatype, heading=heading, artworktype=str(items[select].getLabel()), title=control.infoLabel('Container.ListItem.Title'), poster=poster, fanart=fanart, landscape=landscape, banner=banner, clearart=clearart, clearlogo=clearlogo, discart=discart, keyart=keyart)
-			if items[select].getLabel() == 'discart':
-				heading = str(items[select].getLabel()) + ' artwork for: %s' % control.infoLabel('Container.ListItem.Title')
-				show_artwork_window(season=season, episode=episode, imdb=imdb, tmdb=tmdb, tvdb=tvdb, mediatype=mediatype, heading=heading, artworktype=str(items[select].getLabel()), title=control.infoLabel('Container.ListItem.Title'), poster=poster, fanart=fanart, landscape=landscape, banner=banner, clearart=clearart, clearlogo=clearlogo, discart=discart, keyart=keyart)
-			if items[select].getLabel() == 'keyart':
-				heading = str(items[select].getLabel()) + ' artwork for: %s' % control.infoLabel('Container.ListItem.Title')
-				show_artwork_window(season=season, episode=episode, imdb=imdb, tmdb=tmdb, tvdb=tvdb, mediatype=mediatype, heading=heading, artworktype=str(items[select].getLabel()), title=control.infoLabel('Container.ListItem.Title'), poster=poster, fanart=fanart, landscape=landscape, banner=banner, clearart=clearart, clearlogo=clearlogo, discart=discart, keyart=keyart)
+				show_artwork_window(season=season, episode=episode, imdb=imdb, tmdb=tmdb, tvdb=tvdb, mediatype=mediatype, heading=heading, artworktype=str(items[select].getLabel()), title=control.infoLabel('Container.ListItem.Title'), thumb=thumb, poster=poster, fanart=fanart, landscape=landscape, banner=banner, clearart=clearart, clearlogo=clearlogo, discart=discart, keyart=keyart)
 			control.hide()
 
 			is_widget = 'plugin' not in control.infoLabel('Container.PluginName')
@@ -149,7 +168,7 @@ def manager(**kwargs):
 
 def show_artwork_window(**kwargs):
 	global mediatype, heading, artworkType, imdb, tmdb, tvdb, season, episode, title
-	global poster, fanart, landscape, banner, clearart, clearlogo, discart, keyart
+	global thumb, poster, fanart, landscape, banner, clearart, clearlogo, discart, keyart
 
 	mediatype = kwargs.get('mediatype', '')
 	heading = kwargs.get('heading', 'FuzzyBritches Art')
@@ -160,6 +179,7 @@ def show_artwork_window(**kwargs):
 	season = kwargs.get('season', '')
 	episode = kwargs.get('episode', '')
 	title = kwargs.get('title')
+	thumb = kwargs.get('thumb')
 	poster = kwargs.get('poster')
 	fanart = kwargs.get('fanart')
 	landscape = kwargs.get('landscape')
@@ -197,6 +217,9 @@ def show_artwork_window(**kwargs):
 			if mediatype == 'season' and selectedUrl == '':
 				delete_artwork_one_item(media_type=mediatype, artworkType=artworkType, imdb=imdb, season=season)
 				return
+			if mediatype == 'episode' and selectedUrl == '':
+				delete_artwork_one_item(media_type=mediatype, artworkType=artworkType, imdb=imdb, season=season, episode=episode)
+				return
 
 			globals()[artworkType] = selectedUrl
 
@@ -206,13 +229,15 @@ def show_artwork_window(**kwargs):
 				add_movie_entry(artworkType=artworkType, media_type=mediatype, imdb=imdb, tmdb=tmdb, tvdb=tvdb, season=season, episode=episode, url=selectedUrl)
 			if mediatype == 'season':
 				add_season_entry(artworkType=artworkType, media_type=mediatype, imdb=imdb, tmdb=tmdb, tvdb=tvdb, season=season, url=selectedUrl)
+			if mediatype == 'episode':
+				add_episode_entry(artworkType=artworkType, media_type=mediatype, imdb=imdb, tmdb=tmdb, tvdb=tvdb, season=season, episode=episode, url=selectedUrl)
 			if control.setting('debug.level') == '1':
 				from resources.lib.modules import log_utils
 				log_utils.log('selected item: %s' % str(items[selected_items]), 1)
 
 		control.hide()
-		manager(mediatype=mediatype, imdb=imdb, tmdb=tmdb, tvdb=tvdb, season=season, episode=episode, 
-				poster=poster, fanart=fanart, landscape=landscape, banner=banner, clearart=clearart, 
+		manager(mediatype=mediatype, imdb=imdb, tmdb=tmdb, tvdb=tvdb, season=season, episode=episode,
+				thumb=thumb, poster=poster, fanart=fanart, landscape=landscape, banner=banner, clearart=clearart,
 				clearlogo=clearlogo, discart=discart, keyart=keyart)
 
 	except:
@@ -233,7 +258,36 @@ def get_artwork(**kwargs):
 		if tmdbList:
 			artworkList.extend(tmdbList)
 		return artworkList
-	if arttype == 'show' or 'season':
+	if arttype == 'episode':
+		artworkList = []
+		if kwargs.get('artwork_type') == 'thumb':
+			# Episode stills from TMDb
+			from resources.lib.indexers import tmdb
+			tmdbList = tmdb.TVshows().get_all_episode_art(tmdb=kwargs.get('tmdb',''), season=kwargs.get('season',''), episode=kwargs.get('episode',''), artwork_type='thumb')
+			if tmdbList:
+				artworkList.extend(tmdbList)
+			# Show backgrounds from FanartTV (wide backdrop images, good for episode thumb)
+			from resources.lib.indexers import fanarttv
+			fanartBGList = fanarttv.FanartTv().get_all_show_art(imdb=kwargs.get('imdb',''), tmdb=kwargs.get('tmdb',''), tvdb=kwargs.get('tvdb',''), artwork_type='fanart')
+			if fanartBGList and fanartBGList != '404:NOT FOUND':
+				for idx, item in enumerate(fanartBGList, start=1):
+					artworkList.append({'artworkType': 'thumb', 'source': 'Fanart BG %s' % idx, 'url': item.get('url')})
+			# Show backdrops from TMDb (same wide backdrop images)
+			tmdbBGList = tmdb.TVshows().get_all_show_art(imdb=kwargs.get('imdb',''), tmdb=kwargs.get('tmdb',''), tvdb=kwargs.get('tvdb',''), artwork_type='fanart')
+			if tmdbBGList:
+				for idx, item in enumerate(tmdbBGList, start=1):
+					artworkList.append({'artworkType': 'thumb', 'source': 'Tmdb BG %s' % idx, 'url': item.get('url')})
+		else:
+			from resources.lib.indexers import fanarttv
+			fanartList = fanarttv.FanartTv().get_all_show_art(imdb=kwargs.get('imdb',''), tmdb=kwargs.get('tmdb',''), tvdb=kwargs.get('tvdb',''), artwork_type=kwargs.get('artwork_type'))
+			if fanartList and fanartList != '404:NOT FOUND':
+				artworkList.extend(fanartList)
+			from resources.lib.indexers import tmdb
+			tmdbList = tmdb.TVshows().get_all_show_art(imdb=kwargs.get('imdb',''), tmdb=kwargs.get('tmdb',''), tvdb=kwargs.get('tvdb',''), artwork_type=kwargs.get('artwork_type'))
+			if tmdbList:
+				artworkList.extend(tmdbList)
+		return artworkList
+	if arttype in ('show', 'season'):
 		artworkList = []
 		from resources.lib.indexers import fanarttv
 		fanartList = fanarttv.FanartTv().get_all_show_art(imdb=kwargs.get('imdb',''), tmdb=kwargs.get('tmdb',''), tvdb=kwargs.get('tvdb',''), artwork_type=kwargs.get('artwork_type'))
@@ -267,7 +321,10 @@ def delete_artwork(**kwargs):
 		except:
 			log_utils.error()
 		finally:
-			dbcur.close() ; dbcon.close()
+			try: dbcur.close()
+			except: pass
+			try: dbcon.close()
+			except: pass
 	elif kwargs.get('media_type') == 'show':
 		try:
 			dbcon = get_connection()
@@ -285,7 +342,10 @@ def delete_artwork(**kwargs):
 		except:
 			log_utils.error()
 		finally:
-			dbcur.close() ; dbcon.close()
+			try: dbcur.close()
+			except: pass
+			try: dbcon.close()
+			except: pass
 	elif kwargs.get('media_type') == 'season':
 		try:
 			dbcon = get_connection()
@@ -296,6 +356,7 @@ def delete_artwork(**kwargs):
 				dbcur.connection.commit()
 			try:
 				imdb = kwargs.get('imdb','')
+				season = kwargs.get('season','')
 				dbcur.execute("DELETE FROM seasons WHERE imdb = ? and season = ?;", (imdb, season,))
 			except Exception as e:
 				log_utils.log("Exception: %s" % (str(e)), 1)  # Log the problematic item
@@ -303,7 +364,33 @@ def delete_artwork(**kwargs):
 		except:
 			log_utils.error()
 		finally:
-			dbcur.close() ; dbcon.close()
+			try: dbcur.close()
+			except: pass
+			try: dbcon.close()
+			except: pass
+	elif kwargs.get('media_type') == 'episode':
+		try:
+			dbcon = get_connection()
+			dbcur = get_connection_cursor(dbcon)
+			ck_table = dbcur.execute('''SELECT * FROM sqlite_master WHERE type='table' AND name=?;''', ('episodes',)).fetchone()
+			if not ck_table:
+				dbcur.execute('''CREATE TABLE IF NOT EXISTS %s (imdb TEXT, tmdb TEXT, tvdb TEXT, season TEXT, episode TEXT, thumb TEXT, poster TEXT, fanart TEXT, landscape TEXT, banner TEXT, clearart TEXT, clearlogo TEXT, UNIQUE(imdb, season, episode));''' % 'episodes')
+				dbcur.connection.commit()
+			try:
+				imdb = kwargs.get('imdb','')
+				season = kwargs.get('season','')
+				episode = kwargs.get('episode','')
+				dbcur.execute("DELETE FROM episodes WHERE imdb = ? AND season = ? AND episode = ?;", (imdb, season, episode,))
+			except Exception as e:
+				log_utils.log("Exception: %s" % (str(e)), 1)  # Log the problematic item
+			dbcur.connection.commit()
+		except:
+			log_utils.error()
+		finally:
+			try: dbcur.close()
+			except: pass
+			try: dbcon.close()
+			except: pass
 	else:
 		pass
 
@@ -327,7 +414,10 @@ def delete_artwork_one_item(**kwargs):
 		except:
 			log_utils.error()
 		finally:
-			dbcur.close() ; dbcon.close()
+			try: dbcur.close()
+			except: pass
+			try: dbcon.close()
+			except: pass
 	elif kwargs.get('media_type') == 'show':
 		try:
 			dbcon = get_connection()
@@ -346,7 +436,10 @@ def delete_artwork_one_item(**kwargs):
 		except:
 			log_utils.error()
 		finally:
-			dbcur.close() ; dbcon.close()
+			try: dbcur.close()
+			except: pass
+			try: dbcon.close()
+			except: pass
 	elif kwargs.get('media_type') == 'season':
 		try:
 			dbcon = get_connection()
@@ -357,15 +450,43 @@ def delete_artwork_one_item(**kwargs):
 				dbcur.connection.commit()
 			try:
 				imdb = kwargs.get('imdb','')
-				artworkType = kwargs.get('artwork_type')
-				dbcur.execute(f"UPDATE shows SET {artworkType} = NULL WHERE imdb = ? and season = ?;", (imdb, season,))
+				season = kwargs.get('season','')
+				artworkType = kwargs.get('artworkType', kwargs.get('artwork_type'))
+				dbcur.execute(f"UPDATE seasons SET {artworkType} = NULL WHERE imdb = ? AND season = ?;", (imdb, season,))
 			except Exception as e:
 				log_utils.log("Exception: %s" % (str(e)), 1)  # Log the problematic item
 			dbcur.connection.commit()
 		except:
 			log_utils.error()
 		finally:
-			dbcur.close() ; dbcon.close()
+			try: dbcur.close()
+			except: pass
+			try: dbcon.close()
+			except: pass
+	elif kwargs.get('media_type') == 'episode':
+		try:
+			dbcon = get_connection()
+			dbcur = get_connection_cursor(dbcon)
+			ck_table = dbcur.execute('''SELECT * FROM sqlite_master WHERE type='table' AND name=?;''', ('episodes',)).fetchone()
+			if not ck_table:
+				dbcur.execute('''CREATE TABLE IF NOT EXISTS %s (imdb TEXT, tmdb TEXT, tvdb TEXT, season TEXT, episode TEXT, thumb TEXT, poster TEXT, fanart TEXT, landscape TEXT, banner TEXT, clearart TEXT, clearlogo TEXT, UNIQUE(imdb, season, episode));''' % 'episodes')
+				dbcur.connection.commit()
+			try:
+				imdb = kwargs.get('imdb','')
+				season = kwargs.get('season','')
+				episode = kwargs.get('episode','')
+				artworkType = kwargs.get('artworkType', kwargs.get('artwork_type'))
+				dbcur.execute(f"UPDATE episodes SET {artworkType} = NULL WHERE imdb = ? AND season = ? AND episode = ?;", (imdb, season, episode,))
+			except Exception as e:
+				log_utils.log("Exception: %s" % (str(e)), 1)  # Log the problematic item
+			dbcur.connection.commit()
+		except:
+			log_utils.error()
+		finally:
+			try: dbcur.close()
+			except: pass
+			try: dbcon.close()
+			except: pass
 
 def add_movie_entry(**kwargs):
 	try:
@@ -386,7 +507,10 @@ def add_movie_entry(**kwargs):
 	except:
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 
 def add_show_entry(**kwargs):
 	try:
@@ -407,7 +531,10 @@ def add_show_entry(**kwargs):
 	except:
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 
 def add_season_entry(**kwargs):
 	try:
@@ -429,7 +556,36 @@ def add_season_entry(**kwargs):
 	except:
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
+
+def add_episode_entry(**kwargs):
+	try:
+		dbcon = get_connection()
+		dbcur = get_connection_cursor(dbcon)
+		ck_table = dbcur.execute('''SELECT * FROM sqlite_master WHERE type='table' AND name=?;''', ('episodes',)).fetchone()
+		if not ck_table:
+			dbcur.execute('''CREATE TABLE IF NOT EXISTS %s (imdb TEXT, tmdb TEXT, tvdb TEXT, season TEXT, episode TEXT, thumb TEXT, poster TEXT, fanart TEXT, landscape TEXT, banner TEXT, clearart TEXT, clearlogo TEXT, UNIQUE(imdb, season, episode));''' % 'episodes')
+			dbcur.connection.commit()
+		try:
+			imdb = kwargs.get('imdb', '')
+			season = kwargs.get('season', '')
+			episode = kwargs.get('episode', '')
+			artworkType = kwargs.get('artworkType', '')
+			url = kwargs.get('url', '')
+			dbcur.execute(f'''INSERT INTO episodes (imdb, season, episode, {artworkType}) VALUES (?, ?, ?, ?) ON CONFLICT(imdb, season, episode) DO UPDATE SET {artworkType} = excluded.{artworkType}, season = excluded.season, episode = excluded.episode''', (imdb, season, episode, url))
+		except Exception as e:
+			log_utils.log("Exception: %s" % (str(e)), 1)
+		dbcur.connection.commit()
+	except:
+		log_utils.error()
+	finally:
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 
 def get_connection(setRowFactory=False):
 	if not existsPath(dataPath): makeFile(dataPath)

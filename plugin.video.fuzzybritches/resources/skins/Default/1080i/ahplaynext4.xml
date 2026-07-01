@@ -12,7 +12,7 @@
     <controls>
         <control type="image">
             <height>400</height>
-            <texture>common/dim-top.png</texture>
+            <texture>common/fuzdim-top.png</texture>
         </control>
         <control type="grouplist">
             <left>15</left>
@@ -29,8 +29,8 @@
                 <onup>3012</onup>
                 <ondown>3011</ondown>
                 <font>font10</font>
-                <texturefocus colordiffuse="$INFO[Window().Property(skin.selectColor)]">common/hideround.png</texturefocus>
-                <texturenofocus colordiffuse="59ffffff">common/hideround2.png</texturenofocus>
+                <texturefocus colordiffuse="$INFO[Window().Property(skin.selectColor)]">common/fuzhideround.png</texturefocus>
+                <texturenofocus colordiffuse="59ffffff">common/fuzhideround2.png</texturenofocus>
                 <align>center</align>
             </control>
             <control type="button" id="3011">
@@ -41,8 +41,8 @@
                 <onup>3013</onup>
                 <ondown>3012</ondown>
                 <font>font10</font>
-                <texturefocus colordiffuse="$INFO[Window().Property(skin.selectColor)]">common/playround.png</texturefocus>
-                <texturenofocus colordiffuse="59ffffff">common/playround2.png</texturenofocus>
+                <texturefocus colordiffuse="$INFO[Window().Property(skin.selectColor)]">common/fuzplayround.png</texturefocus>
+                <texturenofocus colordiffuse="59ffffff">common/fuzplayround2.png</texturenofocus>
                 <align>center</align>
             </control>
             <control type="button" id="3012">
@@ -53,8 +53,8 @@
                 <onup>3011</onup>
                 <ondown>3013</ondown>
                 <font>font10</font>
-                <texturefocus colordiffuse="$INFO[Window().Property(skin.selectColor)]">common/stopround.png</texturefocus>
-                <texturenofocus colordiffuse="59ffffff">common/stopround2.png</texturenofocus>
+                <texturefocus colordiffuse="$INFO[Window().Property(skin.selectColor)]">common/fuzstopround.png</texturefocus>
+                <texturenofocus colordiffuse="59ffffff">common/fuzstopround2.png</texturenofocus>
                 <align>center</align>
             </control>
         </control>
@@ -73,8 +73,8 @@
                 <onup>3012</onup>
                 <ondown>3012</ondown>
                 <font>font10</font>
-                <texturefocus colordiffuse="$INFO[Window().Property(skin.selectColor)]">common/playround.png</texturefocus>
-                <texturenofocus colordiffuse="59ffffff">common/playround2.png</texturenofocus>
+                <texturefocus colordiffuse="$INFO[Window().Property(skin.selectColor)]">common/fuzplayround.png</texturefocus>
+                <texturenofocus colordiffuse="59ffffff">common/fuzplayround2.png</texturenofocus>
                 <align>center</align>
             </control>
             <control type="button" id="3012">
@@ -85,8 +85,8 @@
                 <onup>3011</onup>
                 <ondown>3011</ondown>
                 <font>font10</font>
-                <texturefocus colordiffuse="$INFO[Window().Property(skin.selectColor)]">common/stopround.png</texturefocus>
-                <texturenofocus colordiffuse="59ffffff">common/stopround2.png</texturenofocus>
+                <texturefocus colordiffuse="$INFO[Window().Property(skin.selectColor)]">common/fuzstopround.png</texturefocus>
+                <texturenofocus colordiffuse="59ffffff">common/fuzstopround2.png</texturenofocus>
                 <align>center</align>
             </control>
         </control>
@@ -133,8 +133,8 @@
                 <control type="progress" id="3014">
                     <bottom>0</bottom>
                     <height>8</height>
-                    <texturebg colordiffuse="FF00000">common/progresswhitesmall.png</texturebg>
-                    <midtexture colordiffuse="$INFO[Window().Property(skin.selectColor)]">common/progresswhitesmall.png</midtexture>
+                    <texturebg colordiffuse="FF00000">common/fuzprogresswhitesmall.png</texturebg>
+                    <midtexture colordiffuse="$INFO[Window().Property(skin.selectColor)]">common/fuzprogresswhitesmall.png</midtexture>
                     <visible>false</visible>
                 </control>
             </control>
@@ -206,7 +206,7 @@
                                     <width>26</width>
                                     <height>26</height>
                                     <aspect>keep</aspect>
-                                    <texture colordiffuse="$INFO[Window().Property(skin.selectColor)]">common/star.png</texture>
+                                    <texture colordiffuse="$INFO[Window().Property(skin.selectColor)]">common/fuzstar.png</texture>
                                     <animation effect="slide" end="0,8" time="0" condition="true">Conditional</animation>
                                     <visible>!String.IsEmpty(Window().Property(fuzzybritches.rating))</visible>
                                 </control>

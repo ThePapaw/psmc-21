@@ -3,7 +3,7 @@
 # modified for multiple shares -ud (01/10/23) modified to remove plex.direct and accept first result (3/31/23)
 # added to fuzzybritches as internal scraper 09/27/23
 """
-	FuzzyBritches Add-on
+	FuzzyBritches Addon
 """
 import re
 import requests
@@ -119,9 +119,7 @@ class source:
 						quality = parseDOM(result, 'Media', ret='videoResolution')[count]
 						video_codec = parseDOM(result, 'Media', ret='videoCodec')[count]
 						audio_codec = parseDOM(result, 'Media', ret='audioCodec')[count]
-						try:
-							if audio_codec.startswith('dca'): audio_codec = PLEX_AUDIO.get(audio_codec)
-						except: pass
+						audio_codec = PLEX_AUDIO.get(audio_codec, audio_codec)
 						audio_channels = parseDOM(result, 'Media', ret='audioChannels')[count]
 						container = parseDOM(result, 'Media', ret='container')[count]
 						name_info = '.' + quality + '.' + video_codec + '.' + audio_codec + '.' + audio_channels + 'ch.' + container

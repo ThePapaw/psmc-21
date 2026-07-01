@@ -64,7 +64,10 @@ def fetch_bookmarks(imdb, tmdb='', tvdb='', season=None, episode=None, ret_all=N
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 	return progress
 
 def insert_bookmarks(items, new_scrobble=False):
@@ -99,7 +102,10 @@ def insert_bookmarks(items, new_scrobble=False):
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 
 def delete_bookmark(items):
 	try:
@@ -129,7 +135,10 @@ def delete_bookmark(items):
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 
 def fetch_liked_list(trakt_id, ret_all=False):
 	liked_list = ''
@@ -155,7 +164,10 @@ def fetch_liked_list(trakt_id, ret_all=False):
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 	return liked_list
 
 def insert_liked_lists(items, new_sync=True):
@@ -190,7 +202,10 @@ def insert_liked_lists(items, new_sync=True):
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 
 def delete_liked_list(trakt_id):
 	try:
@@ -210,7 +225,10 @@ def delete_liked_list(trakt_id):
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 
 def fetch_hidden_progress():
 	list = ''
@@ -230,10 +248,15 @@ def fetch_hidden_progress():
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 	return list
 
 def insert_hidden_progress(items, new_sync=True):
+	if not items:
+		return  # Don't wipe existing table if API returned nothing
 	try:
 		dbcon = get_connection()
 		dbcur = get_connection_cursor(dbcon)
@@ -265,7 +288,10 @@ def insert_hidden_progress(items, new_sync=True):
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 
 def delete_hidden_progress(items):
 	try:
@@ -290,7 +316,10 @@ def delete_hidden_progress(items):
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 
 def fetch_collection(table):
 	list = ''
@@ -310,7 +339,10 @@ def fetch_collection(table):
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 	return list
 
 def insert_collection(items, table, new_sync=True):
@@ -354,7 +386,10 @@ def insert_collection(items, table, new_sync=True):
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 
 def delete_collection_items(items, table, col_name='trakt'):
 	try:
@@ -379,7 +414,10 @@ def delete_collection_items(items, table, col_name='trakt'):
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 
 def fetch_watch_list(table):
 	list = ''
@@ -399,7 +437,10 @@ def fetch_watch_list(table):
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 	return list
 
 def insert_watch_list(items, table, new_sync=True):
@@ -442,7 +483,10 @@ def insert_watch_list(items, table, new_sync=True):
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 
 def delete_watchList_items(items, table, col_name='trakt'):
 	try:
@@ -467,7 +511,10 @@ def delete_watchList_items(items, table, col_name='trakt'):
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 
 def fetch_user_lists(trakt_id, ret_all=False):
 	user_lists = ''
@@ -493,7 +540,10 @@ def fetch_user_lists(trakt_id, ret_all=False):
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 	return user_lists
 
 def insert_user_lists(items, new_sync=True):
@@ -526,7 +576,10 @@ def insert_user_lists(items, new_sync=True):
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 
 
 # def delete_user_list(trakt_id):
@@ -559,7 +612,10 @@ def fetch_public_list(trakt_id, ret_all=False):
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 	return public_list
 
 def insert_public_lists(items, service_type='last_popularlist_at', new_sync=True):
@@ -594,7 +650,10 @@ def insert_public_lists(items, service_type='last_popularlist_at', new_sync=True
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 
 def last_sync(type):
 	last_sync_at = 0
@@ -612,7 +671,10 @@ def last_sync(type):
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 	return last_sync_at
 
 def delete_tables(tables):
@@ -645,7 +707,10 @@ def delete_tables(tables):
 		log_utils.error()
 		cleared = False
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 	return cleared
 
 def get_connection(setRowFactory=False):
@@ -655,7 +720,7 @@ def get_connection(setRowFactory=False):
 	dbcon.execute('''PRAGMA journal_mode = OFF''')
 	dbcon.execute('''PRAGMA synchronous = OFF''')
 	dbcon.execute('''PRAGMA temp_store = memory''')
-	dbcon.execute('''PRAGMA mmap_size = 30000000000''')
+	dbcon.execute('''PRAGMA mmap_size = 67108864''')
 	if setRowFactory: dbcon.row_factory = _dict_factory
 	return dbcon
 
@@ -752,7 +817,10 @@ def cache_get(key):
 		log_utils.error()
 		return None
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 
 def cache_insert(key, value):
 	try:
@@ -766,7 +834,48 @@ def cache_insert(key, value):
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
+
+def merge_watched_shows(updated_indicators):
+	"""Merge per-show delta updates into the existing syncTVShows cache blob."""
+	try:
+		from resources.lib.modules.trakt import syncTVShows
+		key = _hash_function(syncTVShows, ())
+		cached = cache_get(key)
+		if not cached: return False
+		existing = literal_eval(cached['value'])
+		if not existing: return False
+		idx = {e[0].get('trakt', ''): e for e in existing
+			   if isinstance(e, tuple) and len(e) == 3 and e[0].get('trakt', '')}
+		for entry in updated_indicators:
+			tid = entry[0].get('trakt', '')
+			if tid: idx[tid] = entry
+		cache_insert(key, repr(list(idx.values())))
+		return True
+	except:
+		from resources.lib.modules import log_utils
+		log_utils.error()
+		return False
+
+def merge_watched_movies(new_imdb_ids):
+	"""Add newly watched movie IMDb IDs into the existing syncMovies cache blob."""
+	try:
+		from resources.lib.modules.trakt import syncMovies
+		key = _hash_function(syncMovies, ())
+		cached = cache_get(key)
+		if not cached: return False
+		existing = literal_eval(cached['value'])
+		if not existing: return False
+		updated = list(set(existing) | set(new_imdb_ids))
+		cache_insert(key, repr(updated))
+		return True
+	except:
+		from resources.lib.modules import log_utils
+		log_utils.error()
+		return False
 
 def remove(function, *args):
 	try:
@@ -814,7 +923,26 @@ def insert_syncSeasons_at():
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
+
+def insert_service(setting, value):
+	try:
+		dbcon = get_connection()
+		dbcur = get_connection_cursor(dbcon)
+		dbcur.execute('''CREATE TABLE IF NOT EXISTS service (setting TEXT, value TEXT, UNIQUE(setting));''')
+		dbcur.execute('''INSERT OR REPLACE INTO service Values (?, ?)''', (setting, value))
+		dbcur.connection.commit()
+	except:
+		from resources.lib.modules import log_utils
+		log_utils.error()
+	finally:
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 
 # future
 def insert_nextEpisode(imdb, tvdb, tmdb, trakt, next_episode):
@@ -829,7 +957,10 @@ def insert_nextEpisode(imdb, tvdb, tmdb, trakt, next_episode):
 		from resources.lib.modules import log_utils
 		log_utils.error()
 	finally:
-		dbcur.close() ; dbcon.close()
+		try: dbcur.close()
+		except: pass
+		try: dbcon.close()
+		except: pass
 
 def traktClientID():
 	traktId = '87e3f055fc4d8fcfd96e61a47463327ca877c51e8597b448e132611c5a677b13'

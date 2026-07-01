@@ -48,7 +48,7 @@ class source:
 				folder_name = folder.get('fileName', '')
 				if not cloud_utils.cloud_check_title(title, aliases, folder_name): continue
 				request_id = folder.get('requestId', '')
-				if not folder['isDirectory']: folder_files = [Offcloud().build_url(folder['server'], folder['requestId'], folder['fileName'])]
+				if not folder.get('isDirectory'): folder_files = [Offcloud().build_url(folder['server'], folder['requestId'], folder['fileName'])]
 				else: folder_files = Offcloud().torrent_info(request_id)
 			except:
 				from resources.lib.modules import log_utils

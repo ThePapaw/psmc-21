@@ -52,7 +52,6 @@ class Movies:
 		self.trakt_user = getSetting('trakt.user.name').strip()
 		self.traktCredentials = trakt.getTraktCredentialsInfo()
 		self.lang = control.apiLanguage()['trakt']
-		self.imdb_user = getSetting('imdbuser').replace('ur', '')
 		self.tmdb_key = getSetting('tmdb.apikey')
 		if not self.tmdb_key: self.tmdb_key = 'edde6b5e41246ab79a2697cd125e1781'
 		self.tmdb_session_id = getSetting('tmdb.sessionid')
@@ -83,7 +82,7 @@ class Movies:
 		if useLanguage: link_addon = '&with_original_language=%s' % self.lang
 		if useorigincountries: link_addon = link_addon + '&with_origin_country=%s' % (getSetting('originCountry', 'US'))
 		self.tmdb_genre_link = tmdb_base+'/3/discover/movie?api_key=%s&language=en-US&region=US&primary_release_date.lte=%s&with_genres=%s&sort_by=%s&page=1' % ('%s', self.today_date, '%s', self.tmdb_DiscoverSort()) + link_addon
-		self.tmdb_year_link = tmdb_base+'/3/discover/movie?api_key=%s&language=en-US&region=US&primary_release_date.lte=%s&certification_country=US&primary_release_year=%s&sort_by=%s&page=1' % ('%s', self.today_date, '%s', self.tmdb_DiscoverSort()) + link_addon
+		self.tmdb_year_link = tmdb_base+'/3/discover/movie?api_key=%s&language=en-US&region=US&primary_release_date.lte=%s&certification_country=US&primary_release_year=%s&sort_by=popularity.desc&vote_count.gte=100&page=1' % ('%s', self.today_date, '%s') + link_addon
 		self.tmdb_certification_link = tmdb_base+'/3/discover/movie?api_key=%s&language=en-US&region=US&primary_release_date.lte=%s&certification_country=US&certification=%s&sort_by=%s&page=1' % ('%s', self.today_date, '%s', self.tmdb_DiscoverSort())
 		self.tmdb_recommendations = tmdb_base+'/3/movie/%s/recommendations?api_key=%s&language=en-US&region=US&page=1'
 		self.tmdb_similar = tmdb_base+'/3/movie/%s/similar?api_key=%s&language=en-US&region=US&page=1'
@@ -100,8 +99,7 @@ class Movies:
 		self.personlist_link = 'https://www.imdb.com/search/name/?count=100&gender=male,female'
 		self.person_link = 'https://www.imdb.com/search/title/?title_type=feature,tv_movie&production_status=released&role=%s&sort=year,desc&count=%s&start=1' % ('%s', self.genre_limit)
 		self.keyword_link = 'https://www.imdb.com/search/title/?title_type=feature,tv_movie,documentary&num_votes=100,&keywords=%s&sort=%s&count=%s&start=1' % ('%s', self.imdb_sort(), self.genre_limit)
-		self.oscars_link = 'https://www.imdb.com/search/title/?title_type=feature,tv_movie&production_status=released&groups=oscar_best_picture_winners&sort=year,desc&count=%s&start=1' % self.genre_limit
-		self.oscarsnominees_link = 'https://www.imdb.com/search/title/?title_type=feature,tv_movie&production_status=released&groups=oscar_best_picture_nominees&sort=year,desc&count=%s&start=1' % self.genre_limit
+		self.oscars_link = 'https://api.trakt.tv/users/thefork/lists/academy-awards-best-picture-winners/items/movies?limit=%s&page=1' % self.page_limit
 		self.theaters_link = 'https://www.imdb.com/search/title/?title_type=feature&num_votes=500,&release_date=date[90],date[0]&languages=en&sort=release_date,desc&count=%s&start=1' % self.genre_limit
 		self.imdb_comingsoon_link = 'https://www.imdb.com/calendar/?ref_=rlm&region=US&type=MOVIE'
 		self.year_link = 'https://www.imdb.com/search/title/?title_type=feature,tv_movie&num_votes=100,&production_status=released&year=%s,%s&sort=moviemeter,asc&count=%s&start=1' % ('%s', '%s', self.genre_limit)
@@ -122,12 +120,8 @@ class Movies:
 			self.language_link = 'https://www.imdb.com/search/title/?title_type=feature,tv_movie&num_votes=100,&production_status=released&primary_language=%s&sort=%s&count=%s&start=1' % ('%s', self.imdb_sort(type='imdbmovies'), self.genre_limit)
 			self.certification_link = 'https://www.imdb.com/search/title/?title_type=feature,tv_movie&num_votes=100,&production_status=released&certificates=%s&sort=%s&count=%s&start=1' % ('%s', self.imdb_sort(type='imdbmovies'), self.genre_limit)
 			self.imdbboxoffice_link = 'https://www.imdb.com/search/title/?title_type=feature,tv_movie&production_status=released&sort=boxoffice_gross_us,desc&count=%s&start=1' % self.genre_limit
-		self.imdbwatchlist_link = 'https://www.imdb.com/user/ur%s/watchlist/?sort=date_added,desc&title_type=feature' % self.imdb_user # only used to get users watchlist ID
-		self.imdbwatchlist2_link = 'https://www.imdb.com/list/%s/?view=detail&sort=%s&title_type=movie&start=1' % ('%s', self.imdb_sort(type='movies.watchlist'))
-		self.imdblists_link = 'https://www.imdb.com/user/ur%s/lists?tab=all&sort=mdfd&order=desc&filter=titles' % self.imdb_user
 		self.imdblist_link = 'https://www.imdb.com/list/%s/?view=detail&sort=%s&title_type=movie,short,video,tvShort,tvMovie,tvSpecial&start=1' % ('%s', self.imdb_sort())
-		self.imdbratings_link = 'https://www.imdb.com/user/ur%s/ratings?sort=your_rating,desc&mode=detail&start=1' % self.imdb_user # IMDb ratings does not take title_type so filter is in imdb_list() function
-		self.anime_link = 'https://www.imdb.com/search/title/?title_type=feature,tv_movie&keywords=anime-animation,anime'
+		self.anime_link = tmdb_base+'/3/discover/movie?api_key=%s&with_genres=16&with_original_language=ja&primary_release_date.lte=%s&sort_by=%s&page=1' % ('%s', self.today_date, self.tmdb_DiscoverSort())
 
 
 		self.trakt_link = 'https://api.trakt.tv'
@@ -153,7 +147,7 @@ class Movies:
 			self.traktmostplayed_link = 'https://api.trakt.tv/movies/played/weekly?limit=%s&page=1&languages=%s' % (self.page_limit,self.lang)
 			self.traktmostwatched_link = 'https://api.trakt.tv/movies/watched/weekly?limit=%s&page=1&languages=%s' % (self.page_limit,self.lang)
 			self.trakttrending_recent_link = 'https://api.trakt.tv/movies/trending?limit=%s&page=1&%s' % (self.page_limit, traktyears)
-			self.traktboxoffice_link = 'https://api.trakt.tv/movies/boxoffice?languages=%s' % self.lang # Returns the top 10 grossing movies in the U.S. box office last weekend
+			self.traktboxoffice_link = 'https://api.trakt.tv/movies/boxoffice?languages=%s&limit=%s&page=1' % (self.lang, self.page_limit) # Returns the top 10 grossing movies in the U.S. box office last weekend
 			self.traktpopular_link = 'https://api.trakt.tv/movies/popular?limit=%s&page=1&languages=%s' % (self.page_limit, self.lang)
 			self.traktrecommendations_link = 'https://api.trakt.tv/recommendations/movies?limit=40&languages=%s' % self.lang
 			self.trakt_similiar = 'https://api.trakt.tv/movies/%s/related?limit=%s&page=1&languages=%s' % ('%s', self.page_limit, self.lang)
@@ -162,20 +156,21 @@ class Movies:
 			self.traktmostplayed_link = 'https://api.trakt.tv/movies/played/weekly?limit=%s&page=1' % self.page_limit
 			self.traktmostwatched_link = 'https://api.trakt.tv/movies/watched/weekly?limit=%s&page=1' % self.page_limit
 			self.trakttrending_recent_link = 'https://api.trakt.tv/movies/trending?limit=%s&page=1&%s' % (self.page_limit, traktyears)
-			self.traktboxoffice_link = 'https://api.trakt.tv/movies/boxoffice' # Returns the top 10 grossing movies in the U.S. box office last weekend
+			self.traktboxoffice_link = 'https://api.trakt.tv/movies/boxoffice?limit=%s&page=1' % self.page_limit # Returns the top 10 grossing movies in the U.S. box office last weekend
 			self.traktpopular_link = 'https://api.trakt.tv/movies/popular?limit=%s&page=1' % self.page_limit
 			self.traktrecommendations_link = 'https://api.trakt.tv/recommendations/movies?limit=40'
 			self.trakt_similiar = 'https://api.trakt.tv/movies/%s/related?limit=%s&page=1' % ('%s', self.page_limit)
 		self.trakt_genres = 'https://api.trakt.tv/genres/movies/'
 		self.trakt_popularLists_link = 'https://api.trakt.tv/lists/popular?limit=%s&page=1' % self.page_limit
 		self.trakt_trendingLists_link = 'https://api.trakt.tv/lists/trending?limit=%s&page=1' % self.page_limit
-		self.mbdlist_list_items = 'https://api.mdblist.com/lists/%s/items?apikey=%s&page=1' % ('%s', mdblist.mdblist_api)
+		self.mbdlist_list_items = 'https://api.mdblist.com/lists/%s/items?page=1'
+		self.mbdlist_official_items = 'https://api.mdblist.com/lists/official/%s/items?mediatype=movie&page=1'
 		self.simkltrendingtoday_link = 'https://api.simkl.com/movies/trending/today?client_id=%s&extended=tmdb' % '%s'
 		self.simkltrendingweek_link = 'https://api.simkl.com/movies/trending/week?client_id=%s&extended=tmdb' % '%s'
 		self.simkltrendingmonth_link = 'https://api.simkl.com/movies/trending/month?client_id=%s&extended=tmdb'% '%s'
 		self.simklplantowatch_link = 'https://api.simkl.com/sync/all-items/movies/plantowatch?'
 		self.simklcompleted_link = 'https://api.simkl.com/sync/all-items/movies/completed?'
-		self.imdblist_hours = int(getSetting('cache.imdblist'))
+		self.imdblist_hours = 168
 		self.trakt_hours = int(getSetting('cache.traktother'))
 		self.traktpopular_hours = int(getSetting('cache.traktpopular'))
 		self.trakttrending_hours = int(getSetting('cache.trakttrending'))
@@ -186,13 +181,16 @@ class Movies:
 		self.mdblist_hours = int(getSetting('cache.mdblist'))
 		self.showwatchedlib = getSetting('showwatchedlib')
 		self.hide_watched_in_widget = getSetting('enable.fuzzybritcheshidewatched') == 'true'
+		self.collection_hideWatched = getSetting('trakt.collection.hideWatched') == 'true'
 		self.useFullContext = getSetting('enable.fuzzybritcheswidgetcontext') == 'true'
 		self.useContainerTitles = getSetting('enable.containerTitles') == 'true'
 		self.useReleaseYear = getSetting('movies.showyear') == 'true'
 		self.lang = control.apiLanguage()['trakt']
 		self.prefer_fanArt = getSetting('prefer.fanarttv') == 'true'
 		self.simklCredentials = simkl.getSimKLCredentialsInfo()
-		self.mdblist_authed = getSetting('mdblist.api') != ''
+		self.mdblist_authed = getSetting('mdblist.token') != ''
+		from resources.lib.modules import tmdb4
+		self.tmdbv4Credentials = tmdb4.getTMDbV4CredentialsInfo()
 
 	def get(self, url, idx=True, create_directory=True, folderName=''):
 		self.list = []
@@ -244,7 +242,7 @@ class Movies:
 				self.list = cache.get(self.trakt_list,self.trakt_hours, url, self.trakt_user, folderName) #trakt other
 				if idx: self.worker()
 			elif u in self.imdb_link and ('/user/' in url or '/list/' in url):
-				isRatinglink = True if self.imdbratings_link in url else False
+				isRatinglink = False
 				self.list = cache.get(self.imdb_list, 0, url, isRatinglink, folderName)
 				if idx: self.worker()
 				# self.sort() # switched to request sorting for imdb
@@ -277,13 +275,31 @@ class Movies:
 			except: pass
 			try: u = urlparse(url).netloc.lower()
 			except: pass
-			if u in self.tmdb_link and '/list/' in url:
-				self.list = tmdb_indexer().tmdb_collections_list(url) # caching handled in list indexer
-				self.sort()
+			is_collection_url = '/list/' in url or '/account/' in url
+			if u in self.tmdb_link and is_collection_url:
+				if getSetting('tmdb.paginate.lists') != 'true':
+					all_items = []
+					current_url = url
+					while current_url:
+						page_items = tmdb_indexer().tmdb_collections_list(current_url) or []
+						if not page_items: break
+						next_url = page_items[0].get('next', '')
+						for item in page_items: item['next'] = ''
+						all_items.extend(page_items)
+						if not next_url: break
+						current_url = next_url
+					self.list = all_items
+				else:
+					self.list = tmdb_indexer().tmdb_collections_list(url)
+				if '/3/list/' in url and self.list:
+					try: self.list = sorted(self.list, key=lambda k: k.get('premiered', ''), reverse=True)
+					except: pass
+				else:
+					self.sort(type='movies.tmdblist')
 			elif u in self.tmdb_link and '/list/' not in url:
 				self.list = tmdb_indexer().tmdb_list(url) # caching handled in list indexer
 			if self.list is None: self.list = []
-			if create_directory: self.movieDirectory(self.list, folderName=folderName)
+			if create_directory: self.movieDirectory(self.list, isCollection=is_collection_url, folderName=folderName)
 			return self.list
 		except:
 			from resources.lib.modules import log_utils
@@ -326,6 +342,37 @@ class Movies:
 				from resources.lib.modules import log_utils
 				log_utils.error()
 		return self.list
+	def getMDBOfficialLists(self, create_directory=True, folderName=''):
+		self.list = []
+		try:
+			self.list = cache.get(self.mbd_official_lists, self.mdblist_hours)
+			if self.list is None: self.list = []
+			if create_directory: self.addDirectory(self.list, folderName=folderName)
+			return self.list
+		except:
+			from resources.lib.modules import log_utils
+			log_utils.error()
+	def mbd_official_lists(self):
+		try:
+			listType = 'movie'
+			items = mdblist.getMDBOfficialLists(self, listType)
+			next = ''
+		except:
+			from resources.lib.modules import log_utils
+			log_utils.error()
+		for item in items:
+			try:
+				list_name = item.get('params', {}).get('list_name', '')
+				slug = item.get('unique_ids', {}).get('slug', '')
+				list_count = item.get('params', {}).get('list_count', '')
+				list_url = self.mbdlist_official_items % slug
+				label = '%s - (%s)' % (list_name, list_count)
+				self.list.append({'name': label, 'url': list_url, 'list_name': list_name, 'list_id': slug, 'context': list_url, 'next': next, 'image': 'mdblist.png', 'icon': 'mdblist.png', 'action': 'movies&folderName=%s' % quote_plus(list_name)})
+			except:
+				from resources.lib.modules import log_utils
+				log_utils.error()
+		return self.list
+
 	def getMDBUserList(self, create_directory=True, folderName='', addremove=False):
 		self.list = []
 		try:
@@ -358,17 +405,149 @@ class Movies:
 				from resources.lib.modules import log_utils
 				log_utils.error()
 		return self.list
-	def get_mdbuser_watchlist(self, create_directory=True, folderName=''):
+	def getMDBLikedLists(self, create_directory=True, folderName=''):
 		self.list = []
 		try:
-			#self.list = cache.get(self.mbd_user_watchlist, self.mdblist_hours)
+			self.list = cache.get(self.mbd_liked_lists, 0)
+			if self.list is None: self.list = []
+			if create_directory: self.addDirectory(self.list, folderName=folderName)
+			return self.list
+		except:
+			from resources.lib.modules import log_utils
+			log_utils.error()
+	def mbd_liked_lists(self):
+		try:
+			listType = 'movie'
+			items = mdblist.getMDBLikedLists(self, listType)
+			next = ''
+		except:
+			from resources.lib.modules import log_utils
+			log_utils.error()
+			items = []
+		for item in (items or []):
+			try:
+				list_name = item.get('params', {}).get('list_name', '')
+				list_id = item.get('params', {}).get('list_id', '')
+				list_owner = item.get('params', {}).get('list_owner', '')
+				list_count = item.get('params', {}).get('list_count', '')
+				list_url = self.mbdlist_list_items % (list_id)
+				if list_owner:
+					label = '%s by [COLOR %s]%s[/COLOR] - (%s)' % (list_name, self.highlight_color, list_owner, list_count)
+				else:
+					label = '%s - (%s)' % (list_name, list_count)
+				self.list.append({'name': label, 'url': list_url, 'list_owner': list_owner, 'list_name': list_name,
+					'list_id': list_id, 'context': list_url, 'next': next, 'image': 'mdblist.png', 'icon': 'mdblist.png',
+					'action': 'movies&folderName=%s' % quote_plus(list_name)})
+			except:
+				from resources.lib.modules import log_utils
+				log_utils.error()
+		return self.list
+	def tmdb_v4_userlists(self, create_directory=True, folderName=''):
+		self.list = []
+		try:
+			from resources.lib.modules import tmdb4
+			v4_lists = tmdb4.get_user_lists()
+			for lst in v4_lists:
+				url = self.tmdb_link + '/4/list/%s?page=1' % lst.get('id')
+				art_path = lst.get('poster_path') or lst.get('backdrop_path', '')
+				image = ('https://image.tmdb.org/t/p/w500' + art_path) if art_path else 'tmdb.png'
+				self.list.append({'name': lst.get('name', ''), 'url': url, 'image': image, 'icon': 'DefaultVideoPlaylists.png', 'action': 'tmdbmovies&folderName=%s' % quote_plus(lst.get('name', ''))})
+			if self.list is None: self.list = []
+			if create_directory: self.addDirectory(self.list, folderName=folderName)
+			return self.list
+		except:
+			from resources.lib.modules import log_utils
+			log_utils.error()
+
+	def tmdb_v4_watchlist(self, url, create_directory=True, folderName=''):
+		self.list = []
+		try:
+			if getSetting('tmdb.paginate.lists') != 'true':
+				all_items = []
+				current_url = url
+				while current_url:
+					page_items = tmdb_indexer().tmdb_collections_list(current_url) or []
+					if not page_items: break
+					next_url = page_items[0].get('next', '')
+					for item in page_items: item['next'] = ''
+					all_items.extend(page_items)
+					if not next_url: break
+					current_url = next_url
+				self.list = all_items
+			else:
+				self.list = tmdb_indexer().tmdb_collections_list(url)
+			if self.list is None: self.list = []
+			if create_directory: self.sort(type='movies.watchlist')
+			if create_directory: self.movieDirectory(self.list, folderName=folderName)
+			return self.list
+		except:
+			from resources.lib.modules import log_utils
+			log_utils.error()
+
+	def get_mdbuser_watchlist(self, url=None, create_directory=True, folderName=''):
+		self.list = []
+		try:
+			try:
+				if not url or '?' not in url:
+					url = 'mdbwatchlist?limit=%s&page=1' % self.page_limit
+				q = dict(parse_qsl(urlsplit(url).query))
+				index = int(q.get('page', 1)) - 1
+			except:
+				index = 0
 			listType = 'movie'
 			self.list = cache.get(mdblist.get_user_watchlist, 0, listType)
 			if self.list is None: self.list = []
 			self.worker()
 			self.sort(type='movies.watchlist')
-			return self.movieDirectory(self.list, folderName=folderName)
+			next = ''
+			if getSetting('mdblist.paginate.lists') == 'true' and self.list:
+				paginated_ids = [self.list[x:x + int(self.page_limit)] for x in range(0, len(self.list), int(self.page_limit))]
+				total_pages = len(paginated_ids)
+				self.list = paginated_ids[index] if index < total_pages else []
+				try:
+					if index + 1 >= total_pages: raise Exception()
+					next_page = index + 2
+					next = 'plugin://plugin.video.fuzzybritches/?action=mdbUserWatchListMovies&url=%s&page=%s&folderName=%s' % (
+						quote_plus('mdbwatchlist?limit=%s&page=%s' % (self.page_limit, next_page)),
+						str(next_page), quote_plus(folderName))
+				except: pass
+			for i in range(len(self.list)): self.list[i]['next'] = next
+			hasNext = bool(next)
+			return self.movieDirectory(self.list, next=hasNext, folderName=folderName)
+		except:
+			from resources.lib.modules import log_utils
+			log_utils.error()
 
+	def get_mdbuser_collection(self, url=None, create_directory=True, folderName=''):
+		self.list = []
+		try:
+			try:
+				if not url or '?' not in url:
+					url = 'mdbcollection?limit=%s&page=1' % self.page_limit
+				q = dict(parse_qsl(urlsplit(url).query))
+				index = int(q.get('page', 1)) - 1
+			except:
+				index = 0
+			listType = 'movie'
+			self.list = cache.get(mdblist.get_user_collection, 0, listType)
+			if self.list is None: self.list = []
+			self.worker()
+			self.sort(type='movies.watchlist')
+			next = ''
+			if getSetting('mdblist.paginate.lists') == 'true' and self.list:
+				paginated_ids = [self.list[x:x + int(self.page_limit)] for x in range(0, len(self.list), int(self.page_limit))]
+				total_pages = len(paginated_ids)
+				self.list = paginated_ids[index] if index < total_pages else []
+				try:
+					if index + 1 >= total_pages: raise Exception()
+					next_page = index + 2
+					next = 'plugin://plugin.video.fuzzybritches/?action=mdbUserCollectionMovies&url=%s&page=%s&folderName=%s' % (
+						quote_plus('mdbcollection?limit=%s&page=%s' % (self.page_limit, next_page)),
+						str(next_page), quote_plus(folderName))
+				except: pass
+			for i in range(len(self.list)): self.list[i]['next'] = next
+			hasNext = bool(next)
+			return self.movieDirectory(self.list, next=hasNext, folderName=folderName)
 		except:
 			from resources.lib.modules import log_utils
 			log_utils.error()
@@ -416,28 +595,56 @@ class Movies:
 		self.list = mbdList_totalItems(url)
 		if not self.list: return
 		self.sort() # sort before local pagination
-		total_pages = 1
-		if len(self.list) == int(self.page_limit):
-			useNext = False
-		else:
-			useNext = True
-		paginated_ids = [self.list[x:x + int(self.page_limit)] for x in range(0, len(self.list), int(self.page_limit))]
-		total_pages = len(paginated_ids)
-		self.list = paginated_ids[index]
-		try:
-			if useNext == False: raise Exception()
-			if int(self.page_limit) != len(self.list): raise Exception()
-			if int(q['page']) == total_pages: raise Exception()
-			q.update({'page': str(int(q['page']) + 1)})
-			q = (urlencode(q)).replace('%2C', ',')
-			next = url.replace('?' + urlparse(url).query, '') + '?' + q
-			next = next + '&folderName=%s' % quote_plus(folderName)
-		except: next = ''
+		next = ''
+		if getSetting('mdblist.paginate.lists') == 'true':
+			total_pages = 1
+			if len(self.list) == int(self.page_limit):
+				useNext = False
+			else:
+				useNext = True
+			paginated_ids = [self.list[x:x + int(self.page_limit)] for x in range(0, len(self.list), int(self.page_limit))]
+			total_pages = len(paginated_ids)
+			self.list = paginated_ids[index]
+			try:
+				if useNext == False: raise Exception()
+				if int(self.page_limit) != len(self.list): raise Exception()
+				if int(q['page']) == total_pages: raise Exception()
+				q.update({'page': str(int(q['page']) + 1)})
+				q = (urlencode(q)).replace('%2C', ',')
+				next = url.replace('?' + urlparse(url).query, '') + '?' + q
+				next = next + '&folderName=%s' % quote_plus(folderName)
+			except: next = ''
 		for i in range(len(self.list)): self.list[i]['next'] = next
 		self.worker()
 		if self.list is None: self.list = []
 		if create_directory: self.movieDirectory(self.list, folderName=folderName)
 		return self.list
+
+	def mdb_list_for_library(self, url, media_type='movie'):
+		"""Fetch all items from an MDBList list URL and enrich with TMDB metadata for library import."""
+		self.list = []
+		try:
+			from resources.lib.modules import mdblist
+			items = mdblist.get_list_items_for_library(url)
+			if not items: return []
+			for item in items:
+				itype = item.get('mediatype', 'movie')
+				if media_type != 'mixed' and itype != 'movie':
+					continue
+				values = {
+					'title': item.get('title', ''),
+					'originaltitle': item.get('title', ''),
+					'year': item.get('year', ''),
+					'imdb': item.get('imdb', ''),
+					'mediatype': itype,
+				}
+				self.list.append(values)
+			if self.list:
+				self.worker()
+		except:
+			from resources.lib.modules import log_utils
+			log_utils.error()
+		return self.list if self.list else []
 
 	def favouriteMovies(self, create_directory=True, folderName=''):
 		self.list = []
@@ -589,6 +796,22 @@ class Movies:
 				is_widget = 'plugin' not in control.infoLabel('Container.PluginName')
 				if self.notifications and is_widget != True: control.notification(title=32001, message=33049)
 
+	def getAnime(self, folderName=''):
+		self.list = []
+		try:
+			self.list = cache.get(simkl.simkl_anime_list, self.simkl_hours, 'movie', simkl._ANIME_TRENDING_MONTH)
+			if self.list is None: self.list = []
+			self.worker()
+			self.movieDirectory(self.list, folderName=folderName)
+			return self.list
+		except:
+			from resources.lib.modules import log_utils
+			log_utils.error()
+			if not self.list:
+				control.hide()
+				is_widget = 'plugin' not in control.infoLabel('Container.PluginName')
+				if self.notifications and is_widget != True: control.notification(title=32001, message=33049)
+
 	def getSimklCompleted(self, url, create_directory=True, folderName=''):
 		
 		self.list = []
@@ -649,6 +872,55 @@ class Movies:
 			from resources.lib.modules import log_utils
 			log_utils.error()
 
+	def mdblist_unfinished(self, url=None, idx=True, create_directory=True, folderName=''):
+		self.list = []
+		try:
+			from resources.lib.database import mdbsync
+			self.list = mdbsync.fetch_bookmarks(imdb='', ret_all=True, ret_type='movies')
+			if idx: self.worker()
+			self.list = sorted(self.list, key=lambda k: k['paused_at'], reverse=True)
+			if self.list is None: self.list = []
+			if create_directory: self.movieDirectory(self.list, unfinished=True, next=False, folderName=folderName)
+			return self.list
+		except:
+			from resources.lib.modules import log_utils
+			log_utils.error()
+
+	def local_finish_watching(self, url='', folderName=''):
+		self.list = []
+		try:
+			from resources.lib.database import watchedcache as wc
+			import datetime as _dt
+			items = wc.get_movies_in_progress()
+			if not items:
+				control.hide()
+				if self.notifications: control.notification(title=32001, message=33049)
+				return
+			for item in items:
+				try:
+					values = {}
+					values['imdb'] = item.get('imdb_id', '')
+					values['tmdb'] = item.get('tmdb_id', '')
+					values['progress'] = item.get('resume_point', '0')
+					try:
+						ts = int(item.get('last_played', 0))
+						dt = _dt.datetime.utcfromtimestamp(ts)
+						values['paused_at'] = dt.strftime('%Y-%m-%dT%H:%M:%S.000Z')
+					except:
+						values['paused_at'] = ''
+					self.list.append(values)
+				except:
+					log_utils.error()
+			self.worker()
+			if self.list is None: self.list = []
+			self.list = sorted(self.list, key=lambda k: k.get('paused_at', ''), reverse=True)
+			self.movieDirectory(self.list, unfinished=True, next=False, folderName=folderName)
+		except:
+			log_utils.error()
+			if not self.list:
+				control.hide()
+				if self.notifications: control.notification(title=32001, message=33049)
+
 	def unfinishedManager(self):
 		try:
 			control.busy()
@@ -705,6 +977,51 @@ class Movies:
 			log_utils.error()
 			control.hide()
 
+	def mdblistWatchlistManager(self):
+		try:
+			from resources.lib.modules import mdblist
+			from resources.lib.database import mdbsync as _mdbsync
+			control.busy()
+			self.list = _mdbsync.fetch_watch_list('movies_watchlist')
+			# TraktBasicManagerXML uses the 'trakt' field as the selection ID; map imdb so we get imdb IDs back
+			for item in self.list:
+				item['trakt'] = item.get('imdb', '')
+			self.worker()
+			self.sort(type='movies.watchlist')
+			control.hide()
+			from resources.lib.windows.traktbasic_manager import TraktBasicManagerXML
+			window = TraktBasicManagerXML('traktbasic_manager.xml', control.addonPath(control.addonId()), results=self.list)
+			selected_items = window.run()
+			del window
+			if selected_items:
+				mdblist.removeWatchlistItems('movies', selected_items)
+		except:
+			from resources.lib.modules import log_utils
+			log_utils.error()
+			control.hide()
+
+	def mdblistCollectionManager(self):
+		try:
+			from resources.lib.modules import mdblist
+			from resources.lib.database import mdbsync as _mdbsync
+			control.busy()
+			self.list = _mdbsync.fetch_collection('movies_collection')
+			for item in self.list:
+				item['trakt'] = item.get('imdb', '')
+			self.worker()
+			self.sort(type='movies.watchlist')
+			control.hide()
+			from resources.lib.windows.traktbasic_manager import TraktBasicManagerXML
+			window = TraktBasicManagerXML('traktbasic_manager.xml', control.addonPath(control.addonId()), results=self.list)
+			selected_items = window.run()
+			del window
+			if selected_items:
+				mdblist.removeCollectionItems('movies', selected_items)
+		except:
+			from resources.lib.modules import log_utils
+			log_utils.error()
+			control.hide()
+
 	def likedListsManager(self):
 		try:
 			items = traktsync.fetch_liked_list('', True)
@@ -722,8 +1039,8 @@ class Movies:
 	def sort(self, type='movies'):
 		try:
 			if not self.list: return
-			attribute = int(getSetting('sort.%s.type' % type))
-			reverse = int(getSetting('sort.%s.order' % type)) == 1
+			attribute = int(getSetting('sort.%s.type' % type) or '0')
+			reverse = int(getSetting('sort.%s.order' % type) or '0') == 1
 			if attribute == 0: reverse = False # Sorting Order is not enabled when sort method is "Default"
 			if attribute > 0:
 				if attribute == 1:
@@ -750,14 +1067,14 @@ class Movies:
 			log_utils.error()
 
 	def imdb_sort(self, type='movies'):
-		sort = int(getSetting('sort.%s.type' % type))
+		sort = int(getSetting('sort.%s.type' % type) or '0')
 		imdb_sort = 'list_order' if type == 'movies.watchlist' else 'moviemeter'
 		if sort == 1: imdb_sort = 'alpha'
 		elif sort == 2: imdb_sort = 'user_rating'
 		elif sort == 3: imdb_sort = 'num_votes'
 		elif sort == 4: imdb_sort = 'release_date'
 		elif sort in (5, 6): imdb_sort = 'date_added'
-		imdb_sort_order = ',asc' if (int(getSetting('sort.%s.order' % type)) == 0 or sort == 0) else ',desc'
+		imdb_sort_order = ',asc' if (int(getSetting('sort.%s.order' % type) or '0') == 0 or sort == 0) else ',desc'
 		sort_string = imdb_sort + imdb_sort_order
 		return sort_string
 
@@ -1020,7 +1337,7 @@ class Movies:
 		elif decade == '2010-2019':
 			decades = '2010-2019'
 		elif decade == '2020-2029':
-			decades = '2020-2024'
+			decades = '2020-2026'
 		if listType == 'trending':
 			url = self.trakttrending_link +'&genres=%s&years=%s&languages=%s'% (genreslug, decades, filterLang)
 			self.list = cache.get(self.trakt_list,self.trakt_hours, url, self.trakt_user, folderName) #trakt trending with genre
@@ -1078,12 +1395,6 @@ class Movies:
 			userlists += lists
 		except: pass
 		try:
-			if not self.imdb_user: raise Exception()
-			self.list = []
-			lists = cache.get(self.imdb_user_list, 0, self.imdblists_link)
-			userlists += lists
-		except: pass
-		try:
 			if self.tmdb_session_id == '': raise Exception()
 			self.list = []
 			url = self.tmdb_link + '/3/account/{account_id}/lists?api_key=%s&language=en-US&session_id=%s&page=1' % ('%s', self.tmdb_session_id)
@@ -1091,6 +1402,16 @@ class Movies:
 			lists = cache.get(tmdb_indexer().userlists, 0, url)
 			for i in range(len(lists)): lists[i].update({'image': 'tmdb.png', 'icon': 'DefaultVideoPlaylists.png', 'action': 'tmdbmovies&folderName=%s' % quote_plus(lists[i]['name'])})
 			userlists += lists
+		except: pass
+		try:
+			if not self.tmdbv4Credentials: raise Exception()
+			from resources.lib.modules import tmdb4
+			v4_lists = tmdb4.get_user_lists()
+			for lst in v4_lists:
+				url = self.tmdb_link + '/4/list/%s?page=1' % lst.get('id')
+				art_path = lst.get('poster_path') or lst.get('backdrop_path', '')
+				image = ('https://image.tmdb.org/t/p/w500' + art_path) if art_path else 'tmdb.png'
+				userlists.append({'name': lst.get('name', ''), 'url': url, 'image': image, 'icon': 'DefaultVideoPlaylists.png', 'action': 'tmdbmovies&folderName=%s' % quote_plus(lst.get('name', ''))})
 		except: pass
 		self.list = []
 		for i in range(len(userlists)): # Filter the user's own lists that were
@@ -1107,10 +1428,6 @@ class Movies:
 		if self.tmdb_session_id != '': # TMDb Watchlist
 			url = self.tmdb_link + '/3/account/{account_id}/watchlist/movies?api_key=%s&session_id=%s&sort_by=created_at.asc&page=1' % ('%s', self.tmdb_session_id)
 			self.list.insert(0, {'name': getLS(32033), 'url': url, 'image': 'tmdb.png', 'icon': 'DefaultVideoPlaylists.png', 'action': 'tmdbmovies'})
-		if self.imdb_user != '': # imdb Watchlist
-			self.list.insert(0, {'name': getLS(32033), 'url': self.imdbwatchlist_link, 'image': 'imdb.png', 'icon': 'DefaultVideoPlaylists.png', 'action': 'movies&folderName=%s' % quote_plus(getLS(32033))})
-		if self.imdb_user != '': # imdb My Ratings
-			self.list.insert(0, {'name': getLS(32025), 'url': self.imdbratings_link, 'image': 'imdb.png', 'icon': 'DefaultVideoPlaylists.png', 'action': 'movies&folderName=%s' % quote_plus(getLS(32025))})
 		if create_directory: self.addDirectory(self.list, queue=True, folderName=folderName)
 		return self.list
 
@@ -1142,7 +1459,7 @@ class Movies:
 			for i in range(len(self.list)): self.list[i]['next'] = next
 			self.worker()
 			if self.list is None: self.list = []
-			if create_directory: self.movieDirectory(self.list, folderName=folderName)
+			if create_directory: self.movieDirectory(self.list, isCollection=True, folderName=folderName)
 			return self.list
 		except:
 			from resources.lib.modules import log_utils
@@ -1315,16 +1632,21 @@ class Movies:
 	def trakt_list(self, url, user, folderName):
 		self.list = []
 		if ',return' in url: url = url.split(',return')[0]
-		items = trakt.getTraktAsJson(url)
+		if getSetting('trakt.paginate.lists') != 'true':
+			items = trakt.get_all_pages(url, silent=True)
+			next = ''
+		else:
+			items = trakt.getTraktAsJson(url)
+			try:
+				q = dict(parse_qsl(urlsplit(url).query))
+				if int(q['limit']) != len(items): raise Exception()
+				q.update({'page': str(int(q['page']) + 1)})
+				q = (urlencode(q)).replace('%2C', ',')
+				next = url.replace('?' + urlparse(url).query, '') + '?' + q
+				next = next + '&folderName=%s' % quote_plus(folderName)
+			except: next = ''
 		if not items: return
-		try:
-			q = dict(parse_qsl(urlsplit(url).query))
-			if int(q['limit']) != len(items): raise Exception()
-			q.update({'page': str(int(q['page']) + 1)})
-			q = (urlencode(q)).replace('%2C', ',')
-			next = url.replace('?' + urlparse(url).query, '') + '?' + q
-			next = next + '&folderName=%s' % quote_plus(folderName)
-		except: next = ''
+		watched_dates = trakt.getWatchedMoviesLastWatchedDates()
 		for item in items: # rating and votes via TMDb, or I must use "extended=full" and it slows down
 			try:
 				values = {}
@@ -1333,14 +1655,14 @@ class Movies:
 				values['paused_at'] = item.get('paused_at', '') # for unfinished
 				try: values['progress'] = item['progress']
 				except: values['progress'] = ''
-				try: values['lastplayed'] = item['watched_at'] # for history
-				except: values['lastplayed'] = ''
 				movie = item.get('movie') or item
 				values['title'] = movie.get('title')
 				values['originaltitle'] = values['title']
 				values['year'] = str(movie.get('year', '')) if movie.get('year') else ''
 				ids = movie.get('ids', {})
 				values['imdb'] = str(ids.get('imdb', '')) if ids.get('imdb') else ''
+				# lastplayed: history endpoints include watched_at; for user lists fetch from watched data
+				values['lastplayed'] = item.get('watched_at') or watched_dates.get(values['imdb'], '')
 				values['tmdb'] = str(ids.get('tmdb', '')) if ids.get('tmdb') else ''
 				values['tvdb'] = ''
 				values['mediatype'] = 'movies'
@@ -1412,7 +1734,7 @@ class Movies:
 		q = dict(parse_qsl(urlsplit(url).query))
 		index = int(q['page']) - 1
 		def userList_totalItems(url):
-			items = trakt.getTraktAsJson(url)
+			items = trakt.get_all_pages(url)
 			if not items: return
 			for item in items:
 				try:
@@ -1438,8 +1760,17 @@ class Movies:
 					from resources.lib.modules import log_utils
 					log_utils.error()
 			return self.list
-		self.list = cache.get(userList_totalItems, self.traktuserlist_hours, url.split('limit')[0] + 'extended=full')
+		_force_fresh = control.homeWindow.getProperty('fuzzybritches.trakt.userlist.modified') == 'true'
+		if _force_fresh:
+			control.homeWindow.clearProperty('fuzzybritches.trakt.userlist.modified')
+		self.list = cache.get(userList_totalItems, 0 if _force_fresh else self.traktuserlist_hours, url.split('?')[0] + '?extended=full')
 		if not self.list: return
+		if int(getSetting('sort.movies.type') or '0') == 6:
+			watched_dates = trakt.getWatchedMoviesLastWatchedDates()
+			if watched_dates:
+				for item in self.list:
+					if not item.get('lastplayed'):
+						item['lastplayed'] = watched_dates.get(item.get('imdb', ''), '')
 		self.sort() # sort before local pagination
 		total_pages = 1
 		useNext = True
@@ -1624,11 +1955,6 @@ class Movies:
 			try:
 				for i in re.findall(r'date\[(\d+)\]', url):
 					url = url.replace('date[%s]' % i, (self.date_time - timedelta(days=int(i))).strftime('%Y-%m-%d'))
-				def imdb_watchlist_id(url):
-					return client.parseDOM(client.request(url), 'meta', ret='content', attrs = {'property': 'pageId'})[0]
-				if url == self.imdbwatchlist_link:
-					url = cache.get(imdb_watchlist_id, 8640, url)
-					url = self.imdbwatchlist2_link % url
 				result = client.request(url).replace('\n', ' ')
 				items = client.parseDOM(result, 'div', attrs = {'class': 'ipc-metadata-list-summary-item__tc'})
 			except:
@@ -1681,30 +2007,6 @@ class Movies:
 				from resources.lib.modules import log_utils
 				log_utils.error()
 		return self.list
-
-	def imdb_user_list(self, url):
-		list = []
-		try:
-			result = client.request(url)
-			items = client.parseDOM(result, 'li', attrs={'class': 'ipc-metadata-list-summary-item'})
-		except:
-			from resources.lib.modules import log_utils
-			log_utils.error()
-		for item in items:
-			try:
-				#name = client.parseDOM(item, 'a')[0]
-				#name = client.replaceHTMLCodes(name)
-				name = client.parseDOM(item, 'a', attrs={'class': 'ipc-metadata-list-summary-item__t'})[0]
-				url = client.parseDOM(item, 'a', ret='href')[0]
-				url = url.split('/list/', 1)[-1].strip('/')
-				url = self.imdblist_link % url
-				url = client.replaceHTMLCodes(url)
-				list.append({'name': name, 'url': url, 'context': url, 'image': 'imdb.png', 'icon': 'DefaultVideoPlaylists.png', 'action': 'movies&folderName=%s' % quote_plus(name)})
-			except:
-				from resources.lib.modules import log_utils
-				log_utils.error()
-		list = sorted(list, key=lambda k: re.sub(r'(^the |^a |^an )', '', k['name'].lower()))
-		return list
 
 	def dvdReleaseList(self, create_directory=True, folderName=''):
 		self.list = cache.get(Movies().getDvdReleaseList, 96)
@@ -2066,7 +2368,7 @@ class Movies:
 			from resources.lib.modules import log_utils
 			log_utils.error(f"Error in super_info for index {i}: {e}")
 
-	def movieDirectory(self, items, unfinished=False, next=True, folderName=''):
+	def movieDirectory(self, items, unfinished=False, next=True, isCollection=False, folderName=''):
 		from sys import argv # some functions like ActivateWindow() throw invalid handle less this is imported here.
 		is_widget = 'plugin' not in control.infoLabel('Container.PluginName')
 		if not items: # with reuselanguageinvoker on an empty directory must be loaded, do not use sys.exit()
@@ -2084,19 +2386,26 @@ class Movies:
 		indicators = getMovieIndicators() # refresh not needed now due to service sync
 		if play_mode == '1': playbackMenu = getLS(32063)
 		else: playbackMenu = getLS(32064)
-		if trakt.getTraktCredentialsInfo() and simkl.getSimKLCredentialsInfo():
+		_indicators_alt = getSetting('indicators.alt')
+		_trakt_marks = self.traktCredentials and (_indicators_alt == '1' or getSetting('trakt.markwatched') == 'true')
+		_simkl_marks = self.simklCredentials and (_indicators_alt == '2' or getSetting('simkl.markwatched') == 'true')
+		_mdblist_marks = self.mdblist_authed and (_indicators_alt == '3' or getSetting('mdblist.markwatched') == 'true')
+		if sum([bool(_trakt_marks), bool(_simkl_marks), bool(_mdblist_marks)]) > 1:
 			watchedMenu, unwatchedMenu = getLS(40564), getLS(40565)
-		elif trakt.getTraktCredentialsInfo():
+		elif _trakt_marks:
 			watchedMenu, unwatchedMenu = getLS(32068), getLS(32069)
-		elif simkl.getSimKLCredentialsInfo():
+		elif _simkl_marks:
 			watchedMenu, unwatchedMenu = getLS(40554), getLS(40555)
+		elif _mdblist_marks:
+			watchedMenu, unwatchedMenu = getLS(40631), getLS(40632)
 		else:
 			watchedMenu, unwatchedMenu = getLS(32066), getLS(32067)
 		playlistManagerMenu, queueMenu, trailerMenu = getLS(35522), getLS(32065), getLS(40431)
-		traktManagerMenu, addToLibrary, addToFavourites, removeFromFavourites = getLS(32070), getLS(32551), getLS(40463), getLS(40468)
+		traktManagerMenu, addToLibrary, addToFavourites, removeFromFavourites = '[COLOR %s]Trakt Manager[/COLOR]' % self.highlight_color, getLS(32551), getLS(40463), getLS(40468)
 		nextMenu, clearSourcesMenu = getLS(32053), getLS(32611)
 		rescrapeMenu, findSimilarMenu = getLS(32185), getLS(32184)
 		simklManagerMenu = getLS(40577) % self.highlight_color
+		mdblistManagerMenu = '[COLOR %s]MDBList Manager[/COLOR]' % self.highlight_color
 		from resources.lib.modules import favourites
 		favoriteItems = favourites.getFavourites(content='movies')
 		favoriteItems = [x[1].get('imdb') for x in favoriteItems]
@@ -2108,9 +2417,14 @@ class Movies:
 			else: page = int(url_params.get('page'))
 		except:
 			page = 1
+		tmdb_v4_watchlist_ids = set()
+		if self.tmdbv4Credentials:
+			from resources.lib.modules import tmdb4 as _tmdb4
+			tmdb_v4_watchlist_ids = _tmdb4.get_watchlist_ids('movie')
 		for i in items:
 			try:
 				imdb, tmdb, title, year = i.get('imdb', ''), i.get('tmdb', ''), i['title'], i.get('year', '')
+				if isCollection and self.collection_hideWatched and getMovieOverlay(indicators, imdb) == '5': continue
 				trailer, runtime = i.get('trailer'), i.get('duration')
 				if self.useReleaseYear:
 					label = '%s (%s)' % (title, year)
@@ -2195,10 +2509,17 @@ class Movies:
 					watched = getMovieOverlay(indicators, imdb) == '5'
 					if self.traktCredentials:
 						cm.append((traktManagerMenu, 'RunPlugin(%s?action=tools_traktManager&name=%s&imdb=%s&watched=%s&unfinished=%s)' % (sysaddon, sysname, imdb, watched, unfinished)))
-					if self.mdblist_authed:
-						cm.append(('MDBList Manager', 'RunPlugin(%s?action=tools_mdbWatchlist&name=%s&imdb=%s)' % (sysaddon, sysname, imdb)))
 					if self.simklCredentials:
 						cm.append((simklManagerMenu, 'RunPlugin(%s?action=tools_simklManager&name=%s&imdb=%s&watched=%s&unfinished=%s)' % (sysaddon, sysname, imdb, watched, unfinished)))
+					if self.mdblist_authed:
+						cm.append((mdblistManagerMenu, 'RunPlugin(%s?action=tools_mdbWatchlist&name=%s&imdb=%s&watched=%s)' % (sysaddon, sysname, imdb, watched)))
+					if self.tmdbv4Credentials:
+						cm.append((getLS(40606) if getLS(40606) else 'TMDB List Manager', 'RunPlugin(%s?action=tools_tmdbListManager&name=%s&tmdb=%s&mediatype=movie)' % (sysaddon, sysname, tmdb)))
+						if tmdb:
+							if str(tmdb) in tmdb_v4_watchlist_ids:
+								cm.append((getLS(40614), 'RunPlugin(%s?action=tmdb_v4_watchlist_remove&tmdb=%s&mediatype=movie)' % (sysaddon, tmdb)))
+							else:
+								cm.append((getLS(40613), 'RunPlugin(%s?action=tmdb_v4_watchlist_add&tmdb=%s&mediatype=movie)' % (sysaddon, tmdb)))
 					if watched:
 						cm.append((unwatchedMenu, 'RunPlugin(%s?action=playcount_Movie&name=%s&imdb=%s&query=4)' % (sysaddon, sysname, imdb)))
 						meta.update({'playcount': 1, 'overlay': 5})
@@ -2294,7 +2615,8 @@ class Movies:
 				nextColor ='[COLOR %s]' % getSetting('highlight.color')
 				nextMenu = nextColor + nextMenu + page + '[/COLOR]'
 				u = urlparse(url).netloc.lower()
-				if u not in self.tmdb_link: url = '%s?action=moviePage&url=%s&folderName=%s' % (sysaddon, quote_plus(url), quote_plus(folderName))
+				if url.startswith(sysaddon): pass  # already a plugin action URL, use as-is
+				elif u not in self.tmdb_link: url = '%s?action=moviePage&url=%s&folderName=%s' % (sysaddon, quote_plus(url), quote_plus(folderName))
 				elif u in self.tmdb_link: url = '%s?action=tmdbmoviePage&url=%s&folderName=%s' % (sysaddon, quote_plus(url), quote_plus(folderName))
 				elif u in self.mbdlist_list_items: url = '%s?action=moviePage&url=%s&folderName=%s' % (sysaddon, quote_plus(url), quote_plus(folderName))
 				item = control.item(label=nextMenu, offscreen=True)

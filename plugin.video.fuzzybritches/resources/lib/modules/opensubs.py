@@ -47,9 +47,8 @@ class Opensubs():
 			else:
 				url = base_url + '/login'
 				response2 = requests.post(url, headers=self.headers, json=data)
-				response2 = response.json()
 				if response2.status_code == 200:
-					control.setSetting('opensubstoken', response.get('token'))
+					control.setSetting('opensubstoken', response2.json().get('token'))
 					return True
 				else:
 					return False
@@ -134,7 +133,7 @@ class Opensubs():
 			username = self.username
 			a_downloads = responseUser.get('allowed_downloads')
 			control.setSetting('opensubstoken', responseToken)
-			control.openSettings('14.0', 'plugin.video.fuzzybritches')
+			control.openSettings('11.0', 'plugin.video.fuzzybritches')
 			return control.okDialog(title=40503, message=control.getLangString(40508) % (username, a_downloads))
 		except:
 			from resources.lib.modules import log_utils
@@ -149,7 +148,7 @@ class Opensubs():
 			control.homeWindow.setProperty('fuzzybritches.updateSettings', 'true')
 			control.setSetting('opensubstoken','')
 			self.jwt_token = ''
-			control.openSettings('14.0', 'plugin.video.fuzzybritches')
+			control.openSettings('11.0', 'plugin.video.fuzzybritches')
 		except:
 			from resources.lib.modules import log_utils
 			log_utils.error()
